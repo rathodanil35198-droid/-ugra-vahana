@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ಉಗ್ರ ವಾಹನ - ಸಾರ್ವಜನಿಕ ವಾಹನ ಮಾರುಕಟ್ಟೆ</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f0f2f5; margin: 0; padding: 10px; color: #333; }
+        .header { background: #1b4d3e; color: white; padding: 15px; text-align: center; border-radius: 8px; }
+        .card { background: white; padding: 15px; margin-top: 10px; border-radius: 8px; box-shadow: 0px 2px 5px rgba(0,0,0,0.1); }
+        input, select, textarea { width: 100%; padding: 10px; margin: 8px 0; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        label { font-weight: bold; font-size: 14px; color: #555; display: block; margin-top: 5px; }
+        button { background: #ff9800; color: white; border: none; padding: 12px; width: 100%; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 16px; }
+        button:hover { background: #e68900; }
+        .vehicle-item { background: #fff8e1; padding: 12px; margin-top: 10px; border-left: 4px solid #ff9800; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h2>🚗 ಉಗ್ರ ವಾಹನ (Ugra Vahana)</h2>
+        <p>ಬೈಕ್, ಆಟೋ, ಕಾರು ಮತ್ತು ಲಾರಿ ಮಾರಾಟ ಮಾರುಕಟ್ಟೆ</p>
+    </div>
+
+    <div class="card">
+        <h3>📢 ನಿಮ್ಮ ವಾಹನ ಮಾರಾಟಕ್ಕೆ ಹಾಕಿ</h3>
+        
+        <label>ವಾಹನದ ಹೆಸರು ಮತ್ತು ಮಾಡೆಲ್:</label>
+        <input type="text" id="vName" placeholder="ಉದಾ: Hero Splendor / Swift Car">
+
+        <label>ವಾಹನದ ವಿಧ:</label>
+        <select id="vType">
+            <option value="ಟು-ವೀಲ್ಹರ್ (2-Wheeler)">ಟು-ವೀಲ್ಹರ್ (2-Wheeler)</option>
+            <option value="ತ್ರೀ-ವೀಲ್ಹರ್ (3-Wheeler)">ತ್ರೀ-ವೀಲ್ಹರ್ (3-Wheeler)</option>
+            <option value="ಫೋರ್-ವೀಲ್ಹರ್ (4-Wheeler)">ಫೋರ್-ವೀಲ್ಹರ್ (4-Wheeler)</option>
+            <option value="ಸಿಕ್ಸ್-ವೀಲ್ಹರ್ / ಭಾರೀ ವಾಹನ">ಸಿಕ್ಸ್-ವೀಲ್ಹರ್ ಅಥವಾ ದೊಡ್ಡ ವಾಹನ</option>
+        </select>
+
+        <label>ಮಾರಾಟಗಾರರ ವಿಧ:</label>
+        <select id="vSellerType">
+            <option value="ವೈಯಕ್ತಿಕ (Individual)">ವೈಯಕ್ತಿಕ ಮಾರಾಟ (Individual)</option>
+            <option value="ಅಧಿಕೃತ ಸೆಕೆಂಡ್ ಹ್ಯಾಂಡ್ ಶೋರೂಮ್">ಅಧಿಕೃತ ಸೆಕೆಂಡ್ ಹ್ಯಾಂಡ್ ಶೋರೂಮ್</option>
+        </select>
+
+        <label>ಬೆಲೆ (ರೂಪಾಯಿಗಳಲ್ಲಿ):</label>
+        <input type="text" id="vPrice" placeholder="ಉದಾ: 45,000">
+
+        <label>ಸಂಪರ್ಕ ನಂಬರ್:</label>
+        <input type="text" id="vContact" placeholder="ನಿಮ್ಮ ಫೋನ್ ನಂಬರ್">
+
+        <label>ವಾಹನದ 4 ದಿಕ್ಕುಗಳ ಫೋಟೋಗಳು:</label>
+        <input type="file" id="vPhotos" accept="image/*" multiple>
+
+        <label>ಮೀಟರ್ ರೀಡಿಂಗ್ (Odometer) ಫೋಟೋ:</label>
+        <input type="file" id="vMeter" accept="image/*">
+
+        <label>ಆರ್.ಸಿ. (RC Card) ಫೋಟೋ:</label>
+        <input type="file" id="vRc" accept="image/*">
+
+        <label>ಶೋರೂಮ್ ಅಥವಾ ಅಂಗಡಿಯ ಫೋಟೋ (ಶೋರೂಮ್ ಇದ್ದರೆ ಮಾತ್ರ):</label>
+        <input type="file" id="vShopPhoto" accept="image/*">
+
+        <button onclick="addVehicle()">ವಾಹನ ಪೋಸ್ಟ್ ಮಾಡಿ</button>
+    </div>
+
+    <div class="card">
+        <h3>📋 ಲಭ್ಯವಿರುವ ವಾಹನಗಳು</h3>
+        <div id="vehicleList">
+            <div class="vehicle-item">
+                <b>ಹೋಂಡಾ ಶೈನ್ (Honda Shine)</b> [ಟು-ವೀಲ್ಹರ್]<br>
+                ಬೆಲೆ: ₹45,000 | ಸಂಪರ್ಕ: 98800XXXXX<br>
+                ವಿವರ: ಶೋರೂಮ್ ವಾಹನ (RC ಮತ್ತು ಮೀಟರ್ ಪರಿಶೀಲಿಸಲಾಗಿದೆ)
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function addVehicle() {
+            let name = document.getElementById('vName').value;
+            let type = document.getElementById('vType').value;
+            let sellerType = document.getElementById('vSellerType').value;
+            let price = document.getElementById('vPrice').value;
+            let contact = document.getElementById('vContact').value;
+
+            if(!name || !price || !contact) {
+                alert("ದಯವಿಟ್ಟು ವಾಹನದ ಹೆಸರು, ಬೆಲೆ ಮತ್ತು ಕಾಂಟಾಕ್ಟ್ ನಂಬರ್ ಭರ್ತಿ ಮಾಡಿ!");
+                return;
+            }
+
+            let list = document.getElementById('vehicleList');
+            let newItem = document.createElement('div');
+            newItem.className = 'vehicle-item';
+            newItem.innerHTML = `<b>${name}</b> [${type}]<br>ಮಾರಾಟಗಾರರು: ${sellerType}<br>ಬೆಲೆ: ₹${price} | ಸಂಪರ್ಕ: ${contact}`;
+            
+            list.prepend(newItem);
+
+            // ಫಾರ್ಮ್ ಖಾಲಿ ಮಾಡುವುದು
+            document.getElementById('vName').value = '';
+            document.getElementById('vPrice').value = '';
+            document.getElementById('vContact').value = '';
+            alert("ನಿಮ್ಮ ವಾಹನ ಮತ್ತು ದಾಖಲೆಗಳ ವಿವರ ಯಶಸ್ವಿಯಾಗಿ ಅಪ್‌ಲೋಡ್ ಆಗಿದೆ!");
+        }
+    </script>
+
+</body>
+</html>
