@@ -5,81 +5,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ಉಗ್ರ ವಾಹನ - ಸಾರ್ವಜನಿಕ ವಾಹನ ಮಾರುಕಟ್ಟೆ</title>
     <style>
-        body { font-family: Arial, sans-serif; background: #f0f2f5; margin: 0; padding: 10px; color: #333; }
-        .header { background: #1b4d3e; color: white; padding: 15px; text-align: center; border-radius: 8px; }
-        .card { background: white; padding: 15px; margin-top: 10px; border-radius: 8px; box-shadow: 0px 2px 5px rgba(0,0,0,0.1); }
+        body { font-family: Arial, sans-serif; background: #f2f4f7; margin: 0; padding-bottom: 60px; color: #333; }
+        .header { background: #002f34; color: white; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
+        .header h2 { margin: 0; font-size: 20px; color: #ffce32; }
+        .login-badge { background: #ffce32; color: #002f34; padding: 6px 12px; border-radius: 20px; font-weight: bold; font-size: 13px; cursor: pointer; border: none; }
+        
+        .search-container { background: #002f34; padding: 10px 15px 15px 15px; }
+        .search-box { width: 100%; padding: 12px; border: none; border-radius: 4px; font-size: 15px; box-sizing: border-box; }
+
+        .container { padding: 10px; max-width: 600px; margin: auto; }
+        .card { background: white; padding: 15px; margin-top: 10px; border-radius: 8px; box-shadow: 0px 1px 3px rgba(0,0,0,0.1); }
+        
         input, select, textarea { width: 100%; padding: 10px; margin: 8px 0; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
         label { font-weight: bold; font-size: 14px; color: #555; display: block; margin-top: 5px; }
-        button { background: #ff9800; color: white; border: none; padding: 12px; width: 100%; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 16px; margin-top: 5px; }
-        button:hover { background: #e68900; }
+        
+        .main-btn { background: #002f34; color: white; border: none; padding: 12px; width: 100%; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 16px; margin-top: 5px; }
+        .main-btn:hover { background: #004d56; }
+        
         .whatsapp-btn { background: #25d366; text-decoration: none; display: block; text-align: center; padding: 10px; color: white; border-radius: 4px; font-weight: bold; margin-top: 8px; }
         .call-btn { background: #007bff; text-decoration: none; display: block; text-align: center; padding: 10px; color: white; border-radius: 4px; font-weight: bold; margin-top: 5px; }
-        .vehicle-card { background: #fff; padding: 15px; margin-top: 12px; border: 1px solid #ddd; border-left: 5px solid #1b4d3e; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        
+        .vehicle-card { background: #fff; padding: 12px; margin-top: 12px; border: 1px solid #ddd; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
         .badge { background: #e0f2f1; color: #00796b; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
         .v-img { width: 100%; height: 180px; object-fit: cover; border-radius: 4px; margin-top: 8px; background: #eee; }
-        .login-container { text-align: center; padding: 20px; }
-        .social-btn { width: 100%; padding: 12px; margin: 8px 0; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 15px; color: white; }
-        .google-btn { background: #db4437; }
-        .fb-btn { background: #3b5998; }
-        #mainApp { display: none; }
+
+        /* ಬಾಟಮ್ ನ್ಯಾವಿಗೇಷನ್ ಬಾರ್ (OLX ಶೈಲಿ) */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: white; display: flex; justify-content: space-around; border-top: 1px solid #ddd; padding: 8px 0; z-index: 1000; box-shadow: 0 -2px 5px rgba(0,0,0,0.05); }
+        .nav-item { text-align: center; font-size: 12px; color: #666; cursor: pointer; text-decoration: none; }
+        .nav-item span { display: block; font-size: 18px; }
+        .sell-nav-btn { background: #ffce32; color: #002f34; font-weight: bold; padding: 6px 15px; border-radius: 20px; border: 2px solid #002f34; }
+
+        /* ಪಾಪ್ಅಪ್ ಮೊಡಾಲ್ */
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); }
+        .modal-content { background: white; margin: 15% auto; padding: 20px; width: 85%; max-width: 400px; border-radius: 8px; }
+        .close { float: right; font-size: 24px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <!-- 1. ಲಾಗಿನ್ ಮತ್ತು ರಿಜಿಸ್ಟ್ರೇಷನ್ ಪುಟ -->
-    <div id="loginPage" class="card login-container">
-        <h2>🚗 ಉಗ್ರ ವಾಹನ (Ugra Vahana)</h2>
-        <p>ಲಾಗಿನ್ ಅಥವಾ ಸೈನ್ ಅಪ್ ಮಾಡಿ ಮುಂದುವರಿಯಿರಿ</p>
-        
-        <div style="text-align: left;">
-            <label>ನಿಮ್ಮ ಪೂರ್ಣ ಹೆಸರು:</label>
-            <input type="text" id="regName" placeholder="ನಿಮ್ಮ ಹೆಸರು ನಮೂದಿಸಿ">
-
-            <label>ಮೊಬೈಲ್ ನಂಬರ್:</label>
-            <input type="text" id="regPhone" placeholder="10 ಅಂಕಿಗಳ ಮೊಬೈಲ್ ನಂಬರ್">
-        </div>
-
-        <button onclick="completeLogin()">ಮೊಬೈಲ್ ನಂಬರ್ ಮೂಲಕ ಮುಂದುವರಿಯಿರಿ</button>
-        
-        <p style="margin: 15px 0; color: #777;">(ಅಥವಾ)</p>
-
-        <button class="social-btn google-btn" onclick="completeLogin()">Google (Gmail) ಮೂಲಕ ಲಾಗಿನ್ ಆಗಿ</button>
-        <button class="social-btn fb-btn" onclick="completeLogin()">Facebook ಮೂಲಕ ಲಾಗಿನ್ ಆಗಿ</button>
+    <!-- ಹೆಡರ್ (Header) -->
+    <div class="header">
+        <h2>🚗 ಉಗ್ರ ವಾಹನ</h2>
+        <button class="login-badge" onclick="openLoginModal()">ಲಾಗಿನ್ / ಸೈನ್ ಅಪ್</button>
     </div>
 
-    <!-- 2. ಮುಖ್ಯ ಆಪ್ ಪುಟ (ಲಾಗಿನ್ ಆದ ನಂತರ ಕಾಣಿಸುವುದು) -->
-    <div id="mainApp">
-        <div class="header">
-            <h2>🚗 ಉಗ್ರ ವಾಹನ (Ugra Vahana)</h2>
-            <p>ಬೈಕ್, ಆಟೋ, ಕಾರು ಮತ್ತು ಲಾರಿ ಮಾರುಕಟ್ಟೆ</p>
-            <p id="welcomeUser" style="font-size: 14px; margin-top: 5px; color: #ffeb3b;"></p>
-        </div>
+    <!-- ಸರ್ಚ್ ಬಾರ್ (Search Bar) -->
+    <div class="search-container">
+        <input type="text" id="searchBox" class="search-box" placeholder="ಬೈಕ್, ಕಾರು ಅಥವಾ ಊರು ಹುಡುಕಿ..." onkeyup="searchVehicle()">
+    </div>
 
-        <!-- ಖರೀದಿದಾರರಿಗಾಗಿ ಸರ್ಚ್ ಬಾಕ್ಸ್ -->
-        <div class="card">
-            <h3>🔍 ನಿಮಗೆ ಬೇಕಾದ ವಾಹನ ಹುಡುಕಿ</h3>
-            <input type="text" id="searchBox" placeholder="ವಾಹನದ ಹೆಸರು ಅಥವಾ ಊರು ಹಾಕಿ ಹುಡುಕಿ..." onkeyup="searchVehicle()">
-        </div>
+    <div class="container">
+        
+        <!-- ಮುಖಪುಟ: ಎಲ್ಲಾ ವಾಹನಗಳ ಪಟ್ಟಿ (ಎಲ್ಲರಿಗೂ ಕಾಣಿಸುವುದು) -->
+        <div id="homeSection">
+            <div class="card" style="margin-top:0;">
+                <h3 style="margin-top:0; color:#002f34;">🔥 ಲಭ್ಯವಿರುವ ವಾಹನಗಳು</h3>
+                <div id="vehicleList">
+                    
+                    <!-- ಸ್ಯಾಂಪಲ್ ವಾಹನ 1 -->
+                    <div class="vehicle-card" data-name="ಹೋಂಡಾ ಶೈನ್ honda shine twowheeler">
+                        <span class="badge">ಅಧಿಕೃತ ಸೆಕೆಂಡ್ ಹ್ಯಾಂಡ್ ಶೋರೂಮ್</span>
+                        <h3 style="margin: 5px 0; color: #002f34;">ಹೋಂಡಾ ಶೈನ್ (Honda Shine)</h3>
+                        <p style="margin: 4px 0;"><b>ವಿಭಾಗ:</b> ಟು-ವೀಲ್ಹರ್ | <b>ಬೆಲೆ:</b> ₹45,000</p>
+                        <p style="margin: 4px 0; color: #666; font-size: 13px;">ಉತ್ತಮ ಸ್ಥಿತಿಯಲ್ಲಿದೆ, RC ಪರಿಶೀಲಿಸಲಾಗಿದೆ.</p>
+                        <img src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=500" class="v-img" alt="Bike">
+                        <a href="tel:98800XXXXX" class="call-btn">📞 ಕರೆ ಮಾಡಿ (Call)</a>
+                        <a href="https://wa.me/9198800XXXXX?text=ನನಗೆ ಈ ವಾಹನದ ಬಗ್ಗೆ ಮಾಹಿತಿ ಬೇಕಿದೆ" target="_blank" class="whatsapp-btn">💬 ವಾಟ್ಸಾಪ್ ಮಾಡಿ (WhatsApp)</a>
+                    </div>
 
-        <!-- ವಾಹನಗಳ ಪ್ರದರ್ಶನ ಪಟ್ಟಿ -->
-        <div class="card">
-            <h3>📋 ಲಭ್ಯವಿರುವ ಎಲ್ಲಾ ವಾಹನಗಳು</h3>
-            <div id="vehicleList">
-                <div class="vehicle-card" data-name="ಹೋಂಡಾ ಶೈನ್ honda shine twowheeler">
-                    <span class="badge">ಅಧಿಕೃತ ಸೆಕೆಂಡ್ ಹ್ಯಾಂಡ್ ಶೋರೂಮ್</span>
-                    <h3 style="margin: 5px 0; color: #1b4d3e;">ಹೋಂಡಾ ಶೈನ್ (Honda Shine)</h3>
-                    <p><b>ವಿಭಾಗ:</b> ಟು-ವೀಲ್ಹರ್ | <b>ಬೆಲೆ:</b> ₹45,000</p>
-                    <p><b>ವಿವರ:</b> ಉತ್ತಮ ಸ್ಥಿತಿಯಲ್ಲಿದೆ, RC ಮತ್ತು ಮೀಟರ್ ಪರಿಶೀಲಿಸಲಾಗಿದೆ.</p>
-                    <img src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=500" class="v-img" alt="Bike">
-                    <a href="tel:98800XXXXX" class="call-btn">📞 ಕರೆ ಮಾಡಿ (Call)</a>
-                    <a href="https://wa.me/9198800XXXXX?text=ನನಗೆ ಈ ವಾಹನದ ಬಗ್ಗೆ ಮಾಹಿತಿ ಬೇಕಿದೆ" target="_blank" class="whatsapp-btn">💬 ವಾಟ್ಸಾಪ್ ಮಾಡಿ (WhatsApp)</a>
                 </div>
             </div>
         </div>
 
-        <!-- ವಾಹನ ಮಾರಾಟಗಾರರ ಫಾರ್ಮ್ -->
-        <div class="card">
-            <h3>📢 ನಿಮ್ಮ ವಾಹನ ಮಾರಾಟಕ್ಕೆ ಹಾಕಿ</h3>
+        <!-- ಮಾರಾಟ ಮಾಡಲು ಫಾರ್ಮ್ ಸೆಕ್ಷನ್ (Initially Hidden) -->
+        <div id="sellSection" class="card" style="display:none;">
+            <h3 style="color: #002f34; margin-top:0;">📢 ನಿಮ್ಮ ವಾಹನ ಮಾರಾಟಕ್ಕೆ ಹಾಕಿ</h3>
             
             <label>ವಾಹನದ ಹೆಸರು ಮತ್ತು ಮಾಡೆಲ್:</label>
             <input type="text" id="vName" placeholder="ಉದಾ: Hero Splendor / Swift Car">
@@ -104,40 +104,74 @@
             <label>ಸಂಪರ್ಕ ನಂಬರ್:</label>
             <input type="text" id="vContact" placeholder="ನಿಮ್ಮ ಫೋನ್ ನಂಬರ್">
 
-            <label>ವಾಹನದ ಫೋಟೋ ಲಿಂಕ್ ಅಥವಾ ವಿವರ:</label>
-            <input type="text" id="vImgUrl" placeholder="ಫೋಟೋ ಲಿಂಕ್ ಹಾಕಿ ಅಥವಾ ವಿವರ ಬರೆಯಿರಿ">
+            <label>ವಾಹನದ ಫೋಟೋ ಲಿಂಕ್ (URL):</label>
+            <input type="text" id="vImgUrl" placeholder="ಫೋಟೋ ಆನ್‌ಲೈನ್ ಲಿಂಕ್ ಹಾಕಿ">
 
-            <button onclick="addVehicle()">ವಾಹನ ಪೋಸ್ಟ್ ಮಾಡಿ</button>
+            <button class="main-btn" onclick="addVehicle()">ವಾಹನ ಲೈವ್ ಮಾಡಿ</button>
+        </div>
+
+    </div>
+
+    <!-- ಬಾಟಮ್ ನ್ಯಾವಿಗೇಷನ್ ಬಾರ್ (OLX ಶೈಲಿ) -->
+    <div class="bottom-nav">
+        <div class="nav-item" onclick="showSection('homeSection')">
+            <span>🏠</span>ಮುಖಪುಟ
+        </div>
+        <div class="nav-item" onclick="showSection('sellSection')">
+            <span class="sell-nav-btn">➕ ಪೋಸ್ಟ್</span>
+        </div>
+        <div class="nav-item" onclick="openLoginModal()">
+            <span>👤</span>ಪ್ರೊಫೈಲ್
+        </div>
+    </div>
+
+    <!-- ಲಾಗಿನ್ ಪಾಪ್ಅಪ್ ಮೊಡಾಲ್ -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeLoginModal()">&times;</span>
+            <h3 style="color:#002f34; text-align:center; margin-top:0;">ಲಾಗಿನ್ ಅಥವಾ ಸೈನ್ ಅಪ್</h3>
+            <label>ನಿಮ್ಮ ಹೆಸರು:</label>
+            <input type="text" id="loginName" placeholder="ಹೆಸರು ನಮೂದಿಸಿ">
+            <label>ಮೊಬೈಲ್ ನಂಬರ್:</label>
+            <input type="text" id="loginPhone" placeholder="10 ಅಂಕಿಗಳ ನಂಬರ್">
+            <button class="main-btn" onclick="saveLogin()">ಮುಂದುವರಿಯಿರಿ</button>
         </div>
     </div>
 
     <script>
-        function completeLogin() {
-            let name = document.getElementById('regName').value;
-            let phone = document.getElementById('regPhone').value;
+        function showSection(sectionId) {
+            document.getElementById('homeSection').style.display = 'none';
+            document.getElementById('sellSection').style.display = 'none';
+            document.getElementById(sectionId).style.display = 'block';
+            window.scrollTo(0, 0);
+        }
 
+        function openLoginModal() {
+            document.getElementById('loginModal').style.display = 'block';
+        }
+
+        function closeLoginModal() {
+            document.getElementById('loginModal').style.display = 'none';
+        }
+
+        function saveLogin() {
+            let name = document.getElementById('loginName').value;
+            let phone = document.getElementById('loginPhone').value;
             if(!name || !phone) {
-                alert("ದಯವಿಟ್ಟು ನಿಮ್ಮ ಹೆಸರು ಮತ್ತು ಮೊಬೈಲ್ ನಂಬರ್ ನಮೂದಿಸಿ!");
+                alert("ದಯವಿಟ್ಟು ಹೆಸರು ಮತ್ತು ನಂಬರ್ ಭರ್ತಿ ಮಾಡಿ!");
                 return;
             }
-
-            // ಲಾಗಿನ್ ಪೇಜ್ ಮುಚ್ಚಿ ಮುಖ್ಯ ಆಪ್ ತೋರಿಸುವುದು
-            document.getElementById('loginPage').style.display = 'none';
-            document.getElementById('mainApp').style.display = 'block';
-            document.getElementById('welcomeUser').innerText = "ಸ್ವಾಗತ, " + name + " (" + phone + ")";
+            alert("ಸ್ವಾಗತ " + name + "! ಯಶಸ್ವಿಯಾಗಿ ಲಾಗಿನ್ ಆಗಿದೆ.");
+            closeLoginModal();
+            document.querySelector('.login-badge').innerText = name;
         }
 
         function searchVehicle() {
             let input = document.getElementById('searchBox').value.toLowerCase();
             let cards = document.getElementsByClassName('vehicle-card');
-
             for (let i = 0; i < cards.length; i++) {
                 let text = cards[i].innerText.toLowerCase();
-                if (text.includes(input)) {
-                    cards[i].style.display = "";
-                } else {
-                    cards[i].style.display = "none";
-                }
+                cards[i].style.display = text.includes(input) ? "" : "none";
             }
         }
 
@@ -161,23 +195,23 @@
             
             newItem.innerHTML = `
                 <span class="badge">${sellerType}</span>
-                <h3 style="margin: 5px 0; color: #1b4d3e;">${name}</h3>
-                <p><b>ವಿಭಾಗ:</b> ${type} | <b>ಬೆಲೆ:</b> ₹${price}</p>
-                <p><b>ವಿವರ:</b> ಹೊಸದಾಗಿ ಪೋಸ್ಟ್ ಮಾಡಲಾಗಿದೆ</p>
-                ${imgUrl ? `<img src="${imgUrl}" class="v-img" alt="Vehicle">` : '<div style="background:#ddd; height:150px; text-align:center; line-height:150px; border-radius:4px; color:#555;">ಫೋಟೋ ಲಭ್ಯವಿದೆ</div>'}
+                <h3 style="margin: 5px 0; color: #002f34;">${name}</h3>
+                <p style="margin: 4px 0;"><b>ವಿಭಾಗ:</b> ${type} | <b>ಬೆಲೆ:</b> ₹${price}</p>
+                <p style="margin: 4px 0; color: #666; font-size: 13px;">ಹೊಸದಾಗಿ ಪೋಸ್ಟ್ ಮಾಡಲಾಗಿದೆ</p>
+                ${imgUrl ? `<img src="${imgUrl}" class="v-img" alt="Vehicle">` : '<div style="background:#eee; height:150px; text-align:center; line-height:150px; border-radius:4px; color:#555;">ಫೋಟೋ ಲಭ್ಯವಿದೆ</div>'}
                 <a href="tel:${contact}" class="call-btn">📞 ಕರೆ ಮಾಡಿ (Call)</a>
                 <a href="https://wa.me/91${contact}?text=ನನಗೆ ನಿಮ್ಮ ${name} ವಾಹನದ ಬಗ್ಗೆ ಮಾಹಿತಿ ಬೇಕಿದೆ" target="_blank" class="whatsapp-btn">💬 ವಾಟ್ಸಾಪ್ ಮಾಡಿ (WhatsApp)</a>
             `;
             
             list.prepend(newItem);
-
+            showSection('homeSection');
+            alert("ನಿಮ್ಮ ವಾಹನ ಯಶಸ್ವಿಯಾಗಿ ಲೈವ್ ಮಾರುಕಟ್ಟೆಗೆ ಸೇರಿಸಲಾಗಿದೆ!");
+            
             document.getElementById('vName').value = '';
             document.getElementById('vPrice').value = '';
             document.getElementById('vContact').value = '';
             document.getElementById('vImgUrl').value = '';
-            alert("ನಿಮ್ಮ ವಾಹನ ಯಶಸ್ವಿಯಾಗಿ ಲೈವ್ ಮಾರುಕಟ್ಟೆಗೆ ಸೇರಿಸಲಾಗಿದೆ!");
         }
     </script>
-
 </body>
 </html>
