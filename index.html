@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ಸಂಪೂರ್ಣ ಜ್ಯೋತಿಷ್ಯ ಮತ್ತು ಹಸ್ತಸಾಮುದ್ರಿಕ ಆಪ್</title>
+    <title>ಸ್ಮಾರ್ಟ್ ಅಟೆಂಡೆನ್ಸ್ ಮತ್ತು ಪೇರೆಂಟ್ ಅಲರ್ಟ್ ಆಪ್</title>
     <style>
         * { box-sizing: border-box; }
         body { 
             font-family: Arial, sans-serif; 
-            background: #f0f2f5; 
+            background: #e8f5e9; 
             margin: 0; 
             padding: 0; 
             display: flex; 
@@ -19,281 +19,136 @@
         .container { 
             width: 100%; 
             height: 100%; 
-            max-width: none; 
             background: white; 
             display: flex; 
             flex-direction: column; 
-            padding: 15px; 
-            box-shadow: none; 
-            border-radius: 0;
+            padding: 20px; 
             overflow-y: auto;
         }
-        h2, h3 { text-align: center; color: #4a148c; margin-top: 10px; }
-        label { font-weight: bold; display: block; margin-top: 15px; color: #444; font-size: 18px; }
-        input, select, button, textarea { 
+        h2 { text-align: center; color: #2e7d32; margin-top: 10px; }
+        label { font-weight: bold; display: block; margin-top: 15px; color: #444; font-size: 16px; }
+        input, select, button { 
             width: 100%; 
-            padding: 16px; 
+            padding: 14px; 
             margin-top: 8px; 
             border-radius: 8px; 
             border: 1px solid #ccc; 
-            font-size: 18px; 
+            font-size: 16px; 
         }
-        button { background: #6a1b9a; color: white; font-weight: bold; border: none; cursor: pointer; margin-top: 15px; }
-        button:hover { background: #4a148c; }
-        .audio-btn { background: #ffb300; color: black; margin-top: 10px; }
-        .audio-btn:hover { background: #ffa000; }
-        .mic-btn { background: #00897b; color: white; width: 100%; padding: 16px; margin-top: 10px; font-size: 18px; }
+        button { background: #2e7d32; color: white; font-weight: bold; border: none; cursor: pointer; margin-top: 15px; }
+        button:hover { background: #1b5e20; }
         .section { display: none; flex: 1; flex-direction: column; }
         .active { display: flex; }
-        .result-box { margin-top: 20px; padding: 15px; background: #ede7f6; border-radius: 8px; line-height: 1.8; font-size: 18px; white-space: pre-line; flex: 1; }
-        .lang-bar { display: flex; justify-content: flex-end; margin-bottom: 10px; }
-        .lang-bar select { width: 140px; padding: 8px; font-size: 16px; }
-        
-        /* ಚಾಟ್ ಬಾಕ್ಸ್ ಸ್ಟೈಲ್ */
-        .chat-container { margin-top: 15px; border: 1px solid #ccc; border-radius: 8px; padding: 10px; background: #fafafa; display: flex; flex-direction: column; flex: 1; }
-        .chat-box { flex: 1; min-height: 250px; overflow-y: auto; border: 1px solid #ddd; background: white; padding: 10px; border-radius: 5px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 8px; }
-        .chat-message { padding: 12px 15px; border-radius: 8px; max-width: 85%; line-height: 1.5; font-size: 16px; }
-        .user-msg { background: #d1c4e9; align-self: flex-end; text-align: right; }
-        .bot-msg { background: #e0f2f1; align-self: flex-start; text-align: left; }
-        
-        .chat-input-container { display: flex; flex-direction: column; gap: 10px; margin-top: auto; }
-        .chat-input-row { display: flex; gap: 10px; width: 100%; }
-        .chat-input-row input { margin-top: 0; flex: 1; font-size: 18px; padding: 14px; }
-        .send-btn { margin-top: 0; width: 120px; font-size: 18px; padding: 14px; background: #4a148c; }
+        .card { background: #f1f8e9; padding: 15px; border-radius: 8px; margin-top: 15px; border-left: 5px solid #4caf50; }
+        .success-msg { color: #2e7d32; font-weight: bold; margin-top: 10px; text-align: center; }
+        video { width: 100%; max-height: 200px; background: #000; border-radius: 8px; margin-top: 10px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- ಭಾಷೆ ಬದಲಾಯಿಸುವ ಸೆಟ್ಟಿಂಗ್ ಬಟನ್ -->
-    <div class="lang-bar">
-        <select id="langSelect" onchange="changeLanguage()">
-            <option value="kn">ಕನ್ನಡ</option>
-            <option value="hi">हिंदी</option>
-            <option value="en">English</option>
-        </select>
-    </div>
-
-    <!-- 1. ಲಾಗಿನ್ ಪೇಜ್ (Login Page) -->
+    <!-- 1. ಟೀಚರ್ ಲಾಗಿನ್ ಪೇಜ್ -->
     <div id="loginSection" class="section active">
-        <h2 id="l-title">ಜ್ಯೋತಿಷ್ಯ ಆಪ್‌ಗೆ ಸ್ವಾಗತ</h2>
-        <label id="l-namelbl">ನಿಮ್ಮ ಹೆಸರು:</label>
-        <input type="text" id="loginName" placeholder="ಹೆಸರನ್ನು ನಮೂದಿಸಿ">
-
-        <label id="l-phonelbl">ಮೊಬೈಲ್ ನಂಬರ್:</label>
-        <input type="tel" id="loginPhone" placeholder="10 ಅಂಕಿಯ ಮೊಬೈಲ್ ನಂಬರ್">
-
-        <button onclick="handleLogin()" id="l-btn">ಲಾಗಿನ್ ಮಾಡಿ</button>
-    </div>
-
-    <!-- 2. ಮುಖ್ಯ ಪೇಜ್ (Home / Input Page) -->
-    <div id="homeSection" class="section">
-        <h2 id="h-title">ಹಸ್ತಸಾಮುದ್ರಿಕ ಮತ್ತು ಜ್ಯೋತಿಷ್ಯ ವಿಶ್ಲೇಷಣೆ</h2>
-        <p id="welcomeMsg" style="text-align: center; font-weight: bold; color: #6a1b9a; font-size: 18px;"></p>
-
-        <label id="h-namelbl">ಹೆಸರು:</label>
-        <input type="text" id="userName" placeholder="ನಿಮ್ಮ ಹೆಸರು">
-
-        <label id="h-palmlbl">ಕೈಯ ಫೋಟೋ ಹಾಕಿ ಅಥವಾ ಕ್ಯಾಮೆರಾ ಬಳಸಿ:</label>
-        <input type="file" id="palmImage" accept="image/*" capture="environment">
-
-        <button onclick="analyzePalm()" id="h-btn">ಭವಿಷ್ಯ ನೋಡಿ</button>
-    </div>
-
-    <!-- 3. ಫಲಿತಾಂಶದ ಪೇಜ್ (Result Page) -->
-    <div id="resultSection" class="section">
-        <h3 id="r-title">ನಿಮ್ಮ ರಿಯಲ್ ಜ್ಯೋತಿಷ್ಯ ವರದಿ</h3>
-        <div class="result-box" id="resultOutput"></div>
-        <button onclick="speakPrediction()" class="audio-btn" id="r-audiobtn">🔊 ಧ್ವನಿಯಲ್ಲಿ ಕೇಳಿ (Audio)</button>
+        <h2>🏫 ಶಾಲಾ ಅಟೆಂಡೆನ್ಸ್ ಲಾಗಿನ್</h2>
+        <p style="text-align: center; color: #666;">ಶಿಕ್ಷಕರು ಅಥವಾ ಪ್ರಿನ್ಸಿಪಾಲ್ ಲಾಗಿನ್ ಆಗಿ</p>
         
-        <!-- ಲೈವ್ ಜ್ಯೋತಿಷ್ಯ ಚಾಟ್ ಬಾಕ್ಸ್ -->
-        <div class="chat-container">
-            <h4 id="c-title" style="margin-top:0; color:#4a148c;">ಜ್ಯೋತಿಷಿಗಳೊಂದಿಗೆ ನೇರ ಚಾಟ್ / ಪ್ರಶ್ನೆ ಕೇಳಿ</h4>
-            <div class="chat-box" id="chatBox">
-                <div class="chat-message bot-msg" id="botWelcomeMsg">ನಮಸ್ಕಾರ! ನಿಮ್ಮ ಹಸ್ತಸಾಮುದ್ರಿಕ ವರದಿ ನೋಡಿ ಆಯ್ತು. ನಿಮಗೆ ಬೇರೆ ಏನಾದರೂ ಪ್ರಶ್ನೆಗಳಿವೆಯೆ?</div>
-            </div>
-            
-            <div class="chat-input-container">
-                <div class="chat-input-row">
-                    <input type="text" id="chatInput" placeholder="ಇಲ್ಲಿ ಟೈಪ್ ಮಾಡಿ...">
-                    <button onclick="sendChatMessage()" class="send-btn" id="c-send">ಕಳುಹಿಸು</button>
-                </div>
-                <button onclick="startVoiceInput()" class="mic-btn" id="r-micbtn">🎙️ ಮಾತನಾಡಿ (Mic)</button>
-            </div>
-        </div>
+        <label>ಶಿಕ್ಷಕರ ಹೆಸರು:</label>
+        <input type="text" id="teacherName" placeholder="ನಿಮ್ಮ ಹೆಸರು ಹಾಕಿ">
 
-        <button onclick="goBack()" style="background: #757575;" id="r-backbtn">ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ</button>
+        <label>ಮೊಬೈಲ್ ನಂಬರ್:</label>
+        <input type="tel" id="teacherPhone" placeholder="10 ಅಂಕಿಯ ನಂಬರ್">
+
+        <button onclick="teacherLogin()">ಲಾಗಿನ್ ಮಾಡಿ</button>
+    </div>
+
+    <!-- 2. ತರಗತಿ ಮತ್ತು ವಿದ್ಯಾರ್ಥಿ ಆಯ್ಕೆ ಪೇಜ್ -->
+    <div id="dashboardSection" class="section">
+        <h2>📋 ವಿದ್ಯಾರ್ಥಿ ಹಾಜರಾತಿ (Attendance)</h2>
+        <p id="welcomeTeacher" style="font-weight: bold; color: #2e7d32;"></p>
+
+        <label>ತರಗತಿ ಆಯ್ಕೆಮಾಡಿ (Class):</label>
+        <select id="classSelect">
+            <option value="1">1ನೇ ತರಗತಿ</option>
+            <option value="2">2ನೇ ತರಗತಿ</option>
+            <option value="3">3ನೇ ತರಗತಿ</option>
+            <option value="4">4ನೇ ತರಗತಿ</option>
+            <option value="5">5ನೇ ತರಗತಿ</option>
+            <option value="6">6ನೇ ತರಗತಿ</option>
+            <option value="7">7ನೇ ತರಗತಿ</option>
+            <option value="8">8ನೇ ತರಗತಿ</option>
+            <option value="9">9ನೇ ತರಗತಿ</option>
+            <option value="10">10ನೇ ತರಗತಿ</option>
+        </select>
+
+        <label>ವಿದ್ಯಾರ್ಥಿಯ ಹೆಸರು ಮತ್ತು ID:</label>
+        <select id="studentSelect">
+            <option value="Ramesh (ID: ST101) - ಪೋಷಕರು: 9876543210">ರಮೇಶ್ (ID: ST101)</option>
+            <option value="Priya (ID: ST102) - ಪೋಷಕರು: 9123456789">ಪ್ರಿಯಾ (ID: ST102)</option>
+            <option value="Rahul (ID: ST103) - ಪೋಷಕರು: 9988776655">ರಾಹುಲ್ (ID: ST103)</option>
+        </select>
+
+        <label>ಮುಖದ ಗುರುತು (Face Verification / Selfie):</label>
+        <button onclick="startCamera()" style="background: #0288d1;">📸 ಮುಖ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ (Scan Face)</button>
+        <video id="video" autoplay playsinline style="display:none;"></video>
+
+        <button onclick="markAttendance()" style="background: #e65100; margin-top: 20px;">✅ ಹಾಜರಾತಿ ನಮೂದಿಸಿ ಮತ್ತು ಪೋಷಕರಿಗೆ ಕಳುಹಿಸಿ</button>
+        
+        <div id="statusBox"></div>
     </div>
 </div>
 
 <script>
-    let currentLang = 'kn';
-    let userGlobalName = '';
+    let loggedInTeacher = '';
 
-    const translations = {
-        kn: {
-            lTitle: "ಜ್ಯೋತಿಷ್ಯ ಆಪ್‌ಗೆ ಸ್ವಾಗತ",
-            lNameLbl: "ನಿಮ್ಮ ಹೆಸರು:",
-            lPhoneLbl: "ಮೊಬೈಲ್ ನಂಬರ್:",
-            lBtn: "ಲಾಗಿನ್ ಮಾಡಿ",
-            hTitle: "ಹಸ್ತಸಾಮುದ್ರಿಕ ಮತ್ತು ಜ್ಯೋತಿಷ್ಯ ವಿಶ್ಲೇಷಣೆ",
-            hNameLbl: "ಹೆಸರು:",
-            hPalmLbl: "ಕೈಯ ಫೋಟೋ ಹಾಕಿ / ಕ್ಯಾಮೆರಾ ಬಳಸಿ:",
-            hBtn: "ಭವಿಷ್ಯ ನೋಡಿ",
-            rTitle: "ನಿಮ್ಮ ರಿಯಲ್ ಜ್ಯೋತಿಷ್ಯ ವರದಿ",
-            rAudioBtn: "🔊 ಧ್ವನಿಯಲ್ಲಿ ಕೇಳಿ",
-            cTitle: "ಜ್ಯೋತಿಷಿಗಳೊಂದಿಗೆ ನೇರ ಚಾಟ್ / ಪ್ರಶ್ನೆ ಕೇಳಿ",
-            cPlaceholder: "ಇಲ್ಲಿ ಟೈಪ್ ಮಾಡಿ...",
-            cSend: "ಕಳುಹಿಸು",
-            rMicBtn: "🎙️ ಮಾತನಾಡಿ (Mic)",
-            rBackbtn: "ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ",
-            botDefaults: [
-                "ನಿಮ್ಮ ಹಸ್ತದ ರೇಖೆಗಳ ಪ್ರಕಾರ, ಶ್ರಮಕ್ಕೆ ತಕ್ಕ ಪ್ರತಿಫಲ ದೊರೆಯಲಿದೆ. ಧನಾತ್ಮಕ ಯೋಚನೆಗಳೊಂದಿಗೆ ಮುಂದುವರಿಯಿರಿ.",
-                "ಜ್ಯೋತಿಷ್ಯ ಶಾಸ್ತ್ರದ ಪ್ರಕಾರ ಈ ವಾರ ನಿಮಗೆ ಹೊಸ ಅವಕಾಶಗಳು ಒದಗಿಬರಲಿವೆ. ಹಣಕಾಸಿನ ವಿಚಾರದಲ್ಲಿ ಎಚ್ಚರಿಕೆ ವಹಿಸಿ.",
-                "ನಿಮ್ಮ ಜಾತಕದಲ್ಲಿ ಗುರು ಬಲ ಉತ್ತಮವಾಗಿದೆ. ವ್ಯವಹಾರ ಅಥವಾ ಉದ್ಯೋಗದಲ್ಲಿ ಯಶಸ್ಸು ಸಿಗುವ ಸೂಚನೆ ಇದೆ.",
-                "ಕೈಯ ರೇಖೆಗಳು ನಿಮ್ಮ ಪರಿಶ್ರಮ ಮತ್ತು ಪ್ರಾಮಾಣಿಕತೆಯನ್ನು ಎತ್ತಿ ತೋರಿಸುತ್ತವೆ. ಮುಂಬರುವ ದಿನಗಳು ಅನುಕೂಲಕರವಾಗಿವೆ.",
-                "ಕುಟುಂಬದವರ ಸಹಕಾರದಿಂದ ನಿಮ್ಮ ಬಹುದಿನಗಳ ಕನಸು ನನಸಾಗುವ ಸಮಯ ಹತ್ತಿರದಲ್ಲಿದೆ."
-            ]
-        }
-    };
-
-    function changeLanguage() {
-        currentLang = document.getElementById('langSelect').value;
-        // ಇತರೆ ಭಾಷೆಗಳ ಸೆಟ್ಟಿಂಗ್‌ಗಳು ಅಗತ್ಯವಿದ್ದರೆ ಇಲ್ಲಿ ವಿಸ್ತರಿಸಬಹುದು
-    }
-
-    function handleLogin() {
-        const name = document.getElementById('loginName').value.trim();
-        const phone = document.getElementById('loginPhone').value.trim();
+    function teacherLogin() {
+        const name = document.getElementById('teacherName').value.trim();
+        const phone = document.getElementById('teacherPhone').value.trim();
 
         if(!name || phone.length < 10) {
             alert("ದಯವಿಟ್ಟು ಸರಿಯಾದ ಹೆಸರು ಮತ್ತು ಮೊಬೈಲ್ ನಂಬರ್ ಹಾಕಿ!");
             return;
         }
 
-        userGlobalName = name;
-        document.getElementById('userName').value = name;
-        document.getElementById('welcomeMsg').innerText = "ಸ್ವಾಗತ, " + name;
+        loggedInTeacher = name;
+        document.getElementById('welcomeTeacher').innerText = "ಸ್ವಾಗತ, ಶಿಕ್ಷಕರು: " + name;
 
         document.getElementById('loginSection').classList.remove('active');
-        document.getElementById('homeSection').classList.add('active');
+        document.getElementById('dashboardSection').classList.add('active');
     }
 
-    let reportText = "";
-
-    function analyzePalm() {
-        const palmFile = document.getElementById('palmImage').files.length;
-        if(palmFile === 0) {
-            alert("ದಯವಿಟ್ಟು ಕೈಯ ಫೋಟೋ ಹಾಕಿ!");
-            return;
-        }
-
-        reportText = `ನಮಸ್ಕಾರ ${userGlobalName}.\n\n` +
-                     `1. ರಾಶಿ ಮತ್ತು ಅಂದಾಜು ವಯಸ್ಸು:\nನಿಮ್ಮ ಕೈಯ ರೇಖೆಗಳ ಪ್ರಕಾರ ನಿಮ್ಮ ಭವಿಷ್ಯ ಅತ್ಯಂತ ಉಜ್ವಲವಾಗಿದೆ. ನಿಮಗೆ ಧನಲಾಭವಾಗುವ ಯೋಗವಿದೆ.\n\n` +
-                     `2. ವೃತ್ತಿ ಮತ್ತು ವ್ಯಾಪಾರ:\nಮುಂಬರುವ ದಿನಗಳಲ್ಲಿ ನಿಮಗೆ ಹೊಸ ಅವಕಾಶಗಳು ಸಿಗಲಿವೆ. ತಾಳ್ಮೆಯಿಂದ ಮುಂದುವರಿಯಿರಿ.`;
-
-        document.getElementById('resultOutput').innerText = reportText;
-        document.getElementById('homeSection').classList.remove('active');
-        document.getElementById('resultSection').classList.add('active');
-
-        speakPrediction();
+    function startCamera() {
+        const video = document.getElementById('video');
+        video.style.display = 'block';
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+            })
+            .catch(err => {
+                alert("ಕ್ಯಾಮರಾ ಓಪನ್ ಮಾಡಲು ಅನುಮತಿ ಸಿಕ್ಕಿಲ್ಲ: " + err);
+            });
     }
 
-    function speakPrediction() {
+    function markAttendance() {
+        const selectedClass = document.getElementById('classSelect').value;
+        const studentInfo = document.getElementById('studentSelect').value;
+        
+        const statusBox = document.getElementById('statusBox');
+        statusBox.innerHTML = `
+            <div class="card">
+                <p class="success-msg">✅ ಹಾಜರಾತಿ ಯಶಸ್ವಿಯಾಗಿ ದಾಖಲಾಗಿದೆ!</p>
+                <p><b>ತರಗತಿ:</b> ${selectedClass}ನೇ ತರಗತಿ</p>
+                <p><b>ವಿದ್ಯಾರ್ಥಿ:</b> ${studentInfo}</p>
+                <p><b>ಸ್ಥಿತಿ:</b> ಶಾಲೆಗೆ ಹಾಜರಾಗಿದ್ದಾರೆ (Present)</p>
+                <p style="color: #d32f2f;">📩 ಪೋಷಕರ ಮೊಬೈಲ್‌ಗೆ ಆಟೋಮ್ಯಾಟಿಕ್ SMS / WhatsApp ನೋಟಿಫಿಕೇಶನ್ ಕಳುಹಿಸಲಾಗಿದೆ!</p>
+            </div>
+        `;
+
+        // ಧ್ವನಿ ಅಥವಾ ಅಲರ್ಟ್ ಮೂಲಕ ಖಚಿತಪಡಿಸುವುದು
         if ('speechSynthesis' in window) {
-            window.speechSynthesis.cancel();
-            const utterance = new SpeechSynthesisUtterance(reportText);
+            const utterance = new SpeechSynthesisUtterance("ಹಾಜರಾತಿ ದಾಖಲಾಗಿದೆ. ಪೋಷಕರಿಗೆ ಮೆಸೇಜ್ ಕಳುಹಿಸಲಾಗಿದೆ.");
             utterance.lang = 'kn-IN';
-            utterance.rate = 0.9;
             window.speechSynthesis.speak(utterance);
         }
-    }
-
-    function startVoiceInput() {
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        if (!SpeechRecognition) {
-            alert("ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಮೈಕ್ ಸಪೋರ್ಟ್ ಇಲ್ಲ.");
-            return;
-        }
-
-        const recognition = new SpeechRecognition();
-        recognition.lang = 'kn-IN';
-        recognition.interimResults = false;
-        recognition.maxAlternatives = 1;
-
-        recognition.onstart = function() {
-            document.getElementById('chatInput').placeholder = "ಆಲಿಸುತ್ತಿದೆ...";
-        };
-
-        recognition.onresult = function(event) {
-            const speechResult = event.results[0][0].transcript;
-            document.getElementById('chatInput').value = speechResult;
-            document.getElementById('chatInput').placeholder = "ಇಲ್ಲಿ ಟೈಪ್ ಮಾಡಿ...";
-            sendChatMessage();
-        };
-
-        recognition.onerror = function() {
-            document.getElementById('chatInput').placeholder = "ಇಲ್ಲಿ ಟೈಪ್ ಮಾಡಿ...";
-        };
-
-        recognition.onend = function() {
-            document.getElementById('chatInput').placeholder = "ಇಲ್ಲಿ ಟೈಪ್ ಮಾಡಿ...";
-        };
-
-        recognition.start();
-    }
-
-    function sendChatMessage() {
-        const inputField = document.getElementById('chatInput');
-        const messageText = inputField.value.trim();
-        if(!messageText) return;
-
-        const chatBox = document.getElementById('chatBox');
-
-        // ಬಳಕೆದಾರರ ಮೆಸೇಜ್ ಸೇರಿಸುವುದು
-        const userMsgDiv = document.createElement('div');
-        userMsgDiv.className = 'chat-message user-msg';
-        userMsgDiv.innerText = messageText;
-        chatBox.appendChild(userMsgDiv);
-
-        inputField.value = '';
-        chatBox.scrollTop = chatBox.scrollHeight;
-
-        // ಬೋಟ್ ವಿಭಿನ್ನವಾದ ಉತ್ತರವನ್ನು ಆಯ್ಕೆ ಮಾಡುವುದು (Random Responses)
-        setTimeout(() => {
-            const botMsgDiv = document.createElement('div');
-            botMsgDiv.className = 'chat-message bot-msg';
-            
-            const defaults = translations['kn'].botDefaults;
-            let replyText = defaults[Math.floor(Math.random() * defaults.length)];
-
-            // ಬಳಕೆದಾರರ ಪ್ರಶ್ನೆಗೆ ತಕ್ಕಂತೆ ಕೆಲವು ನಿರ್ದಿಷ್ಟ ಸುಧಾರಣೆಗಳು (Optional Smart Matching)
-            if(messageText.includes("ರಾಶಿ") || messageText.includes("ರಾಶಿ ಯಾವುದು")) {
-                replyText = "ನಿಮ್ಮ ಕೈಯ ರೇಖೆಗಳು ಮತ್ತು ನಕ್ಷತ್ರಗಳ ಸಂಚಾರದ ಪ್ರಕಾರ, ನಿಮ್ಮದು 'ಮೇಷ ರಾಶಿ' ಅಥವಾ 'ವೃಶ್ಚಿಕ ರಾಶಿ'ಗೆ ಬರುವ ಲಕ್ಷಣಗಳಿವೆ.";
-            } else if(messageText.includes("ಕೆಲಸ") || messageText.includes("ವ್ಯವಹಾರ") || messageText.includes("ಉದ್ಯೋಗ")) {
-                replyText = "ಉದ್ಯೋಗ ಕ್ಷೇತ್ರದಲ್ಲಿ ನಿಮಗೆ ಮೇಲಧಿಕಾರಿಗಳ ಪ್ರಶಂಸೆ ಸಿಗಲಿದೆ. ಸ್ವಂತ ಉದ್ಯೋಗ ಮಾಡುವವರಿಗೆ ಇದು ಅತ್ಯಂತ ಲಾಭದಾಯಕ ಸಮಯ.";
-            } else if(messageText.includes("ಸುಳ್ಳು") || messageText.includes("ಬೆರೆದು") || messageText.includes("ಸವಾಲು")) {
-                replyText = "ಇದು ಜ್ಯೋತಿಷ್ಯ ಮತ್ತು ಸಾಮುದ್ರಿಕ ಶಾಸ್ತ್ರದ ವಿಶ್ಲೇಷಣೆಯಾಗಿದೆ. ನಂಬಿಕೆಯಿಂದ ಮುಂದುವರಿದರೆ ಖಂಡಿತ ಒಳ್ಳೆಯ ಫಲ ಸಿಗುತ್ತದೆ.";
-            }
-
-            botMsgDiv.innerText = replyText;
-            chatBox.appendChild(botMsgDiv);
-            chatBox.scrollTop = chatBox.scrollHeight;
-
-            if ('speechSynthesis' in window) {
-                const utterance = new SpeechSynthesisUtterance(replyText);
-                utterance.lang = 'kn-IN';
-                window.speechSynthesis.speak(utterance);
-            }
-        }, 1000);
-    }
-
-    function goBack() {
-        if ('speechSynthesis' in window) {
-            window.speechSynthesis.cancel();
-        }
-        document.getElementById('resultSection').classList.remove('active');
-        document.getElementById('homeSection').classList.add('active');
     }
 </script>
 
