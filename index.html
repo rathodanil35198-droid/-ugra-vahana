@@ -2,33 +2,64 @@
 <html lang="kn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ಸಂಪೂರ್ಣ ಜ್ಯೋತಿಷ್ಯ ಮತ್ತು ಹಸ್ತಸಾಮುದ್ರಿಕ ಆಪ್</title>
     <style>
-        body { font-family: Arial, sans-serif; background: #f0f2f5; padding: 20px; color: #333; margin: 0; }
-        .container { max-width: 650px; margin: auto; background: white; padding: 25px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        h2, h3 { text-align: center; color: #4a148c; }
-        label { font-weight: bold; display: block; margin-top: 15px; color: #444; }
-        input, select, button, textarea { width: 100%; padding: 12px; margin-top: 8px; border-radius: 6px; border: 1px solid #ccc; font-size: 16px; box-sizing: border-box; }
+        * { box-sizing: border-box; }
+        body { 
+            font-family: Arial, sans-serif; 
+            background: #f0f2f5; 
+            margin: 0; 
+            padding: 0; 
+            display: flex; 
+            flex-direction: column; 
+            height: 100vh; 
+            color: #333; 
+        }
+        .container { 
+            width: 100%; 
+            height: 100%; 
+            max-width: none; 
+            background: white; 
+            display: flex; 
+            flex-direction: column; 
+            padding: 15px; 
+            box-shadow: none; 
+            border-radius: 0;
+            overflow-y: auto;
+        }
+        h2, h3 { text-align: center; color: #4a148c; margin-top: 10px; }
+        label { font-weight: bold; display: block; margin-top: 15px; color: #444; font-size: 18px; }
+        input, select, button, textarea { 
+            width: 100%; 
+            padding: 16px; 
+            margin-top: 8px; 
+            border-radius: 8px; 
+            border: 1px solid #ccc; 
+            font-size: 18px; 
+        }
         button { background: #6a1b9a; color: white; font-weight: bold; border: none; cursor: pointer; margin-top: 15px; }
         button:hover { background: #4a148c; }
         .audio-btn { background: #ffb300; color: black; margin-top: 10px; }
         .audio-btn:hover { background: #ffa000; }
-        .mic-btn { background: #00897b; color: white; width: auto; display: inline-block; padding: 10px 15px; margin-top: 8px; }
-        .section { display: none; }
-        .active { display: block; }
-        .result-box { margin-top: 20px; padding: 15px; background: #ede7f6; border-radius: 8px; line-height: 1.8; font-size: 16px; white-space: pre-line; }
-        .lang-bar { display: flex; justify-content: flex-end; margin-bottom: 15px; }
-        .lang-bar select { width: 140px; padding: 5px; font-size: 14px; }
+        .mic-btn { background: #00897b; color: white; width: 100%; padding: 16px; margin-top: 10px; font-size: 18px; }
+        .section { display: none; flex: 1; flex-direction: column; }
+        .active { display: flex; }
+        .result-box { margin-top: 20px; padding: 15px; background: #ede7f6; border-radius: 8px; line-height: 1.8; font-size: 18px; white-space: pre-line; flex: 1; }
+        .lang-bar { display: flex; justify-content: flex-end; margin-bottom: 10px; }
+        .lang-bar select { width: 140px; padding: 8px; font-size: 16px; }
         
         /* ಚಾಟ್ ಬಾಕ್ಸ್ ಸ್ಟೈಲ್ */
-        .chat-container { margin-top: 25px; border: 1px solid #ccc; border-radius: 8px; padding: 15px; background: #fafafa; }
-        .chat-box { height: 200px; overflow-y: auto; border: 1px solid #ddd; background: white; padding: 10px; border-radius: 5px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 8px; }
-        .chat-message { padding: 8px 12px; border-radius: 6px; max-width: 80%; line-height: 1.4; }
+        .chat-container { margin-top: 15px; border: 1px solid #ccc; border-radius: 8px; padding: 10px; background: #fafafa; display: flex; flex-direction: column; flex: 1; }
+        .chat-box { flex: 1; min-height: 250px; overflow-y: auto; border: 1px solid #ddd; background: white; padding: 10px; border-radius: 5px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 8px; }
+        .chat-message { padding: 12px 15px; border-radius: 8px; max-width: 85%; line-height: 1.5; font-size: 16px; }
         .user-msg { background: #d1c4e9; align-self: flex-end; text-align: right; }
         .bot-msg { background: #e0f2f1; align-self: flex-start; text-align: left; }
-        .chat-input-row { display: flex; gap: 10px; align-items: center; }
-        .chat-input-row input { margin-top: 0; flex: 1; }
+        
+        .chat-input-container { display: flex; flex-direction: column; gap: 10px; margin-top: auto; }
+        .chat-input-row { display: flex; gap: 10px; width: 100%; }
+        .chat-input-row input { margin-top: 0; flex: 1; font-size: 18px; padding: 14px; }
+        .send-btn { margin-top: 0; width: 120px; font-size: 18px; padding: 14px; background: #4a148c; }
     </style>
 </head>
 <body>
@@ -58,7 +89,7 @@
     <!-- 2. ಮುಖ್ಯ ಪೇಜ್ (Home / Input Page) -->
     <div id="homeSection" class="section">
         <h2 id="h-title">ಹಸ್ತಸಾಮುದ್ರಿಕ ಮತ್ತು ಜ್ಯೋತಿಷ್ಯ ವಿಶ್ಲೇಷಣೆ</h2>
-        <p id="welcomeMsg" style="text-align: center; font-weight: bold; color: #6a1b9a;"></p>
+        <p id="welcomeMsg" style="text-align: center; font-weight: bold; color: #6a1b9a; font-size: 18px;"></p>
 
         <label id="h-namelbl">ಹೆಸರು:</label>
         <input type="text" id="userName" placeholder="ನಿಮ್ಮ ಹೆಸರು">
@@ -79,13 +110,15 @@
         <div class="chat-container">
             <h4 id="c-title" style="margin-top:0; color:#4a148c;">ಜ್ಯೋತಿಷಿಗಳೊಂದಿಗೆ ನೇರ ಚಾಟ್ / ಪ್ರಶ್ನೆ ಕೇಳಿ</h4>
             <div class="chat-box" id="chatBox">
-                <div class="chat-message bot-msg" id="botWelcomeMsg">ನಮಸ್ಕಾರ! ನಿಮ್ಮ ಹಸ್ತಸಾಮುದ್ರಿಕ ವರದಿ ನೋಡಿ ಆಯ್ತು. ನಿಮಗೆ ಬೇರೆ ಏನಾದರೂ ಪ್ರಶ್ನೆಗಳಿವೆಯೆ? (ಉದಾಹರಣೆಗೆ: ಮದುವೆ ಯಾವಾಗ? ಹಣಕಾಸು ಸ್ಥಿತಿ ಹೇಗಿದೆ?)</div>
+                <div class="chat-message bot-msg" id="botWelcomeMsg">ನಮಸ್ಕಾರ! ನಿಮ್ಮ ಹಸ್ತಸಾಮುದ್ರಿಕ ವರದಿ ನೋಡಿ ಆಯ್ತು. ನಿಮಗೆ ಬೇರೆ ಏನಾದರೂ ಪ್ರಶ್ನೆಗಳಿವೆಯೆ?</div>
             </div>
             
-            <div class="chat-input-row">
-                <input type="text" id="chatInput" placeholder="ಇಲ್ಲಿ ಟೈಪ್ ಮಾಡಿ ಅಥವಾ ಮೈಕ್ ಬಳಸಿ...">
-                <button onclick="sendChatMessage()" style="margin-top:0; width: 80px;" id="c-send">ಕಳುಹಿಸು</button>
-                <button onclick="startVoiceInput()" class="mic-btn" title="ಮಾತನಾಡಿ ಟೈಪ್ ಮಾಡಿ">🎙️ ಮೈಕ್</button>
+            <div class="chat-input-container">
+                <div class="chat-input-row">
+                    <input type="text" id="chatInput" placeholder="ಇಲ್ಲಿ ಟೈಪ್ ಮಾಡಿ...">
+                    <button onclick="sendChatMessage()" class="send-btn" id="c-send">ಕಳುಹಿಸು</button>
+                </div>
+                <button onclick="startVoiceInput()" class="mic-btn" id="r-micbtn">🎙️ ಮಾತನಾಡಿ (Mic)</button>
             </div>
         </div>
 
@@ -110,8 +143,9 @@
             rTitle: "ನಿಮ್ಮ ರಿಯಲ್ ಜ್ಯೋತಿಷ್ಯ ವರದಿ",
             rAudioBtn: "🔊 ಧ್ವನಿಯಲ್ಲಿ ಕೇಳಿ",
             cTitle: "ಜ್ಯೋತಿಷಿಗಳೊಂದಿಗೆ ನೇರ ಚಾಟ್ / ಪ್ರಶ್ನೆ ಕೇಳಿ",
-            cPlaceholder: "ಇಲ್ಲಿ ಟೈಪ್ ಮಾಡಿ ಅಥವಾ ಮೈಕ್ ಬಳಸಿ...",
+            cPlaceholder: "ಇಲ್ಲಿ ಟೈಪ್ ಮಾಡಿ...",
             cSend: "ಕಳುಹಿಸು",
+            rMicBtn: "🎙️ ಮಾತನಾಡಿ (Mic)",
             rBackbtn: "ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ",
             botDefault: "ನಿಮ್ಮ ಪ್ರಶ್ನೆಗೆ ಜ್ಯೋತಿಷ್ಯ ಶಾಸ್ತ್ರದ ಪ್ರಕಾರ, ಮುಂಬರುವ ದಿನಗಳಲ್ಲಿ ನಿಮಗೆ ಶುಭ ಫಲಗಳು ಸಿಗಲಿವೆ. ತಾಳ್ಮೆಯಿಂದ ಇರಿ."
         },
@@ -127,8 +161,9 @@
             rTitle: "आपकी वास्तविक ज्योतिष रिपोर्ट",
             rAudioBtn: "🔊 आवाज़ में सुनें",
             cTitle: "ज्योतिषी से लाइव चैट करें",
-            cPlaceholder: "यहाँ टाइप करें या माइक का उपयोग करें...",
+            cPlaceholder: "यहाँ टाइप करें...",
             cSend: "भेजें",
+            rMicBtn: "🎙️ बोलें (Mic)",
             rBackbtn: "वापस जाएं",
             botDefault: "ज्योतिष शास्त्र के अनुसार आने वाले दिनों में आपको शुभ फल मिलेंगे। धैर्य रखें।"
         },
@@ -144,8 +179,9 @@
             rTitle: "Your Real Astrology Report",
             rAudioBtn: "🔊 Listen Audio",
             cTitle: "Live Chat with Astrologer",
-            cPlaceholder: "Type here or use mic...",
+            cPlaceholder: "Type here...",
             cSend: "Send",
+            rMicBtn: "🎙️ Speak (Mic)",
             rBackbtn: "Back",
             botDefault: "According to astrology, you will receive favorable results in the coming days. Stay patient."
         }
@@ -166,6 +202,7 @@
         document.getElementById('c-title').innerText = translations[currentLang].cTitle;
         document.getElementById('chatInput').placeholder = translations[currentLang].cPlaceholder;
         document.getElementById('c-send').innerText = translations[currentLang].cSend;
+        document.getElementById('r-micbtn').innerText = translations[currentLang].rMicBtn;
         document.getElementById('r-backbtn').innerText = translations[currentLang].rBackbtn;
         document.getElementById('botWelcomeMsg').innerText = currentLang === 'kn' ? 
             "ನಮಸ್ಕಾರ! ನಿಮ್ಮ ಹಸ್ತಸಾಮುದ್ರಿಕ ವರದಿ ನೋಡಿ ಆಯ್ತು. ನಿಮಗೆ ಬೇರೆ ಏನಾದರೂ ಪ್ರಶ್ನೆಗಳಿವೆಯೆ?" :
@@ -189,6 +226,8 @@
         document.getElementById('homeSection').classList.add('active');
     }
 
+    let reportText = "";
+
     function analyzePalm() {
         const palmFile = document.getElementById('palmImage').files.length;
         if(palmFile === 0) {
@@ -196,49 +235,46 @@
             return;
         }
 
-        let textResult = "";
         if(currentLang === 'kn') {
-            textResult = `ನಮಸ್ಕಾರ ${userGlobalName}.\n\n` +
-                         `1. ರಾಶಿ ಮತ್ತು ಅಂದಾಜು ವಯಸ್ಸು:\n` +
-                         `ನಿಮ್ಮ ಕೈಯ ರೇಖೆಗಳು ಮತ್ತು ಹೆಸರಿನ ಪ್ರಭಾವದ ಪ್ರಕಾರ ನಿಮ್ಮ ವಯಸ್ಸು ಅಂದಾಜು 28 ರಿಂದ 35 ವರ್ಷಗಳ ನಡುವೆ ಇದೆ. ನಿಮ್ಮ ಜನ್ಮ ರಾಶಿ 'ವೃಶ್ಚಿಕ ರಾಶಿ' ಆಗಿದ್ದು, ಚಂದ್ರನ ಪ್ರಭಾವ ನಿಮ್ಮ ಮೇಲಿದೆ.\n\n` +
-                         `2. ಹಿಂದೆ ಮಾಡಿದ ಬ್ಯುಸಿನೆಸ್ ಮತ್ತು ಲಾಭ-ನಷ್ಟಗಳು:\n` +
-                         `ನೀವು ಹಿಂದೆ ರಿಯಲ್ ಎಸ್ಟೇಟ್ ಅಥವಾ ಪಾಲುದಾರಿಕೆಯ ವ್ಯಾಪಾರದಲ್ಲಿ ತೊಡಗಿಸಿಕೊಂಡು ನಷ್ಟ ಅನುಭವಿಸಿದ್ದೀರಿ. ಆದರೆ ಅದೇ ಅನುಭವ ಈಗ ನಿಮಗೆ ದೊಡ್ಡ ಪಾಠವಾಗಿದೆ.\n\n` +
-                         `3. ಯಾವ ಕೆಲಸ ಮಾಡಿದರೆ ಯಶಸ್ಸು ಸಿಗುತ್ತದೆ:\n` +
-                         `ನೀವು ಸ್ವಂತ ಉದ್ಯಮ ಅಥವಾ ಆನ್‌ಲೈನ್ ಡಿಜಿಟಲ್ ಕೆಲಸ ಮಾಡಿದರೆ ಶೇಕಡಾ 100% ಸಕ್ಸಸ್ ಸಿಗುತ್ತದೆ.\n\n` +
-                         `4. ಯಾವ ದಿನಗಳು ಏನು ಮಾಡಬಾರದು:\n` +
-                         `ಪ್ರತಿವಾರ ಮಂಗಳವಾರ ಮತ್ತು ಶನಿವಾರದಂದು ಯಾವುದೇ ಹೊಸ ಹಣಕಾಸಿನ ಒಪ್ಪಂದಗಳಿಗೆ ಸಹಿ ಮಾಡಬೇಡಿ.\n\n` +
-                         `5. ಇಷ್ಟದೇವತೆ ಮತ್ತು ಪರಿಹಾರ:\n` +
-                         `'ಸುಬ್ರಹ್ಮಣ್ಯ ಸ್ವಾಮಿ'ಯವರ ಆರಾಧನೆ ಮಾಡುವುದರಿಂದ ನಿಮ್ಮ ಎಲ್ಲಾ ದೋಷಗಳು ನಿವಾರಣೆಯಾಗುತ್ತವೆ.`;
+            reportText = `ನಮಸ್ಕಾರ ${userGlobalName}.\n\n` +
+                         `1. ರಾಶಿ ಮತ್ತು ಅಂದಾಜು ವಯಸ್ಸು:\n ನಿಮ್ಮ ಕೈಯ ರೇಖೆಗಳ ಪ್ರಕಾರ ನಿಮ್ಮ ಭವಿಷ್ಯ ಅತ್ಯಂತ ಉಜ್ವಲವಾಗಿದೆ. ನಿಮಗೆ ಧನಲಾಭವಾಗುವ ಯೋಗವಿದೆ.\n\n` +
+                         `2. ವೃತ್ತಿ ಮತ್ತು ವ್ಯಾಪಾರ:\n ಮುಂಬರುವ ದಿನಗಳಲ್ಲಿ ನಿಮಗೆ ಹೊಸ ಅವಕಾಶಗಳು ಸಿಗಲಿವೆ. ತಾಳ್ಮೆಯಿಂದ ಮುಂದುವರಿಯಿರಿ.`;
         } else if(currentLang === 'hi') {
-            textResult = `नमस्कार ${userGlobalName}.\n\n` +
-                         `1. राशि और आयु: आपकी हथेली के अनुसार आपकी आयु 28 से 35 वर्ष है और आपकी राशि 'वृश्चिक राशि' है।\n\n` +
-                         `2. व्यवसाय: स्वतंत्र व्यवसाय या तकनीकी कार्य करने से आपको शत-प्रतिशत सफलता मिलेगी।\n\n` +
-                         `3. उपाय: मंगलवार और शनिवार को नया निवेश न करें। भगवान सुब्रह्मण्य की पूजा करें।`;
+            reportText = `नमस्ते ${userGlobalName}。\n\n` +
+                         `1. आपकी रेखाओं के अनुसार आपका भविष्य उज्ज्वल है।\n\n` +
+                         `2. व्यवसाय में आपको लाभ मिलने की संभावना है।`;
         } else {
-            textResult = `Hello ${userGlobalName}.\n\n` +
-                         `1. Zodiac & Age: Estimated age is 28-35 with Scorpio zodiac sign.\n\n` +
-                         `2. Success Field: Independent business or technical work brings 100% success.\n\n` +
-                         `3. Remedy: Worship Lord Murugan and avoid financial deals on Tuesdays.`;
+            reportText = `Hello ${userGlobalName}.\n\n` +
+                         `1. According to your palm lines, your future is bright.\n\n` +
+                         `2. You have good chances of financial growth ahead.`;
         }
 
-        document.getElementById('resultOutput').innerText = textResult;
+        document.getElementById('resultOutput').innerText = reportText;
         document.getElementById('homeSection').classList.remove('active');
         document.getElementById('resultSection').classList.add('active');
+
+        // ಸ್ಕ್ರೀನ್ ಮೇಲೆ ಬಂದ ತಕ್ಷಣ ಆಟೋಮ್ಯಾಟಿಕ್ ಆಗಿ ಧ್ವನಿಯಲ್ಲಿ ಓದಿ ಹೇಳಲು (Auto Speech)
+        speakPrediction();
     }
 
-    // ಧ್ವನಿ ಮೂಲಕ ವರದಿ ಕೇಳಲು (Text-to-Speech)
+    // ಧ್ವನಿಯಲ್ಲಿ ಓದಿ ಹೇಳುವ ಫಂಕ್ಷನ್ (Text-to-Speech)
     function speakPrediction() {
-        const text = document.getElementById('resultOutput').innerText;
-        const speech = new SpeechSynthesisUtterance(text);
-        speech.lang = currentLang === 'kn' ? 'kn-IN' : (currentLang === 'hi' ? 'hi-IN' : 'en-US');
-        window.speechSynthesis.speak(speech);
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel(); // ಹಳೆಯ ಧ್ವನಿ ಇದ್ದರೆ ನಿಲ್ಲಿಸಿ
+            const utterance = new SpeechSynthesisUtterance(reportText);
+            utterance.lang = currentLang === 'kn' ? 'kn-IN' : (currentLang === 'hi' ? 'hi-IN' : 'en-US');
+            utterance.rate = 0.9; // ಮಾತಿನ ವೇಗ
+            window.speechSynthesis.speak(utterance);
+        } else {
+            alert("Speech synthesis not supported in this browser.");
+        }
     }
 
-    // ಮೈಕ್ ಮೂಲಕ ಮಾತನಾಡಿ ಬರೆಯಲು (Speech-to-Text / Web Speech API)
+    // ಮೈಕ್ ಮೂಲಕ ಧ್ವನಿ ಇನ್ಪುಟ್ ತೆಗೆದುಕೊಂಡು ಚಾಟ್ ಮಾಡುವ ಫಂಕ್ಷನ್ (Speech-to-Text)
     function startVoiceInput() {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (!SpeechRecognition) {
-            alert(currentLang === 'kn' ? "ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಮೈಕ್ ಸಪೋರ್ಟ್ ಇಲ್ಲ!" : "Speech recognition not supported in this browser!");
+            alert(currentLang === 'kn' ? "ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಮೈಕ್ ಸಪೋರ್ಟ್ ಇಲ್ಲ." : "Speech recognition is not supported in this browser.");
             return;
         }
 
@@ -248,76 +284,67 @@
         recognition.maxAlternatives = 1;
 
         recognition.onstart = function() {
-            document.getElementById('chatInput').placeholder = currentLang === 'kn' ? "ಕೇಳಿಸಿಕೊಳ್ಳಲಾಗುತ್ತಿದೆ... ಮಾತನಾಡಿ" : "Listening...";
+            document.getElementById('chatInput').placeholder = currentLang === 'kn' ? "ಆಲಿಸುತ್ತಿದೆ..." : "Listening...";
         };
 
         recognition.onresult = function(event) {
             const speechResult = event.results[0][0].transcript;
             document.getElementById('chatInput').value = speechResult;
             document.getElementById('chatInput').placeholder = translations[currentLang].cPlaceholder;
+            sendChatMessage(); // ಆಟೋಮ್ಯಾಟಿಕ್ ಆಗಿ ಮೆಸೇಜ್ ಕಳುಹಿಸುವುದು
         };
 
-        recognition.onerror = function() {
-            alert(currentLang === 'kn' ? "ಧ್ವನಿ ಗ್ರಹಿಕೆಯಲ್ಲಿ ದೋಷ ಉಂಟಾಗಿದೆ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ." : "Error occurred in recognition.");
+        recognition.onerror = function(event) {
             document.getElementById('chatInput').placeholder = translations[currentLang].cPlaceholder;
         };
 
-        recognition.onspeechend = function() {
-            recognition.stop();
+        recognition.onend = function() {
             document.getElementById('chatInput').placeholder = translations[currentLang].cPlaceholder;
         };
 
         recognition.start();
     }
 
-    // ಲೈವ್ ಚಾಟ್ ಸಂದೇಶ ಕಳುಹಿಸುವುದು ಮತ್ತು ಆಟೋಮ್ಯಾಟಿಕ್ ಉತ್ತರ ನೀಡುವುದು
     function sendChatMessage() {
         const inputField = document.getElementById('chatInput');
-        const userText = inputField.value.trim();
-        if(!userText) return;
+        const messageText = inputField.value.trim();
+        if(!messageText) return;
 
         const chatBox = document.getElementById('chatBox');
 
-        // ಬಳಕೆದಾರರ ಸಂದೇಶವನ್ನು ಚಾಟ್ ಬாக்ಸ್‌ನಲ್ಲಿ ತೋರಿಸುವುದು
+        // ಬಳಕೆದಾರರ ಮೆಸೇಜ್ ಸೇರಿಸುವುದು
         const userMsgDiv = document.createElement('div');
         userMsgDiv.className = 'chat-message user-msg';
-        userMsgDiv.innerText = userText;
+        userMsgDiv.innerText = messageText;
         chatBox.appendChild(userMsgDiv);
 
         inputField.value = '';
         chatBox.scrollTop = chatBox.scrollHeight;
 
-        // ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಜ್ಯೋತಿಷ್ಯ ಉತ್ತರ ನೀಡುವುದು (Auto-Reply Bot Logic)
+        // ಬೋಟ್ ಉತ್ತರ ನೀಡುವುದು
         setTimeout(() => {
             const botMsgDiv = document.createElement('div');
             botMsgDiv.className = 'chat-message bot-msg';
-            botMsgDiv.innerText = getBotAutoReply(userText);
+            const replyText = translations[currentLang].botDefault;
+            botMsgDiv.innerText = replyText;
             chatBox.appendChild(botMsgDiv);
             chatBox.scrollTop = chatBox.scrollHeight;
+
+            // ಬೋಟ್ ಉತ್ತರವನ್ನೂ ಸಹ ಆಟೋಮ್ಯಾಟಿಕ್ ಆಗಿ ಧ್ವನಿಯಲ್ಲಿ ಓದಿ ಹೇಳುವುದು
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(replyText);
+                utterance.lang = currentLang === 'kn' ? 'kn-IN' : (currentLang === 'hi' ? 'hi-IN' : 'en-US');
+                window.speechSynthesis.speak(utterance);
+            }
         }, 1000);
     }
 
-    // ಬಳಕೆದಾರರ ಪ್ರಶ್ನೆಗೆ ತಕ್ಕಂತೆ ಆಟೋಮ್ಯಾಟಿಕ್ ಉತ್ತರವನ್ನು ಆಯ್ಕೆ ಮಾಡುವ ಫಂಕ್ಷನ್
-    function getBotAutoReply(query) {
-        q = query.toLowerCase();
-        if(q.includes('ಮದುವೆ') || q.includes('vivah') || q.includes('marriage')) {
-            return currentLang === 'kn' ? "ನಿಮ್ಮ ಜಾತಕದ ಪ್ರಕಾರ ಮುಂದಿನ ವರ್ಷದೊಳಗೆ ವಿವಾಹ ಯೋಗ ಕೂಡಿಬರಲಿದೆ. ಗುರುವಿನ ದೆಸೆ ಅನುಕೂಲಕರವಾಗಿದೆ." :
-                   (currentLang === 'hi' ? "आपकी कुंडली के अनुसार अगले साल तक विवाह के योग बन रहे हैं।" : "According to your chart, marriage is indicated within the next year.");
-        } else if(q.includes('ಹಣ') || q.includes('job') || q.includes('business') || q.includes('kari') || q.includes('career') || q.includes('नौकरी') || q.includes('पैसा')) {
-            return currentLang === 'kn' ? "ಹಣಕಾಸಿನ ವಿಚಾರದಲ್ಲಿ ಸ್ವಲ್ಪ ಎಚ್ಚರಿಕೆ ವಹಿಸಿ. ಹೊಸ ಉದ್ಯಮ ಅಥವಾ ಹೂಡಿಕೆಗೆ ಗುರುವಾರ ಉತ್ತಮ ದಿನ." :
-                   (currentLang === 'hi' ? "धन के मामले में थोड़ी सावधानी बरतें। गुरुवार का दिन निवेश के लिए अच्छा है।" : "Exercise caution in finances. Thursday is favorable for new investments.");
-        } else if(q.includes('ಆರೋಗ್ಯ') || q.includes('health') || q.includes('सेहत')) {
-            return currentLang === 'kn' ? "ಆರೋಗ್ಯದ ಬಗ್ಗೆ ಕಾಳಜಿ ವಹಿಸಿ. ಪ್ರತಿದಿನ ಯೋಗ ಮತ್ತು ಧ್ಯಾನ ಮಾಡುವುದು ಒಳ್ಳೆಯದು." :
-                   (currentLang === 'hi' ? "अपने स्वास्थ्य का ध्यान रखें। रोजाना योग और प्राणायाम करना लाभदायक रहेगा।" : "Take care of your health. Daily yoga and meditation will be beneficial.");
-        } else {
-            return translations[currentLang].botDefault;
-        }
-    }
-
     function goBack() {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+        }
         document.getElementById('resultSection').classList.remove('active');
         document.getElementById('homeSection').classList.add('active');
-        document.getElementById('palmImage').value = '';
     }
 </script>
 
