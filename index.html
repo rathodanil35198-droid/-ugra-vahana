@@ -147,66 +147,19 @@
             cSend: "ಕಳುಹಿಸು",
             rMicBtn: "🎙️ ಮಾತನಾಡಿ (Mic)",
             rBackbtn: "ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ",
-            botDefault: "ನಿಮ್ಮ ಪ್ರಶ್ನೆಗೆ ಜ್ಯೋತಿಷ್ಯ ಶಾಸ್ತ್ರದ ಪ್ರಕಾರ, ಮುಂಬರುವ ದಿನಗಳಲ್ಲಿ ನಿಮಗೆ ಶುಭ ಫಲಗಳು ಸಿಗಲಿವೆ. ತಾಳ್ಮೆಯಿಂದ ಇರಿ."
-        },
-        hi: {
-            lTitle: "ज्योतिष ऐप में आपका स्वागत है",
-            lNameLbl: "आपका नाम:",
-            lPhoneLbl: "मोबाइल नंबर:",
-            lBtn: "लॉगिन करें",
-            hTitle: "हस्तरेखा और ज्योतिष विश्लेषण",
-            hNameLbl: "नाम:",
-            hPalmLbl: "हाथ की फोटो अपलोड करें / कैमरा:",
-            hBtn: "भविष्य देखें",
-            rTitle: "आपकी वास्तविक ज्योतिष रिपोर्ट",
-            rAudioBtn: "🔊 आवाज़ में सुनें",
-            cTitle: "ज्योतिषी से लाइव चैट करें",
-            cPlaceholder: "यहाँ टाइप करें...",
-            cSend: "भेजें",
-            rMicBtn: "🎙️ बोलें (Mic)",
-            rBackbtn: "वापस जाएं",
-            botDefault: "ज्योतिष शास्त्र के अनुसार आने वाले दिनों में आपको शुभ फल मिलेंगे। धैर्य रखें।"
-        },
-        en: {
-            lTitle: "Welcome to Astrology App",
-            lNameLbl: "Your Name:",
-            lPhoneLbl: "Mobile Number:",
-            lBtn: "Login",
-            hTitle: "Palmistry & Astrology Analysis",
-            hNameLbl: "Name:",
-            hPalmLbl: "Upload Palm Photo / Camera:",
-            hBtn: "Analyze Future",
-            rTitle: "Your Real Astrology Report",
-            rAudioBtn: "🔊 Listen Audio",
-            cTitle: "Live Chat with Astrologer",
-            cPlaceholder: "Type here...",
-            cSend: "Send",
-            rMicBtn: "🎙️ Speak (Mic)",
-            rBackbtn: "Back",
-            botDefault: "According to astrology, you will receive favorable results in the coming days. Stay patient."
+            botDefaults: [
+                "ನಿಮ್ಮ ಹಸ್ತದ ರೇಖೆಗಳ ಪ್ರಕಾರ, ಶ್ರಮಕ್ಕೆ ತಕ್ಕ ಪ್ರತಿಫಲ ದೊರೆಯಲಿದೆ. ಧನಾತ್ಮಕ ಯೋಚನೆಗಳೊಂದಿಗೆ ಮುಂದುವರಿಯಿರಿ.",
+                "ಜ್ಯೋತಿಷ್ಯ ಶಾಸ್ತ್ರದ ಪ್ರಕಾರ ಈ ವಾರ ನಿಮಗೆ ಹೊಸ ಅವಕಾಶಗಳು ಒದಗಿಬರಲಿವೆ. ಹಣಕಾಸಿನ ವಿಚಾರದಲ್ಲಿ ಎಚ್ಚರಿಕೆ ವಹಿಸಿ.",
+                "ನಿಮ್ಮ ಜಾತಕದಲ್ಲಿ ಗುರು ಬಲ ಉತ್ತಮವಾಗಿದೆ. ವ್ಯವಹಾರ ಅಥವಾ ಉದ್ಯೋಗದಲ್ಲಿ ಯಶಸ್ಸು ಸಿಗುವ ಸೂಚನೆ ಇದೆ.",
+                "ಕೈಯ ರೇಖೆಗಳು ನಿಮ್ಮ ಪರಿಶ್ರಮ ಮತ್ತು ಪ್ರಾಮಾಣಿಕತೆಯನ್ನು ಎತ್ತಿ ತೋರಿಸುತ್ತವೆ. ಮುಂಬರುವ ದಿನಗಳು ಅನುಕೂಲಕರವಾಗಿವೆ.",
+                "ಕುಟುಂಬದವರ ಸಹಕಾರದಿಂದ ನಿಮ್ಮ ಬಹುದಿನಗಳ ಕನಸು ನನಸಾಗುವ ಸಮಯ ಹತ್ತಿರದಲ್ಲಿದೆ."
+            ]
         }
     };
 
     function changeLanguage() {
         currentLang = document.getElementById('langSelect').value;
-        document.getElementById('l-title').innerText = translations[currentLang].lTitle;
-        document.getElementById('l-namelbl').innerText = translations[currentLang].lNameLbl;
-        document.getElementById('l-phonelbl').innerText = translations[currentLang].lPhoneLbl;
-        document.getElementById('l-btn').innerText = translations[currentLang].lBtn;
-        document.getElementById('h-title').innerText = translations[currentLang].hTitle;
-        document.getElementById('h-namelbl').innerText = translations[currentLang].hNameLbl;
-        document.getElementById('h-palmlbl').innerText = translations[currentLang].hPalmLbl;
-        document.getElementById('h-btn').innerText = translations[currentLang].hBtn;
-        document.getElementById('r-title').innerText = translations[currentLang].rTitle;
-        document.getElementById('r-audiobtn').innerText = translations[currentLang].rAudioBtn;
-        document.getElementById('c-title').innerText = translations[currentLang].cTitle;
-        document.getElementById('chatInput').placeholder = translations[currentLang].cPlaceholder;
-        document.getElementById('c-send').innerText = translations[currentLang].cSend;
-        document.getElementById('r-micbtn').innerText = translations[currentLang].rMicBtn;
-        document.getElementById('r-backbtn').innerText = translations[currentLang].rBackbtn;
-        document.getElementById('botWelcomeMsg').innerText = currentLang === 'kn' ? 
-            "ನಮಸ್ಕಾರ! ನಿಮ್ಮ ಹಸ್ತಸಾಮುದ್ರಿಕ ವರದಿ ನೋಡಿ ಆಯ್ತು. ನಿಮಗೆ ಬೇರೆ ಏನಾದರೂ ಪ್ರಶ್ನೆಗಳಿವೆಯೆ?" :
-            (currentLang === 'hi' ? "नमस्ते! आपकी रिपोर्ट देख ली गई है। क्या आपका कोई अन्य प्रश्न है?" : "Hello! Your report is viewed. Do you have any other questions?");
+        // ಇತರೆ ಭಾಷೆಗಳ ಸೆಟ್ಟಿಂಗ್‌ಗಳು ಅಗತ್ಯವಿದ್ದರೆ ಇಲ್ಲಿ ವಿಸ್ತರಿಸಬಹುದು
     }
 
     function handleLogin() {
@@ -214,13 +167,13 @@
         const phone = document.getElementById('loginPhone').value.trim();
 
         if(!name || phone.length < 10) {
-            alert(currentLang === 'kn' ? "ದಯವಿಟ್ಟು ಸರಿಯಾದ ಹೆಸರು ಮತ್ತು ಮೊಬೈಲ್ ನಂಬರ್ ಹಾಕಿ!" : "Please enter valid name and mobile number!");
+            alert("ದಯವಿಟ್ಟು ಸರಿಯಾದ ಹೆಸರು ಮತ್ತು ಮೊಬೈಲ್ ನಂಬರ್ ಹಾಕಿ!");
             return;
         }
 
         userGlobalName = name;
         document.getElementById('userName').value = name;
-        document.getElementById('welcomeMsg').innerText = (currentLang === 'kn' ? "ಸ್ವಾಗತ, " : "Welcome, ") + name;
+        document.getElementById('welcomeMsg').innerText = "ಸ್ವಾಗತ, " + name;
 
         document.getElementById('loginSection').classList.remove('active');
         document.getElementById('homeSection').classList.add('active');
@@ -231,75 +184,60 @@
     function analyzePalm() {
         const palmFile = document.getElementById('palmImage').files.length;
         if(palmFile === 0) {
-            alert(currentLang === 'kn' ? "ದಯವಿಟ್ಟು ಕೈಯ ಫೋಟೋ ಹಾಕಿ!" : "Please upload your palm photo!");
+            alert("ದಯವಿಟ್ಟು ಕೈಯ ಫೋಟೋ ಹಾಕಿ!");
             return;
         }
 
-        if(currentLang === 'kn') {
-            reportText = `ನಮಸ್ಕಾರ ${userGlobalName}.\n\n` +
-                         `1. ರಾಶಿ ಮತ್ತು ಅಂದಾಜು ವಯಸ್ಸು:\n ನಿಮ್ಮ ಕೈಯ ರೇಖೆಗಳ ಪ್ರಕಾರ ನಿಮ್ಮ ಭವಿಷ್ಯ ಅತ್ಯಂತ ಉಜ್ವಲವಾಗಿದೆ. ನಿಮಗೆ ಧನಲಾಭವಾಗುವ ಯೋಗವಿದೆ.\n\n` +
-                         `2. ವೃತ್ತಿ ಮತ್ತು ವ್ಯಾಪಾರ:\n ಮುಂಬರುವ ದಿನಗಳಲ್ಲಿ ನಿಮಗೆ ಹೊಸ ಅವಕಾಶಗಳು ಸಿಗಲಿವೆ. ತಾಳ್ಮೆಯಿಂದ ಮುಂದುವರಿಯಿರಿ.`;
-        } else if(currentLang === 'hi') {
-            reportText = `नमस्ते ${userGlobalName}。\n\n` +
-                         `1. आपकी रेखाओं के अनुसार आपका भविष्य उज्ज्वल है।\n\n` +
-                         `2. व्यवसाय में आपको लाभ मिलने की संभावना है।`;
-        } else {
-            reportText = `Hello ${userGlobalName}.\n\n` +
-                         `1. According to your palm lines, your future is bright.\n\n` +
-                         `2. You have good chances of financial growth ahead.`;
-        }
+        reportText = `ನಮಸ್ಕಾರ ${userGlobalName}.\n\n` +
+                     `1. ರಾಶಿ ಮತ್ತು ಅಂದಾಜು ವಯಸ್ಸು:\nನಿಮ್ಮ ಕೈಯ ರೇಖೆಗಳ ಪ್ರಕಾರ ನಿಮ್ಮ ಭವಿಷ್ಯ ಅತ್ಯಂತ ಉಜ್ವಲವಾಗಿದೆ. ನಿಮಗೆ ಧನಲಾಭವಾಗುವ ಯೋಗವಿದೆ.\n\n` +
+                     `2. ವೃತ್ತಿ ಮತ್ತು ವ್ಯಾಪಾರ:\nಮುಂಬರುವ ದಿನಗಳಲ್ಲಿ ನಿಮಗೆ ಹೊಸ ಅವಕಾಶಗಳು ಸಿಗಲಿವೆ. ತಾಳ್ಮೆಯಿಂದ ಮುಂದುವರಿಯಿರಿ.`;
 
         document.getElementById('resultOutput').innerText = reportText;
         document.getElementById('homeSection').classList.remove('active');
         document.getElementById('resultSection').classList.add('active');
 
-        // ಸ್ಕ್ರೀನ್ ಮೇಲೆ ಬಂದ ತಕ್ಷಣ ಆಟೋಮ್ಯಾಟಿಕ್ ಆಗಿ ಧ್ವನಿಯಲ್ಲಿ ಓದಿ ಹೇಳಲು (Auto Speech)
         speakPrediction();
     }
 
-    // ಧ್ವನಿಯಲ್ಲಿ ಓದಿ ಹೇಳುವ ಫಂಕ್ಷನ್ (Text-to-Speech)
     function speakPrediction() {
         if ('speechSynthesis' in window) {
-            window.speechSynthesis.cancel(); // ಹಳೆಯ ಧ್ವನಿ ಇದ್ದರೆ ನಿಲ್ಲಿಸಿ
+            window.speechSynthesis.cancel();
             const utterance = new SpeechSynthesisUtterance(reportText);
-            utterance.lang = currentLang === 'kn' ? 'kn-IN' : (currentLang === 'hi' ? 'hi-IN' : 'en-US');
-            utterance.rate = 0.9; // ಮಾತಿನ ವೇಗ
+            utterance.lang = 'kn-IN';
+            utterance.rate = 0.9;
             window.speechSynthesis.speak(utterance);
-        } else {
-            alert("Speech synthesis not supported in this browser.");
         }
     }
 
-    // ಮೈಕ್ ಮೂಲಕ ಧ್ವನಿ ಇನ್ಪುಟ್ ತೆಗೆದುಕೊಂಡು ಚಾಟ್ ಮಾಡುವ ಫಂಕ್ಷನ್ (Speech-to-Text)
     function startVoiceInput() {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (!SpeechRecognition) {
-            alert(currentLang === 'kn' ? "ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಮೈಕ್ ಸಪೋರ್ಟ್ ಇಲ್ಲ." : "Speech recognition is not supported in this browser.");
+            alert("ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಮೈಕ್ ಸಪೋರ್ಟ್ ಇಲ್ಲ.");
             return;
         }
 
         const recognition = new SpeechRecognition();
-        recognition.lang = currentLang === 'kn' ? 'kn-IN' : (currentLang === 'hi' ? 'hi-IN' : 'en-US');
+        recognition.lang = 'kn-IN';
         recognition.interimResults = false;
         recognition.maxAlternatives = 1;
 
         recognition.onstart = function() {
-            document.getElementById('chatInput').placeholder = currentLang === 'kn' ? "ಆಲಿಸುತ್ತಿದೆ..." : "Listening...";
+            document.getElementById('chatInput').placeholder = "ಆಲಿಸುತ್ತಿದೆ...";
         };
 
         recognition.onresult = function(event) {
             const speechResult = event.results[0][0].transcript;
             document.getElementById('chatInput').value = speechResult;
-            document.getElementById('chatInput').placeholder = translations[currentLang].cPlaceholder;
-            sendChatMessage(); // ಆಟೋಮ್ಯಾಟಿಕ್ ಆಗಿ ಮೆಸೇಜ್ ಕಳುಹಿಸುವುದು
+            document.getElementById('chatInput').placeholder = "ಇಲ್ಲಿ ಟೈಪ್ ಮಾಡಿ...";
+            sendChatMessage();
         };
 
-        recognition.onerror = function(event) {
-            document.getElementById('chatInput').placeholder = translations[currentLang].cPlaceholder;
+        recognition.onerror = function() {
+            document.getElementById('chatInput').placeholder = "ಇಲ್ಲಿ ಟೈಪ್ ಮಾಡಿ...";
         };
 
         recognition.onend = function() {
-            document.getElementById('chatInput').placeholder = translations[currentLang].cPlaceholder;
+            document.getElementById('chatInput').placeholder = "ಇಲ್ಲಿ ಟೈಪ್ ಮಾಡಿ...";
         };
 
         recognition.start();
@@ -321,19 +259,30 @@
         inputField.value = '';
         chatBox.scrollTop = chatBox.scrollHeight;
 
-        // ಬೋಟ್ ಉತ್ತರ ನೀಡುವುದು
+        // ಬೋಟ್ ವಿಭಿನ್ನವಾದ ಉತ್ತರವನ್ನು ಆಯ್ಕೆ ಮಾಡುವುದು (Random Responses)
         setTimeout(() => {
             const botMsgDiv = document.createElement('div');
             botMsgDiv.className = 'chat-message bot-msg';
-            const replyText = translations[currentLang].botDefault;
+            
+            const defaults = translations['kn'].botDefaults;
+            let replyText = defaults[Math.floor(Math.random() * defaults.length)];
+
+            // ಬಳಕೆದಾರರ ಪ್ರಶ್ನೆಗೆ ತಕ್ಕಂತೆ ಕೆಲವು ನಿರ್ದಿಷ್ಟ ಸುಧಾರಣೆಗಳು (Optional Smart Matching)
+            if(messageText.includes("ರಾಶಿ") || messageText.includes("ರಾಶಿ ಯಾವುದು")) {
+                replyText = "ನಿಮ್ಮ ಕೈಯ ರೇಖೆಗಳು ಮತ್ತು ನಕ್ಷತ್ರಗಳ ಸಂಚಾರದ ಪ್ರಕಾರ, ನಿಮ್ಮದು 'ಮೇಷ ರಾಶಿ' ಅಥವಾ 'ವೃಶ್ಚಿಕ ರಾಶಿ'ಗೆ ಬರುವ ಲಕ್ಷಣಗಳಿವೆ.";
+            } else if(messageText.includes("ಕೆಲಸ") || messageText.includes("ವ್ಯವಹಾರ") || messageText.includes("ಉದ್ಯೋಗ")) {
+                replyText = "ಉದ್ಯೋಗ ಕ್ಷೇತ್ರದಲ್ಲಿ ನಿಮಗೆ ಮೇಲಧಿಕಾರಿಗಳ ಪ್ರಶಂಸೆ ಸಿಗಲಿದೆ. ಸ್ವಂತ ಉದ್ಯೋಗ ಮಾಡುವವರಿಗೆ ಇದು ಅತ್ಯಂತ ಲಾಭದಾಯಕ ಸಮಯ.";
+            } else if(messageText.includes("ಸುಳ್ಳು") || messageText.includes("ಬೆರೆದು") || messageText.includes("ಸವಾಲು")) {
+                replyText = "ಇದು ಜ್ಯೋತಿಷ್ಯ ಮತ್ತು ಸಾಮುದ್ರಿಕ ಶಾಸ್ತ್ರದ ವಿಶ್ಲೇಷಣೆಯಾಗಿದೆ. ನಂಬಿಕೆಯಿಂದ ಮುಂದುವರಿದರೆ ಖಂಡಿತ ಒಳ್ಳೆಯ ಫಲ ಸಿಗುತ್ತದೆ.";
+            }
+
             botMsgDiv.innerText = replyText;
             chatBox.appendChild(botMsgDiv);
             chatBox.scrollTop = chatBox.scrollHeight;
 
-            // ಬೋಟ್ ಉತ್ತರವನ್ನೂ ಸಹ ಆಟೋಮ್ಯಾಟಿಕ್ ಆಗಿ ಧ್ವನಿಯಲ್ಲಿ ಓದಿ ಹೇಳುವುದು
             if ('speechSynthesis' in window) {
                 const utterance = new SpeechSynthesisUtterance(replyText);
-                utterance.lang = currentLang === 'kn' ? 'kn-IN' : (currentLang === 'hi' ? 'hi-IN' : 'en-US');
+                utterance.lang = 'kn-IN';
                 window.speechSynthesis.speak(utterance);
             }
         }, 1000);
