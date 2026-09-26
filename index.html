@@ -9,16 +9,26 @@
         .container { max-width: 650px; margin: auto; background: white; padding: 25px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         h2, h3 { text-align: center; color: #4a148c; }
         label { font-weight: bold; display: block; margin-top: 15px; color: #444; }
-        input, select, button { width: 100%; padding: 12px; margin-top: 8px; border-radius: 6px; border: 1px solid #ccc; font-size: 16px; box-sizing: border-box; }
-        button { background: #6a1b9a; color: white; font-weight: bold; border: none; cursor: pointer; margin-top: 20px; }
+        input, select, button, textarea { width: 100%; padding: 12px; margin-top: 8px; border-radius: 6px; border: 1px solid #ccc; font-size: 16px; box-sizing: border-box; }
+        button { background: #6a1b9a; color: white; font-weight: bold; border: none; cursor: pointer; margin-top: 15px; }
         button:hover { background: #4a148c; }
         .audio-btn { background: #ffb300; color: black; margin-top: 10px; }
         .audio-btn:hover { background: #ffa000; }
+        .mic-btn { background: #00897b; color: white; width: auto; display: inline-block; padding: 10px 15px; margin-top: 8px; }
         .section { display: none; }
         .active { display: block; }
         .result-box { margin-top: 20px; padding: 15px; background: #ede7f6; border-radius: 8px; line-height: 1.8; font-size: 16px; white-space: pre-line; }
         .lang-bar { display: flex; justify-content: flex-end; margin-bottom: 15px; }
         .lang-bar select { width: 140px; padding: 5px; font-size: 14px; }
+        
+        /* ಚಾಟ್ ಬಾಕ್ಸ್ ಸ್ಟೈಲ್ */
+        .chat-container { margin-top: 25px; border: 1px solid #ccc; border-radius: 8px; padding: 15px; background: #fafafa; }
+        .chat-box { height: 200px; overflow-y: auto; border: 1px solid #ddd; background: white; padding: 10px; border-radius: 5px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 8px; }
+        .chat-message { padding: 8px 12px; border-radius: 6px; max-width: 80%; line-height: 1.4; }
+        .user-msg { background: #d1c4e9; align-self: flex-end; text-align: right; }
+        .bot-msg { background: #e0f2f1; align-self: flex-start; text-align: left; }
+        .chat-input-row { display: flex; gap: 10px; align-items: center; }
+        .chat-input-row input { margin-top: 0; flex: 1; }
     </style>
 </head>
 <body>
@@ -64,6 +74,21 @@
         <h3 id="r-title">ನಿಮ್ಮ ರಿಯಲ್ ಜ್ಯೋತಿಷ್ಯ ವರದಿ</h3>
         <div class="result-box" id="resultOutput"></div>
         <button onclick="speakPrediction()" class="audio-btn" id="r-audiobtn">🔊 ಧ್ವನಿಯಲ್ಲಿ ಕೇಳಿ (Audio)</button>
+        
+        <!-- ಲೈವ್ ಜ್ಯೋತಿಷ್ಯ ಚಾಟ್ ಬಾಕ್ಸ್ -->
+        <div class="chat-container">
+            <h4 id="c-title" style="margin-top:0; color:#4a148c;">ಜ್ಯೋತಿಷಿಗಳೊಂದಿಗೆ ನೇರ ಚಾಟ್ / ಪ್ರಶ್ನೆ ಕೇಳಿ</h4>
+            <div class="chat-box" id="chatBox">
+                <div class="chat-message bot-msg" id="botWelcomeMsg">ನಮಸ್ಕಾರ! ನಿಮ್ಮ ಹಸ್ತಸಾಮುದ್ರಿಕ ವರದಿ ನೋಡಿ ಆಯ್ತು. ನಿಮಗೆ ಬೇರೆ ಏನಾದರೂ ಪ್ರಶ್ನೆಗಳಿವೆಯೆ? (ಉದಾಹರಣೆಗೆ: ಮದುವೆ ಯಾವಾಗ? ಹಣಕಾಸು ಸ್ಥಿತಿ ಹೇಗಿದೆ?)</div>
+            </div>
+            
+            <div class="chat-input-row">
+                <input type="text" id="chatInput" placeholder="ಇಲ್ಲಿ ಟೈಪ್ ಮಾಡಿ ಅಥವಾ ಮೈಕ್ ಬಳಸಿ...">
+                <button onclick="sendChatMessage()" style="margin-top:0; width: 80px;" id="c-send">ಕಳುಹಿಸು</button>
+                <button onclick="startVoiceInput()" class="mic-btn" title="ಮಾತನಾಡಿ ಟೈಪ್ ಮಾಡಿ">🎙️ ಮೈಕ್</button>
+            </div>
+        </div>
+
         <button onclick="goBack()" style="background: #757575;" id="r-backbtn">ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ</button>
     </div>
 </div>
@@ -84,7 +109,11 @@
             hBtn: "ಭವಿಷ್ಯ ನೋಡಿ",
             rTitle: "ನಿಮ್ಮ ರಿಯಲ್ ಜ್ಯೋತಿಷ್ಯ ವರದಿ",
             rAudioBtn: "🔊 ಧ್ವನಿಯಲ್ಲಿ ಕೇಳಿ",
-            rBackbtn: "ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ"
+            cTitle: "ಜ್ಯೋತಿಷಿಗಳೊಂದಿಗೆ ನೇರ ಚಾಟ್ / ಪ್ರಶ್ನೆ ಕೇಳಿ",
+            cPlaceholder: "ಇಲ್ಲಿ ಟೈಪ್ ಮಾಡಿ ಅಥವಾ ಮೈಕ್ ಬಳಸಿ...",
+            cSend: "ಕಳುಹಿಸು",
+            rBackbtn: "ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ",
+            botDefault: "ನಿಮ್ಮ ಪ್ರಶ್ನೆಗೆ ಜ್ಯೋತಿಷ್ಯ ಶಾಸ್ತ್ರದ ಪ್ರಕಾರ, ಮುಂಬರುವ ದಿನಗಳಲ್ಲಿ ನಿಮಗೆ ಶುಭ ಫಲಗಳು ಸಿಗಲಿವೆ. ತಾಳ್ಮೆಯಿಂದ ಇರಿ."
         },
         hi: {
             lTitle: "ज्योतिष ऐप में आपका स्वागत है",
@@ -97,7 +126,11 @@
             hBtn: "भविष्य देखें",
             rTitle: "आपकी वास्तविक ज्योतिष रिपोर्ट",
             rAudioBtn: "🔊 आवाज़ में सुनें",
-            rBackbtn: "वापस जाएं"
+            cTitle: "ज्योतिषी से लाइव चैट करें",
+            cPlaceholder: "यहाँ टाइप करें या माइक का उपयोग करें...",
+            cSend: "भेजें",
+            rBackbtn: "वापस जाएं",
+            botDefault: "ज्योतिष शास्त्र के अनुसार आने वाले दिनों में आपको शुभ फल मिलेंगे। धैर्य रखें।"
         },
         en: {
             lTitle: "Welcome to Astrology App",
@@ -110,7 +143,11 @@
             hBtn: "Analyze Future",
             rTitle: "Your Real Astrology Report",
             rAudioBtn: "🔊 Listen Audio",
-            rBackbtn: "Back"
+            cTitle: "Live Chat with Astrologer",
+            cPlaceholder: "Type here or use mic...",
+            cSend: "Send",
+            rBackbtn: "Back",
+            botDefault: "According to astrology, you will receive favorable results in the coming days. Stay patient."
         }
     };
 
@@ -126,7 +163,13 @@
         document.getElementById('h-btn').innerText = translations[currentLang].hBtn;
         document.getElementById('r-title').innerText = translations[currentLang].rTitle;
         document.getElementById('r-audiobtn').innerText = translations[currentLang].rAudioBtn;
+        document.getElementById('c-title').innerText = translations[currentLang].cTitle;
+        document.getElementById('chatInput').placeholder = translations[currentLang].cPlaceholder;
+        document.getElementById('c-send').innerText = translations[currentLang].cSend;
         document.getElementById('r-backbtn').innerText = translations[currentLang].rBackbtn;
+        document.getElementById('botWelcomeMsg').innerText = currentLang === 'kn' ? 
+            "ನಮಸ್ಕಾರ! ನಿಮ್ಮ ಹಸ್ತಸಾಮುದ್ರಿಕ ವರದಿ ನೋಡಿ ಆಯ್ತು. ನಿಮಗೆ ಬೇರೆ ಏನಾದರೂ ಪ್ರಶ್ನೆಗಳಿವೆಯೆ?" :
+            (currentLang === 'hi' ? "नमस्ते! आपकी रिपोर्ट देख ली गई है। क्या आपका कोई अन्य प्रश्न है?" : "Hello! Your report is viewed. Do you have any other questions?");
     }
 
     function handleLogin() {
@@ -159,67 +202,122 @@
                          `1. ರಾಶಿ ಮತ್ತು ಅಂದಾಜು ವಯಸ್ಸು:\n` +
                          `ನಿಮ್ಮ ಕೈಯ ರೇಖೆಗಳು ಮತ್ತು ಹೆಸರಿನ ಪ್ರಭಾವದ ಪ್ರಕಾರ ನಿಮ್ಮ ವಯಸ್ಸು ಅಂದಾಜು 28 ರಿಂದ 35 ವರ್ಷಗಳ ನಡುವೆ ಇದೆ. ನಿಮ್ಮ ಜನ್ಮ ರಾಶಿ 'ವೃಶ್ಚಿಕ ರಾಶಿ' ಆಗಿದ್ದು, ಚಂದ್ರನ ಪ್ರಭಾವ ನಿಮ್ಮ ಮೇಲಿದೆ.\n\n` +
                          `2. ಹಿಂದೆ ಮಾಡಿದ ಬ್ಯುಸಿನೆಸ್ ಮತ್ತು ಲಾಭ-ನಷ್ಟಗಳು:\n` +
-                         `ನೀವು ಹಿಂದೆ ರಿಯಲ್ ಎಸ್ಟೇಟ್, ಕಮಿಷನ್ ಬ್ಯುಸಿನೆಸ್ ಅಥವಾ ಪಾಲುದಾರಿಕೆಯ (Partnership) ವ್ಯಾಪಾರದಲ್ಲಿ ತೊಡಗಿಸಿಕೊಂಡು ಭಾರಿ ನಷ್ಟ ಅನುಭವಿಸಿದ್ದೀರಿ. ಜನರ ಮೇಲಿನ ಅತಿ ನಂಬಿಕೆಯಿಂದ ಹಣ ಕೈಜಾರಿದೆ. ಆದರೆ ಅದೇ ಅನುಭವ ಈಗ ನಿಮಗೆ ದೊಡ್ಡ ಪಾಠವಾಗಿದೆ.\n\n` +
-                         `3. ಮನಸ್ಸಿನ ಸ್ಥಿತಿ ಮತ್ತು ಸ್ವಭಾವ:\n` +
-                         `ನಿಮ್ಮ ಮನಸ್ಸಿನಲ್ಲಿ ಸದಾ ಏನಾದರೂ ಹೊಸ ಸಾಧನೆ ಮಾಡಬೇಕು, ದೊಡ್ಡ ಮಟ್ಟಕ್ಕೆ ಬೆಳೆಯಬೇಕು ಎಂಬ ತುಡಿತವಿದೆ. ನೀವು ಹೊರಗೆ ಕಠಿಣರಂತೆ ಕಂಡರೂ ಮನಸ್ಸಿನಿಂದ ಅತ್ಯಂತ ಒಳ್ಳೆಯವರು ಮತ್ತು ಸಹಾಯ ಮಾಡುವ ಗುಣದವರು.\n\n` +
-                         `4. ಯಾವ ಕೆಲಸ ಮಾಡಿದರೆ ಯಶಸ್ಸು ಸಿಗುತ್ತದೆ:\n` +
-                         `ನೀವು ಇನ್ನು ಮುಂದೆ ಬೇರೆಯವರ ಅಡಿಯಲ್ಲಿ ಕೆಲಸ ಮಾಡದೆ, ಸ್ವಂತ ಬ್ಯುಸಿನೆಸ್ (ಉದಾಹರಣೆಗೆ: ಆನ್‌ಲೈನ್ ಡಿಜಿಟಲ್ ಕೆಲಸ, ಟ್ರೇಡಿಂಗ್ ಅಥವಾ ಸ್ವಂತ ಅಂಗಡಿ/ಉದ್ಯಮ) ಮಾಡಿದರೆ ಶೇಕಡಾ 100% ಸಕ್ಸಸ್ ಸಿಗುತ್ತದೆ.\n\n` +
-                         `5. ಯಾವ ದಿನಗಳು ಏನು ಮಾಡಬಾರದು:\n` +
-                         `ಪ್ರತಿವಾರ ಮಂಗಳವಾರ ಮತ್ತು ಶನಿವಾರದಂದು ಯಾವುದೇ ಹೊಸ ಹಣಕಾಸಿನ ಒಪ್ಪಂದಗಳಿಗೆ ಸಹಿ ಮಾಡಬೇಡಿ ಮತ್ತು ಹೊಸ ಬ್ಯುಸಿನೆಸ್ ಆರಂಭಿಸಬೇಡಿ. ಈ ದಿನಗಳಲ್ಲಿ ಸಾಲ ನೀಡುವುದಾಗಲಿ ಪಡೆಯುವುದಾಗಲಿ ಮಾಡಬಾರದು.\n\n` +
-                         `6. ಯಾವ ದಿನ ಮಾಡಿದರೆ ಸಕ್ಸಸ್ ಸಿಗುತ್ತದೆ:\n` +
-                         `ಗುರುವಾರ ಮತ್ತು ಶುಕ್ರವಾರದಂದು ಹೊಸ ಕೆಲಸ ಅಥವಾ ಬ್ಯುಸಿನೆಸ್ ಆರಂಭಿಸಿದರೆ ಅತ್ಯಧಿಕ ಲಾಭ ಮತ್ತು ಯಶಸ್ಸು ದೊರೆಯುತ್ತದೆ.\n\n` +
-                         `7. ಆ ರಾಶಿಗೆ ತಕ್ಕ ಇಷ್ಟದೇವತೆ:\n` +
-                         `ವೃಶ್ಚಿಕ ರಾಶಿಯವರಾದ ನಿಮಗೆ 'ಸುಬ್ರಹ್ಮಣ್ಯ ಸ್ವಾಮಿ' ಅಥವಾ 'ಮಹಾಕಾಳಿ'ಯವರ ಆರಾಧನೆ ಮತ್ತು ಪೂಜೆ ಮಾಡುವುದರಿಂದ ನಿಮ್ಮ ಎಲ್ಲಾ ದೋಷಗಳು ನಿವಾರಣೆಯಾಗಿ ಅದೃಷ್ಟ ಒಲಿದುಬರುತ್ತದೆ.\n\n` +
-                         `8. ನಾಳೆ ನೀವು ಏನು ಮಾಡಬೇಕು:\n` +
-                         `ನಾಳೆ ಬೆಳಗ್ಗೆ ಸ್ನಾನ ಮುಗಿಸಿ, ದೇವರ ಬಳಿ ದೀಪ ಹಚ್ಚಿ ನಿಮ್ಮ ಕುಲದೇವತೆಯನ್ನು ನೆನೆದು ದಿನದ ಕೆಲಸ ಆರಂಭಿಸಿ. ಯಾರಿಗೂ ಕುರುಡಾಗಿ ಹಣ ಸಾಲ ನೀಡಬೇಡಿ ಮತ್ತು ನಿಮ್ಮ ಕೆಲಸದ ಮೇಲೆ ಸಂಪೂರ್ಣ ಗಮನವಿಡಿ.`;
+                         `ನೀವು ಹಿಂದೆ ರಿಯಲ್ ಎಸ್ಟೇಟ್ ಅಥವಾ ಪಾಲುದಾರಿಕೆಯ ವ್ಯಾಪಾರದಲ್ಲಿ ತೊಡಗಿಸಿಕೊಂಡು ನಷ್ಟ ಅನುಭವಿಸಿದ್ದೀರಿ. ಆದರೆ ಅದೇ ಅನುಭವ ಈಗ ನಿಮಗೆ ದೊಡ್ಡ ಪಾಠವಾಗಿದೆ.\n\n` +
+                         `3. ಯಾವ ಕೆಲಸ ಮಾಡಿದರೆ ಯಶಸ್ಸು ಸಿಗುತ್ತದೆ:\n` +
+                         `ನೀವು ಸ್ವಂತ ಉದ್ಯಮ ಅಥವಾ ಆನ್‌ಲೈನ್ ಡಿಜಿಟಲ್ ಕೆಲಸ ಮಾಡಿದರೆ ಶೇಕಡಾ 100% ಸಕ್ಸಸ್ ಸಿಗುತ್ತದೆ.\n\n` +
+                         `4. ಯಾವ ದಿನಗಳು ಏನು ಮಾಡಬಾರದು:\n` +
+                         `ಪ್ರತಿವಾರ ಮಂಗಳವಾರ ಮತ್ತು ಶನಿವಾರದಂದು ಯಾವುದೇ ಹೊಸ ಹಣಕಾಸಿನ ಒಪ್ಪಂದಗಳಿಗೆ ಸಹಿ ಮಾಡಬೇಡಿ.\n\n` +
+                         `5. ಇಷ್ಟದೇವತೆ ಮತ್ತು ಪರಿಹಾರ:\n` +
+                         `'ಸುಬ್ರಹ್ಮಣ್ಯ ಸ್ವಾಮಿ'ಯವರ ಆರಾಧನೆ ಮಾಡುವುದರಿಂದ ನಿಮ್ಮ ಎಲ್ಲಾ ದೋಷಗಳು ನಿವಾರಣೆಯಾಗುತ್ತವೆ.`;
         } else if(currentLang === 'hi') {
             textResult = `नमस्कार ${userGlobalName}.\n\n` +
                          `1. राशि और आयु: आपकी हथेली के अनुसार आपकी आयु 28 से 35 वर्ष है और आपकी राशि 'वृश्चिक राशि' है।\n\n` +
-                         `2. पिछला व्यवसाय और लाभ-हानि: आपने पिछले समय में पार्टनरशिप या कमिशन आधारित व्यापार में नुकसान उठाया है, लेकिन उसी ने आपको सिखाया है।\n\n` +
-                         `3. स्वभाव: आप स्वभाव से बहुत अच्छे और मददगार हैं, मन में कुछ बड़ा करने की जिद्द है।\n\n` +
-                         `4. सफलता का क्षेत्र: स्वतंत्र व्यवसाय या तकनीकी कार्य करने से आपको शत-प्रतिशत सफलता मिलेगी।\n\n` +
-                         `5. किन दिनों क्या न करें: मंगलवार और शनिवार को नया निवेश या पैसों का लेन-देन न करें।\n\n` +
-                         `6. सफलता का दिन: गुरुवार और शुक्रवार को नया कार्य शुरू करने से लाभ होगा।\n\n` +
-                         `7. आराध्य देव: आपके लिए 'भगवान सुब्रह्मण्य' की पूजा करना शुभ है।\n\n` +
-                         `8. कल आपको क्या करना चाहिए: सुबह भगवान की पूजा करके अपने काम पर ध्यान दें और किसी पर अंधा विश्वास न करें।`;
+                         `2. व्यवसाय: स्वतंत्र व्यवसाय या तकनीकी कार्य करने से आपको शत-प्रतिशत सफलता मिलेगी।\n\n` +
+                         `3. उपाय: मंगलवार और शनिवार को नया निवेश न करें। भगवान सुब्रह्मण्य की पूजा करें।`;
         } else {
             textResult = `Hello ${userGlobalName}.\n\n` +
-                         `1. Zodiac & Age: Estimated age is 28-35 with Scorpio zodiac signs.\n\n` +
-                         `2. Past Business & Loss: Past partnership or commission-based businesses caused losses, turning into lessons.\n\n` +
-                         `3. Nature: You are kind-hearted with strong ambitions.\n\n` +
-                         `4. Success Field: Independent business or technical work brings 100% success.\n\n` +
-                         `5. Days to Avoid: Do not make financial deals on Tuesdays and Saturdays.\n\n` +
-                         `6. Successful Days: Thursday and Friday are best for new beginnings.\n\n` +
-                         `7. Deity to Worship: Lord Murugan / Subrahmanya.\n\n` +
-                         `8. What to do tomorrow: Start your day with prayer, avoid blind trust in money matters.`;
+                         `1. Zodiac & Age: Estimated age is 28-35 with Scorpio zodiac sign.\n\n` +
+                         `2. Success Field: Independent business or technical work brings 100% success.\n\n` +
+                         `3. Remedy: Worship Lord Murugan and avoid financial deals on Tuesdays.`;
         }
 
         document.getElementById('resultOutput').innerText = textResult;
-
         document.getElementById('homeSection').classList.remove('active');
         document.getElementById('resultSection').classList.add('active');
     }
 
+    // ಧ್ವನಿ ಮೂಲಕ ವರದಿ ಕೇಳಲು (Text-to-Speech)
     function speakPrediction() {
         const text = document.getElementById('resultOutput').innerText;
-        if ('speechSynthesis' in window) {
-            window.speechSynthesis.cancel();
-            const utterance = new SpeechSynthesisUtterance(text);
-            
-            if(currentLang === 'kn') utterance.lang = 'kn-IN';
-            else if(currentLang === 'hi') utterance.lang = 'hi-IN';
-            else utterance.lang = 'en-US';
+        const speech = new SpeechSynthesisUtterance(text);
+        speech.lang = currentLang === 'kn' ? 'kn-IN' : (currentLang === 'hi' ? 'hi-IN' : 'en-US');
+        window.speechSynthesis.speak(speech);
+    }
 
-            window.speechSynthesis.speak(utterance);
+    // ಮೈಕ್ ಮೂಲಕ ಮಾತನಾಡಿ ಬರೆಯಲು (Speech-to-Text / Web Speech API)
+    function startVoiceInput() {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SpeechRecognition) {
+            alert(currentLang === 'kn' ? "ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಮೈಕ್ ಸಪೋರ್ಟ್ ಇಲ್ಲ!" : "Speech recognition not supported in this browser!");
+            return;
+        }
+
+        const recognition = new SpeechRecognition();
+        recognition.lang = currentLang === 'kn' ? 'kn-IN' : (currentLang === 'hi' ? 'hi-IN' : 'en-US');
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+
+        recognition.onstart = function() {
+            document.getElementById('chatInput').placeholder = currentLang === 'kn' ? "ಕೇಳಿಸಿಕೊಳ್ಳಲಾಗುತ್ತಿದೆ... ಮಾತನಾಡಿ" : "Listening...";
+        };
+
+        recognition.onresult = function(event) {
+            const speechResult = event.results[0][0].transcript;
+            document.getElementById('chatInput').value = speechResult;
+            document.getElementById('chatInput').placeholder = translations[currentLang].cPlaceholder;
+        };
+
+        recognition.onerror = function() {
+            alert(currentLang === 'kn' ? "ಧ್ವನಿ ಗ್ರಹಿಕೆಯಲ್ಲಿ ದೋಷ ಉಂಟಾಗಿದೆ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ." : "Error occurred in recognition.");
+            document.getElementById('chatInput').placeholder = translations[currentLang].cPlaceholder;
+        };
+
+        recognition.onspeechend = function() {
+            recognition.stop();
+            document.getElementById('chatInput').placeholder = translations[currentLang].cPlaceholder;
+        };
+
+        recognition.start();
+    }
+
+    // ಲೈವ್ ಚಾಟ್ ಸಂದೇಶ ಕಳುಹಿಸುವುದು ಮತ್ತು ಆಟೋಮ್ಯಾಟಿಕ್ ಉತ್ತರ ನೀಡುವುದು
+    function sendChatMessage() {
+        const inputField = document.getElementById('chatInput');
+        const userText = inputField.value.trim();
+        if(!userText) return;
+
+        const chatBox = document.getElementById('chatBox');
+
+        // ಬಳಕೆದಾರರ ಸಂದೇಶವನ್ನು ಚಾಟ್ ಬாக்ಸ್‌ನಲ್ಲಿ ತೋರಿಸುವುದು
+        const userMsgDiv = document.createElement('div');
+        userMsgDiv.className = 'chat-message user-msg';
+        userMsgDiv.innerText = userText;
+        chatBox.appendChild(userMsgDiv);
+
+        inputField.value = '';
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        // ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಜ್ಯೋತಿಷ್ಯ ಉತ್ತರ ನೀಡುವುದು (Auto-Reply Bot Logic)
+        setTimeout(() => {
+            const botMsgDiv = document.createElement('div');
+            botMsgDiv.className = 'chat-message bot-msg';
+            botMsgDiv.innerText = getBotAutoReply(userText);
+            chatBox.appendChild(botMsgDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }, 1000);
+    }
+
+    // ಬಳಕೆದಾರರ ಪ್ರಶ್ನೆಗೆ ತಕ್ಕಂತೆ ಆಟೋಮ್ಯಾಟಿಕ್ ಉತ್ತರವನ್ನು ಆಯ್ಕೆ ಮಾಡುವ ಫಂಕ್ಷನ್
+    function getBotAutoReply(query) {
+        q = query.toLowerCase();
+        if(q.includes('ಮದುವೆ') || q.includes('vivah') || q.includes('marriage')) {
+            return currentLang === 'kn' ? "ನಿಮ್ಮ ಜಾತಕದ ಪ್ರಕಾರ ಮುಂದಿನ ವರ್ಷದೊಳಗೆ ವಿವಾಹ ಯೋಗ ಕೂಡಿಬರಲಿದೆ. ಗುರುವಿನ ದೆಸೆ ಅನುಕೂಲಕರವಾಗಿದೆ." :
+                   (currentLang === 'hi' ? "आपकी कुंडली के अनुसार अगले साल तक विवाह के योग बन रहे हैं।" : "According to your chart, marriage is indicated within the next year.");
+        } else if(q.includes('ಹಣ') || q.includes('job') || q.includes('business') || q.includes('kari') || q.includes('career') || q.includes('नौकरी') || q.includes('पैसा')) {
+            return currentLang === 'kn' ? "ಹಣಕಾಸಿನ ವಿಚಾರದಲ್ಲಿ ಸ್ವಲ್ಪ ಎಚ್ಚರಿಕೆ ವಹಿಸಿ. ಹೊಸ ಉದ್ಯಮ ಅಥವಾ ಹೂಡಿಕೆಗೆ ಗುರುವಾರ ಉತ್ತಮ ದಿನ." :
+                   (currentLang === 'hi' ? "धन के मामले में थोड़ी सावधानी बरतें। गुरुवार का दिन निवेश के लिए अच्छा है।" : "Exercise caution in finances. Thursday is favorable for new investments.");
+        } else if(q.includes('ಆರೋಗ್ಯ') || q.includes('health') || q.includes('सेहत')) {
+            return currentLang === 'kn' ? "ಆರೋಗ್ಯದ ಬಗ್ಗೆ ಕಾಳಜಿ ವಹಿಸಿ. ಪ್ರತಿದಿನ ಯೋಗ ಮತ್ತು ಧ್ಯಾನ ಮಾಡುವುದು ಒಳ್ಳೆಯದು." :
+                   (currentLang === 'hi' ? "अपने स्वास्थ्य का ध्यान रखें। रोजाना योग और प्राणायाम करना लाभदायक रहेगा।" : "Take care of your health. Daily yoga and meditation will be beneficial.");
         } else {
-            alert("Speech synthesis not supported.");
+            return translations[currentLang].botDefault;
         }
     }
 
     function goBack() {
-        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
         document.getElementById('resultSection').classList.remove('active');
         document.getElementById('homeSection').classList.add('active');
+        document.getElementById('palmImage').value = '';
     }
 </script>
 
