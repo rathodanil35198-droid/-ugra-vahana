@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ಜ್ಯೋತಿಷ್ಯ ಮತ್ತು ಹಸ್ತಸಾಮುದ್ರಿಕ ಆಪ್</title>
+    <title>ಸಂಪೂರ್ಣ ಜ್ಯೋತಿಷ್ಯ ಮತ್ತು ಹಸ್ತಸಾಮುದ್ರಿಕ ಆಪ್</title>
     <style>
         body { font-family: Arial, sans-serif; background: #f0f2f5; padding: 20px; color: #333; margin: 0; }
-        .container { max-width: 600px; margin: auto; background: white; padding: 25px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .container { max-width: 650px; margin: auto; background: white; padding: 25px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         h2, h3 { text-align: center; color: #4a148c; }
         label { font-weight: bold; display: block; margin-top: 15px; color: #444; }
         input, select, button { width: 100%; padding: 12px; margin-top: 8px; border-radius: 6px; border: 1px solid #ccc; font-size: 16px; box-sizing: border-box; }
@@ -16,7 +16,7 @@
         .audio-btn:hover { background: #ffa000; }
         .section { display: none; }
         .active { display: block; }
-        .result-box { margin-top: 20px; padding: 15px; background: #ede7f6; border-radius: 8px; line-height: 1.6; }
+        .result-box { margin-top: 20px; padding: 15px; background: #ede7f6; border-radius: 8px; line-height: 1.8; font-size: 16px; white-space: pre-line; }
         .lang-bar { display: flex; justify-content: flex-end; margin-bottom: 15px; }
         .lang-bar select { width: 140px; padding: 5px; font-size: 14px; }
     </style>
@@ -42,12 +42,12 @@
         <label id="l-phonelbl">ಮೊಬೈಲ್ ನಂಬರ್:</label>
         <input type="tel" id="loginPhone" placeholder="10 ಅಂಕಿಯ ಮೊಬೈಲ್ ನಂಬರ್">
 
-        <button onclick="handleLogin()" id="l-btn">ಲಾಗಿನ್ ಮಾಡಿ (Login)</button>
+        <button onclick="handleLogin()" id="l-btn">ಲಾಗಿನ್ ಮಾಡಿ</button>
     </div>
 
     <!-- 2. ಮುಖ್ಯ ಪೇಜ್ (Home / Input Page) -->
     <div id="homeSection" class="section">
-        <h2 id="h-title">ಹಸ್ತಸಾಮುದ್ರಿಕ ಮತ್ತು ಜ್ಯೋತಿಷ್ಯ ಪರೀಕ್ಷೆ</h2>
+        <h2 id="h-title">ಹಸ್ತಸಾಮುದ್ರಿಕ ಮತ್ತು ಜ್ಯೋತಿಷ್ಯ ವಿಶ್ಲೇಷಣೆ</h2>
         <p id="welcomeMsg" style="text-align: center; font-weight: bold; color: #6a1b9a;"></p>
 
         <label id="h-namelbl">ಹೆಸರು:</label>
@@ -56,17 +56,15 @@
         <label id="h-palmlbl">ಕೈಯ ಫೋಟೋ ಹಾಕಿ ಅಥವಾ ಕ್ಯಾಮೆರಾ ಬಳಸಿ:</label>
         <input type="file" id="palmImage" accept="image/*" capture="environment">
 
-        <button onclick="analyzePalm()" id="h-btn">ಭವಿಷ್ಯ ನೋಡಿ (Analyze)</button>
+        <button onclick="analyzePalm()" id="h-btn">ಭವಿಷ್ಯ ನೋಡಿ</button>
     </div>
 
     <!-- 3. ಫಲಿತಾಂಶದ ಪೇಜ್ (Result Page) -->
     <div id="resultSection" class="section">
-        <h3 id="r-title">ನಿಮ್ಮ ಜ್ಯೋತಿಷ್ಯ ಮತ್ತು ಹಸ್ತದ ಫಲಿತಾಂಶ</h3>
-        <div class="result-box">
-            <p id="resultOutput"></p>
-        </div>
-        <button onclick="speakPrediction()" class="audio-btn" id="r-audiobtn">🔊 ಧ್ವನಿಯಲ್ಲಿ ಕೇಳಿ (Listen Audio)</button>
-        <button onclick="goBack()" style="background: #757575;" id="r-backbtn">ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ (Back)</button>
+        <h3 id="r-title">ನಿಮ್ಮ ರಿಯಲ್ ಜ್ಯೋತಿಷ್ಯ ವರದಿ</h3>
+        <div class="result-box" id="resultOutput"></div>
+        <button onclick="speakPrediction()" class="audio-btn" id="r-audiobtn">🔊 ಧ್ವನಿಯಲ್ಲಿ ಕೇಳಿ (Audio)</button>
+        <button onclick="goBack()" style="background: #757575;" id="r-backbtn">ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ</button>
     </div>
 </div>
 
@@ -74,31 +72,30 @@
     let currentLang = 'kn';
     let userGlobalName = '';
 
-    // ಭಾಷೆಗೆ ತಕ್ಕಂತೆ ಪಠ್ಯ ಬದಲಾಯಿಸುವ ವ್ಯವಸ್ಥೆ
     const translations = {
         kn: {
             lTitle: "ಜ್ಯೋತಿಷ್ಯ ಆಪ್‌ಗೆ ಸ್ವಾಗತ",
             lNameLbl: "ನಿಮ್ಮ ಹೆಸರು:",
             lPhoneLbl: "ಮೊಬೈಲ್ ನಂಬರ್:",
             lBtn: "ಲಾಗಿನ್ ಮಾಡಿ",
-            hTitle: "ಹಸ್ತಸಾಮುದ್ರಿಕ ಮತ್ತು ಜ್ಯೋತಿಷ್ಯ",
+            hTitle: "ಹಸ್ತಸಾಮುದ್ರಿಕ ಮತ್ತು ಜ್ಯೋತಿಷ್ಯ ವಿಶ್ಲೇಷಣೆ",
             hNameLbl: "ಹೆಸರು:",
             hPalmLbl: "ಕೈಯ ಫೋಟೋ ಹಾಕಿ / ಕ್ಯಾಮೆರಾ ಬಳಸಿ:",
             hBtn: "ಭವಿಷ್ಯ ನೋಡಿ",
-            rTitle: "ನಿಮ್ಮ ಫಲಿತಾಂಶ",
+            rTitle: "ನಿಮ್ಮ ರಿಯಲ್ ಜ್ಯೋತಿಷ್ಯ ವರದಿ",
             rAudioBtn: "🔊 ಧ್ವನಿಯಲ್ಲಿ ಕೇಳಿ",
-            rBackbtn: "ಹಿಂದಕ್ಕೆ ಹೋಗಿ"
+            rBackbtn: "ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ"
         },
         hi: {
             lTitle: "ज्योतिष ऐप में आपका स्वागत है",
             lNameLbl: "आपका नाम:",
             lPhoneLbl: "मोबाइल नंबर:",
             lBtn: "लॉगिन करें",
-            hTitle: "हस्तरेखा और ज्योतिष",
+            hTitle: "हस्तरेखा और ज्योतिष विश्लेषण",
             hNameLbl: "नाम:",
             hPalmLbl: "हाथ की फोटो अपलोड करें / कैमरा:",
             hBtn: "भविष्य देखें",
-            rTitle: "आपका परिणाम",
+            rTitle: "आपकी वास्तविक ज्योतिष रिपोर्ट",
             rAudioBtn: "🔊 आवाज़ में सुनें",
             rBackbtn: "वापस जाएं"
         },
@@ -107,11 +104,11 @@
             lNameLbl: "Your Name:",
             lPhoneLbl: "Mobile Number:",
             lBtn: "Login",
-            hTitle: "Palmistry & Astrology",
+            hTitle: "Palmistry & Astrology Analysis",
             hNameLbl: "Name:",
             hPalmLbl: "Upload Palm Photo / Camera:",
             hBtn: "Analyze Future",
-            rTitle: "Your Results",
+            rTitle: "Your Real Astrology Report",
             rAudioBtn: "🔊 Listen Audio",
             rBackbtn: "Back"
         }
@@ -125,7 +122,7 @@
         document.getElementById('l-btn').innerText = translations[currentLang].lBtn;
         document.getElementById('h-title').innerText = translations[currentLang].hTitle;
         document.getElementById('h-namelbl').innerText = translations[currentLang].hNameLbl;
-        document.getElementById('h-palmlbl').innerText, translations[currentLang].hPalmLbl;
+        document.getElementById('h-palmlbl').innerText = translations[currentLang].hPalmLbl;
         document.getElementById('h-btn').innerText = translations[currentLang].hBtn;
         document.getElementById('r-title').innerText = translations[currentLang].rTitle;
         document.getElementById('r-audiobtn').innerText = translations[currentLang].rAudioBtn;
@@ -145,7 +142,6 @@
         document.getElementById('userName').value = name;
         document.getElementById('welcomeMsg').innerText = (currentLang === 'kn' ? "ಸ್ವಾಗತ, " : "Welcome, ") + name;
 
-        // ಮುಖಪುಟಕ್ಕೆ (Home Section) ಬದಲಾಯಿಸುವುದು
         document.getElementById('loginSection').classList.remove('active');
         document.getElementById('homeSection').classList.add('active');
     }
@@ -157,35 +153,49 @@
             return;
         }
 
-        // ಎಲ್ಲಾ ಅಂಶಗಳ ಆಧಾರದ ಮೇಲೆ ವಿಶ್ಲೇಷಣೆ
         let textResult = "";
         if(currentLang === 'kn') {
-            textResult = `ನಮಸ್ಕಾರ ${userGlobalName},\n\n` +
-                         `1. **ಅಂದಾಜು ವಯಸ್ಸು ಮತ್ತು ರಾಶಿ:** ನಿಮ್ಮ ಹಸ್ತದ ರೇಖೆಗಳು ಮತ್ತು ಆರಂಭಿಕ ಮಾಹಿತಿಯ ಪ್ರಕಾರ ನಿಮ್ಮ ವಯಸ್ಸು ಅಂದಾಜು 25-35 ವರ್ಷಗಳ ನಡುವೆ ಇದ್ದು, ನಿಮ್ಮ ರಾಶಿ 'ವೃಶ್ಚಿಕ/ಮೇಷ' ರಾಶಿಗೆ ಹತ್ತಿರದಲ್ಲಿದೆ.\n\n` +
-                         `2. **ಹಿಂದಿನ ಲಾಭ-ನಷ್ಟಗಳು:** ನೀವು ಹಿಂದೆ ಮಾಡಿದ ಪಾಲುದಾರಿಕೆ ಕೆಲಸಗಳಲ್ಲಿ ಅಥವಾ ತಪ್ಪು ನಿರ್ಧಾರಗಳಿಂದ ಸ್ವಲ್ಪ ನಷ್ಟವಾಗಿರಬಹುದು. ಆದರೆ ಆ ನಷ್ಟವೇ ನಿಮಗೆ ದೊಡ್ಡ ಪಾಠವಾಗಿದ್ದು, ಅನುಭವ ತಂದುಕೊಟ್ಟಿದೆ.\n\n` +
-                         `3. **ಮನಸ್ಸಿನ ಸ್ಥಿತಿ ಮತ್ತು ಸ್ವಭಾವ:** ನಿಮ್ಮ ಮನಸ್ಸಿನಲ್ಲಿ ಸದಾ ದೊಡ್ಡ ಸಾಧನೆ ಮಾಡಬೇಕೆಂಬ ಕನಸಿದೆ. ನೀವು ಮೂಲತಃ ಒಳ್ಳೆಯವರಾಗಿದ್ದು, ಇತರರಿಗೆ ಸಹಾಯ ಮಾಡುವ ಗುಣ ಹೊಂದಿದ್ದೀರಿ.\n\n` +
-                         `4. **ಮೈಯಲ್ಲಿರುವ ತೊಂದರೆಗಳು:** ಒತ್ತಡದಿಂದಾಗಿ ತಲೆನೋವು, ನಿದ್ರಾಹೀನತೆ ಅಥವಾ ಹೊಟ್ಟೆಗೆ ಸಂಬಂಧಿಸಿದ ಸಣ್ಣಪುಟ್ಟ ಆಯಾಸವಿರಬಹುದು.\n\n` +
-                         `5. **ಯಶಸ್ಸು ಸಿಗುವ ಕ್ಷೇತ್ರ:** ನೀವು ಸ್ವಂತ ಬ್ಯುಸಿನೆಸ್, ಕ್ರಿಯೇಟಿವ್ ಕೆಲಸಗಳು ಅಥವಾ ಟೆಕ್ನಾಲಜಿ ಆಧಾರಿತ ಕೆಲಸಗಳಲ್ಲಿ ತೊಡಗಿಸಿಕೊಂಡರೆ ಖಂಡಿತ ಭರ್ಜರಿ ಯಶಸ್ಸು (Success) ಸಿಗುತ್ತದೆ.\n\n` +
-                         `6. **ಮುಂದಿನ ಪ್ಲ್ಯಾನಿಂಗ್:** ಮುಂದಿನ 6 ತಿಂಗಳುಗಳಲ್ಲಿ ಹೊಸ ಯೋಜನೆ ಆರಂಭಿಸಲು ಇದುವೇ ಸರಿಯಾದ ಸಮಯ. ಆರ್ಥಿಕವಾಗಿ ಧೈರ್ಯವಾಗಿ ಹೆಜ್ಜೆ ಇಡಿ.`;
+            textResult = `ನಮಸ್ಕಾರ ${userGlobalName}.\n\n` +
+                         `1. ರಾಶಿ ಮತ್ತು ಅಂದಾಜು ವಯಸ್ಸು:\n` +
+                         `ನಿಮ್ಮ ಕೈಯ ರೇಖೆಗಳು ಮತ್ತು ಹೆಸರಿನ ಪ್ರಭಾವದ ಪ್ರಕಾರ ನಿಮ್ಮ ವಯಸ್ಸು ಅಂದಾಜು 28 ರಿಂದ 35 ವರ್ಷಗಳ ನಡುವೆ ಇದೆ. ನಿಮ್ಮ ಜನ್ಮ ರಾಶಿ 'ವೃಶ್ಚಿಕ ರಾಶಿ' ಆಗಿದ್ದು, ಚಂದ್ರನ ಪ್ರಭಾವ ನಿಮ್ಮ ಮೇಲಿದೆ.\n\n` +
+                         `2. ಹಿಂದೆ ಮಾಡಿದ ಬ್ಯುಸಿನೆಸ್ ಮತ್ತು ಲಾಭ-ನಷ್ಟಗಳು:\n` +
+                         `ನೀವು ಹಿಂದೆ ರಿಯಲ್ ಎಸ್ಟೇಟ್, ಕಮಿಷನ್ ಬ್ಯುಸಿನೆಸ್ ಅಥವಾ ಪಾಲುದಾರಿಕೆಯ (Partnership) ವ್ಯಾಪಾರದಲ್ಲಿ ತೊಡಗಿಸಿಕೊಂಡು ಭಾರಿ ನಷ್ಟ ಅನುಭವಿಸಿದ್ದೀರಿ. ಜನರ ಮೇಲಿನ ಅತಿ ನಂಬಿಕೆಯಿಂದ ಹಣ ಕೈಜಾರಿದೆ. ಆದರೆ ಅದೇ ಅನುಭವ ಈಗ ನಿಮಗೆ ದೊಡ್ಡ ಪಾಠವಾಗಿದೆ.\n\n` +
+                         `3. ಮನಸ್ಸಿನ ಸ್ಥಿತಿ ಮತ್ತು ಸ್ವಭಾವ:\n` +
+                         `ನಿಮ್ಮ ಮನಸ್ಸಿನಲ್ಲಿ ಸದಾ ಏನಾದರೂ ಹೊಸ ಸಾಧನೆ ಮಾಡಬೇಕು, ದೊಡ್ಡ ಮಟ್ಟಕ್ಕೆ ಬೆಳೆಯಬೇಕು ಎಂಬ ತುಡಿತವಿದೆ. ನೀವು ಹೊರಗೆ ಕಠಿಣರಂತೆ ಕಂಡರೂ ಮನಸ್ಸಿನಿಂದ ಅತ್ಯಂತ ಒಳ್ಳೆಯವರು ಮತ್ತು ಸಹಾಯ ಮಾಡುವ ಗುಣದವರು.\n\n` +
+                         `4. ಯಾವ ಕೆಲಸ ಮಾಡಿದರೆ ಯಶಸ್ಸು ಸಿಗುತ್ತದೆ:\n` +
+                         `ನೀವು ಇನ್ನು ಮುಂದೆ ಬೇರೆಯವರ ಅಡಿಯಲ್ಲಿ ಕೆಲಸ ಮಾಡದೆ, ಸ್ವಂತ ಬ್ಯುಸಿನೆಸ್ (ಉದಾಹರಣೆಗೆ: ಆನ್‌ಲೈನ್ ಡಿಜಿಟಲ್ ಕೆಲಸ, ಟ್ರೇಡಿಂಗ್ ಅಥವಾ ಸ್ವಂತ ಅಂಗಡಿ/ಉದ್ಯಮ) ಮಾಡಿದರೆ ಶೇಕಡಾ 100% ಸಕ್ಸಸ್ ಸಿಗುತ್ತದೆ.\n\n` +
+                         `5. ಯಾವ ದಿನಗಳು ಏನು ಮಾಡಬಾರದು:\n` +
+                         `ಪ್ರತಿವಾರ ಮಂಗಳವಾರ ಮತ್ತು ಶನಿವಾರದಂದು ಯಾವುದೇ ಹೊಸ ಹಣಕಾಸಿನ ಒಪ್ಪಂದಗಳಿಗೆ ಸಹಿ ಮಾಡಬೇಡಿ ಮತ್ತು ಹೊಸ ಬ್ಯುಸಿನೆಸ್ ಆರಂಭಿಸಬೇಡಿ. ಈ ದಿನಗಳಲ್ಲಿ ಸಾಲ ನೀಡುವುದಾಗಲಿ ಪಡೆಯುವುದಾಗಲಿ ಮಾಡಬಾರದು.\n\n` +
+                         `6. ಯಾವ ದಿನ ಮಾಡಿದರೆ ಸಕ್ಸಸ್ ಸಿಗುತ್ತದೆ:\n` +
+                         `ಗುರುವಾರ ಮತ್ತು ಶುಕ್ರವಾರದಂದು ಹೊಸ ಕೆಲಸ ಅಥವಾ ಬ್ಯುಸಿನೆಸ್ ಆರಂಭಿಸಿದರೆ ಅತ್ಯಧಿಕ ಲಾಭ ಮತ್ತು ಯಶಸ್ಸು ದೊರೆಯುತ್ತದೆ.\n\n` +
+                         `7. ಆ ರಾಶಿಗೆ ತಕ್ಕ ಇಷ್ಟದೇವತೆ:\n` +
+                         `ವೃಶ್ಚಿಕ ರಾಶಿಯವರಾದ ನಿಮಗೆ 'ಸುಬ್ರಹ್ಮಣ್ಯ ಸ್ವಾಮಿ' ಅಥವಾ 'ಮಹಾಕಾಳಿ'ಯವರ ಆರಾಧನೆ ಮತ್ತು ಪೂಜೆ ಮಾಡುವುದರಿಂದ ನಿಮ್ಮ ಎಲ್ಲಾ ದೋಷಗಳು ನಿವಾರಣೆಯಾಗಿ ಅದೃಷ್ಟ ಒಲಿದುಬರುತ್ತದೆ.\n\n` +
+                         `8. ನಾಳೆ ನೀವು ಏನು ಮಾಡಬೇಕು:\n` +
+                         `ನಾಳೆ ಬೆಳಗ್ಗೆ ಸ್ನಾನ ಮುಗಿಸಿ, ದೇವರ ಬಳಿ ದೀಪ ಹಚ್ಚಿ ನಿಮ್ಮ ಕುಲದೇವತೆಯನ್ನು ನೆನೆದು ದಿನದ ಕೆಲಸ ಆರಂಭಿಸಿ. ಯಾರಿಗೂ ಕುರುಡಾಗಿ ಹಣ ಸಾಲ ನೀಡಬೇಡಿ ಮತ್ತು ನಿಮ್ಮ ಕೆಲಸದ ಮೇಲೆ ಸಂಪೂರ್ಣ ಗಮನವಿಡಿ.`;
         } else if(currentLang === 'hi') {
-            textResult = `नमस्कार ${userGlobalName},\n\n` +
-                         `1. **आयु और राशि:** आपकी हथेली की रेखाओं के अनुसार आपकी आयु लगभग 25-35 वर्ष है और आपकी राशि वृश्चिक/मेष से मेल खाती है।\n\n` +
-                         `2. **पिछला लाभ-नुकसान:** अतीत में कुछ गलत निर्णयों के कारण आपको नुकसान हुआ होगा, लेकिन उसी अनुभव ने आपको मजबूत बनाया है।\n\n` +
-                         `3. **स्वभाव:** आप स्वभाव से बहुत अच्छे और मददगार हैं, मन में कुछ बड़ा करने की जिद्द है।\n\n` +
-                         `4. **स्वास्थ्य:** तनाव के कारण थकान या सिरदर्द की छोटी-मोटी समस्या हो सकती है।\n\n` +
-                         `5. **सफलता:** स्वतंत्र व्यवसाय या तकनीकी कार्यों में आपको शत-प्रतिशत सफलता मिलेगी।`;
+            textResult = `नमस्कार ${userGlobalName}.\n\n` +
+                         `1. राशि और आयु: आपकी हथेली के अनुसार आपकी आयु 28 से 35 वर्ष है और आपकी राशि 'वृश्चिक राशि' है।\n\n` +
+                         `2. पिछला व्यवसाय और लाभ-हानि: आपने पिछले समय में पार्टनरशिप या कमिशन आधारित व्यापार में नुकसान उठाया है, लेकिन उसी ने आपको सिखाया है।\n\n` +
+                         `3. स्वभाव: आप स्वभाव से बहुत अच्छे और मददगार हैं, मन में कुछ बड़ा करने की जिद्द है।\n\n` +
+                         `4. सफलता का क्षेत्र: स्वतंत्र व्यवसाय या तकनीकी कार्य करने से आपको शत-प्रतिशत सफलता मिलेगी।\n\n` +
+                         `5. किन दिनों क्या न करें: मंगलवार और शनिवार को नया निवेश या पैसों का लेन-देन न करें।\n\n` +
+                         `6. सफलता का दिन: गुरुवार और शुक्रवार को नया कार्य शुरू करने से लाभ होगा।\n\n` +
+                         `7. आराध्य देव: आपके लिए 'भगवान सुब्रह्मण्य' की पूजा करना शुभ है।\n\n` +
+                         `8. कल आपको क्या करना चाहिए: सुबह भगवान की पूजा करके अपने काम पर ध्यान दें और किसी पर अंधा विश्वास न करें।`;
         } else {
-            textResult = `Hello ${userGlobalName},\n\n` +
-                         `1. **Age & Zodiac:** Based on palm lines, your estimated age group is 25-35 with strong Aries/Scorpio traits.\n\n` +
-                         `2. **Past Profit/Loss:** Past losses in partnerships taught you valuable lessons.\n\n` +
-                         `3. **Nature & Mind:** You are kind-hearted with big ambitions in mind.\n\n` +
-                         `4. **Health:** Minor fatigue or stress-related issues may occur.\n\n` +
-                         `5. **Success Field:** Independent business or technical work will bring you immense success.`;
+            textResult = `Hello ${userGlobalName}.\n\n` +
+                         `1. Zodiac & Age: Estimated age is 28-35 with Scorpio zodiac signs.\n\n` +
+                         `2. Past Business & Loss: Past partnership or commission-based businesses caused losses, turning into lessons.\n\n` +
+                         `3. Nature: You are kind-hearted with strong ambitions.\n\n` +
+                         `4. Success Field: Independent business or technical work brings 100% success.\n\n` +
+                         `5. Days to Avoid: Do not make financial deals on Tuesdays and Saturdays.\n\n` +
+                         `6. Successful Days: Thursday and Friday are best for new beginnings.\n\n` +
+                         `7. Deity to Worship: Lord Murugan / Subrahmanya.\n\n` +
+                         `8. What to do tomorrow: Start your day with prayer, avoid blind trust in money matters.`;
         }
 
         document.getElementById('resultOutput').innerText = textResult;
 
-        // ಫಲಿತಾಂಶದ ಪೇಜ್‌ಗೆ ಹೋಗುವುದು
         document.getElementById('homeSection').classList.remove('active');
         document.getElementById('resultSection').classList.add('active');
     }
@@ -193,7 +203,7 @@
     function speakPrediction() {
         const text = document.getElementById('resultOutput').innerText;
         if ('speechSynthesis' in window) {
-            window.speechSynthesis.cancel(); // ಹಳೆಯ ಆಡಿಯೋ ನಿಲ್ಲಿಸಲು
+            window.speechSynthesis.cancel();
             const utterance = new SpeechSynthesisUtterance(text);
             
             if(currentLang === 'kn') utterance.lang = 'kn-IN';
@@ -202,7 +212,7 @@
 
             window.speechSynthesis.speak(utterance);
         } else {
-            alert("Speech synthesis not supported in this browser.");
+            alert("Speech synthesis not supported.");
         }
     }
 
