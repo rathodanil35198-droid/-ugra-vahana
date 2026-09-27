@@ -46,6 +46,8 @@
         .success-msg { color: #2e7d32; font-weight: bold; margin-top: 10px; text-align: center; }
         .error-text { color: red; font-size: 13px; margin-top: 4px; display: none; font-weight: bold; }
         video { width: 100%; max-height: 200px; background: #000; border-radius: 8px; margin-top: 10px; object-fit: cover; }
+        canvas { display: none; }
+        .preview-img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 2px solid #2e7d32; margin-top: 10px; }
         table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; }
         th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
         th { background: #2e7d32; color: white; }
@@ -87,7 +89,12 @@
         <div class="card" style="border-left-color: #2196f3;">
             <p><b>ಲಾಗಿನ್ ಬಳಕೆದಾರರು:</b> <span id="homeUserDisplay" style="color: #2e7d32;"></span></p>
             <div id="teacherIdDisplayArea" style="margin-top: 10px; display:none;">
+                <div style="text-align: center;">
+                    <img id="homeTeacherPhoto" class="preview-img" style="display:none;" alt="Teacher Photo">
+                </div>
                 <p><b>ನಿಮ್ಮ ಟೀಚರ್ ಐಡಿ:</b> <span id="savedTeacherId" style="color: red; font-size: 18px; font-weight: bold;"></span></p>
+                <p><b>ಶಾಲೆಯ ಹೆಸರು:</b> <span id="savedInstName"></span></p>
+                <p><b>ಊರು / ಸ್ಥಳ:</b> <span id="savedVillage"></span></p>
                 <button onclick="showSection('studentRegSection')" style="background: #e65100; padding: 10px; margin-top: 5px;">➕ ನಿಮ್ಮ ಸ್ಟೂಡೆಂಟ್ ಅನ್ನು ಇಲ್ಲಿ ಸೇರಿಸಿ</button>
             </div>
         </div>
@@ -95,7 +102,7 @@
         <button onclick="showSection('teacherRegSection')" style="background: #1976d2;">1. 👨‍🏫 ಟೀಚರ್ಸ್ / ಹೆಡ್ ಮಾಸ್ಟರ್ ರಿಜಿಸ್ಟರ್ (ID ಪಡೆಯಿರಿ)</button>
         <button onclick="showSection('studentRegSection')" style="background: #388e3c;">2. 👩‍🎓 ಸ್ಟೂಡೆಂಟ್ ಅಟೆಂಡೆಂಟ್ ಸೇರಿಸಿ (Student Register)</button>
         <button onclick="showSection('attendanceSection')" style="background: #f57c00;">3. ✅ ಸ್ಟೂಡೆಂಟ್ ಅಟೆಂಡೆನ್ಸ್ (Face Scan & WhatsApp Alert)</button>
-        <button onclick="openAdminPanelPrompt()" style="background: #7b1fa2; margin-top: 30px;">⚙️ ಅಡ್ಮಿನ್ / ಡೇಟಾ ಪ್ಯಾನಲ್ ವೀಕ್ಷಿಸಿ (ಕೋಡ್ ಬೇಕು)</button>
+        <button onclick="openAdminPanelPrompt()" style="background: #7b1fa2; margin-top: 30px;">⚙️ ಅಡ್ಮಿನ್ / ಡೇಟಾ ಪ್ಯಾನಲ್ ವೀಕ್ಷಿಸಿ</button>
     </div>
 
     <!-- 1. ಟೀಚರ್ ರಿಜಿಸ್ಟರ್ ಪೇಜ್ -->
@@ -149,9 +156,14 @@
         <p id="tAgeDisplay" style="color: #2e7d32; font-weight: bold; margin-top: 5px;"></p>
 
         <label>ಫೋಟೋ (ಸೆಲ್ಫಿ / ಕ್ಯಾಮೆರಾ):</label>
-        <button onclick="openTeacherCamera()" style="background: #0288d1;">📸 ಕ್ಯಾಮೆರಾ ಓಪನ್ ಮಾಡಿ ಫೋಟೋ ತೆಗೆಯಿರಿ</button>
+        <button onclick="openTeacherCamera()" style="background: #0288d1;" type="button">📸 ಕ್ಯಾಮೆರಾ ಓಪನ್ ಮಾಡಿ</button>
         <video id="teacherVideo" autoplay playsinline muted></video>
+        <button onclick="captureTeacherPhoto()" style="background: #388e3c; display:none;" id="tCaptureBtn" type="button">📸 ಫೋಟೋ ಕ್ಯಾಪ್ಚರ್ ಮಾಡಿ</button>
+        <canvas id="teacherCanvas"></canvas>
         <div id="tPhotoStatus" style="color: green; font-weight: bold;"></div>
+        <div style="text-align: center;">
+            <img id="tPhotoPreview" class="preview-img" style="display:none;" alt="Preview">
+        </div>
 
         <button onclick="registerTeacherAction()">ರಿಜಿಸ್ಟರ್ ಮಾಡಿ 4 ಅಂಕಿಯ ID ಪಡೆಯಿರಿ</button>
     </div>
@@ -187,9 +199,14 @@
         <select id="sClassSelect"></select>
 
         <label>ವಿದ್ಯಾರ್ಥಿಯ ಮುಖದ ಫೋಟೋ (ಕ್ಯಾಮರಾ):</label>
-        <button onclick="openStudentCamera()" style="background: #0288d1;">📸 ಕ್ಯಾಮೆರಾ ಓಪನ್ ಮಾಡಿ ಮುಖದ ಫೋಟೋ ತೆಗೆಯಿರಿ</button>
+        <button onclick="openStudentCamera()" style="background: #0288d1;" type="button">📸 ಕ್ಯಾಮೆರಾ ಓಪನ್ ಮಾಡಿ</button>
         <video id="studentVideo" autoplay playsinline muted></video>
+        <button onclick="captureStudentPhoto()" style="background: #388e3c; display:none;" id="sCaptureBtn" type="button">📸 ಫೋಟೋ ಕ್ಯಾಪ್ಚರ್ ಮಾಡಿ</button>
+        <canvas id="studentCanvas"></canvas>
         <div id="sPhotoStatus" style="color: green; font-weight: bold;"></div>
+        <div style="text-align: center;">
+            <img id="sPhotoPreview" class="preview-img" style="display:none;" alt="Preview">
+        </div>
 
         <button onclick="registerStudentAction()">ಸ್ಟೂಡೆಂಟ್ ರಿಜಿಸ್ಟರ್ ಮಾಡಿ ID ಪಡೆಯಿರಿ</button>
         
@@ -204,7 +221,7 @@
         <h2>✅ ಸ್ಟೂಡೆಂಟ್ ಅಟೆಂಡೆನ್ಸ್ (Face Scan)</h2>
         <p style="text-align: center; color: #666;">ಕ್ಯಾಮರಾದಲ್ಲಿ ಮುಖ ತೋರಿಸಿ, ಐಡಿ ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಮ್ಯಾಚ್ ಆಗುತ್ತದೆ</p>
 
-        <button onclick="startAttendanceCamera()" style="background: #0288d1;">📸 ಅಟೆಂಡೆನ್ಸ್ ಕ್ಯಾಮೆರಾ ಓಪನ್ ಮಾಡಿ</button>
+        <button onclick="startAttendanceCamera()" style="background: #0288d1;" type="button">📸 ಅಟೆಂಡೆನ್ಸ್ ಕ್ಯಾಮೆರಾ ಓಪನ್ ಮಾಡಿ</button>
         <video id="attendanceVideo" autoplay playsinline muted></video>
 
         <div id="attendanceResultBox"></div>
@@ -237,6 +254,8 @@
     let registeredTeacher = JSON.parse(localStorage.getItem('registeredTeacher')) || null;
     let studentsList = JSON.parse(localStorage.getItem('studentsList')) || [];
     let mediaStream = null;
+    let tempTeacherPhotoData = "";
+    let tempStudentPhotoData = "";
 
     window.onload = function() {
         if(!appUser) {
@@ -253,6 +272,14 @@
         if(registeredTeacher) {
             document.getElementById('teacherIdDisplayArea').style.display = 'block';
             document.getElementById('savedTeacherId').innerText = registeredTeacher.id;
+            document.getElementById('savedInstName').innerText = registeredTeacher.instName;
+            document.getElementById('savedVillage').innerText = registeredTeacher.vill;
+            
+            if(registeredTeacher.photo) {
+                let imgEl = document.getElementById('homeTeacherPhoto');
+                imgEl.src = registeredTeacher.photo;
+                imgEl.style.display = 'inline-block';
+            }
         } else {
             document.getElementById('teacherIdDisplayArea').style.display = 'none';
         }
@@ -342,12 +369,34 @@
         navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } })
             .then(stream => {
                 mediaStream = stream;
-                document.getElementById('teacherVideo').srcObject = stream;
-                document.getElementById('tPhotoStatus').innerText = "✅ ಕ್ಯಾಮೆರಾ ಯಶಸ್ವಿಯಾಗಿ ಓಪನ್ ಆಗಿದೆ";
+                let videoEl = document.getElementById('teacherVideo');
+                videoEl.srcObject = stream;
+                videoEl.style.display = 'block';
+                document.getElementById('tCaptureBtn').style.display = 'block';
+                document.getElementById('tPhotoStatus').innerText = "✅ ಕ್ಯಾಮೆರಾ ಓಪನ್ ಆಗಿದೆ, ಫೋಟೋ ಕ್ಯಾಪ್ಚರ್ ಮಾಡಿ";
             })
             .catch(err => { 
                 alert("ಕ್ಯಾಮರಾ ಅನುಮತಿ ಸಿಕ್ಕಿಲ್ಲ: " + err.message + "\nದಯವಿಟ್ಟು ಬ್ರೌಸರ್ ಸೆಟ್ಟಿಂಗ್ಸ್‌ನಲ್ಲಿ ಕ್ಯಾಮೆರಾ ಪರ್ಮಿಷನ್ Allow ಮಾಡಿ."); 
             });
+    }
+
+    function captureTeacherPhoto() {
+        const video = document.getElementById('teacherVideo');
+        const canvas = document.getElementById('teacherCanvas');
+        canvas.width = video.videoWidth || 300;
+        canvas.height = video.videoHeight || 300;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        tempTeacherPhotoData = canvas.toDataURL('image/png');
+        
+        let preview = document.getElementById('tPhotoPreview');
+        preview.src = tempTeacherPhotoData;
+        preview.style.display = 'inline-block';
+        
+        stopCamera();
+        video.style.display = 'none';
+        document.getElementById('tCaptureBtn').style.display = 'none';
+        document.getElementById('tPhotoStatus').innerText = "✅ ಫೋಟೋ ಯಶಸ್ವಿಯಾಗಿ ಸೆರೆಹಿಡಿಯಲಾಗಿದೆ!";
     }
 
     function registerTeacherAction() {
@@ -374,7 +423,7 @@
         }
 
         let id = Math.floor(1000 + Math.random() * 9000).toString();
-        registeredTeacher = { id, name, phone, dist, taluk, vill, instName, dob };
+        registeredTeacher = { id, name, phone, dist, taluk, vill, instName, dob, photo: tempTeacherPhotoData };
         localStorage.setItem('registeredTeacher', JSON.stringify(registeredTeacher));
 
         updateHomeDisplay();
@@ -387,12 +436,34 @@
         navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } })
             .then(stream => {
                 mediaStream = stream;
-                document.getElementById('studentVideo').srcObject = stream;
-                document.getElementById('sPhotoStatus').innerText = "✅ ಮುಖದ ಫೋಟೋ ಕ್ಯಾಮೆರಾ ಸಿದ್ಧವಾಗಿದೆ";
+                let videoEl = document.getElementById('studentVideo');
+                videoEl.srcObject = stream;
+                videoEl.style.display = 'block';
+                document.getElementById('sCaptureBtn').style.display = 'block';
+                document.getElementById('sPhotoStatus').innerText = "✅ ಕ್ಯಾಮೆರಾ ಓಪನ್ ಆಗಿದೆ, ಮುಖದ ಫೋಟೋ ಕ್ಯಾಪ್ಚರ್ ಮಾಡಿ";
             })
             .catch(err => { 
                 alert("ಕ್ಯಾಮರಾ ದೋಷ: " + err.message + "\nಕ್ಯಾಮರಾ ಪರ್ಮಿಷನ್ ಪರಿಶೀಲಿಸಿ."); 
             });
+    }
+
+    function captureStudentPhoto() {
+        const video = document.getElementById('studentVideo');
+        const canvas = document.getElementById('studentCanvas');
+        canvas.width = video.videoWidth || 300;
+        canvas.height = video.videoHeight || 300;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        tempStudentPhotoData = canvas.toDataURL('image/png');
+        
+        let preview = document.getElementById('sPhotoPreview');
+        preview.src = tempStudentPhotoData;
+        preview.style.display = 'inline-block';
+        
+        stopCamera();
+        video.style.display = 'none';
+        document.getElementById('sCaptureBtn').style.display = 'none';
+        document.getElementById('sPhotoStatus').innerText = "✅ ವಿದ್ಯಾರ್ಥಿಯ ಫೋಟೋ ಯಶಸ್ವಿಯಾಗಿ ಸೆರೆಹಿಡಿಯಲಾಗಿದೆ!";
     }
 
     function registerStudentAction() {
@@ -416,11 +487,12 @@
         }
 
         let id = "ST" + Math.floor(100 + Math.random() * 900);
-        studentsList.push({ id, sName, fName, phone, sts, dob, sClass });
+        studentsList.push({ id, sName, fName, phone, sts, dob, sClass, photo: tempStudentPhotoData });
         localStorage.setItem('studentsList', JSON.stringify(studentsList));
 
         document.getElementById('studentRegResult').innerHTML = `
-            <div class="card">
+            <div class="card" style="text-align: center;">
+                ${tempStudentPhotoData ? `<img src="${tempStudentPhotoData}" class="preview-img" style="margin: 0 auto; display:block;" alt="Student">` : ''}
                 <p class="success-msg">✅ ಸ್ಟೂಡೆಂಟ್ ಯಶಸ್ವಿಯಾಗಿ ನೋಂದಾಯಿಸಲ್ಪಟ್ಟಿದ್ದಾರೆ!</p>
                 <p><b>ಸ್ಟೂಡೆಂಟ್ ಐಡಿ:</b> <span style="color:red; font-size:18px;">${id}</span></p>
                 <p><b>ಹೆಸರು:</b> ${sName} (${sClass})</p>
@@ -453,7 +525,8 @@
         let whatsappUrl = `https://wa.me/${student.phone}?text=${encodeURIComponent(msg)}`;
 
         document.getElementById('attendanceResultBox').innerHTML = `
-            <div class="card">
+            <div class="card" style="text-align: center;">
+                ${student.photo ? `<img src="${student.photo}" class="preview-img" style="margin: 0 auto; display:block;" alt="Student">` : ''}
                 <p class="success-msg">✅ ಮುಖದ ಗುರುತು ಮ್ಯಾಚ್ ಆಗಿದೆ!</p>
                 <p><b>ಸ್ಟೂಡೆಂಟ್ ID:</b> <span style="color:red; font-size:18px;">☑ ${student.id}</span></p>
                 <p><b>ಹೆಸರು:</b> ${student.sName} (${student.sClass})</p>
@@ -467,7 +540,7 @@
     }
 
     function openAdminPanelPrompt() {
-        let code = prompt("ದಯವಿಟ್ಟು ಅಡ್ಮಿನ್ ಕೋಡ್ ನಂಬರ್ ಹಾಕಿ (9353444070):");
+        let code = prompt("ಕೋಡ್ ನಮೂದಿಸಿ:");
         if(code === "9353444070") {
             loadAdminData();
             showSection('adminPanelSection');
@@ -481,16 +554,18 @@
         document.getElementById('totalTeachersCount').innerText = teachersCount;
         document.getElementById('totalStudentsCount').innerText = studentsList.length;
 
-        let tHtml = `<table><tr><th>ಸಂ.</th><th>ಹೆಸರು</th><th>ಫೋನ್</th><th>ಜಿಲ್ಲೆ</th><th>ID</th></tr>`;
+        let tHtml = `<table><tr><th>ಫೋಟೋ</th><th>ಸಂ.</th><th>ಹೆಸರು</th><th>ಫೋನ್</th><th>ಜಿಲ್ಲೆ</th><th>ID</th></tr>`;
         if(registeredTeacher) {
-            tHtml += `<tr><td>1</td><td>${registeredTeacher.name}</td><td>${registeredTeacher.phone}</td><td>${registeredTeacher.dist}</td><td style="color:red; font-weight:bold;">${registeredTeacher.id}</td></tr>`;
+            let tImg = registeredTeacher.photo ? `<img src="${registeredTeacher.photo}" style="width:40px; height:40px; border-radius:50%; object-fit:cover;">` : 'ಇಲ್ಲ';
+            tHtml += `<tr><td>${tImg}</td><td>1</td><td>${registeredTeacher.name}</td><td>${registeredTeacher.phone}</td><td>${registeredTeacher.dist}</td><td style="color:red; font-weight:bold;">${registeredTeacher.id}</td></tr>`;
         }
         tHtml += `</table>`;
         document.getElementById('teacherTableContainer').innerHTML = tHtml;
 
-        let sHtml = `<table><tr><th>ಸಂ.</th><th>ವಿದ್ಯಾರ್ಥಿ ಹೆಸರು</th><th>ತಂದೆ ಹೆಸರು</th><th>ತರಗತಿ</th><th>ID</th></tr>`;
+        let sHtml = `<table><tr><th>ಫೋಟೋ</th><th>ಸಂ.</th><th>ವಿದ್ಯಾರ್ಥಿ ಹೆಸರು</th><th>ತಂದೆ ಹೆಸರು</th><th>ತರಗತಿ</th><th>ID</th></tr>`;
         studentsList.forEach((s, index) => {
-            sHtml += `<tr><td>${index+1}</td><td>${s.sName}</td><td>${s.fName}</td><td>${s.sClass}</td><td style="color:red; font-weight:bold;">${s.id}</td></tr>`;
+            let sImg = s.photo ? `<img src="${s.photo}" style="width:40px; height:40px; border-radius:50%; object-fit:cover;">` : 'ಇಲ್ಲ';
+            sHtml += `<tr><td>${sImg}</td><td>${index+1}</td><td>${s.sName}</td><td>${s.fName}</td><td>${s.sClass}</td><td style="color:red; font-weight:bold;">${s.id}</td></tr>`;
         });
         sHtml += `</table>`;
         document.getElementById('studentTableContainer').innerHTML = sHtml;
