@@ -44,7 +44,7 @@
         .active { display: flex; }
         .card { background: #f1f8e9; padding: 15px; border-radius: 8px; margin-top: 15px; border-left: 5px solid #4caf50; }
         .error-text { color: red; font-size: 13px; margin-top: 4px; display: none; font-weight: bold; }
-        video { width: 100%; max-height: 200px; background: #000; border-radius: 8px; margin-top: 10px; object-fit: cover; }
+        video { width: 100%; max-height: 200px; background: #000; border-radius: 8px; margin-top: 10px; object-fit: cover; display: none; }
         canvas { display: none; }
         .preview-img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 2px solid #2e7d32; margin-top: 10px; }
         .checkbox-group { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
@@ -55,7 +55,7 @@
 
 <div class="container">
     
-    <!-- ಭಾಷೆ ಆಯ್ಕೆ ಬಾರ್ (ಎಲ್ಲಾ ಕಡೆ ಇರುತ್ತದೆ) -->
+    <!-- ಭಾಷೆ ಆಯ್ಕೆ ಬಾರ್ -->
     <div class="top-bar" id="globalLangBar" style="display:none;">
         <span id="langTextLabel">🌐 Language: 
             <select id="appLang" class="lang-select" onchange="changeLanguage()">
@@ -103,7 +103,7 @@
         <button onclick="openAdminPanelPrompt()" style="background: #7b1fa2; margin-top: 20px;" id="btnGoAdmin">⚙️ ಅಡ್ಮಿನ್ / ಡೇಟಾ ಪ್ಯಾನಲ್</button>
     </div>
 
-    <!-- 1. ಟೀಚರ್ ನೋಂದಣಿ ಪೇಜ್ (ಎಲ್ಲಾ ವಿವರಗಳು ಮತ್ತು ಸೆಲ್ಫಿ ಕ್ಯಾಮೆರಾ) -->
+    <!-- 1. ಟೀಚರ್ ನೋಂದಣಿ ಪೇಜ್ -->
     <div id="teacherRegSection" class="section">
         <div class="top-bar">
             <button class="back-btn" onclick="showSection('homeSection')" id="btnBackHome1">⬅️ ಹಿಂದಕ್ಕೆ</button>
@@ -172,11 +172,17 @@
             <label><input type="checkbox" name="subject" value="ವಿಜ್ಞಾನ"> ವಿಜ್ಞಾನ (Science)</label>
         </div>
 
-        <label id="lblTPhoto">ಸೆಲ್ಫಿ ಫೋಟೋ (ಕ್ಯಾಮರಾ):</label>
-        <button onclick="openTeacherCamera()" style="background: #0288d1;" type="button" id="btnOpenCam">📸 ಕ್ಯಾಮೆರಾ ಓಪನ್ ಮಾಡಿ</button>
+        <!-- ಕ್ಯಾಮರಾ ಅಥವಾ ಫೋಟೋ ಅಪ್ಲೋಡ್ ಆಯ್ಕೆ -->
+        <label id="lblTPhoto">ಫೋಟೋ ಸೆಲ್ಫಿ (ಕ್ಯಾಮರಾ ಅಥವಾ ಫೈಲ್ ಆಯ್ಕೆ ಮಾಡಿ):</label>
+        <button onclick="openTeacherCamera()" style="background: #0288d1;" type="button" id="btnOpenCam">📸 ನೇರ ಕ್ಯಾಮೆರಾ ಓಪನ್ ಮಾಡಿ</button>
+        
+        <!-- ಕ್ಯಾಮರಾ ಬ್ಲಾಕ್ ಆದರೆ ನೇರವಾಗಿ ಫೈಲ್/ಗ್ಯಾಲರಿಯಿಂದ ಫೋಟೋ ಹಾಕಲು ಇನ್ಪುಟ್ -->
+        <input type="file" id="tPhotoFile" accept="image/*" capture="user" style="margin-top: 10px;" onchange="previewFilePhoto(event)">
+
         <video id="teacherVideo" autoplay playsinline muted></video>
         <button onclick="captureTeacherPhoto()" style="background: #388e3c; display:none;" id="tCaptureBtn" type="button">📸 ಫೋಟೋ ಕ್ಯಾಪ್ಚರ್ ಮಾಡಿ</button>
         <canvas id="teacherCanvas"></canvas>
+        
         <div id="tPhotoStatus" style="color: green; font-weight: bold; margin-top: 5px;"></div>
         <div style="text-align: center;">
             <img id="tPhotoPreview" class="preview-img" style="display:none;" alt="Preview">
@@ -185,7 +191,7 @@
         <button onclick="registerTeacherAction()" style="margin-top: 20px;" id="btnSubmitTeacher">ರಿಜಿಸ್ಟರ್ ಮಾಡಿ ID ಪಡೆಯಿರಿ</button>
     </div>
 
-    <!-- 2. ಪೋಷಕರು ರಜೆ ಕಾರಣ ಕಳುಹಿಸುವ ಪೇಜ್ (Parent Leave/Absent Note) -->
+    <!-- 2. ಪೋಷಕರು ರಜೆ ಕಾರಣ ಕಳುಹಿಸುವ ಪೇಜ್ -->
     <div id="parentLeaveSection" class="section">
         <div class="top-bar">
             <button class="back-btn" onclick="showSection('homeSection')" id="btnBackHome2">⬅️ ಹಿಂದಕ್ಕೆ</button>
@@ -222,6 +228,7 @@
         <p style="text-align: center; color: #666;" id="subAttendance">ಕ್ಯಾಮರಾದಲ್ಲಿ ಮುಖ ತೋರಿಸಿ, ಹಾಜರಾತಿ ದಾಖಲಿಸಿ ಪೋಷಕರಿಗೆ ಅಲರ್ಟ್ ಕಳುಹಿಸಿ</p>
 
         <button onclick="startAttendanceCamera()" style="background: #0288d1;" type="button" id="btnStartAttCam">📸 ಅಟೆಂಡೆನ್ಸ್ ಕ್ಯಾಮೆರಾ ಓಪನ್ ಮಾಡಿ</button>
+        <input type="file" id="attPhotoFile" accept="image/*" capture="user" style="margin-top: 10px;" onchange="previewAttendanceFile(event)">
         <video id="attendanceVideo" autoplay playsinline muted></video>
 
         <div id="attendanceResultBox"></div>
@@ -251,7 +258,6 @@
     let mediaStream = null;
     let tempTeacherPhotoData = "";
 
-    // ವಿವಿಧ ಭಾಷೆಗಳಲ್ಲಿ ವಾಯ್ಸ್ ಗೈಡೆನ್ಸ್ ಸಂದೇಶಗಳು (Voice Guidance Prompts)
     const voiceTexts = {
         kn: {
             initName: "ದಯವಿಟ್ಟು ನಿಮ್ಮ ಹೆಸರು ಬರೆಯಿರಿ",
@@ -414,6 +420,8 @@
             mediaStream.getTracks().forEach(track => track.stop());
             mediaStream = null;
         }
+        let videoEl = document.getElementById('teacherVideo');
+        if(videoEl) videoEl.style.display = 'none';
     }
 
     function openTeacherCamera() {
@@ -428,8 +436,23 @@
                 document.getElementById('tPhotoStatus').innerText = "✅ ಕ್ಯಾಮೆರಾ ಓಪನ್ ಆಗಿದೆ, ಫೋಟೋ ಕ್ಯಾಪ್ಚರ್ ಮಾಡಿ";
             })
             .catch(err => { 
-                alert("ಕ್ಯಾಮರಾ ಅನುಮತಿ ಸಿಕ್ಕಿಲ್ಲ: " + err.message); 
+                alert("ಬ್ರೌಸರ್ ಕ್ಯಾಮರಾ ಬ್ಲಾಕ್ ಮಾಡಿದೆ. ಕೆಳಗಿರುವ ಫೈಲ್/ಗ್ಯಾಲರಿ ಬಟನ್ ಬಳಸಿ ನೇರವಾಗಿ ಫೋಟೋ ಅಪ್ಲೋಡ್ ಮಾಡಿ."); 
             });
+    }
+
+    function previewFilePhoto(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                tempTeacherPhotoData = e.target.result;
+                let preview = document.getElementById('tPhotoPreview');
+                preview.src = tempTeacherPhotoData;
+                preview.style.display = 'inline-block';
+                document.getElementById('tPhotoStatus').innerText = "✅ ಫೋಟೋ ಯಶಸ್ವಿಯಾಗಿ ಅಪ್ಲೋಡ್ ಆಗಿದೆ!";
+            }
+            reader.readAsDataURL(file);
+        }
     }
 
     function captureTeacherPhoto() {
@@ -446,7 +469,6 @@
         preview.style.display = 'inline-block';
         
         stopCamera();
-        video.style.display = 'none';
         document.getElementById('tCaptureBtn').style.display = 'none';
         document.getElementById('tPhotoStatus').innerText = "✅ ಫೋಟೋ ಯಶಸ್ವಿಯಾಗಿ ಸೆರೆಹಿಡಿಯಲಾಗಿದೆ!";
     }
@@ -501,7 +523,7 @@
         if(!parentName) { document.getElementById('pParentNameErr').style.display = 'block'; isValid = false; }
         if(!parentPhone || parentPhone.length < 10) { document.getElementById('pParentPhoneErr').style.display = 'block'; isValid = false; }
         if(!childName) { document.getElementById('pChildNameErr').style.display = 'block'; isValid = false; }
-        if(!reasonText) { document.getElementById('pReasonTextErr').style.display = 'block'; isValid = false; }
+        if(!reasonText) { document.getElementById('pReasonTextErr').style.display, 'block'; isValid = false; }
 
         if(!isValid) {
             alert("ದಯವಿಟ್ಟು ಎಲ್ಲಾ ಮಾಹಿತಿಯನ್ನು ಭರ್ತಿ ಮಾಡಿ!");
@@ -522,7 +544,9 @@
         navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } })
             .then(stream => {
                 mediaStream = stream;
-                document.getElementById('attendanceVideo').srcObject = stream;
+                let videoEl = document.getElementById('attendanceVideo');
+                videoEl.srcObject = stream;
+                videoEl.style.display = 'block';
                 
                 setTimeout(() => {
                     document.getElementById('attendanceResultBox').innerHTML = `
@@ -535,7 +559,22 @@
                     speakText("ಹಾಜರಾತಿ ಯಶಸ್ವಿಯಾಗಿದೆ. ಪೋಷಕರಿಗೆ ಸಂದೇಶ ಕಳುಹಿಸಲಾಗಿದೆ.", document.getElementById('appLang').value);
                 }, 3000);
             })
-            .catch(err => { alert("ಕ್ಯಾಮರಾ ಅನುಮತಿ ಸಿಕ್ಕಿಲ್ಲ: " + err.message); });
+            .catch(err => { 
+                alert("ಕ್ಯಾಮರಾ ಅನುಮತಿ ಸಿಕ್ಕಿಲ್ಲ. ದಯವಿಟ್ಟು ಕೆಳಗಿರುವ ಫೈಲ್ ಆಯ್ಕೆ ಮಾಡಿ ಫೋಟೋ ಹಾಕಿ."); 
+            });
+    }
+
+    function previewAttendanceFile(event) {
+        const file = event.target.files[0];
+        if(file) {
+            document.getElementById('attendanceResultBox').innerHTML = `
+                <div class="card" style="text-align: center;">
+                    <p style="color: green; font-weight: bold; font-size: 18px;">✅ ಹಾಜರಾತಿ ಯಶಸ್ವಿಯಾಗಿ ದಾಖಲಾಗಿದೆ!</p>
+                    <p style="color: #d32f2f;">📩 ಪೋಷಕರ WhatsApp ನಂಬರ್‌ಗೆ ಆಟೋಮ್ಯಾಟಿಕ್ ಅಲರ್ಟ್ ಕಳುಹಿಸಲಾಗಿದೆ!</p>
+                </div>
+            `;
+            speakText("ಹಾಜರಾತಿ ಯಶಸ್ವಿಯಾಗಿದೆ. ಪೋಷಕರಿಗೆ ಸಂದೇಶ ಕಳುಹಿಸಲಾಗಿದೆ.", document.getElementById('appLang').value);
+        }
     }
 
     function openAdminPanelPrompt() {
