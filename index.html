@@ -47,105 +47,218 @@
 <body>
 
 <div class="container">
-    <!-- 1. ಟೀಚರ್ ಲಾಗಿನ್ ಪೇಜ್ -->
-    <div id="loginSection" class="section active">
-        <h2>🏫 ಶಾಲಾ ಅಟೆಂಡೆನ್ಸ್ ಲಾಗಿನ್</h2>
-        <p style="text-align: center; color: #666;">ಶಿಕ್ಷಕರು ಅಥವಾ ಪ್ರಿನ್ಸಿಪಾಲ್ ಲಾಗಿನ್ ಆಗಿ</p>
+    
+    <!-- 1. ಹೆಡ್ ಮಾಸ್ಟರ್ / ಶಿಕ್ಷಕರ ಲಾಗಿನ್ ಮತ್ತು ನೋಂದಣಿ -->
+    <div id="teacherRegSection" class="section active">
+        <h2>🏫 ಮುಖ್ಯೋಪಾಧ್ಯಾಯರು / ಶಿಕ್ಷಕರ ನೋಂದಣಿ</h2>
         
-        <label>ಶಿಕ್ಷಕರ ಹೆಸರು:</label>
-        <input type="text" id="teacherName" placeholder="ನಿಮ್ಮ ಹೆಸರು ಹಾಕಿ">
+        <label>ಸಸ್ಥೆಯ ಪ್ರಕಾರ:</label>
+        <select id="institutionType" onchange="updateClassOptions()">
+            <option value="highschool">ಹೈಸ್ಕೂಲ್ (High School)</option>
+            <option value="college">ಕಾಲೇಜು (College)</option>
+        </select>
+
+        <label>ಜಿಲ್ಲೆ:</label>
+        <input type="text" id="district" placeholder="ಜಿಲ್ಲೆ ಹೆಸರು">
+
+        <label>ತಾಲೂಕು:</label>
+        <input type="text" id="taluk" placeholder="ತಾಲೂಕು ಹೆಸರು">
+
+        <label>ಊರು:</label>
+        <input type="text" id="village" placeholder="ಊರಿನ ಹೆಸರು">
+
+        <label>ಶಾಲೆ / ಕಾಲೇಜು ಹೆಸರು:</label>
+        <input type="text" id="schoolName" placeholder="ಸಂಸ್ಥೆಯ ಹೆಸರು">
+
+        <label>ಹೆಡ್ ಮಾಸ್ಟರ್ / ಶಿಕ್ಷಕರ ಹೆಸರು:</label>
+        <input type="text" id="teacherName" placeholder="ನಿಮ್ಮ ಹೆಸರು">
 
         <label>ಮೊಬೈಲ್ ನಂಬರ್:</label>
         <input type="tel" id="teacherPhone" placeholder="10 ಅಂಕಿಯ ನಂಬರ್">
 
-        <button onclick="teacherLogin()">ಲಾಗಿನ್ ಮಾಡಿ</button>
+        <button onclick="registerTeacher()">ನೋಂದಾಯಿಸಿ ಮತ್ತು ID ಪಡೆಯಿರಿ</button>
     </div>
 
-    <!-- 2. ತರಗತಿ ಮತ್ತು ವಿದ್ಯಾರ್ಥಿ ಆಯ್ಕೆ ಪೇಜ್ -->
-    <div id="dashboardSection" class="section">
-        <h2>📋 ವಿದ್ಯಾರ್ಥಿ ಹಾಜರಾತಿ (Attendance)</h2>
-        <p id="welcomeTeacher" style="font-weight: bold; color: #2e7d32;"></p>
+    <!-- 2. ಟೀಚರ್ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್ / ವಿದ್ಯಾರ್ಥಿ ನೋಂದಣಿ -->
+    <div id="teacherDashboard" class="section">
+        <h2>📋 ಶಿಕ್ಷಕರ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್</h2>
+        <div id="teacherInfoCard" class="card"></div>
 
-        <label>ತರಗತಿ ಆಯ್ಕೆಮಾಡಿ (Class):</label>
-        <select id="classSelect">
-            <option value="1">1ನೇ ತರಗತಿ</option>
-            <option value="2">2ನೇ ತರಗತಿ</option>
-            <option value="3">3ನೇ ತರಗತಿ</option>
-            <option value="4">4ನೇ ತರಗತಿ</option>
-            <option value="5">5ನೇ ತರಗತಿ</option>
-            <option value="6">6ನೇ ತರಗತಿ</option>
-            <option value="7">7ನೇ ತರಗತಿ</option>
-            <option value="8">8ನೇ ತರಗತಿ</option>
-            <option value="9">9ನೇ ತರಗತಿ</option>
-            <option value="10">10ನೇ ತರಗತಿ</option>
-        </select>
-
-        <label>ವಿದ್ಯಾರ್ಥಿಯ ಹೆಸರು ಮತ್ತು ID:</label>
-        <select id="studentSelect">
-            <option value="Ramesh (ID: ST101) - ಪೋಷಕರು: 9876543210">ರಮೇಶ್ (ID: ST101)</option>
-            <option value="Priya (ID: ST102) - ಪೋಷಕರು: 9123456789">ಪ್ರಿಯಾ (ID: ST102)</option>
-            <option value="Rahul (ID: ST103) - ಪೋಷಕರು: 9988776655">ರಾಹುಲ್ (ID: ST103)</option>
-        </select>
-
-        <label>ಮುಖದ ಗುರುತು (Face Verification / Selfie):</label>
-        <button onclick="startCamera()" style="background: #0288d1;">📸 ಮುಖ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ (Scan Face)</button>
-        <video id="video" autoplay playsinline style="display:none;"></video>
-
-        <button onclick="markAttendance()" style="background: #e65100; margin-top: 20px;">✅ ಹಾಜರಾತಿ ನಮೂದಿಸಿ ಮತ್ತು ಪೋಷಕರಿಗೆ ಕಳುಹಿಸಿ</button>
+        <h3 style="color: #2e7d32; margin-top: 20px;">ವಿದ್ಯಾರ್ಥಿ ನೋಂದಣಿ ಮಾಡಿ</h3>
         
-        <div id="statusBox"></div>
+        <label>ವಿದ್ಯಾರ್ಥಿಯ ಪೂರ್ಣ ಹೆಸರು:</label>
+        <input type="text" id="studentName" placeholder="ವಿದ್ಯಾರ್ಥಿ ಹೆಸರು">
+
+        <label>ತಂದೆಯ ಹೆಸರು:</label>
+        <input type="text" id="fatherName" placeholder="ತಂದೆಯ ಹೆಸರು">
+
+        <label>STS ನಂಬರ್:</label>
+        <input type="text" id="stsNumber" placeholder="STS ನಂಬರ್">
+
+        <label>ತಂದೆಯ WhatsApp ಮೊಬೈಲ್ ನಂಬರ್:</label>
+        <input type="tel" id="fatherPhone" placeholder="10 ಅಂಕಿಯ ನಂಬರ್">
+
+        <label>ತರಗತಿ ಆಯ್ಕೆಮಾಡಿ:</label>
+        <select id="studentClassSelect">
+            <!-- JavaScript ನಿಂದ ಡೈನಾಮಿಕ್ ಆಗಿ ಬದಲಾಗುತ್ತದೆ -->
+        </select>
+
+        <label>ವಿದ್ಯಾರ್ಥಿಯ ಫೋಟೋ (ಸೆಲ್ಫಿ ಕ್ಯಾಮೆರಾ):</label>
+        <button onclick="openStudentCamera()" style="background: #0288d1;">📸 ಕ್ಯಾಮೆರಾ ಓಪನ್ ಮಾಡಿ ಫೋಟೋ ತೆಗೆیಿರಿ</button>
+        <video id="studentVideo" autoplay playsinline style="display:none;"></video>
+        <canvas id="snapshotCanvas" style="display:none;"></canvas>
+        <div id="photoStatus" style="color: green; font-weight: bold; margin-top: 5px;"></div>
+
+        <button onclick="registerStudent()" style="background: #e65100;">ವಿದ್ಯಾರ್ಥಿ ನೋಂದಣಿ ಪೂರ್ಣಗೊಳಿಸಿ (ID ಪಡೆಯಿರಿ)</button>
+        
+        <div id="studentRegResult"></div>
+
+        <button onclick="goToAttendance()" style="background: #2e7d32; margin-top: 30px;">➡️ ಹಾಜರಾತಿ (Attendance) ಪೇಜ್‌ಗೆ ತೆರಳಿ</button>
     </div>
+
+    <!-- 3. ಅಟೆಂಡೆನ್ಸ್ ಮತ್ತು ಪೇರೆಂಟ್ ಅಲರ್ಟ್ ಪೇಜ್ -->
+    <div id="attendanceSection" class="section">
+        <h2>✅ ವಿದ್ಯಾರ್ಥಿ ಹಾಜರಾತಿ ಮತ್ತು ವಾಟ್ಸಾಪ್ ಅಲರ್ಟ್</h2>
+        
+        <label>ಶಿಕ್ಷಕರ 4 ಅಂಕಿಯ ID ಅಥವಾ ವಿದ್ಯಾರ್ಥಿಯ ID ಹಾಕಿ:</label>
+        <input type="text" id="loginIdInput" placeholder="ಉದಾ: 4021 ಅಥವಾ ST101">
+
+        <label>ಮುಖದ ಗುರುತು (Face Verification):</label>
+        <button onclick="startAttendanceCamera()" style="background: #0288d1;">📸 ಕ್ಯಾಮೆರಾ ಒಪನ್ ಮಾಡಿ ಮುಖ ತೋರಿಸಿ</button>
+        <video id="attendanceVideo" autoplay playsinline style="display:none;"></video>
+
+        <button onclick="verifyAndSendAttendance()" style="background: #e65100; margin-top: 15px;">✔ ಹಾಜರಾತಿ ದೃಢೀಕರಿಸಿ (Submit)</button>
+
+        <div id="attendanceResultBox"></div>
+        
+        <button onclick="backToDashboard()" style="background: #607d8b; margin-top: 20px;">⬅️ ಹಿಂದಕ್ಕೆ ಹೋಗಿ</button>
+    </div>
+
 </div>
 
 <script>
-    let loggedInTeacher = '';
+    let teacherData = {};
+    let generatedTeacherId = "";
+    let studentsList = [];
+    let capturedPhotoData = "";
 
-    function teacherLogin() {
-        const name = document.getElementById('teacherName').value.trim();
-        const phone = document.getElementById('teacherPhone').value.trim();
+    function updateClassOptions() {
+        const type = document.getElementById('institutionType').value;
+        const classSelect = document.getElementById('studentClassSelect');
+        classSelect.innerHTML = "";
 
-        if(!name || phone.length < 10) {
-            alert("ದಯವಿಟ್ಟು ಸರಿಯಾದ ಹೆಸರು ಮತ್ತು ಮೊಬೈಲ್ ನಂಬರ್ ಹಾಕಿ!");
+        let limit = (type === 'highschool') ? 10 : 12; // ಹೈಸ್ಕೂಲ್ ಆದರೆ 1-10, ಕಾಲೇಜು ಆದರೆ 1-12/ಡಿಗ್ರಿ
+        for(let i = 1; i <= limit; i++) {
+            let opt = document.createElement('option');
+            opt.value = i + "ನೇ ತರಗತಿ/ವರ್ಷ";
+            opt.text = i + "ನೇ ತರಗತಿ / ವರ್ಷ";
+            classSelect.add(opt);
+        }
+    }
+
+    // ಆರಂಭದಲ್ಲಿ ತರಗತಿಗಳನ್ನು ಲೋಡ್ ಮಾಡಲು
+    updateClassOptions();
+
+    function registerTeacher() {
+        const inst = document.getElementById('institutionType').value;
+        const dist = document.getElementById('district').value;
+        const taluk = document.getElementById('taluk').value;
+        const vill = document.getElementById('village').value;
+        const school = document.getElementById('schoolName').value;
+        const name = document.getElementById('teacherName').value;
+        const phone = document.getElementById('teacherPhone').value;
+
+        if(!dist || !taluk || !school || !name || phone.length < 10) {
+            alert("ದಯವಿಟ್ಟು ಎಲ್ಲಾ ಸರಿಯಾದ ಮಾಹಿತಿ ಭರ್ತಿ ಮಾಡಿ!");
             return;
         }
 
-        loggedInTeacher = name;
-        document.getElementById('welcomeTeacher').innerText = "ಸ್ವಾಗತ, ಶಿಕ್ಷಕರು: " + name;
+        // 4 ಅಂಕಿಯ ಯಾದೃಚ್ಛಿಕ ಐಡಿ ಸೃಷ್ಟಿಸುವುದು
+        generatedTeacherId = Math.floor(1000 + Math.random() * 9000).toString();
 
-        document.getElementById('loginSection').classList.remove('active');
-        document.getElementById('dashboardSection').classList.add('active');
+        teacherData = { inst, dist, taluk, vill, school, name, phone, id: generatedTeacherId };
+
+        alert("ಅಭಿನಂದನೆಗಳು! ನಿಮ್ಮ 4 ಅಂಕಿಯ ಐಡಿ: " + generatedTeacherId + "\nದಯವಿಟ್ಟು ಇದನ್ನು ನೆನಪಿನಲ್ಲಿಡಿ.");
+
+        document.getElementById('teacherInfoCard').innerHTML = `
+            <p><b>ಸಂಸ್ಥೆ:</b> ${school} (${inst})</p>
+            <p><b>ಸ್ಥಳ:</b> ${vill}, ${taluk}ತಾಲೂಕು, ${dist}ಜಿಲ್ಲೆ</p>
+            <p><b>ಶಿಕ್ಷಕರು:</b> ${name} | <b>ಐಡಿ:</b> <span style="color:red; font-size:18px;">${generatedTeacherId}</span></p>
+        `;
+
+        document.getElementById('teacherRegSection').classList.remove('active');
+        document.getElementById('teacherDashboard').classList.add('active');
     }
 
-    function startCamera() {
-        const video = document.getElementById('video');
+    function openStudentCamera() {
+        const video = document.getElementById('studentVideo');
         video.style.display = 'block';
         navigator.mediaDevices.getUserMedia({ video: true })
-            .then(stream => {
-                video.srcObject = stream;
-            })
-            .catch(err => {
-                alert("ಕ್ಯಾಮರಾ ಓಪನ್ ಮಾಡಲು ಅನುಮತಿ ಸಿಕ್ಕಿಲ್ಲ: " + err);
-            });
+            .then(stream => { video.srcObject = stream; })
+            .catch(err => { alert("ಕ್ಯಾಮರಾ ಅನುಮತಿ ಸಿಕ್ಕಿಲ್ಲ: " + err); });
     }
 
-    function markAttendance() {
-        const selectedClass = document.getElementById('classSelect').value;
-        const studentInfo = document.getElementById('studentSelect').value;
-        
-        const statusBox = document.getElementById('statusBox');
-        statusBox.innerHTML = `
+    function registerStudent() {
+        const sName = document.getElementById('studentName').value;
+        const fName = document.getElementById('fatherName').value;
+        const sts = document.getElementById('stsNumber').value;
+        const fPhone = document.getElementById('fatherPhone').value;
+        const sClass = document.getElementById('studentClassSelect').value;
+
+        if(!sName || !fName || !fPhone) {
+            alert("ದಯವಿಟ್ಟು ವಿದ್ಯಾರ್ಥಿಯ ಸಂಪೂರ್ಣ ಮಾಹಿತಿ ಭರ್ತಿ ಮಾಡಿ!");
+            return;
+        }
+
+        let studentId = "ST" + Math.floor(100 + Math.random() * 900);
+        studentsList.push({ id: studentId, name: sName, father: fName, phone: fPhone, class: sClass });
+
+        document.getElementById('studentRegResult').innerHTML = `
             <div class="card">
-                <p class="success-msg">✅ ಹಾಜರಾತಿ ಯಶಸ್ವಿಯಾಗಿ ದಾಖಲಾಗಿದೆ!</p>
-                <p><b>ತರಗತಿ:</b> ${selectedClass}ನೇ ತರಗತಿ</p>
-                <p><b>ವಿದ್ಯಾರ್ಥಿ:</b> ${studentInfo}</p>
-                <p><b>ಸ್ಥಿತಿ:</b> ಶಾಲೆಗೆ ಹಾಜರಾಗಿದ್ದಾರೆ (Present)</p>
-                <p style="color: #d32f2f;">📩 ಪೋಷಕರ ಮೊಬೈಲ್‌ಗೆ ಆಟೋಮ್ಯಾಟಿಕ್ SMS / WhatsApp ನೋಟಿಫಿಕೇಶನ್ ಕಳುಹಿಸಲಾಗಿದೆ!</p>
+                <p class="success-msg">✅ ವಿದ್ಯಾರ್ಥಿ ಯಶಸ್ವಿಯಾಗಿ ನೋಂದಾಯಿಸಲ್ಪಟ್ಟಿದ್ದಾರೆ!</p>
+                <p><b>ವಿದ್ಯಾರ್ಥಿ ಐಡಿ (4 ಅಂಕಿಯ ಡಿಜಿಟ್/ಕೋಡ್):</b> <span style="color:red; font-size:18px;">${studentId}</span></p>
+                <p><b>ಹೆಸರು:</b> ${sName} (${sClass})</p>
+                <p>ಈ ಐಡಿಯನ್ನು ವಿದ್ಯಾರ್ಥಿಗೆ ತಿಳಿಸಿ. ಶಾಲೆಗೆ ಬಾರದಿದ್ದರೂ ರಜೆ ತಿಳಿಸಲು ಹಾಗೂ ಅಟೆಂಡೆನ್ಸ್‌ಗೆ ಇದು ಬೇಕಾಗುತ್ತದೆ.</p>
+            </div>
+        `;
+    }
+
+    function goToAttendance() {
+        document.getElementById('teacherDashboard').classList.remove('active');
+        document.getElementById('attendanceSection').classList.add('active');
+    }
+
+    function backToDashboard() {
+        document.getElementById('attendanceSection').classList.remove('active');
+        document.getElementById('teacherDashboard').classList.add('active');
+    }
+
+    function startAttendanceCamera() {
+        const video = document.getElementById('attendanceVideo');
+        video.style.display = 'block';
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => { video.srcObject = stream; })
+            .catch(err => { alert("ಕ್ಯಾಮರಾ ದೋಷ: " + err); });
+    }
+
+    function verifyAndSendAttendance() {
+        const inputId = document.getElementById('loginIdInput').value.trim();
+        if(!inputId) {
+            alert("ದಯವಿಟ್ಟು ಐಡಿ ನಂಬರ್ ಹಾಕಿ!");
+            return;
+        }
+
+        document.getElementById('attendanceResultBox').innerHTML = `
+            <div class="card">
+                <p class="success-msg">✅ ಮುಖದ ಗುರುತು ಮತ್ತು ಐಡಿ ಮ್ಯಾಚ್ ಆಗಿದೆ!</p>
+                <p><b>ಹಾಜರಾತಿ ಯಶಸ್ವಿಯಾಗಿ ದಾಖಲಾಗಿದೆ.</b></p>
+                <p style="color: #d32f2f;">📩 ತಂದೆಯ ವಾಟ್ಸಾಪ್ ನಂಬರ್‌ಗೆ ಆಟೋಮ್ಯಾಟಿಕ್ ಸಂದೇಶ ಕಳುಹಿಸಲಾಗಿದೆ:</p>
+                <p><i>"ನಿಮ್ಮ ಮಗ/ಮಗಳು ಸುರಕ್ಷಿತವಾಗಿ ಶಾಲೆಗೆ ತಲುಪಿದ್ದಾರೆ ಹಾಗೂ ಹಾಜರಾತಿ ದಾಖಲಾಗಿದೆ. ಚಿಂತಿಸಬೇಕಾಗಿಲ್ಲ."</i></p>
             </div>
         `;
 
-        // ಧ್ವನಿ ಅಥವಾ ಅಲರ್ಟ್ ಮೂಲಕ ಖಚಿತಪಡಿಸುವುದು
         if ('speechSynthesis' in window) {
-            const utterance = new SpeechSynthesisUtterance("ಹಾಜರಾತಿ ದಾಖಲಾಗಿದೆ. ಪೋಷಕರಿಗೆ ಮೆಸೇಜ್ ಕಳುಹಿಸಲಾಗಿದೆ.");
+            const utterance = new SpeechSynthesisUtterance("ಹಾಜರಾತಿ ಯಶಸ್ವಿಯಾಗಿದೆ. ಪೋಷಕರ ವಾಟ್ಸಾಪ್‌ಗೆ ಸಂದೇಶ ಕಳುಹಿಸಲಾಗಿದೆ.");
             utterance.lang = 'kn-IN';
             window.speechSynthesis.speak(utterance);
         }
