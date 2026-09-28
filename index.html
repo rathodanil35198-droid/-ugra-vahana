@@ -41,12 +41,6 @@
             box-sizing: border-box;
             font-size: 15px;
         }
-        .error {
-            color: red;
-            font-size: 12px;
-            margin-top: 3px;
-            display: none;
-        }
         .main-btn {
             width: 100%;
             padding: 16px;
@@ -139,15 +133,6 @@
 <body>
 
 <div class="container">
-    <div style="text-align: right; margin-bottom: 15px;">
-        <label for="langSelect" style="display:inline; font-size: 14px;">Language: </label>
-        <select id="langSelect" style="width: auto; display: inline-block; padding: 5px;" onchange="changeLanguage()">
-            <option value="kn">ಕನ್ನಡ</option>
-            <option value="hi">हिंदी</option>
-            <option value="en">English</option>
-        </select>
-    </div>
-
     <!-- ೦. ಮುಖ್ಯ ಪೇಜ್ (Home Page) -->
     <div id="homePage" class="page active-page">
         <h2>ಶಾಲೆ ಮತ್ತು ಮಕ್ಕಳ ಸುರಕ್ಷತಾ ಆಪ್</h2>
@@ -170,37 +155,37 @@
         <form id="teacherForm" onsubmit="validateAndSubmit(event)">
             <div class="form-group">
                 <label>ನಿಮ್ಮ ಹೆಸರು:</label>
-                <input type="text" id="name" placeholder="ನಿಮ್ಮ ಹೆಸರನ್ನು ಹಾಕಿ">
+                <input type="text" id="name" placeholder="ನಿಮ್ಮ ಹೆಸರನ್ನು ಹಾಕಿ" required>
             </div>
 
             <div class="form-group">
                 <label>ಮೊಬೈಲ್ ನಂಬರ್:</label>
-                <input type="tel" id="phone" maxlength="10" placeholder="10 ಅಂಕಿಯ ಮೊಬೈಲ್ ನಂಬರ್">
+                <input type="tel" id="phone" maxlength="10" placeholder="10 ಅಂಕಿಯ ಮೊಬೈಲ್ ನಂಬರ್" required>
             </div>
 
             <div class="form-group">
                 <label>ಜಿಲ್ಲೆ:</label>
-                <input type="text" id="district" placeholder="ನಿಮ್ಮ ಜಿಲ್ಲೆ">
+                <input type="text" id="district" placeholder="ನಿಮ್ಮ ಜಿಲ್ಲೆ" required>
             </div>
 
             <div class="form-group">
                 <label>ತಾಲೂಕು:</label>
-                <input type="text" id="taluk" placeholder="ನಿಮ್ಮ ತಾಲೂಕು">
+                <input type="text" id="taluk" placeholder="ನಿಮ್ಮ ತಾಲೂಕು" required>
             </div>
 
             <div class="form-group">
                 <label>ಊರು:</label>
-                <input type="text" id="village" placeholder="ನಿಮ್ಮ ಊರು">
+                <input type="text" id="village" placeholder="ನಿಮ್ಮ ಊರು" required>
             </div>
 
             <div class="form-group">
                 <label>ಹೈಸ್ಕೂಲ್ / ಕಾಲೇಜು ಹೆಸರು:</label>
-                <input type="text" id="school" placeholder="ಶಾಲೆಯ ಹೆಸರು">
+                <input type="text" id="school" placeholder="ಶಾಲೆಯ ಹೆಸರು" required>
             </div>
 
             <div class="form-group">
                 <label>ತರಗತಿ ಆಯ್ಕೆಮಾಡಿ:</label>
-                <select id="classSelect">
+                <select id="classSelect" required>
                     <option value="">-- ತರಗತಿ ಆಯ್ಕೆಮಾಡಿ --</option>
                     <option value="LKG">LKG</option>
                     <option value="UKG">UKG</option>
@@ -221,7 +206,7 @@
 
             <div class="form-group">
                 <label>ಪಾಠದ ವಿಷಯ:</label>
-                <select id="subjectSelect">
+                <select id="subjectSelect" required>
                     <option value="">-- ವಿಷಯ ಆಯ್ಕೆಮಾಡಿ --</option>
                     <option value="ಕನ್ನಡ">ಕನ್ನಡ</option>
                     <option value="ಇಂಗ್ಲಿಷ್">ಇಂಗ್ಲಿಷ್</option>
@@ -233,8 +218,8 @@
             </div>
 
             <div class="form-group">
-                <label>ನಿಮ್ಮ ಸೆಲ್ಫಿ ಫೋಟೋ ಹಾಕಿ (ಕ್ಯಾಮೆರಾ ಓಪನ್ ಆಗುತ್ತದೆ):</label>
-                <input type="file" id="selfie" accept="image/*" capture="user" onchange="previewImage(event)">
+                <label>ನಿಮ್ಮ ಸೆಲ್ಫಿ ಫೋಟೋ ಹಾಕಿ:</label>
+                <input type="file" id="selfie" accept="image/*" capture="user" onchange="previewImage(event)" required>
                 <img id="preview" alt="ಸೆಲ್ಫಿ ಪ್ರಿವ್ಯೂ">
             </div>
 
@@ -274,32 +259,32 @@
         <form id="childForm" onsubmit="saveChildData(event)">
             <div class="form-group">
                 <label>ಮಕ್ಕಳು ಹೆಸರು:</label>
-                <input type="text" id="childName" placeholder="ಮಗುವಿನ ಹೆಸರು">
+                <input type="text" id="childName" placeholder="ಮಗುವಿನ ಹೆಸರು" required>
             </div>
 
             <div class="form-group">
                 <label>ತಂದೆಯ ಹೆಸರು:</label>
-                <input type="text" id="fatherName" placeholder="ತಂದೆಯ ಹೆಸರು">
+                <input type="text" id="fatherName" placeholder="ತಂದೆಯ ಹೆಸರು" required>
             </div>
 
             <div class="form-group">
                 <label>ತಾಯಿಯ ಹೆಸರು:</label>
-                <input type="text" id="motherName" placeholder="ತಾಯಿಯ ಹೆಸರು">
+                <input type="text" id="motherName" placeholder="ತಾಯಿಯ ಹೆಸರು" required>
             </div>
 
             <div class="form-group">
                 <label>ತಂದೆ/ತಾಯಿಯ ಮೊಬೈಲ್ ನಂಬರ್:</label>
-                <input type="tel" id="parentPhone" maxlength="10" placeholder="10 ಅಂಕಿಯ ಮೊಬೈಲ್ ನಂಬರ್">
+                <input type="tel" id="parentPhone" maxlength="10" placeholder="10 ಅಂಕಿಯ ಮೊಬೈಲ್ ನಂಬರ್" required>
             </div>
 
             <div class="form-group">
                 <label>ಮಗುವಿನ ಊರು ಯಾವುದು:</label>
-                <input type="text" id="childVillage" placeholder="ಊರಿನ ಹೆಸರು">
+                <input type="text" id="childVillage" placeholder="ಊರಿನ ಹೆಸರು" required>
             </div>
 
             <div class="form-group">
                 <label>ಎಷ್ಟನೇ ತರಗತಿ ಇದ್ದಾರೆ:</label>
-                <select id="childClass">
+                <select id="childClass" required>
                     <option value="">-- ತರಗತಿ ಆಯ್ಕೆಮಾಡಿ --</option>
                     <option value="LKG">LKG</option>
                     <option value="UKG">UKG</option>
@@ -317,14 +302,14 @@
             </div>
 
             <div class="form-group">
-                <label>ಮಕ್ಕಳ ಸೆಲ್ಫಿ ಫೋಟೋ (ಕ್ಯಾಮೆರಾ ಓಪನ್ ಆಗುತ್ತದೆ):</label>
-                <input type="file" id="childSelfie" accept="image/*" capture="user" onchange="previewChildImage(event, 'selfie')">
+                <label>ಮಕ್ಕಳ ಸೆಲ್ಫಿ ಫೋಟೋ:</label>
+                <input type="file" id="childSelfie" accept="image/*" capture="user" onchange="previewChildImage(event, 'selfie')" required>
                 <img id="childPreview" alt="ಸೆಲ್ಫಿ ಪ್ರಿವ್ಯೂ">
             </div>
 
             <div class="form-group">
                 <label>ಹೈಸ್ಕೂಲ್ ಕೊಟ್ಟಿರುವ ಐಡಿ ಕಾರ್ಡ್ ಫೋಟೋ:</label>
-                <input type="file" id="schoolIdPhoto" accept="image/*" onchange="previewChildImage(event, 'idcard')">
+                <input type="file" id="schoolIdPhoto" accept="image/*" onchange="previewChildImage(event, 'idcard')" required>
                 <img id="idCardPreview" alt="ಐಡಿ ಕಾರ್ಡ್ ಪ್ರಿವ್ಯೂ">
             </div>
 
@@ -335,7 +320,7 @@
     <!-- ೪. ಮಕ್ಕಳ ಹಾಜರಾತಿ ಮತ್ತು ಕ್ಯಾಮೆರಾ ಸ್ಕ್ಯಾನಿಂಗ್ ಪೇಜ್ -->
     <div id="attendancePage" class="page">
         <button class="back-btn" onclick="goToHome()">⬅ ಮುಖ್ಯ ಪೇಜ್‌ಗೆ ಹಿಂದಿರುಗಿ</button>
-        <h2>ಮಕ್ಕಳ ಹಾಜರಾತಿ ಕ್ಯಾಮೆರಾ ಸ್ಕ್ಯಾನ್</h2>
+        <h2>ಮಕ್ಕಳ ಹಾಜರಾತಿ ಕ್ಯಾಮೆರಾ ಸ್ಕ್ಾನ್</h2>
         
         <div class="form-group">
             <label>📷 ಮಕ್ಕಳ ಫೋಟೋ ತೆಗೆಯಿರಿ ಅಥವಾ ಐಡಿ ಹಾಕಿ:</label>
@@ -377,17 +362,6 @@
             updateTeacherDisplay(tData);
         }
     };
-
-    function changeLanguage() {
-        let lang = document.getElementById('langSelect').value;
-        if(lang === 'hi') {
-            document.getElementById('tRegTitle').innerText = "शिक्षक पंजीकरण पेज";
-        } else if(lang === 'en') {
-            document.getElementById('tRegTitle').innerText = "Teacher Registration Page";
-        } else {
-            document.getElementById('tRegTitle').innerText = "ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಪೇಜ್";
-        }
-    }
 
     function handleTeacherButtonClick() {
         let savedTeacher = localStorage.getItem('teacherData');
@@ -467,8 +441,13 @@
         let classVal = document.getElementById('classSelect').value;
         let subjectVal = document.getElementById('subjectSelect').value;
 
-        if(!name || phone.length !== 10 || !district || !taluk || !village || !school || !classVal || !subjectVal || !capturedImageSrc) {
-            alert("ದಯವಿಟ್ಟು ಎಲ್ಲಾ ಮಾಹಿತಿ ಮತ್ತು ಫೋಟೋ ಸರಿಯಾಗಿ ಭರ್ತಿ ಮಾಡಿ!");
+        if(!name || phone.length !== 10 || !district || !taluk || !village || !school || !classVal || !subjectVal) {
+            alert("ದಯವಿಟ್ಟು ಎಲ್ಲಾ ಮಾಹಿತಿ ಸರಿಯಾಗಿ ಭರ್ತಿ ಮಾಡಿ!");
+            return;
+        }
+
+        if(!capturedImageSrc) {
+            alert("ದಯವಿಟ್ಟು ನಿಮ್ಮ ಸೆಲ್ಫಿ ಫೋಟೋ ಆಯ್ಕೆಮಾಡಿ!");
             return;
         }
 
