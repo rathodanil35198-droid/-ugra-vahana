@@ -31,6 +31,7 @@
             margin-bottom: 5px;
             font-weight: bold;
             color: #555;
+            cursor: pointer;
         }
         input, select {
             width: 100%;
@@ -100,21 +101,33 @@
             border-radius: 10px;
             text-align: center;
         }
+        /* ಡ್ರೈವರ್ ಆ್ಯಪ್ ಶೈಲಿಯ ಕಾಂಪ್ಯಾಕ್ಟ್ ಕಾರ್ಡ್ ವಿನ್ಯಾಸ[span_3](start_span)[span_3](end_span) */
         .child-card {
-            background: #e9ecef;
-            padding: 15px;
+            background: #ffffff;
+            border: 1px solid #ddd;
+            padding: 12px;
             border-radius: 8px;
-            margin-top: 15px;
+            margin-top: 10px;
             text-align: left;
+            box-shadow: 0px 2px 5px rgba(0,0,0,0.05);
+        }
+        .delete-btn {
+            background-color: #dc3545;
+            padding: 8px;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+        .delete-btn:hover {
+            background-color: #c82333;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- ಭಾಷಾ ಸೆಟ್ಟಿಂಗ್ ಬಟನ್ (ಇಂಗ್ಲಿಷ್, ಹಿಂದಿ, ಕನ್ನಡ) -->
+    <!-- ಭಾಷಾ ಸೆಟ್ಟಿಂಗ್ ಬಟನ್ -->
     <div style="text-align: right; margin-bottom: 15px;">
-        <label for="langSelect" style="display:inline; font-size: 14px;">Language: </label>
+        <label for="langSelect" style="display:inline; font-size: 14px;" onclick="speakText('ಭಾಷೆಯನ್ನು ಆಯ್ಕೆ ಮಾಡಿ')">Language: </label>
         <select id="langSelect" style="width: auto; display: inline-block; padding: 5px;" onchange="changeLanguage()">
             <option value="kn">ಕನ್ನಡ</option>
             <option value="hi">हिंदी</option>
@@ -125,47 +138,47 @@
     <!-- ೧. ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಪೇಜ್ -->
     <div id="registerPage" class="page active-page">
         <button class="back-btn" onclick="speakText('ಹಿಂದಕ್ಕೆ ತಿರುಗಿ')">⬅ ಹಿಂದಕ್ಕೆ ತಿರುಗಿ</button>
-        <h2 id="tRegTitle">ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಪೇಜ್</h2>
+        <h2 id="tRegTitle" onclick="speakText(this.innerText)">ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಪೇಜ್</h2>
         
         <form id="teacherForm" onsubmit="validateAndSubmit(event)">
             <div class="form-group">
-                <label>ನಿಮ್ಮ ಹೆಸರು:</label>
+                <label onclick="speakText('ನಿಮ್ಮ ಹೆಸರು')">ನಿಮ್ಮ ಹೆಸರು:</label>
                 <input type="text" id="name" placeholder="ನಿಮ್ಮ ಹೆಸರನ್ನು ಹಾಕಿ">
                 <div id="nameError" class="error">ದಯವಿಟ್ಟು ನಿಮ್ಮ ಹೆಸರು ಹಾಕಿ</div>
             </div>
 
             <div class="form-group">
-                <label>ಮೊಬೈಲ್ ನಂಬರ್:</label>
+                <label onclick="speakText('ಮೊಬೈಲ್ ನಂಬರ್')">ಮೊಬೈಲ್ ನಂಬರ್:</label>
                 <input type="tel" id="phone" maxlength="10" placeholder="10 ಅಂಕಿಯ ಮೊಬೈಲ್ ನಂಬರ್">
                 <div id="phoneError" class="error">ಸರಿಯಾದ 10 ಅಂಕಿಯ ಮೊಬೈಲ್ ನಂಬರ್ ಹಾಕಿ</div>
             </div>
 
             <div class="form-group">
-                <label>ಜಿಲ್ಲೆ:</label>
+                <label onclick="speakText('ಜಿಲ್ಲೆ')">ಜಿಲ್ಲೆ:</label>
                 <input type="text" id="district" placeholder="ನಿಮ್ಮ ಜಿಲ್ಲೆ">
                 <div id="districtError" class="error">ಜಿಲ್ಲೆಯ ಹೆಸರು ಹಾಕಿ</div>
             </div>
 
             <div class="form-group">
-                <label>ತಾಲೂಕು:</label>
+                <label onclick="speakText('ತಾಲೂಕು')">ತಾಲೂಕು:</label>
                 <input type="text" id="taluk" placeholder="ನಿಮ್ಮ ತಾಲೂಕು">
                 <div id="talukError" class="error">ತಾಲೂಕು ಹೆಸರು ಹಾಕಿ</div>
             </div>
 
             <div class="form-group">
-                <label>ಊರು:</label>
+                <label onclick="speakText('ಊರು')">ಊರು:</label>
                 <input type="text" id="village" placeholder="ನಿಮ್ಮ ಊರು">
                 <div id="villageError" class="error">ಊರಿನ ಹೆಸರು ಹಾಕಿ</div>
             </div>
 
             <div class="form-group">
-                <label>ಹೈಸ್ಕೂಲ್ / ಕಾಲೇಜು ಹೆಸರು:</label>
+                <label onclick="speakText('ಹೈಸ್ಕೂಲ್ ಅಥವಾ ಕಾಲೇಜು ಹೆಸರು')">ಹೈಸ್ಕೂಲ್ / ಕಾಲೇಜು ಹೆಸರು:</label>
                 <input type="text" id="school" placeholder="ಶಾಲೆಯ ಹೆಸರು">
                 <div id="schoolError" class="error">ಶಾಲೆ/ಕಾಲೇಜು ಹೆಸರು ಹಾಕಿ</div>
             </div>
 
             <div class="form-group">
-                <label>ತರಗತಿ ಆಯ್ಕೆಮಾಡಿ:</label>
+                <label onclick="speakText('ತರಗತಿ ಆಯ್ಕೆಮಾಡಿ')">ತರಗತಿ ಆಯ್ಕೆಮಾಡಿ:</label>
                 <select id="classSelect">
                     <option value="">-- ತರಗತಿ ಆಯ್ಕೆಮಾಡಿ --</option>
                     <option value="LKG">LKG</option>
@@ -187,7 +200,7 @@
             </div>
 
             <div class="form-group">
-                <label>ಪಾಠದ ವಿಷಯ:</label>
+                <label onclick="speakText('ಪಾಠದ ವಿಷಯ')">ಪಾಠದ ವಿಷಯ:</label>
                 <select id="subjectSelect">
                     <option value="">-- ವಿಷಯ ಆಯ್ಕೆಮಾಡಿ --</option>
                     <option value="ಕನ್ನಡ">ಕನ್ನಡ</option>
@@ -201,20 +214,20 @@
             </div>
 
             <div class="form-group">
-                <label>ನಿಮ್ಮ ಸೆಲ್ಫಿ ಫೋಟೋ ಹಾಕಿ:</label>
+                <label onclick="speakText('ನಿಮ್ಮ ಸೆಲ್ಫಿ ಫೋಟೋ ಹಾಕಿ')">ನಿಮ್ಮ ಸೆಲ್ಫಿ ಫೋಟೋ ಹಾಕಿ:</label>
                 <input type="file" id="selfie" accept="image/*" capture="user" onchange="previewImage(event)">
                 <div id="selfieError" class="error">ದಯವಿಟ್ಟು ನಿಮ್ಮ ಸೆಲ್ಫಿ ಫೋಟೋ ಹಾಕಿ</div>
                 <img id="preview" alt="ಸೆಲ್ಫಿ ಪ್ರಿವ್ಯೂ">
             </div>
 
-            <button type="submit">ಸಂರಕ್ಷಿಸಿ ಮತ್ತು ಐಡಿ ಪಡೆಯಿರಿ</button>
+            <button type="submit" onclick="speakText('ಸಂರಕ್ಷಿಸಿ ಮತ್ತು ಐಡಿ ಪಡೆಯಿರಿ')">ಸಂರಕ್ಷಿಸಿ ಮತ್ತು ಐಡಿ ಪಡೆಯಿರಿ</button>
         </form>
     </div>
 
     <!-- ೨. ಐಡಿ ಮತ್ತು ಮುಖಪುಟ ಪೇಜ್ -->
     <div id="idPage" class="page">
         <button class="back-btn" onclick="goBackToRegister()">⬅ ಹಿಂದಕ್ಕೆ ತಿರುಗಿ</button>
-        <h2>ನಿಮ್ಮ ಐಡಿ ವಿವರಗಳು</h2>
+        <h2 onclick="speakText(this.innerText)">ನಿಮ್ಮ ಐಡಿ ವಿವರಗಳು</h2>
         <div style="text-align: center;">
             <img id="displayPhoto" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 15px;" alt="ಫೋಟೋ">
             <h3 id="displayName"></h3>
@@ -225,6 +238,14 @@
             <button style="background-color: #28a745;" onclick="openChildPage()">ನಿಮ್ಮ ಮಕ್ಕಳನ್ನು / ಹೈಸ್ಕೂಲ್ ಮಕ್ಕಳನ್ನು ಇಲ್ಲಿ ಸೇರಿಸಿ</button>
         </div>
 
+        <hr style="margin: 20px 0;">
+
+        <!-- ಮಕ್ಕಳ ಐಡಿ ಹುಡುಕಲು ಸರ್ಚ್ ಬಾಕ್ಸ್ -->
+        <div class="form-group">
+            <label onclick="speakText('ಮಕ್ಕಳ ಐಡಿ ಅಥವಾ ಮೊಬೈಲ್ ನಂಬರ್ ಬಳಸಿ ಹುಡುಕಿ')">🔍 ಮಕ್ಕಳ ಐಡಿ ಅಥವಾ ಮೊಬೈಲ್ ನಂಬರ್ ಹುಡುಕಿ:</label>
+            <input type="text" id="searchChildInput" placeholder="ಹೆಸರು, ಐಡಿ ಅಥವಾ ಮೊಬೈಲ್ ನಂಬರ್ ಹಾಕಿ..." onkeyup="filterChildren()">
+        </div>
+
         <!-- ಮಕ್ಕಳ ಐಡಿಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ -->
         <div id="childrenContainer"></div>
     </div>
@@ -232,41 +253,41 @@
     <!-- ೩. ಮಕ್ಕಳ ನೋಂದಣಿ ಪೇಜ್ -->
     <div id="childRegPage" class="page">
         <button class="back-btn" onclick="backToIdPage()">⬅ ಹಿಂದಕ್ಕೆ ತಿರುಗಿ</button>
-        <h2>ಮಕ್ಕಳ ನೋಂದಣಿ ಫಾರ್ಮ್</h2>
+        <h2 onclick="speakText(this.innerText)">ಮಕ್ಕಳ ನೋಂದಣಿ ಫಾರ್ಮ್</h2>
         
         <form id="childForm" onsubmit="saveChildData(event)">
             <div class="form-group">
-                <label>ಮಕ್ಕಳು ಹೆಸರು:</label>
+                <label onclick="speakText('ಮಕ್ಕಳು ಹೆಸರು')">ಮಕ್ಕಳು ಹೆಸರು:</label>
                 <input type="text" id="childName" placeholder="ಮಗುವಿನ ಹೆಸರು">
                 <div id="childNameError" class="error">ಮಗುವಿನ ಹೆಸರು ಹಾಕಿ</div>
             </div>
 
             <div class="form-group">
-                <label>ತಂದೆಯ ಹೆಸರು:</label>
+                <label onclick="speakText('ತಂದೆಯ ಹೆಸರು')">ತಂದೆಯ ಹೆಸರು:</label>
                 <input type="text" id="fatherName" placeholder="ತಂದೆಯ ಹೆಸರು">
                 <div id="fatherNameError" class="error">ತಂದೆಯ ಹೆಸರು ಹಾಕಿ</div>
             </div>
 
             <div class="form-group">
-                <label>ತಾಯಿಯ ಹೆಸರು:</label>
+                <label onclick="speakText('ತಾಯಿಯ ಹೆಸರು')">ತಾಯಿಯ ಹೆಸರು:</label>
                 <input type="text" id="motherName" placeholder="ತಾಯಿಯ ಹೆಸರು">
                 <div id="motherNameError" class="error">ತಾಯಿಯ ಹೆಸರು ಹಾಕಿ</div>
             </div>
 
             <div class="form-group">
-                <label>ತಂದೆ/ತಾಯಿಯ ಮೊಬೈಲ್ ನಂಬರ್:</label>
+                <label onclick="speakText('ತಂದೆ ಅಥವಾ ತಾಯಿಯ ಮೊಬೈಲ್ ನಂಬರ್')">ತಂದೆ/ತಾಯಿಯ ಮೊಬೈಲ್ ನಂಬರ್:</label>
                 <input type="tel" id="parentPhone" maxlength="10" placeholder="10 ಅಂಕಿಯ ಮೊಬೈಲ್ ನಂಬರ್">
                 <div id="parentPhoneError" class="error">ಸರಿಯಾದ ಮೊಬೈಲ್ ನಂಬರ್ ಹಾಕಿ</div>
             </div>
 
             <div class="form-group">
-                <label>ಮಗುವಿಂದು ಊರು ಯಾವುದು:</label>
+                <label onclick="speakText('ಮಗುವಿನ ಊರು ಯಾವುದು')">ಮಗುವಿಂದು ಊರು ಯಾವುದು:</label>
                 <input type="text" id="childVillage" placeholder="ಊರಿನ ಹೆಸರು">
                 <div id="childVillageError" class="error">ಊರಿನ ಹೆಸರು ಹಾಕಿ</div>
             </div>
 
             <div class="form-group">
-                <label>ಎಷ್ಟನೇ ತರಗತಿ ಇದ್ದಾರೆ:</label>
+                <label onclick="speakText('ಎಷ್ಟನೇ ತರಗತಿ ಇದ್ದಾರೆ')">ಎಷ್ಟನೇ ತರಗತಿ ಇದ್ದಾರೆ:</label>
                 <select id="childClass">
                     <option value="">-- ತರಗತಿ ಆಯ್ಕೆಮಾಡಿ --</option>
                     <option value="LKG">LKG</option>
@@ -286,20 +307,20 @@
             </div>
 
             <div class="form-group">
-                <label>ಮಕ್ಕಳ ಸೆಲ್ಫಿ ಫೋಟೋ:</label>
+                <label onclick="speakText('ಮಕ್ಕಳ ಸೆಲ್ಫಿ ಫೋಟೋ')">ಮಕ್ಕಳ ಸೆಲ್ಫಿ ಫೋಟೋ:</label>
                 <input type="file" id="childSelfie" accept="image/*" capture="user" onchange="previewChildImage(event, 'selfie')">
                 <div id="childSelfieError" class="error">ಸೆಲ್ಫಿ ಫೋಟೋ ಹಾಕಿ</div>
                 <img id="childPreview" alt="ಸೆಲ್ಫಿ ಪ್ರಿವ್ಯೂ">
             </div>
 
             <div class="form-group">
-                <label>ಹೈಸ್ಕೂಲ್ ಕೊಟ್ಟಿರುವ ಐಡಿ ಕಾರ್ಡ್ ಫೋಟೋ:</label>
+                <label onclick="speakText('ಹೈಸ್ಕೂಲ್ ಕೊಟ್ಟಿರುವ ಐಡಿ ಕಾರ್ಡ್ ಫೋಟೋ')">ಹೈಸ್ಕೂಲ್ ಕೊಟ್ಟಿರುವ ಐಡಿ ಕಾರ್ಡ್ ಫೋಟೋ:</label>
                 <input type="file" id="schoolIdPhoto" accept="image/*" onchange="previewChildImage(event, 'idcard')">
                 <div id="schoolIdError" class="error">ಐಡಿ ಕಾರ್ಡ್ ಫೋಟೋ ಹಾಕಿ</div>
                 <img id="idCardPreview" alt="ಐಡಿ ಕಾರ್ಡ್ ಪ್ರಿವ್ಯೂ" style="width:100%; max-height:200px; display:none; margin-top:10px; border-radius:5px;">
             </div>
 
-            <button type="submit">ಮಗುವಿನ ಐಡಿ ಪಡೆಯಿರಿ</button>
+            <button type="submit" onclick="speakText('ಮಗುವಿನ ಐಡಿ ಪಡೆಯಿರಿ')">ಮಗುವಿನ ಐಡಿ ಪಡೆಯಿರಿ</button>
         </form>
     </div>
 </div>
@@ -322,6 +343,7 @@
 
     function speakText(text) {
         if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel(); // ಹಳೆಯ ಧ್ವನಿ ನಿಲ್ಲಿಸಲು
             let utterance = new SpeechSynthesisUtterance(text);
             let lang = document.getElementById('langSelect').value;
             utterance.lang = lang === 'hi' ? 'hi-IN' : (lang === 'en' ? 'en-US' : 'kn-IN');
@@ -410,8 +432,7 @@
         document.getElementById('displayDetails').innerText = district + " ಜಿಲ್ಲೆ, " + taluk + " ತಾಲೂಕು, " + village + " ಊರು.\nಶಾಲೆ: " + school + "\nತರಗತಿ: " + classVal + " | ವಿಷಯ: " + subjectVal;
         document.getElementById('displayPhoto').src = capturedImageSrc;
 
-        // ಪಾಪ್-ಅಪ್ ಸಂದೇಶ ತೋರಿಸುವುದು
-        document.getElementById('popupMessage').innerText = "ನಿಮ್ಮ ಐಡಿ ಸೆಕ್ಸಸ್ ಆಗಿದೆ! ಐಡಿ ಸಂಖ್ಯೆ: " + generatedId;
+        document.getElementById('popupMessage').innerText = "ನಿಮ್ಮ ಐಡಿ ಯಶಸ್ವಿಯಾಗಿದೆ! ಐಡಿ ಸಂಖ್ಯೆ: " + generatedId;
         document.getElementById('popupModal').style.display = 'block';
     }
 
@@ -452,7 +473,7 @@
             return;
         }
 
-        let childUniqueId = Math.floor(1000 + Math.random() * 9000); // 4 ಡಿಜಿಟ್ ಡಿಜಿಟಲ್ ಐಡಿ
+        let childUniqueId = Math.floor(1000 + Math.random() * 9000);
 
         let childObj = {
             id: childUniqueId,
@@ -467,9 +488,8 @@
         };
 
         childrenList.push(childObj);
-        renderChildren();
+        renderChildren(childrenList);
 
-        // ಫಾರ್ಮ್ ಕ್ಲೀನ್ ಮಾಡಿ ಐಡಿ ಪೇಜ್‌ಗೆ ಹೋಗುವುದು
         document.getElementById('childForm').reset();
         document.getElementById('childPreview').style.display = 'none';
         document.getElementById('idCardPreview').style.display = 'none';
@@ -481,26 +501,50 @@
         speakText("ಮಗುವಿನ 4 ಡಿಜಿಟಲ್ ಐಡಿ ಯಶಸ್ವಿಯಾಗಿ ಸೃಷ್ಟಿಯಾಗಿದೆ.");
     }
 
-    function renderChildren() {
+    function renderChildren(list) {
         let container = document.getElementById('childrenContainer');
-        container.innerHTML = "<h3>ಮಕ್ಕಳ ಐಡಿ ವಿವರಗಳು</h3>";
+        container.innerHTML = "<h3 onclick=\"speakText(this.innerText)\">ಮಕ್ಕಳ ಐಡಿ ವಿವರಗಳು (" + list.length + ")</h3>";
         
-        childrenList.forEach((child, index) => {
+        if(list.length === 0) {
+            container.innerHTML += "<p style='text-align:center; color:#777;'>ಯಾವುದೇ ಮಕ್ಕಳ ವಿವರಗಳಿಲ್ಲ</p>";
+            return;
+        }
+
+        list.forEach((child, index) => {
             container.innerHTML += `
                 <div class="child-card">
-                    <div style="text-align: center;">
-                        <img src="${child.selfie}" style="width: 70px; height: 70px; border-radius: 50%; object-fit: cover;" alt="ಮಗುವಿನ ಫೋಟೋ">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <img src="${child.selfie}" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;" alt="ಫೋಟೋ">
+                        <div>
+                            <p style="margin: 0; font-weight: bold;" onclick="speakText('ಹೆಸರು: ${child.name}')">${child.name}</p>
+                            <p style="margin: 2px 0; font-size: 14px;">ಐಡಿ: <span style="color: #007bff; font-weight: bold;">${child.id}</span> | ಫೋನ್: ${child.phone}</p>
+                            <p style="margin: 0; font-size: 13px; color: #555;">ತರಗತಿ: ${child.className} | ಊರು: ${child.village}</p>
+                        </div>
                     </div>
-                    <p><b>ಮಗುವಿನ ಹೆಸರು:</b> ${child.name}</p>
-                    <p><b>ಮಗುವಿನ 4 ಡಿಜಿಟ್ ಐಡಿ:</b> <span style="color: #007bff; font-size: 18px;">${child.id}</span></p>
-                    <p><b>ತಂದೆ ಹೆಸರು:</b> ${child.father} | <b>ತಾಯಿ ಹೆಸರು:</b> ${child.mother}</p>
-                    <p><b>ಮೊಬೈಲ್ ನಂಬರ್:</b> ${child.phone}</p>
-                    <p><b>ಊರು:</b> ${child.village} | <b>ತರಗತಿ:</b> ${child.className}</p>
-                    <p><b>ಐಡಿ ಕಾರ್ಡ್ ಫೋಟೋ:</b></p>
-                    <img src="${child.idCard}" style="width: 100%; max-height: 150px; object-fit: cover; border-radius: 5px;" alt="ಐಡಿ ಕಾರ್ಡ್">
+                    <div style="margin-top: 8px; text-align: right;">
+                        <button class="delete-btn" onclick="deleteChild(${child.id})">ಮಗುವಿನ ಐಡಿ ಅಳಿಸಿ</button>
+                    </div>
                 </div>
             `;
         });
+    }
+
+    function filterChildren() {
+        let query = document.getElementById('searchChildInput').value.toLowerCase();
+        let filtered = childrenList.filter(c => 
+            c.name.toLowerCase().includes(query) || 
+            c.id.toString().includes(query) || 
+            c.phone.includes(query)
+        );
+        renderChildren(filtered);
+    }
+
+    function deleteChild(id) {
+        if(confirm("ನೀವು ಈ ಮಗುವಿನ ಐಡಿಯನ್ನು ಅಳಿಸಲು ಬಯಸುತ್ತೀರಾ?")) {
+            childrenList = childrenList.filter(c => c.id !== id);
+            renderChildren(childrenList);
+            speakText("ಐಡಿ ಅಳಿಸಲಾಗಿದೆ");
+        }
     }
 </script>
 
