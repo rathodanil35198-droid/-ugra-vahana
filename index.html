@@ -19,6 +19,9 @@
         video, canvas { width: 100%; max-height: 220px; border-radius: 6px; margin-top: 8px; background: #000; object-fit: cover; }
         .card { background: #fdfdfd; border: 1px solid #e1e8ed; padding: 12px; margin-bottom: 12px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
         .flex-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        /* ಪಾಪ್-ಅಪ್ ವಿಂಡೋ ಸ್ಟೈಲ್ */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); justify-content: center; align-items: center; }
+        .modal-content { background-color: #fff; padding: 25px; border-radius: 10px; width: 85%; max-width: 400px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
     </style>
 </head>
 <body onload="checkAutoLogin()">
@@ -40,7 +43,7 @@
 
     <!-- 1. ಲಾಗಿನ್ ಪೇಜ್ (ಒಮ್ಮೆ ಲಾಗಿನ್ ಆದರೆ ಮತ್ತೆ ಬರುವುದಿಲ್ಲ) -->
     <div id="loginPage">
-        <h2 id="t_loginTitle">ನಮ್ಮದೇಶಿ ಲಾಗಿನ್</h2>
+        <h2>ನಮ್ಮದೇಶಿ ಲಾಗಿನ್</h2>
         <input type="text" id="loginName" placeholder="ನಿಮ್ಮ ಹೆಸರು">
         <input type="tel" id="loginMobile" placeholder="ಮೊಬೈಲ್ ನಂಬರ್ (10 ಅಂಕಿ)">
         <button class="btn" onclick="saveLogin()">ಲಾಗಿನ್ ಮಾಡಿ</button>
@@ -48,7 +51,7 @@
 
     <!-- 2. ಮುಖ್ಯ ಪೇಜ್ -->
     <div id="homePage" class="hidden">
-        <h2 id="t_homeTitle">ಮುಖ್ಯ ಪೇಜ್ - ಸ್ವಾಗತ</h2>
+        <h2>ಮುಖ್ಯ ಪೇಜ್ - ಸ್ವಾಗತ</h2>
         <button class="btn" onclick="showPage('teacherRegPage')">👨‍🏫 ಶಿಕ್ಷಕರ ನೋಂದಣಿ (ಫಾರ್ಮ್)</button>
         <button class="btn btn-success" onclick="showPage('studentRegPage')">👦 ಮಕ್ಕಳ ನೋಂದಣಿ (ಫಾರ್ಮ್)</button>
         <button class="btn" style="background-color: #8e44ad;" onclick="showPage('teacherDashboardPage')">📋 ನನ್ನ ನೋಂದಾಯಿತ ಮಕ್ಕಳ ಪಟ್ಟಿ & PDF</button>
@@ -75,12 +78,11 @@
         </select>
 
         <select id="tSubject">
-            <option value="ಕನ್ನಡ">ಕನ್ನಡ</option>
             <option value="ಇಂಗ್ಲಿಷ್">ಇಂಗ್ಲಿಷ್</option>
             <option value="ಹಿಂದಿ">ಹಿಂದಿ</option>
+            <option value="ಕನ್ನಡ">ಕನ್ನಡ</option>
+            <option value="ಸಮಾಜ ವಿಜ್ಞಾನ">ಸಮಾಜ ವಿಜ್ಞಾನ</option>
             <option value="ಗಣಿತ">ಗಣಿತ</option>
-            <option value="ವಿಜ್ಞಾನ / ಸಮಾಜ ವಿಜ್ಞಾನ">ವಿಜ್ಞಾನ / ಸಮಾಜ ವಿಜ್ಞಾನ</option>
-            <option value="ಎಲ್ಲಾ ವಿಷಯಗಳು">ಎಲ್ಲಾ ವಿಷಯಗಳು</option>
         </select>
         
         <p style="margin: 8px 0; font-weight: bold;">ನಿಮ್ಮ ಸೆಲ್ಫಿ / ಶಾಲಾ ಐಡಿ ಫೋಟೋ ತೆಗೆಯಿರಿ:</p>
@@ -92,7 +94,6 @@
         <div id="tPreview" style="margin-top:8px;"></div>
 
         <button class="btn" onclick="registerTeacher()">ನೋಂದಾಯಿಸಿ & 4-ಅಂಕಿಯ ID ಪಡೆಯಿರಿ</button>
-        <div id="tResultBox" class="hidden" style="margin-top: 15px; padding: 15px; background: #e8f8f5; border: 2px solid #27ae60; border-radius: 8px; text-align: center;"></div>
     </div>
 
     <!-- 4. ಮಕ್ಕಳ ನೋಂದಣಿ ಪುಟ -->
@@ -105,14 +106,6 @@
         <input type="text" id="sClass" placeholder="ಎಷ್ಟನೇ ತರಗತಿ (ಉದಾ: 8ನೇ ತರಗತಿ)">
         <input type="tel" id="sParentMobile" placeholder="ಪೋಷಕರ ಮೊಬೈಲ್ ನಂಬರ್">
         
-        <p style="margin: 8px 0; font-weight: bold;">ಮಗುವಿನ ಐಡಿ ಕಾರ್ಡ್ ಫೋಟೋ:</p>
-        <video id="sIdVideo" autoplay playsinline style="display:none;"></video>
-        <canvas id="sIdCanvas" style="display:none;"></canvas>
-        <button type="button" class="btn btn-success" onclick="startCamera('sIdVideo', 'sIdCaptureBtn')">📸 ಐಡಿ ಕಾರ್ಡ್ ಕ್ಯಾಮೆರಾ ತೆರೆಯಿರಿ</button>
-        <button type="button" class="btn hidden" id="sIdCaptureBtn" onclick="capturePhoto('sIdVideo', 'sIdCanvas', 'sIdPhotoData', 'sIdPreview')">ಐಡಿ ಫೋಟೋ ಸೆರೆಹಿಡಿಯಿರಿ</button>
-        <input type="hidden" id="sIdPhotoData">
-        <div id="sIdPreview" style="margin-top:8px;"></div>
-
         <p style="margin: 8px 0; font-weight: bold;">ಮಗುವಿನ ಸೆಲ್ಫಿ ಫೋಟೋ:</p>
         <video id="sVideo" autoplay playsinline style="display:none;"></video>
         <canvas id="sCanvas" style="display:none;"></canvas>
@@ -122,7 +115,6 @@
         <div id="sPreview" style="margin-top:8px;"></div>
 
         <button class="btn" onclick="registerStudent()">ಮಗುವನ್ನು ನೋಂದಾಯಿಸಿ</button>
-        <div id="sResultBox" class="hidden" style="margin-top: 15px; padding: 15px; background: #e8f8f5; border: 2px solid #27ae60; border-radius: 8px; text-align: center;"></div>
     </div>
 
     <!-- 5. ಶಿಕ್ಷಕರ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್ ಮತ್ತು PDF ಡೌನ್‌ಲೋಡ್ ಪುಟ -->
@@ -140,11 +132,20 @@
         <input type="number" id="attTeacherId" placeholder="ನಿಮ್ಮ 4-ಅಂಕಿಯ ಟೀಚರ್ ಐಡಿ ಹಾಕಿ" maxlength="4">
         <input type="number" id="attStudentId" placeholder="ಮಗುವಿನ 4-ಅಂಕಿಯ ಐಡಿ ಹಾಕಿ" maxlength="4">
         
-        <p style="font-weight: bold;">ಕ್ಯಾಮೆರಾ ಮುಂದೆ ಮಗುವಿನ ಮುಖ ಅಥವಾ ಐಡಿ ಕಾರ್ಡ್ ತೋರಿಸಿ:</p>
+        <p style="font-weight: bold;">ಕ್ಯಾಮೆರಾ ಮುಂದೆ ಮಗುವಿನ ಮುಖ ತೋರಿಸಿ:</p>
         <video id="attVideo" autoplay playsinline style="display:none;"></video>
         <canvas id="attCanvas" style="display:none;"></canvas>
         <button type="button" class="btn btn-success" onclick="startCamera('attVideo', 'attCaptureBtn')">📸 ಪರಿಶೀಲನೆಗೆ ಕ್ಯಾಮೆರಾ ತೆರೆಯಿರಿ</button>
         <button type="button" class="btn hidden" id="attCaptureBtn" onclick="verifyAndMarkAttendance()">ಚೆಕ್ ಮಾರ್ಕ್ ಹಾಕಿ ಓಕೆ ಮಾಡಿ (Verify)</button>
+    </div>
+</div>
+
+<!-- ಪಾಪ್-ಅಪ್ ಸಂದೇಶ ವಿಂಡೋ (Popup Modal) -->
+<div id="popupModal" class="modal">
+    <div class="modal-content">
+        <h3 id="popupTitle" style="color: #27ae60;">ಯಶಸ್ವಿಯಾಗಿದೆ</h3>
+        <p id="popupMessage" style="font-size: 16px; margin: 15px 0;"></p>
+        <button class="btn" onclick="closePopupAndGoHome()">ಸರಿ (OK)</button>
     </div>
 </div>
 
@@ -155,7 +156,6 @@
     let voiceEnabled = true;
     let currentStream = null;
 
-    // ಧ್ವನಿ (Speech Synthesis) ವ್ಯವಸ್ಥೆ - ಕನ್ನಡ, ಇಂಗ್ಲಿಷ್ ಹಾಗೂ ಹಿಂದಿ ಸಪೋರ್ಟ್
     function speakText(text) {
         if (!voiceEnabled || !('speechSynthesis' in window)) return;
         window.speechSynthesis.cancel();
@@ -172,7 +172,6 @@
         speakText(voiceEnabled ? "ಧ್ವನಿ ಸಹಾಯ ಚಾಲು" : "ಧ್ವನಿ ಸಹಾಯ ಬಂದ್");
     }
 
-    // ಒಮ್ಮೆ ಲಾಗಿನ್ ಆದರೆ ಮತ್ತೆ ಲಾಗಿನ್ ಪೇಜ್ ಬಾರದೆ ನೇರವಾಗಿ ಮುಖ್ಯ ಪೇಜ್ ತೋರಿಸುವುದು
     function checkAutoLogin() {
         let savedUser = localStorage.getItem('loggedUser');
         if (savedUser) {
@@ -243,7 +242,6 @@
         return Math.floor(1000 + Math.random() * 9000);
     }
 
-    // ಯಾವುದೇ ಅನುಮತಿ ತೊಂದರೆ ಇಲ್ಲದೆ ಕ್ಯಾಮೆರಾ ತೆರೆಯಲು (getUserMedia)
     function startCamera(videoId, captureBtnId) {
         let video = document.getElementById(videoId);
         document.getElementById(captureBtnId).classList.remove('hidden');
@@ -257,7 +255,7 @@
                 speakText("ಕ್ಯಾಮೆರಾ ತೆರೆಯಲಾಗಿದೆ");
             })
             .catch(function(err) {
-                alert("ಕ್ಯಾಮೆರಾ ಅನುಮತಿ ಸಿಕ್ಕಿಲ್ಲ. ಬ್ರೌಸರ್ ಸೆಟ್ಟಿಂಗ್ಸ್‌ನಲ್ಲಿ Camera Permission Allow ಮಾಡಿ.");
+                alert("ಕ್ಯಾಮೆರಾ ಅನುಮತಿ ಸಿಕ್ಕಿಲ್ಲ. ದಯವಿಟ್ಟು ಬ್ರೌಸರ್ ಸೆಟ್ಟಿಂಗ್ಸ್‌ನಲ್ಲಿ Camera Permission Allow ಮಾಡಿ ಅಥವಾ HTTPS ಲಿಂಕ್ ಬಳಸಿ.");
                 speakText("ಕ್ಯಾಮೆರಾ ಅನುಮತಿ ಸಿಕ್ಕಿಲ್ಲ");
             });
         } else {
@@ -281,6 +279,18 @@
         video.style.display = 'none';
         document.getElementById(previewId).innerHTML = `<img src="${dataUrl}" style="width:100px; height:80px; border-radius:5px;"><p style="color:green; font-weight:bold; margin:2px 0;">✓ ಫೋಟೋ ಸೆರೆಹಿಡಿಯಲಾಗಿದೆ!</p>`;
         speakText("ಫೋಟೋ ಯಶಸ್ವಿಯಾಗಿ ಸೆರೆಹಿಡಿಯಲಾಗಿದೆ");
+    }
+
+    function showPopup(title, msg) {
+        document.getElementById('popupTitle').innerText = title;
+        document.getElementById('popupMessage').innerHTML = msg;
+        document.getElementById('popupModal').style.display = 'flex';
+        speakText(title + ". " + msg.replace(/<[^>]*>?/gm, ''));
+    }
+
+    function closePopupAndGoHome() {
+        document.getElementById('popupModal').style.display = 'none';
+        goHome();
     }
 
     function registerTeacher() {
@@ -309,13 +319,8 @@
         teachers.push(teacherData);
         localStorage.setItem('teachers', JSON.stringify(teachers));
 
-        let resBox = document.getElementById('tResultBox');
-        resBox.classList.remove('hidden');
-        resBox.innerHTML = `<h3>অভಿನಂದನೆಗಳು! ನೋಂದಣಿ ಯಶಸ್ವಿಯಾಗಿದೆ</h3>
-                            <p>ನಿಮ್ಮ 4-ಅಂಕಿಯ ಡಿಜಿಟಲ್ ಐಡಿ: <b style="font-size:22px; color:#e74c3c;">${id}</b></p>
-                            <p>ಈ ಐಡಿಯನ್ನು ನೆನಪಿನಲ್ಲಿಟ್ಟುಕೊಳ್ಳಿ. ಮಕ್ಕಳ ಹಾಜರಾತಿ ದಾಖಲಿಸಲು ಇದು ಕಡ್ಡಾಯವಾಗಿದೆ.</p>`;
-        
-        speakText("ನೋಂದಣಿ ಯಶಸ್ವಿಯಾಗಿದೆ. ನಿಮ್ಮ ನಾಲ್ಕು ಅಂಕಿಯ ಐಡಿ ನಂಬರ್ " + id);
+        showPopup("ಅಭಿನಂದನೆಗಳು! ನೋಂದಣಿ ಯಶಸ್ವಿಯಾಗಿದೆ", 
+            `ಈ ನಾಲ್ಕು ಡಿಜಿಟಲ್ ಐಡಿಗಳು ನಿಮ್ಮ ಗಮನದಲ್ಲಿ ಇಟ್ಟುಕೊಳ್ಳಿ:<br><b style="font-size:24px; color:#e74c3c;">${id}</b><br><br>ಮಕ್ಕಳು ಹಾಜರಾತಿ ಹಾಕುವಾಗ ಈ ಕೋಡನ್ನು ಅಲ್ಲಿ ಹಾಕಬೇಕಾಗುತ್ತದೆ.`);
     }
 
     function registerStudent() {
@@ -343,19 +348,14 @@
             village: document.getElementById('sVillage').value,
             class: document.getElementById('sClass').value,
             parentMobile: document.getElementById('sParentMobile').value,
-            idCardPhoto: document.getElementById('sIdPhotoData').value,
             selfiePhoto: document.getElementById('sPhotoData').value
         };
 
         students.push(studentData);
         localStorage.setItem('students', JSON.stringify(students));
 
-        let resBox = document.getElementById('sResultBox');
-        resBox.classList.remove('hidden');
-        resBox.innerHTML = `<h3>ಮಗುವಿನ ನೋಂದಣಿ ಯಶಸ್ವಿಯಾಗಿದೆ!</h3>
-                            <p>ಮಗುವಿನ 4-ಅಂಕಿಯ ಐಡಿ: <b style="font-size:22px; color:#27ae60;">${id}</b></p>`;
-        
-        speakText("ಮಗುವಿನ ನೋಂದಣಿ ಯಶಸ್ವಿಯಾಗಿದೆ. ಮಗುವಿನ ಐಡಿ ನಂಬರ್ " + id);
+        showPopup("ಮಗುವಿನ ನೋಂದಣಿ ಯಶಸ್ವಿಯಾಗಿದೆ!", 
+            `ಮಗುವಿನ 4-ಅಂಕಿಯ ಐಡಿ:<br><b style="font-size:24px; color:#27ae60;">${id}</b><br><br>ಈ ಐಡಿಯನ್ನು ಹಾಜರಾತಿಗಾಗಿ ನೆನಪಿನಲ್ಲಿಡಿ.`);
     }
 
     function loadTeacherDashboard() {
@@ -376,8 +376,7 @@
                 content += `<div class="card">
                     <b>${idx + 1}. ಹೆಸರು:</b> ${s.name} (ಮಗುವಿನ ID: <span style="color:blue;">${s.id}</span>)<br>
                     <b>ತರಗತಿ:</b> ${s.class} | <b>ಊರು:</b> ${s.village}<br>
-                    <b>ಪೋಷಕರು:</b> ${s.parentName} (${s.parentMobile})<br>
-                    ${s.selfiePhoto ? `<img src="${s.selfiePhoto}" style="width:60px; height:50px; border-radius:4px; margin-top:5px;">` : ''}
+                    <b>ಪೋಷಕರು:</b> ${s.parentName} (${s.parentMobile})
                 </div>`;
             });
             document.getElementById('downloadTeacherPdfBtn').classList.remove('hidden');
@@ -426,7 +425,7 @@
         if (currentStream) {
             currentStream.getTracks().forEach(track => track.stop());
         }
-        document.getElementById('attVideo').style.display = 'none';
+        document.getElementById('attVideo').style.display, 'none';
 
         let now = new Date();
         let record = { studentId: student.id, studentName: student.name, parentMobile: student.parentMobile, dateStr: now.toLocaleString() };
