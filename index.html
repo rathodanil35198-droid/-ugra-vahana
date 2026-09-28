@@ -1,238 +1,141 @@
-import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:camera/camera.dart';
-import 'dart:math';
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ಶಾಲೆ ಮತ್ತು ಮಕ್ಕಳ ಸುರಕ್ಷತಾ ಆಪ್</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  final cameras = await availableCameras();
-  final firstCamera = cameras.first;
-  
-  // ಈಗಾಗಲೇ ಲಾಗಿನ್ ಆಗಿದೆಯೇ ಎಂದು ಪರಿಶೀಲಿಸಲು
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+<div class="container">
+    <h2>ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಪೇಜ್</h2>
+    <form id="teacherForm" onsubmit="generateID(event)">
+        
+        <div class="form-group">
+            <label>ನಿಮ್ಮ ಹೆಸರು:</label>
+            <input type="text" id="name" required placeholder="ನಿಮ್ಮ ಹೆಸರನ್ನು ಹಾಕಿ">
+        </div>
 
-  runApp(SchoolSafetyApp(isLoggedIn: isLoggedIn, camera: firstCamera));
-}
+        <div class="form-group">
+            <label>ಮೊಬೈಲ್ ನಂಬರ್:</label>
+            <input type="tel" id="phone" required pattern="[0-9]{10}" placeholder="10 ಅಂಕಿಯ ಮೊಬೈಲ್ ನಂಬರ್">
+        </div>
 
-class SchoolSafetyApp extends StatelessWidget {
-  final bool isLoggedIn;
-  final CameraDescription camera;
+        <div class="form-group">
+            <label>ಜಿಲ್ಲೆ:</label>
+            <input type="text" id="district" required placeholder="ನಿಮ್ಮ ಜಿಲ್ಲೆ">
+        </div>
 
-  SchoolSafetyApp({required this.isLoggedIn, required this.camera});
+        <div class="form-group">
+            <label>ತಾಲೂಕು:</label>
+            <input type="text" id="taluk" required placeholder="ನಿಮ್ಮ ತಾಲೂಕು">
+        </div>
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'ಶಾಲೆ ಮತ್ತು ಮಕ್ಕಳ ಸುರಕ್ಷತಾ ಆಪ್',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: isLoggedIn ? HomePage() : LoginScreen(camera: camera),
-    );
-  }
-}
+        <div class="form-group">
+            <label>ಊರು:</label>
+            <input type="text" id="village" required placeholder="ನಿಮ್ಮ ಊರು">
+        </div>
 
-// ೧. ಲಾಗಿನ್ ಪೇಜ್ (Login Screen)
-class LoginScreen extends StatefulWidget {
-  final CameraDescription camera;
-  LoginScreen({required this.camera});
+        <div class="form-group">
+            <label>ಹೈಸ್ಕೂಲ್ / ಕಾಲೇಜು ಹೆಸರು:</label>
+            <input type="text" id="school" required placeholder="ಶಾಲೆಯ ಹೆಸರು">
+        </div>
 
-  @override
-  _LoginScreenState createState() => _LoginScreenState();
-}
+        <div class="form-group">
+            <label>ತರಗತಿ ಆಯ್ಕೆಮಾಡಿ:</label>
+            <select id="classSelect" required>
+                <option value="">-- ತರಗತಿ ಆಯ್ಕೆಮಾಡಿ --</option>
+                <option value="LKG">LKG</option>
+                <option value="UKG">UKG</option>
+                <option value="1ನೇ ತರಗತಿ">1ನೇ ತರಗತಿ</option>
+                <option value="2ನೇ ತರಗತಿ">2ನೇ ತರಗತಿ</option>
+                <option value="3ನೇ ತರಗತಿ">3ನೇ ತರಗತಿ</option>
+                <option value="4ನೇ ತರಗತಿ">4ನೇ ತರಗತಿ</option>
+                <option value="5ನೇ ತರಗತಿ">5ನೇ ತರಗತಿ</option>
+                <option value="6ನೇ ತರಗತಿ">6ನೇ ತರಗತಿ</option>
+                <option value="7ನೇ ತರಗತಿ">7ನೇ ತರಗತಿ</option>
+                <option value="8ನೇ ತರಗತಿ">8ನೇ ತರಗತಿ</option>
+                <option value="9ನೇ ತರಗತಿ">9ನೇ ತರಗತಿ</option>
+                <option value="10ನೇ ತರಗತಿ">10ನೇ ತರಗತಿ</option>
+                <option value="PUC">PUC</option>
+                <option value="Degree">Degree</option>
+            </select>
+        </div>
 
-class _LoginScreenState extends State<LoginScreen> {
-  final _nameController = TextEditingController();
-  final _phoneController = TextEditingController();
+        <div class="form-group">
+            <label>ಪಾಠದ ವಿಷಯ:</label>
+            <select id="subjectSelect" required>
+                <option value="">-- ವಿಷಯ ಆಯ್ಕೆಮಾಡಿ --</option>
+                <option value="ಕನ್ನಡ">ಕನ್ನಡ</option>
+                <option value="ಇಂಗ್ಲಿಷ್">ಇಂಗ್ಲಿಷ್</option>
+                <option value="ಹಿಂದಿ">ಹಿಂದಿ</option>
+                <option value="ಗಣಿತ">ಗಣಿತ</option>
+                <option value="ವಿಜ್ಞಾನ">ವಿಜ್ಞಾನ</option>
+                <option value="ಸಮಾಜ ವಿಜ್ಞಾನ">ಸಮಾಜ ವಿಜ್ಞಾನ</option>
+            </select>
+        </div>
 
-  void _handleLogin() async {
-    if (_nameController.text.isNotEmpty && _phoneController.text.length == 10) {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setBool('isLoggedIn', true);
-      await prefs.setString('userName', _nameController.text);
+        <button type="submit">ಸಂರಕ್ಷಿಸಿ ಮತ್ತು ಐಡಿ ಪಡೆಯಿರಿ</button>
+    </form>
+</div>
 
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => HomePage()),
-      );
-    } else {
-      Scaffold.ោង("దయವಿಟ್ಟು ಸರಿಯಾದ ಹೆಸರು ಮತ್ತು ಮೊಬೈಲ್ ನಂಬರ್ ಹಾಕಿ");
+<script>
+    function generateID(event) {
+        event.preventDefault();
+        // 4 ಡಿಜಿಟ್ ನಂಬರ್ ಜನರೇಟ್ ಮಾಡುವುದು
+        const randomId = Math.floor(1000 + Math.random() * 9000);
+        alert("ಯಶಸ್ವಿಯಾಗಿದೆ! ನಿಮ್ಮ 4 ಡಿಜಿಟ್ ಐಡಿ ಸಂಖ್ಯೆ: " + randomId + "\nಮಕ್ಕಳ ಹಾಜರಾತಿ ಹಾಕುವಾಗ ಇದು ಬೇಕಾಗುತ್ತದೆ.");
     }
-  }
+</script>
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('ಲಾಗಿನ್ ಮಾಡಿ')),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              controller: _nameController,
-              decoration: InputDecoration(labelText: 'ನಿಮ್ಮ ಹೆಸರು', border: OutlineInputBorder()),
-            ),
-            SizedBox(height: 15),
-            TextField(
-              controller: _phoneController,
-              keyboardType: TextInputType.phone,
-              decoration: InputDecoration(labelText: 'ಮೊಬೈಲ್ ನಂಬರ್', border: OutlineInputBorder()),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _handleLogin,
-              child: Text('ಸರಿ (OK)', style: TextStyle(fontSize: 18)),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// ೨. ಮುಖ್ಯ ಮುಖಪುಟ (Home Page)
-class HomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('ಮುಖ್ಯ ಮುಖಪುಟ'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.language),
-            onPressed: () {
-              // ಭಾಷಾ ಸೆಟ್ಟಿಂಗ್ಸ್ (ಕನ್ನಡ, ಇಂಗ್ಲಿಷ್, ಹಿಂದಿ) ಆಯ್ಕೆ ಇಲ್ಲಿ ಬರಬಹುದು
-            },
-          )
-        ],
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15)),
-              icon: Icon(Icons.person, size: 28),
-              label: Text('ಶಿಕ್ಷಕರು (Teacher)', style: TextStyle(fontSize: 20)),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => TeacherFormScreen()),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// ೩. ಶಿಕ್ಷಕರ ವಿವರಗಳ ನಮೂನೆ (Teacher Details Form)
-class TeacherFormScreen extends StatefulWidget {
-  @override
-  _TeacherFormScreenState createState() => _TeacherFormScreenState();
-}
-
-class _TeacherFormScreenState extends State<TeacherFormScreen> {
-  String? selectedClass;
-  String? selectedSubject;
-
-  final List<String> classes = ['LKG', 'UKG', '1ನೇ ತರಗತಿ', '2ನೇ ತರಗತಿ', '3ನೇ ತರಗತಿ', '4ನೇ ತರಗತಿ', '5ನೇ ತರಗತಿ', '6ನೇ ತರಗತಿ', '7ನೇ ತರಗತಿ', '8ನೇ ತರಗತಿ', '9ನೇ ತರಗತಿ', '10ನೇ ತರಗತಿ', 'PUC', 'Degree'];
-  final List<String> subjects = ['ಕನ್ನಡ', 'ಇಂಗ್ಲಿಷ್', 'ಹಿಂದಿ', 'ಗಣಿತ', 'ವಿಜ್ಞಾನ', 'ಸಮಾಜ ವಿಜ್ಞಾನ'];
-
-  void _generateIdAndProceed() {
-    int randomId = Random().nextInt(9000) + 1000; // 4 ಡಿಜಿಟ್ ನಂಬರ್
-    
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('ಯಶಸ್ವಿಯಾಗಿದೆ!'),
-        content: Text('ನಿಮ್ಮ 4 ಡಿಜಿಟ್ ಐಡಿ ಸಂಖ್ಯೆ: $randomId\nಮಕ್ಕಳ ಹಾಜರಾತಿ ಹಾಕುವಾಗ ಇದು ಬೇಕಾಗುತ್ತದೆ. ದಯವಿಟ್ಟು ನೆನಪಿನಲ್ಲಿಡಿ.'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              Navigator.push(context, MaterialPageRoute(builder: (context) => IdDetailsScreen(id: randomId)));
-            },
-            child: Text('ಸರಿ (OK)'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('ಶಿಕ್ಷಕರ ವಿವರಗಳು')),
-      body: ListView(
-        padding: EdgeInsets.all(16.0),
-        children: [
-          TextField(decoration: InputDecoration(labelText: 'ನಿಮ್ಮ ಹೆಸರು')),
-          TextField(decoration: InputDecoration(labelText: 'ಮೊಬೈಲ್ ನಂಬರ್')),
-          TextField(decoration: InputDecoration(labelText: 'ಜಿಲ್ಲೆ')),
-          TextField(decoration: InputDecoration(labelText: 'ತಾಲೂಕು')),
-          TextField(decoration: InputDecoration(labelText: 'ಊರು')),
-          TextField(decoration: InputDecoration(labelText: 'ಹೈಸ್ಕೂಲ್ / ಕಾಲೇಜು ಹೆಸರು')),
-          SizedBox(height: 15),
-          DropdownButtonFormField<String>(
-            decoration: InputDecoration(labelText: 'ತರಗತಿ ಆಯ್ಕೆಮಾಡಿ'),
-            items: classes.map((c) => DropdownMenuItem(value: c, child: Text(c))).toList(),
-            onChanged: (val) => setState(() => selectedClass = val),
-          ),
-          SizedBox(height: 15),
-          DropdownButtonFormField<String>(
-            decoration: InputDecoration(labelText: 'ಪಾಠದ ವಿಷಯ ಆಯ್ಕೆಮಾಡಿ'),
-            items: subjects.map((s) => DropdownMenuItem(value: s, child: Text(s))).toList(),
-            onChanged: (val) => setState(() => selectedSubject = val),
-          ),
-          SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: _generateIdAndProceed,
-            child: Text('ಸಂರಕ್ಷಿಸಿ ಮತ್ತು ಐಡಿ ಪಡೆಯಿರಿ'),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ೪. ಐಡಿ ಮತ್ತು ಮಕ್ಕಳನ್ನು ಸೇರಿಸುವ ಪೇಜ್ (ID Page & Add Children Button)
-class IdDetailsScreen extends StatelessWidget {
-  final int id;
-  IdDetailsScreen({required this.id});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('ನಿಮ್ಮ ಐಡಿ ವಿವರ'),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            // ಮುಖಪುಟಕ್ಕೆ ಮರಳಲು
-            Navigator.popUntil(context, (route) => route.isFirst);
-          },
-        ),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('ನಿಮ್ಮ ಐಡಿ ಸಂಖ್ಯೆ: $id', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-            SizedBox(height: 30),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-              onPressed: () {
-                // ಮಕ್ಕಳನ್ನು ಸೇರಿಸುವ ಪೇಜ್ ಗೆ ಹೋಗಲು
-              },
-              child: Text('ನಿಮ್ಮ ಮಕ್ಕಳನ್ನು ಸೇರಿಸಿ (Add Children)', style: TextStyle(fontSize: 18)),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+</body>
+</html>
