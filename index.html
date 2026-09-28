@@ -6,7 +6,7 @@
     <title>ಶಾಲೆ ಮತ್ತು ಮಕ್ಕಳ ಸುರಕ್ಷತಾ ಆಪ್</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f4f6f9;
             margin: 0;
             padding: 20px;
@@ -15,30 +15,31 @@
             max-width: 500px;
             margin: 0 auto;
             background: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
         }
         h2, h3 {
             text-align: center;
             color: #333;
         }
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 18px;
         }
         label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
             font-weight: bold;
-            color: #555;
+            color: #444;
             cursor: pointer;
         }
         input, select {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             border: 1px solid #ccc;
-            border-radius: 5px;
+            border-radius: 6px;
             box-sizing: border-box;
+            font-size: 15px;
         }
         .error {
             color: red;
@@ -46,26 +47,40 @@
             margin-top: 3px;
             display: none;
         }
-        button {
+        /* ಆಕರ್ಷಕ ರಿಯಲ್ ಬಟನ್‌ಗಳು */
+        .main-btn {
             width: 100%;
-            padding: 12px;
-            background-color: #007bff;
-            color: white;
+            padding: 16px;
             border: none;
-            border-radius: 5px;
-            font-size: 16px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: 0.2s ease;
+            text-align: center;
         }
-        button:hover {
-            background-color: #0056b3;
+        .main-btn:active {
+            transform: scale(0.98);
+        }
+        .btn-teacher {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+        }
+        .btn-attendance {
+            background: linear-gradient(135deg, #ffc107, #e0a800);
+            color: #000;
         }
         .back-btn {
             background-color: #6c757d;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
             margin-bottom: 15px;
-        }
-        .back-btn:hover {
-            background-color: #5a6268;
+            font-size: 14px;
         }
         .page {
             display: none;
@@ -73,7 +88,7 @@
         .active-page {
             display: block;
         }
-        #preview, #childPreview, #attendancePreview {
+        #preview, #childPreview, #idCardPreview, #attendancePreview {
             width: 100%;
             max-height: 200px;
             object-fit: cover;
@@ -94,29 +109,31 @@
         .modal-content {
             background-color: #fff;
             margin: 20% auto;
-            padding: 20px;
+            padding: 25px;
             width: 80%;
             max-width: 400px;
-            border-radius: 10px;
+            border-radius: 12px;
             text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
         .child-card {
             background: #ffffff;
             border: 1px solid #ddd;
-            padding: 12px;
+            padding: 15px;
             border-radius: 8px;
-            margin-top: 10px;
+            margin-top: 12px;
             text-align: left;
             box-shadow: 0px 2px 5px rgba(0,0,0,0.05);
         }
         .delete-btn {
             background-color: #dc3545;
-            padding: 8px;
+            color: white;
+            padding: 8px 12px;
             font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
             margin-top: 8px;
-        }
-        .delete-btn:hover {
-            background-color: #c82333;
         }
     </style>
 </head>
@@ -125,7 +142,7 @@
 <div class="container">
     <!-- ಭಾಷಾ ಸೆಟ್ಟಿಂಗ್ ಬಟನ್ -->
     <div style="text-align: right; margin-bottom: 15px;">
-        <label for="langSelect" style="display:inline; font-size: 14px;" onclick="speakText('ಭಾಷೆಯನ್ನು ಆಯ್ಕೆ ಮಾಡಿ')">Language: </label>
+        <label for="langSelect" style="display:inline; font-size: 14px;">Language: </label>
         <select id="langSelect" style="width: auto; display: inline-block; padding: 5px;" onchange="changeLanguage()">
             <option value="kn">ಕನ್ನಡ</option>
             <option value="hi">हिंदी</option>
@@ -133,64 +150,64 @@
         </select>
     </div>
 
-    <!-- ೦. ಮುಖ್ಯ ಪೇಜ್ (Home Page) - ಎರಡು ಬಟನ್‌ಗಳು -->
+    <!-- ೦. ಮುಖ್ಯ ಪೇಜ್ (Home Page) - ಎರಡು ಸುಂದರವಾದ ಬಟನ್‌ಗಳು -->
     <div id="homePage" class="page active-page">
-        <h2 onclick="speakText(this.innerText)">ಶಾಲೆ ಮತ್ತು ಮಕ್ಕಳ ಸುರಕ್ಷತಾ ಆಪ್</h2>
-        <p style="text-align: center; color: #666; margin-bottom: 30px;">ದಯವಿಟ್ಟು ಕೆಳಗಿನ ಆಯ್ಕೆಯನ್ನು ಆರಿಸಿ[span_6](start_span)[span_6](end_span)[span_7](start_span)[span_7](end_span)[span_8](start_span)[span_8](end_span)</p>
+        <h2>ಶಾಲೆ ಮತ್ತು ಮಕ್ಕಳ ಸುರಕ್ಷತಾ ಆಪ್</h2>
+        <p style="text-align: center; color: #666; margin-bottom: 25px;">ದಯವಿಟ್ಟು ಕೆಳಗಿನ ಬಟನ್ ಆಯ್ಕೆಮಾಡಿ</p>
         
-        <button style="background-color: #007bff; padding: 18px; font-size: 18px; margin-bottom: 20px;" onclick="goToTeacherRegister()">
-            👨‍🏫 ಶಿಕ್ಷಕರ ನೋಂದಣಿ (Teacher Registration)[span_9](start_span)[span_9](end_span)[span_10](start_span)[span_10](end_span)[span_11](start_span)[span_11](end_span)
+        <button class="main-btn btn-teacher" onclick="handleTeacherButtonClick()">
+            👨‍🏫 ಶಿಕ್ಷಕರ ನೋಂದಣಿ / ಐಡಿ
         </button>
         
-        <button style="background-color: #ffc107; color: #000; font-weight: bold; padding: 18px; font-size: 18px;" onclick="promptTeacherAttendanceId()">
-            📋 ಮಕ್ಕಳ ಹಾಜರಾತಿ (Student Attendance)[span_12](start_span)[span_12](end_span)[span_13](start_span)[span_13](end_span)[span_14](start_span)[span_14](end_span)
+        <button class="main-btn btn-attendance" onclick="openAttendancePage()">
+            📋 ಮಕ್ಕಳ ಹಾಜರಾತಿ ಘಟನೆ
         </button>
     </div>
 
     <!-- ೧. ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಪೇಜ್ -->
     <div id="registerPage" class="page">
-        <button class="back-btn" onclick="goToHomeFromRegister()">⬅ ಮುಖ್ಯ ಪೇಜ್‌ಗೆ ಹಿಂದಿರುಗಿ</button>
-        <h2 id="tRegTitle" onclick="speakText(this.innerText)">ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಪೇಜ್[span_15](start_span)[span_15](end_span)[span_16](start_span)[span_16](end_span)[span_17](start_span)[span_17](end_span)</h2>
+        <button class="back-btn" onclick="goToHome()">⬅ ಮುಖ್ಯ ಪೇಜ್‌ಗೆ ಹಿಂದಿರುಗಿ</button>
+        <h2 id="tRegTitle">ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಪೇಜ್</h2>
         
         <form id="teacherForm" onsubmit="validateAndSubmit(event)">
             <div class="form-group">
-                <label onclick="speakText('ನಿಮ್ಮ ಹೆಸರು')">ನಿಮ್ಮ ಹೆಸರು:</label>
+                <label>ನಿಮ್ಮ ಹೆಸರು:</label>
                 <input type="text" id="name" placeholder="ನಿಮ್ಮ ಹೆಸರನ್ನು ಹಾಕಿ">
                 <div id="nameError" class="error">ದಯವಿಟ್ಟು ನಿಮ್ಮ ಹೆಸರು ಹಾಕಿ</div>
             </div>
 
             <div class="form-group">
-                <label onclick="speakText('ಮೊಬೈಲ್ ನಂಬರ್')">ಮೊಬೈಲ್ ನಂಬರ್:</label>
+                <label>ಮೊಬೈಲ್ ನಂಬರ್:</label>
                 <input type="tel" id="phone" maxlength="10" placeholder="10 ಅಂಕಿಯ ಮೊಬೈಲ್ ನಂಬರ್">
                 <div id="phoneError" class="error">ಸರಿಯಾದ 10 ಅಂಕಿಯ ಮೊಬೈಲ್ ನಂಬರ್ ಹಾಕಿ</div>
             </div>
 
             <div class="form-group">
-                <label onclick="speakText('ಜಿಲ್ಲೆ')">ಜಿಲ್ಲೆ:</label>
+                <label>ಜಿಲ್ಲೆ:</label>
                 <input type="text" id="district" placeholder="ನಿಮ್ಮ ಜಿಲ್ಲೆ">
                 <div id="districtError" class="error">ಜಿಲ್ಲೆಯ ಹೆಸರು ಹಾಕಿ</div>
             </div>
 
             <div class="form-group">
-                <label onclick="speakText('ತಾಲೂಕು')">ತಾಲೂಕು:</label>
+                <label>ತಾಲೂಕು:</label>
                 <input type="text" id="taluk" placeholder="ನಿಮ್ಮ ತಾಲೂಕು">
                 <div id="talukError" class="error">ತಾಲೂಕು ಹೆಸರು ಹಾಕಿ</div>
             </div>
 
             <div class="form-group">
-                <label onclick="speakText('ಊರು')">ಊರು:</label>
+                <label>ಊರು:</label>
                 <input type="text" id="village" placeholder="ನಿಮ್ಮ ಊರು">
                 <div id="villageError" class="error">ಊರಿನ ಹೆಸರು ಹಾಕಿ</div>
             </div>
 
             <div class="form-group">
-                <label onclick="speakText('ಹೈಸ್ಕೂಲ್ ಅಥವಾ ಕಾಲೇಜು ಹೆಸರು')">ಹೈಸ್ಕೂಲ್ / ಕಾಲೇಜು ಹೆಸರು:</label>
+                <label>ಹೈಸ್ಕೂಲ್ / ಕಾಲೇಜು ಹೆಸರು:</label>
                 <input type="text" id="school" placeholder="ಶಾಲೆಯ ಹೆಸರು">
                 <div id="schoolError" class="error">ಶಾಲೆ/ಕಾಲೇಜು ಹೆಸರು ಹಾಕಿ</div>
             </div>
 
             <div class="form-group">
-                <label onclick="speakText('ತರಗತಿ ಆಯ್ಕೆಮಾಡಿ')">ತರಗತಿ ಆಯ್ಕೆಮಾಡಿ:</label>
+                <label>ತರಗತಿ ಆಯ್ಕೆಮಾಡಿ:</label>
                 <select id="classSelect">
                     <option value="">-- ತರಗತಿ ಆಯ್ಕೆಮಾಡಿ --</option>
                     <option value="LKG">LKG</option>
@@ -212,7 +229,7 @@
             </div>
 
             <div class="form-group">
-                <label onclick="speakText('ಪಾಠದ ವಿಷಯ')">ಪಾಠದ ವಿಷಯ:</label>
+                <label>ಪಾಠದ ವಿಷಯ:</label>
                 <select id="subjectSelect">
                     <option value="">-- ವಿಷಯ ಆಯ್ಕೆಮಾಡಿ --</option>
                     <option value="ಕನ್ನಡ">ಕನ್ನಡ</option>
@@ -226,34 +243,34 @@
             </div>
 
             <div class="form-group">
-                <label onclick="speakText('ನಿಮ್ಮ ಸೆಲ್ಫಿ ಫೋಟೋ ಹಾಕಿ')">ನಿಮ್ಮ ಸೆಲ್ಫಿ ಫೋಟೋ ಹಾಕಿ:</label>
+                <label>ನಿಮ್ಮ ಸೆಲ್ಫಿ ಫೋಟೋ ಹಾಕಿ (ಕ್ಯಾಮೆರಾ ಓಪನ್ ಆಗುತ್ತದೆ):</label>
                 <input type="file" id="selfie" accept="image/*" capture="user" onchange="previewImage(event)">
                 <div id="selfieError" class="error">ದಯವಿಟ್ಟು ನಿಮ್ಮ ಸೆಲ್ಫಿ ಫೋಟೋ ಹಾಕಿ</div>
                 <img id="preview" alt="ಸೆಲ್ಫಿ ಪ್ರಿವ್ಯೂ">
             </div>
 
-            <button type="submit" onclick="speakText('ಸಂರಕ್ಷಿಸಿ ಮತ್ತು ಐಡಿ ಪಡೆಯಿರಿ')">ಸಂರಕ್ಷಿಸಿ ಮತ್ತು ಐಡಿ ಪಡೆಯಿರಿ</button>
+            <button type="submit" class="main-btn btn-teacher">ಸಂರಕ್ಷಿಸಿ ಮತ್ತು ಐಡಿ ಪಡೆಯಿರಿ</button>
         </form>
     </div>
 
     <!-- ೨. ಐಡಿ ಮತ್ತು ಮುಖಪುಟ ಪೇಜ್ -->
     <div id="idPage" class="page">
-        <button class="back-btn" onclick="goToHomeFromRegister()">⬅ ಮುಖ್ಯ ಪೇಜ್‌ಗೆ ಹಿಂದಿರುಗಿ</button>
-        <h2 onclick="speakText(this.innerText)">ನಿಮ್ಮ ಐಡಿ ವಿವರಗಳು[span_18](start_span)[span_18](end_span)[span_19](start_span)[span_19](end_span)[span_20](start_span)[span_20](end_span)</h2>
+        <button class="back-btn" onclick="goToHome()">⬅ ಮುಖ್ಯ ಪೇಜ್‌ಗೆ ಹಿಂದಿರುಗಿ</button>
+        <h2>ನಿಮ್ಮ ಐಡಿ ವಿವರಗಳು</h2>
         <div style="text-align: center;">
             <img id="displayPhoto" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 15px;" alt="ಫೋಟೋ">
             <h3 id="displayName"></h3>
             <p><b>ಐಡಿ ಸಂಖ್ಯೆ:</b> <span id="displayId" style="color: #007bff; font-size: 22px;"></span></p>
             <p id="displayDetails"></p>
             
-            <button style="background-color: #28a745;" onclick="openChildPage()">ನಿಮ್ಮ ಮಕ್ಕಳನ್ನು / ಹೈಸ್ಕೂಲ್ ಮಕ್ಕಳನ್ನು ಇಲ್ಲಿ ಸೇರಿಸಿ[span_21](start_span)[span_21](end_span)[span_22](start_span)[span_22](end_span)[span_23](start_span)[span_23](end_span)</button>
-            <button style="background-color: #ffc107; color: #000; font-weight: bold;" onclick="promptTeacherAttendanceId()">📋 ಮಕ್ಕಳ ಹಾಜರಾತಿ ಹಾಕಲು ಇಲ್ಲಿ ಒತ್ತಿ[span_24](start_span)[span_24](end_span)[span_25](start_span)[span_25](end_span)[span_26](start_span)[span_26](end_span)</button>
+            <button class="main-btn" style="background-color: #28a745; color: white;" onclick="openChildPage()">ನಿಮ್ಮ ಮಕ್ಕಳನ್ನು / ಹೈಸ್ಕೂಲ್ ಮಕ್ಕಳನ್ನು ಇಲ್ಲಿ ಸೇರಿಸಿ</button>
+            <button class="main-btn btn-attendance" onclick="openAttendancePageFromId()">📋 ಮಕ್ಕಳ ಹಾಜರಾತಿ ಹಾಕಲು ಇಲ್ಲಿ ಒತ್ತಿ</button>
         </div>
 
         <hr style="margin: 20px 0;">
 
         <div class="form-group">
-            <label onclick="speakText('ಮಕ್ಕಳ ಐಡಿ ಅಥವಾ ಮೊಬೈಲ್ ನಂಬರ್ ಬಳಸಿ ಹುಡುಕಿ')">🔍 ಮಕ್ಕಳ ಐಡಿ ಅಥವಾ ಮೊಬೈಲ್ ನಂಬರ್ ಹುಡುಕಿ:</label>
+            <label>🔍 ಮಕ್ಕಳ ಐಡಿ ಅಥವಾ ಮೊಬೈಲ್ ನಂಬರ್ ಹುಡುಕಿ:</label>
             <input type="text" id="searchChildInput" placeholder="ಹೆಸರು, ಐಡಿ ಅಥವಾ ಮೊಬೈಲ್ ನಂಬರ್ ಹಾಕಿ..." onkeyup="filterChildren()">
         </div>
 
@@ -262,42 +279,37 @@
 
     <!-- ೩. ಮಕ್ಕಳ ನೋಂದಣಿ ಪೇಜ್ -->
     <div id="childRegPage" class="page">
-        <button class="back-btn" onclick="backToIdPage()">⬅ ಹಿಂದಕ್ಕೆ ತಿರುಗಿ[span_27](start_span)[span_27](end_span)[span_28](start_span)[span_28](end_span)[span_29](start_span)[span_29](end_span)</button>
-        <h2 onclick="speakText(this.innerText)">ಮಕ್ಕಳ ನೋಂದಣಿ ಫಾರ್ಮ್[span_30](start_span)[span_30](end_span)[span_31](start_span)[span_31](end_span)[span_32](start_span)[span_32](end_span)</h2>
+        <button class="back-btn" onclick="backToIdPage()">⬅ ಹಿಂದಕ್ಕೆ ತಿರುಗಿ</button>
+        <h2>ಮಕ್ಕಳ ನೋಂದಣಿ ಫಾರ್ಮ್</h2>
         
         <form id="childForm" onsubmit="saveChildData(event)">
             <div class="form-group">
-                <label onclick="speakText('ಮಕ್ಕಳು ಹೆಸರು')">ಮಕ್ಕಳು ಹೆಸರು:</label>
+                <label>ಮಕ್ಕಳು ಹೆಸರು:</label>
                 <input type="text" id="childName" placeholder="ಮಗುವಿನ ಹೆಸರು">
-                <div id="childNameError" class="error">ಮಗುವಿನ ಹೆಸರು ಹಾಕಿ</div>
             </div>
 
             <div class="form-group">
-                <label onclick="speakText('ತಂದೆಯ ಹೆಸರು')">ತಂದೆಯ ಹೆಸರು:</label>
+                <label>ತಂದೆಯ ಹೆಸರು:</label>
                 <input type="text" id="fatherName" placeholder="ತಂದೆಯ ಹೆಸರು">
-                <div id="fatherNameError" class="error">ತಂದೆಯ ಹೆಸರು ಹಾಕಿ</div>
             </div>
 
             <div class="form-group">
-                <label onclick="speakText('ತಾಯಿಯ ಹೆಸರು')">ತಾಯಿಯ ಹೆಸರು:</label>
+                <label>ತಾಯಿಯ ಹೆಸರು:</label>
                 <input type="text" id="motherName" placeholder="ತಾಯಿಯ ಹೆಸರು">
-                <div id="motherNameError" class="error">ತಾಯಿಯ ಹೆಸರು ಹಾಕಿ</div>
             </div>
 
             <div class="form-group">
-                <label onclick="speakText('ತಂದೆ ಅಥವಾ ತಾಯಿಯ ಮೊಬೈಲ್ ನಂಬರ್')">ತಂದೆ/ತಾಯಿಯ ಮೊಬೈಲ್ ನಂಬರ್:</label>
+                <label>ತಂದೆ/ತಾಯಿಯ ಮೊಬೈಲ್ ನಂಬರ್:</label>
                 <input type="tel" id="parentPhone" maxlength="10" placeholder="10 ಅಂಕಿಯ ಮೊಬೈಲ್ ನಂಬರ್">
-                <div id="parentPhoneError" class="error">ಸರಿಯಾದ ಮೊಬೈಲ್ ನಂಬರ್ ಹಾಕಿ</div>
             </div>
 
             <div class="form-group">
-                <label onclick="speakText('ಮಗುವಿನ ಊರು ಯಾವುದು')">ಮಗುವಿನ ಊರು ಯಾವುದು:</label>
+                <label>ಮಗುವಿನ ಊರು ಯಾವುದು:</label>
                 <input type="text" id="childVillage" placeholder="ಊರಿನ ಹೆಸರು">
-                <div id="childVillageError" class="error">ಊರಿನ ಹೆಸರು ಹಾಕಿ</div>
             </div>
 
             <div class="form-group">
-                <label onclick="speakText('ಎಷ್ಟನೇ ತರಗತಿ ಇದ್ದಾರೆ')">ಎಷ್ಟನೇ ತರಗತಿ ಇದ್ದಾರೆ:</label>
+                <label>ಎಷ್ಟನೇ ತರಗತಿ ಇದ್ದಾರೆ:</label>
                 <select id="childClass">
                     <option value="">-- ತರಗತಿ ಆಯ್ಕೆಮಾಡಿ --</option>
                     <option value="LKG">LKG</option>
@@ -313,44 +325,41 @@
                     <option value="9ನೇ ತರಗತಿ">9ನೇ ತರಗತಿ</option>
                     <option value="10ನೇ ತರಗತಿ">10ನೇ ತರಗತಿ</option>
                 </select>
-                <div id="childClassError" class="error">ತರಗತಿ ಆಯ್ಕೆಮಾಡಿ</div>
             </div>
 
             <div class="form-group">
-                <label onclick="speakText('ಮಕ್ಕಳ ಸೆಲ್ಫಿ ಫೋಟೋ')">ಮಕ್ಕಳ ಸೆಲ್ಫಿ ಫೋಟೋ:</label>
+                <label>ಮಕ್ಕಳ ಸೆಲ್ಫಿ ಫೋಟೋ (ಕ್ಯಾಮೆರಾ ಓಪನ್ ಆಗುತ್ತದೆ):</label>
                 <input type="file" id="childSelfie" accept="image/*" capture="user" onchange="previewChildImage(event, 'selfie')">
-                <div id="childSelfieError" class="error">ಸೆಲ್ಫಿ ಫೋಟೋ ಹಾಕಿ</div>
                 <img id="childPreview" alt="ಸೆಲ್ಫಿ ಪ್ರಿವ್ಯೂ">
             </div>
 
             <div class="form-group">
-                <label onclick="speakText('ಹೈಸ್ಕೂಲ್ ಕೊಟ್ಟಿರುವ ಐಡಿ ಕಾರ್ಡ್ ಫೋಟೋ')">ಹೈಸ್ಕೂಲ್ ಕೊಟ್ಟಿರುವ ಐಡಿ ಕಾರ್ಡ್ ಫೋಟೋ:</label>
+                <label>ಹೈಸ್ಕೂಲ್ ಕೊಟ್ಟಿರುವ ಐಡಿ ಕಾರ್ಡ್ ಫೋಟೋ:</label>
                 <input type="file" id="schoolIdPhoto" accept="image/*" onchange="previewChildImage(event, 'idcard')">
-                <div id="schoolIdError" class="error">ಐಡಿ ಕಾರ್ಡ್ ಫೋಟೋ ಹಾಕಿ</div>
-                <img id="idCardPreview" alt="ಐಡಿ ಕಾರ್ಡ್ ಪ್ರಿವ್ಯೂ" style="width:100%; max-height:200px; display:none; margin-top:10px; border-radius:5px;">
+                <img id="idCardPreview" alt="ಐಡಿ ಕಾರ್ಡ್ ಪ್ರಿವ್ಯೂ">
             </div>
 
-            <button type="submit" onclick="speakText('ಮಗುವಿನ ಐಡಿ ಪಡೆಯಿರಿ')">ಮಗುವಿನ ಐಡಿ ಪಡೆಯಿರಿ</button>
+            <button type="submit" class="main-btn" style="background-color: #28a745; color: white;">ಮಗುವಿನ ಐಡಿ ಪಡೆಯಿರಿ</button>
         </form>
     </div>
 
     <!-- ೪. ಮಕ್ಕಳ ಹಾಜರಾತಿ ಮತ್ತು ಕ್ಯಾಮೆರಾ ಸ್ಕ್ಯಾನಿಂಗ್ ಪೇಜ್ -->
     <div id="attendancePage" class="page">
-        <button class="back-btn" onclick="goToHomeFromAttendance()">⬅ ಮುಖ್ಯ ಪೇಜ್‌ಗೆ ಹಿಂದಿರುಗಿ[span_33](start_span)[span_33](end_span)[span_34](start_span)[span_34](end_span)[span_35](start_span)[span_35](end_span)</button>
-        <h2 onclick="speakText(this.innerText)">ಮಕ್ಕಳ ಹಾಜರಾತಿ ಕ್ಯಾಮೆರಾ ಸ್ಕ್ಯಾನ್[span_36](start_span)[span_36](end_span)[span_37](start_span)[span_37](end_span)[span_38](start_span)[span_38](end_span)</h2>
+        <button class="back-btn" onclick="goToHome()">⬅ ಮುಖ್ಯ ಪೇಜ್‌ಗೆ ಹಿಂದಿರುಗಿ</button>
+        <h2>ಮಕ್ಕಳ ಹಾಜರಾತಿ ಕ್ಯಾಮೆರಾ ಸ್ಕ್ಯಾನ್</h2>
         
         <div class="form-group">
-            <label onclick="speakText('ಮಕ್ಕಳ ಹಾಜರಾತಿಗಾಗಿ ಫೋಟೋ ತೆಗೆಯಿರಿ ಅಥವಾ ಐಡಿ ನಮೂದಿಸಿ')">📷 ಮಕ್ಕಳ ಫೋಟೋ ತೆಗೆಯಿರಿ ಅಥವಾ ಐಡಿ ಹಾಕಿ:</label>
+            <label>📷 ಮಕ್ಕಳ ಫೋಟೋ ತೆಗೆಯಿರಿ ಅಥವಾ ಐಡಿ ಹಾಕಿ:</label>
             <input type="file" id="attendanceCamera" accept="image/*" capture="user" onchange="previewAttendanceImage(event)">
             <img id="attendancePreview" alt="ಹಾಜರಾತಿ ಫೋಟೋ ಪ್ರಿವ್ಯೂ">
         </div>
 
         <div class="form-group">
-            <label onclick="speakText('ಅಥವಾ ಮಗುವಿನ ಐಡಿ ನಂಬರ್ ಹಾಕಿ')">ಮಗುವಿನ ಐಡಿ ನಂಬರ್ ಹಾಕಿ:</label>
+            <label>ಮಗುವಿನ ಐಡಿ ನಂಬರ್ ಹಾಕಿ:</label>
             <input type="text" id="attendanceChildIdInput" placeholder="ಮಗುವಿನ 4 ಡಿಜಿಟಲ್ ಐಡಿ ಹಾಕಿ...">
         </div>
 
-        <button style="background-color: #17a2b8;" onclick="checkChildAttendance()">ಚೆಕ್ ಮಾಡಿ (Check)</button>
+        <button class="main-btn" style="background-color: #17a2b8; color: white;" onclick="checkChildAttendance()">ಚೆಕ್ ಮಾಡಿ (Check)</button>
 
         <div id="scannedChildResult" style="margin-top: 20px;"></div>
     </div>
@@ -360,28 +369,26 @@
 <div id="popupModal" class="modal">
     <div class="modal-content">
         <h3 style="color: green;" id="popupTitle">ಯಶಸ್ವಿಯಾಗಿದೆ!</h3>
-        <p id="popupMessage">ನಿಮ್ಮ ಐಡಿ ಸೆಕ್ಸಸ್ ಆಗಿದೆ.</p>
-        <button onclick="closePopupAndNext()">ಸರಿ (OK)</button>
+        <p id="popupMessage">ವಿವರಗಳು ಸೇವ್ ಆಗಿವೆ.</p>
+        <button class="main-btn btn-teacher" onclick="closePopupAndNext()" style="margin-top:10px; padding:10px;">ಸರಿ (OK)</button>
     </div>
 </div>
 
 <script>
-    let generatedId = "";
     let capturedImageSrc = "";
     let childSelfieSrc = "";
     let schoolIdSrc = "";
-    let childrenList = [];
+    let childrenList = JSON.parse(localStorage.getItem('childrenList')) || [];
     let attendanceImageSrc = "";
 
-    function speakText(text) {
-        if ('speechSynthesis' in window) {
-            window.speechSynthesis.cancel();
-            let utterance = new SpeechSynthesisUtterance(text);
-            let lang = document.getElementById('langSelect').value;
-            utterance.lang = lang === 'hi' ? 'hi-IN' : (lang === 'en' ? 'en-US' : 'kn-IN');
-            window.speechSynthesis.speak(utterance);
+    // ಪೇಜ್ ಲೋಡ್ ಆದಾಗ ಟೀಚರ್ ಐಡಿ ಈಗಾಗಲೇ ಇದ್ದರೆ ಪರಿಶೀಲಿಸುವುದು
+    window.onload = function() {
+        let savedTeacher = localStorage.getItem('teacherData');
+        if(savedTeacher) {
+            let tData = JSON.parse(savedTeacher);
+            updateTeacherDisplay(tData);
         }
-    }
+    };
 
     function changeLanguage() {
         let lang = document.getElementById('langSelect').value;
@@ -394,21 +401,39 @@
         }
     }
 
-    function goToTeacherRegister() {
-        document.getElementById('homePage').classList.remove('active-page');
-        document.getElementById('registerPage').classList.add('active-page');
-        speakText('ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಪೇಜ್ ತೆರೆಯಲಾಗಿದೆ');
+    // ಮುಖ್ಯ ಪೇಜ್‌ನ ಶಿಕ್ಷಕರ ಬಟನ್ ಕ್ಲಿಕ್ ಮಾಡಿದಾಗ
+    function handleTeacherButtonClick() {
+        let savedTeacher = localStorage.getItem('teacherData');
+        if (savedTeacher) {
+            // ಈಗಾಗಲೇ ನೋಂದಣಿ ಆಗಿದ್ದರೆ ನೇರವಾಗಿ ಐಡಿ ಪೇಜ್ ತೋರಿಸು
+            showPage('idPage');
+        } else {
+            // ಇಲ್ಲದಿದ್ದರೆ ನೋಂದಣಿ ಪೇಜ್ ತೋರಿಸು
+            showPage('registerPage');
+        }
     }
 
-    function goToHomeFromRegister() {
-        document.getElementById('registerPage').classList.remove('active-page');
-        document.getElementById('idPage').classList.remove('active-page');
-        document.getElementById('homePage').classList.add('active-page');
+    function openAttendancePage() {
+        let savedTeacher = localStorage.getItem('teacherData');
+        if (!savedTeacher) {
+            alert("ದಯವಿಟ್ಟು ಮೊದಲು ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಪೂರ್ಣಗೊಳಿಸಿ!");
+            showPage('registerPage');
+            return;
+        }
+        showPage('attendancePage');
     }
 
-    function goToHomeFromAttendance() {
-        document.getElementById('attendancePage').classList.remove('active-page');
-        document.getElementById('homePage').classList.add('active-page');
+    function openAttendancePageFromId() {
+        showPage('attendancePage');
+    }
+
+    function goToHome() {
+        showPage('homePage');
+    }
+
+    function showPage(pageId) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+        document.getElementById(pageId).classList.add('active-page');
     }
 
     function previewImage(event) {
@@ -420,7 +445,6 @@
                 const img = document.getElementById('preview');
                 img.src = capturedImageSrc;
                 img.style.display = 'block';
-                document.getElementById('selfieError').style.display = 'none';
             }
             reader.readAsDataURL(file);
         }
@@ -436,13 +460,11 @@
                     const img = document.getElementById('childPreview');
                     img.src = childSelfieSrc;
                     img.style.display = 'block';
-                    document.getElementById('childSelfieError').style.display = 'none';
                 } else {
                     schoolIdSrc = e.target.result;
                     const img = document.getElementById('idCardPreview');
                     img.src = schoolIdSrc;
                     img.style.display = 'block';
-                    document.getElementById('schoolIdError').style.display = 'none';
                 }
             }
             reader.readAsDataURL(file);
@@ -451,8 +473,6 @@
 
     function validateAndSubmit(event) {
         event.preventDefault();
-        let isValid = true;
-
         let name = document.getElementById('name').value.trim();
         let phone = document.getElementById('phone').value.trim();
         let district = document.getElementById('district').value.trim();
@@ -462,61 +482,54 @@
         let classVal = document.getElementById('classSelect').value;
         let subjectVal = document.getElementById('subjectSelect').value;
 
-        if(name === "") { document.getElementById('nameError').style.display = 'block'; isValid = false; } else { document.getElementById('nameError').style.display = 'none'; }
-        if(phone.length !== 10 || isNaN(phone)) { document.getElementById('phoneError').style.display = 'block'; isValid = false; } else { document.getElementById('phoneError').style.display = 'none'; }
-        if(district === "") { document.getElementById('districtError').style.display = 'block'; isValid = false; } else { document.getElementById('districtError').style.display = 'none'; }
-        if(taluk === "") { document.getElementById('talukError').style.display = 'block'; isValid = false; } else { document.getElementById('talukError').style.display = 'none'; }
-        if(village === "") { document.getElementById('villageError').style.display = 'block'; isValid = false; } else { document.getElementById('villageError').style.display = 'none'; }
-        if(school === "") { document.getElementById('schoolError').style.display = 'block'; isValid = false; } else { document.getElementById('schoolError').style.display = 'none'; }
-        if(classVal === "") { document.getElementById('classError').style.display = 'block'; isValid = false; } else { document.getElementById('classError').style.display = 'none'; }
-        if(subjectVal === "") { document.getElementById('subjectError').style.display = 'block'; isValid = false; } else { document.getElementById('subjectError').style.display = 'none'; }
-        if(capturedImageSrc === "") { document.getElementById('selfieError').style.display = 'block'; isValid = false; } else { document.getElementById('selfieError').style.display = 'none'; }
+        if(!name || phone.length !== 10 || !district || !taluk || !village || !school || !classVal || !subjectVal || !capturedImageSrc) {
+            alert("ದಯವಿಟ್ಟು ಎಲ್ಲಾ ಮಾಹಿತಿ ಮತ್ತು ಫೋಟೋ ಸರಿಯಾಗಿ ಭರ್ತಿ ಮಾಡಿ!");
+            return;
+        }
 
-        if(!isValid) return;
+        let generatedId = Math.floor(1000 + Math.random() * 9000).toString();
 
-        generatedId = Math.floor(1000 + Math.random() * 9000).toString();
-        
-        document.getElementById('displayName').innerText = name + " (" + phone + ")";
-        document.getElementById('displayId').innerText = generatedId;
-        document.getElementById('displayDetails').innerText = district + " ಜಿಲ್ಲೆ, " + taluk + " ತಾಲೂಕು, " + village + " ಊರು.\nಶಾಲೆ: " + school + "\nತರಗತಿ: " + classVal + " | ವಿಷಯ: " + subjectVal;
-        document.getElementById('displayPhoto').src = capturedImageSrc;
+        let teacherObj = {
+            name: name,
+            phone: phone,
+            district: district,
+            taluk: taluk,
+            village: village,
+            school: school,
+            classVal: classVal,
+            subjectVal: subjectVal,
+            id: generatedId,
+            photo: capturedImageSrc
+        };
+
+        // ಲೋಕಲ್ ಸ್ಟೋರೇಜ್‌ನಲ್ಲಿ ಶಾಶ್ವತವಾಗಿ ಸೇವ್ ಮಾಡುವುದು
+        localStorage.setItem('teacherData', JSON.stringify(teacherObj));
+        updateTeacherDisplay(teacherObj);
 
         document.getElementById('popupTitle').innerText = "ಯಶಸ್ವಿಯಾಗಿದೆ!";
-        document.getElementById('popupMessage').innerText = "ನಿಮ್ಮ ಐಡಿ ಯಶಸ್ವಿಯಾಗಿದೆ! ಐಡಿ ಸಂಖ್ಯೆ: " + generatedId;
+        document.getElementById('popupMessage').innerText = "ನಿಮ್ಮ ಐಡಿ ಯಶಸ್ವಿಯಾಗಿ ಸೃಷ್ಟಿಯಾಗಿದೆ! ಐಡಿ ಸಂಖ್ಯೆ: " + generatedId;
         document.getElementById('popupModal').style.display = 'block';
+    }
+
+    function updateTeacherDisplay(tData) {
+        document.getElementById('displayName').innerText = tData.name + " (" + tData.phone + ")";
+        document.getElementById('displayId').innerText = tData.id;
+        document.getElementById('displayDetails').innerText = tData.district + " ಜಿಲ್ಲೆ, " + tData.taluk + " ತಾಲೂಕು, " + tData.village + " ಊರು.\nಶಾಲೆ: " + tData.school + "\nತರಗತಿ: " + tData.classVal + " | ವಿಷಯ: " + tData.subjectVal;
+        document.getElementById('displayPhoto').src = tData.photo;
+        renderChildren(childrenList);
     }
 
     function closePopupAndNext() {
         document.getElementById('popupModal').style.display = 'none';
-        document.getElementById('registerPage').classList.remove('active-page');
-        document.getElementById('idPage').classList.add('active-page');
-        speakText("ನಿಮ್ಮ ಐಡಿ ಸಫಲವಾಗಿದೆ");
+        showPage('idPage');
     }
 
     function openChildPage() {
-        document.getElementById('idPage').classList.remove('active-page');
-        document.getElementById('childRegPage').classList.add('active-page');
-        speakText('ಮಕ್ಕಳ ವಿವರಗಳನ್ನು ಭರ್ತಿ ಮಾಡಿ');
+        showPage('childRegPage');
     }
 
     function backToIdPage() {
-        document.getElementById('childRegPage').classList.remove('active-page');
-        document.getElementById('idPage').classList.add('active-page');
-    }
-
-    function promptTeacherAttendanceId() {
-        let enteredId = prompt("ಹಾಜರಾತಿಗಾಗಿ ನಿಮ್ಮ 4 ಡಿಜಿಟಲ್ ಟೀಚರ್ ಐಡಿ ನಮೂದಿಸಿ[span_39](start_span)[span_39](end_span)[span_40](start_span)[span_40](end_span)[span_41](start_span)[span_41](end_span):");
-        if (enteredId === null) return;
-
-        if (generatedId !== "" && enteredId.trim() === generatedId) {
-            speakText("ಐಡಿ ಸರಿಯಾಗಿದೆ. ಹಾಜರಾತಿ ಪೇಜ್ ತೆರೆಯಲಾಗಿದೆ.");
-            document.getElementById('homePage').classList.remove('active-page');
-            document.getElementById('idPage').classList.remove('active-page');
-            document.getElementById('attendancePage').classList.add('active-page');
-        } else {
-            alert("ದಯವಿಟ್ಟು ಮೊದಲು ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಪೂರ್ಣಗೊಳಿಸಿ ಅಥವಾ ಸರಿಯಾದ ಐಡಿ ನಮೂದಿಸಿ!");
-            speakText("ಐಡಿ ತಪ್ಪಾಗಿದೆ ಅಥವಾ ನೋಂದಣಿ ಆಗಿಲ್ಲ");
-        }
+        showPage('idPage');
     }
 
     function saveChildData(event) {
@@ -529,7 +542,7 @@
         let cClass = document.getElementById('childClass').value;
 
         if(!cName || !fName || !mName || pPhone.length !== 10 || !cVillage || !cClass || !childSelfieSrc || !schoolIdSrc) {
-            alert("ದಯವಿಟ್ಟು ಎಲ್ಲಾ ವಿವರಗಳನ್ನು ಮತ್ತು ಫೋಟೋಗಳನ್ನು ಸರಿಯಾಗಿ ಹಾಕಿ!");
+            alert("ದಯವಿಟ್ಟು ಮಕ್ಕಳ ಎಲ್ಲಾ ವಿವರಗಳನ್ನು ಮತ್ತು ಫೋಟೋಗಳನ್ನು ಹಾಕಿ!");
             return;
         }
 
@@ -548,6 +561,7 @@
         };
 
         childrenList.push(childObj);
+        localStorage.setItem('childrenList', JSON.stringify(childrenList));
         renderChildren(childrenList);
 
         document.getElementById('childForm').reset();
@@ -556,14 +570,12 @@
         childSelfieSrc = "";
         schoolIdSrc = "";
 
-        document.getElementById('childRegPage').classList.remove('active-page');
-        document.getElementById('idPage').classList.add('active-page');
-        speakText("ಮಗುವಿನ 4 ಡಿಜಿಟಲ್ ಐಡಿ ಯಶಸ್ವಿಯಾಗಿ ಸೃಷ್ಟಿಯಾಗಿದೆ.");
+        showPage('idPage');
     }
 
     function renderChildren(list) {
         let container = document.getElementById('childrenContainer');
-        container.innerHTML = "<h3 onclick=\"speakText(this.innerText)\">ಮಕ್ಕಳ ಐಡಿ ವಿವರಗಳು (" + list.length + ")</h3>";
+        container.innerHTML = "<h3>ಮಕ್ಕಳ ಐಡಿ ವಿವರಗಳು (" + list.length + ")</h3>";
         
         if(list.length === 0) {
             container.innerHTML += "<p style='text-align:center; color:#777;'>ಯಾವುದೇ ಮಕ್ಕಳ ವಿವರಗಳಿಲ್ಲ</p>";
@@ -576,7 +588,7 @@
                     <div style="display: flex; align-items: center; gap: 10px;">
                         <img src="${child.selfie}" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;" alt="ಫೋಟೋ">
                         <div>
-                            <p style="margin: 0; font-weight: bold;" onclick="speakText('ಹೆಸರು: ${child.name}')">${child.name}</p>
+                            <p style="margin: 0; font-weight: bold;">${child.name}</p>
                             <p style="margin: 2px 0; font-size: 14px;">ಐಡಿ: <span style="color: #007bff; font-weight: bold;">${child.id}</span> | ಫೋನ್: ${child.phone}</p>
                             <p style="margin: 0; font-size: 13px; color: #555;">ತರಗತಿ: ${child.className} | ಊರು: ${child.village}</p>
                         </div>
@@ -602,8 +614,8 @@
     function deleteChild(id) {
         if(confirm("ನೀವು ಈ ಮಗುವಿನ ಐಡಿಯನ್ನು ಅಳಿಸಲು ಬಯಸುತ್ತೀರಾ?")) {
             childrenList = childrenList.filter(c => c.id !== id);
+            localStorage.setItem('childrenList', JSON.stringify(childrenList));
             renderChildren(childrenList);
-            speakText("ಐಡಿ ಅಳಿಸಲಾಗಿದೆ");
         }
     }
 
@@ -634,7 +646,6 @@
 
         if(!foundChild) {
             resultContainer.innerHTML = "<p style='color:red; text-align:center;'>ಈ ಐಡಿ ಇರುವ ಮಗು ಕಂಡುಬಂದಿಲ್ಲ!</p>";
-            speakText("ಮಗು ಕಂಡುಬಂದಿಲ್ಲ");
             return;
         }
 
@@ -650,10 +661,9 @@
                         <p style="margin: 0; font-size: 13px;">ತರಗತಿ: ${foundChild.className} | ಊರು: ${foundChild.village}</p>
                     </div>
                 </div>
-                <button style="background-color: #28a745; margin-top: 15px;" onclick='confirmAttendanceAndNotify("${foundChild.name}", "${foundChild.phone}", "${foundChild.id}")'>✅ ಚೆಕ್ ಮಾಡಿ ಹಾಜರಾತಿ ಖಚಿತಪಡಿಸಿ[span_42](start_span)[span_42](end_span)[span_43](start_span)[span_43](end_span)[span_44](start_span)[span_44](end_span)</button>
+                <button class="main-btn" style="background-color: #28a745; color: white; margin-top: 15px;" onclick='confirmAttendanceAndNotify("${foundChild.name}", "${foundChild.phone}", "${foundChild.id}")'>✅ ಚೆಕ್ ಮಾಡಿ ಹಾಜರಾತಿ ಖಚಿತಪಡಿಸಿ</button>
             </div>
         `;
-        speakText("ಮಗು ಪತ್ತೆಯಾಗಿದೆ. ಹಾಜರಾತಿ ಖಚಿತಪಡಿಸಿ.");
     }
 
     function confirmAttendanceAndNotify(childName, parentPhone, childId) {
@@ -663,7 +673,6 @@
         document.getElementById('popupTitle').innerText = "ಹಾಜರಾತಿ ಯಶಸ್ವಿ!";
         document.getElementById('popupMessage').innerText = `ಮಕ್ಕಳ ಹಾಜರಾತಿ ಯಶಸ್ವಿಯಾಗಿದೆ!\nಪೋಷಕರಿಗೆ (${parentPhone}) ವಾಟ್ಸಾಪ್ ನೋಟಿಫಿಕೇಶನ್ ಕಳುಹಿಸಲಾಗಿದೆ.`;
         document.getElementById('popupModal').style.display = 'block';
-        speakText("ಮಕ್ಕಳ ಹಾಜರಾತಿ ಸಕ್ಸಸ್ ಆಗಿದೆ. ಪೋಷಕರಿಗೆ ನೋಟಿಫಿಕೇಶನ್ ಕಳುಹಿಸಲಾಗಿದೆ.");
 
         window.open(whatsappUrl, '_blank');
 
