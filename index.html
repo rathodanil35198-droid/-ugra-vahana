@@ -1,455 +1,238 @@
-<!DOCTYPE html>
-<html lang="kn">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ನಮ್ಮದೇಶಿ ಶಾಲಾ ಹಾಜರಾತಿ ಆಪ್</title>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f4f8; margin: 0; padding: 15px; }
-        .container { max-width: 550px; margin: auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: relative; }
-        h2 { color: #2c3e50; text-align: center; margin-bottom: 20px; }
-        .btn { width: 100%; padding: 12px; margin: 10px 0; background-color: #3498db; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .btn:hover { background-color: #2980b9; }
-        .btn-admin { background-color: #e74c3c; }
-        .btn-success { background-color: #27ae60; }
-        .btn-success:hover { background-color: #219653; }
-        input, select { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 14px; }
-        .hidden { display: none; }
-        .fixed-back { position: sticky; top: 0; z-index: 100; background: #e74c3c; color: white; padding: 10px; border-radius: 6px; text-align: center; cursor: pointer; margin-bottom: 15px; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-        video, canvas { width: 100%; max-height: 220px; border-radius: 6px; margin-top: 8px; background: #000; object-fit: cover; }
-        .card { background: #fdfdfd; border: 1px solid #e1e8ed; padding: 12px; margin-bottom: 12px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        .flex-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        /* ಪಾಪ್-ಅಪ್ ವಿಂಡೋ ಸ್ಟೈಲ್ */
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); justify-content: center; align-items: center; }
-        .modal-content { background-color: #fff; padding: 25px; border-radius: 10px; width: 85%; max-width: 400px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-    </style>
-</head>
-<body onload="checkAutoLogin()">
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:camera/camera.dart';
+import 'dart:math';
 
-<div class="container" id="app">
-    <!-- ಮೇಲ್ಭಾಗದ ಹೆಡರ್ ಮತ್ತು ಭಾಷಾ ಆಯ್ಕೆ -->
-    <div id="topNav" class="hidden">
-        <div class="fixed-back" onclick="goHome()">⬅ ಮುಖಪುಟಕ್ಕೆ ಹಿಂತಿರುಗಿ (Back)</div>
-    </div>
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final cameras = await availableCameras();
+  final firstCamera = cameras.first;
+  
+  // ಈಗಾಗಲೇ ಲಾಗಿನ್ ಆಗಿದೆಯೇ ಎಂದು ಪರಿಶೀಲಿಸಲು
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
 
-    <div class="flex-row">
-        <button onclick="toggleVoice()" id="voiceToggleBtn" style="padding: 8px 12px; background: #e67e22; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 13px;">🔊 ಧ್ವನಿ: ಚಾಲು</button>
-        <select id="langSelect" onchange="changeLanguage()" style="width: auto; padding: 6px;">
-            <option value="kn">ಕನ್ನಡ</option>
-            <option value="en">English</option>
-            <option value="hi">हिंदी</option>
-        </select>
-    </div>
+  runApp(SchoolSafetyApp(isLoggedIn: isLoggedIn, camera: firstCamera));
+}
 
-    <!-- 1. ಲಾಗಿನ್ ಪೇಜ್ (ಒಮ್ಮೆ ಲಾಗಿನ್ ಆದರೆ ಮತ್ತೆ ಬರುವುದಿಲ್ಲ) -->
-    <div id="loginPage">
-        <h2>ನಮ್ಮದೇಶಿ ಲಾಗಿನ್</h2>
-        <input type="text" id="loginName" placeholder="ನಿಮ್ಮ ಹೆಸರು">
-        <input type="tel" id="loginMobile" placeholder="ಮೊಬೈಲ್ ನಂಬರ್ (10 ಅಂಕಿ)">
-        <button class="btn" onclick="saveLogin()">ಲಾಗಿನ್ ಮಾಡಿ</button>
-    </div>
+class SchoolSafetyApp extends StatelessWidget {
+  final bool isLoggedIn;
+  final CameraDescription camera;
 
-    <!-- 2. ಮುಖ್ಯ ಪೇಜ್ -->
-    <div id="homePage" class="hidden">
-        <h2>ಮುಖ್ಯ ಪೇಜ್ - ಸ್ವಾಗತ</h2>
-        <button class="btn" onclick="showPage('teacherRegPage')">👨‍🏫 ಶಿಕ್ಷಕರ ನೋಂದಣಿ (ಫಾರ್ಮ್)</button>
-        <button class="btn btn-success" onclick="showPage('studentRegPage')">👦 ಮಕ್ಕಳ ನೋಂದಣಿ (ಫಾರ್ಮ್)</button>
-        <button class="btn" style="background-color: #8e44ad;" onclick="showPage('teacherDashboardPage')">📋 ನನ್ನ ನೋಂದಾಯಿತ ಮಕ್ಕಳ ಪಟ್ಟಿ & PDF</button>
-        <button class="btn" style="background-color: #d35400;" onclick="showPage('attendancePage')">✅ ಮಕ್ಕಳ ಹಾಜರಾತಿ ಹಾಕಿ</button>
-        <button class="btn btn-admin" onclick="logout()">ಲಾಗಿನ್‌ನಿಂದ ಹೊರಬಡಿ (Logout)</button>
-    </div>
+  SchoolSafetyApp({required this.isLoggedIn, required this.camera});
 
-    <!-- 3. ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಪುಟ -->
-    <div id="teacherRegPage" class="hidden">
-        <h2>ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಫಾರ್ಮ್</h2>
-        <input type="text" id="tName" placeholder="ಪೂರ್ಣ ಹೆಸರು">
-        <input type="tel" id="tMobile" placeholder="ಮೊಬೈಲ್ ನಂಬರ್">
-        <input type="text" id="tDistrict" placeholder="ಜಿಲ್ಲೆ">
-        <input type="text" id="tTaluk" placeholder="ತಾಲೂಕು">
-        <input type="text" id="tVillage" placeholder="ಊರು">
-        
-        <select id="tInstitutionType" onchange="updateClassOptions()">
-            <option value="highschool">ಹೈಸ್ಕೂಲ್ (High School)</option>
-            <option value="college">ಕಾಲೇಜು / ಡಿಗ್ರಿ (College)</option>
-        </select>
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'ಶಾಲೆ ಮತ್ತು ಮಕ್ಕಳ ಸುರಕ್ಷತಾ ಆಪ್',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: isLoggedIn ? HomePage() : LoginScreen(camera: camera),
+    );
+  }
+}
 
-        <select id="tClassRange">
-            <!-- ಜಾವಾಸ್ಕ್ರಿಪ್ಟ್ ಮೂಲಕ ತರಗತಿಗಳು ಬದಲಾಗುತ್ತವೆ -->
-        </select>
+// ೧. ಲಾಗಿನ್ ಪೇಜ್ (Login Screen)
+class LoginScreen extends StatefulWidget {
+  final CameraDescription camera;
+  LoginScreen({required this.camera});
 
-        <select id="tSubject">
-            <option value="ಇಂಗ್ಲಿಷ್">ಇಂಗ್ಲಿಷ್</option>
-            <option value="ಹಿಂದಿ">ಹಿಂದಿ</option>
-            <option value="ಕನ್ನಡ">ಕನ್ನಡ</option>
-            <option value="ಸಮಾಜ ವಿಜ್ಞಾನ">ಸಮಾಜ ವಿಜ್ಞಾನ</option>
-            <option value="ಗಣಿತ">ಗಣಿತ</option>
-        </select>
-        
-        <p style="margin: 8px 0; font-weight: bold;">ನಿಮ್ಮ ಸೆಲ್ಫಿ / ಶಾಲಾ ಐಡಿ ಫೋಟೋ ತೆಗೆಯಿರಿ:</p>
-        <video id="tVideo" autoplay playsinline style="display:none;"></video>
-        <canvas id="tCanvas" style="display:none;"></canvas>
-        <button type="button" class="btn btn-success" onclick="startCamera('tVideo', 'tCaptureBtn')">📸 ಕ್ಯಾಮೆರಾ ತೆರೆಯಿರಿ</button>
-        <button type="button" class="btn hidden" id="tCaptureBtn" onclick="capturePhoto('tVideo', 'tCanvas', 'tPhotoData', 'tPreview')">ಫೋಟೋ ಸೆರೆಹಿಡಿಯಿರಿ (Capture)</button>
-        <input type="hidden" id="tPhotoData">
-        <div id="tPreview" style="margin-top:8px;"></div>
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
 
-        <button class="btn" onclick="registerTeacher()">ನೋಂದಾಯಿಸಿ & 4-ಅಂಕಿಯ ID ಪಡೆಯಿರಿ</button>
-    </div>
+class _LoginScreenState extends State<LoginScreen> {
+  final _nameController = TextEditingController();
+  final _phoneController = TextEditingController();
 
-    <!-- 4. ಮಕ್ಕಳ ನೋಂದಣಿ ಪುಟ -->
-    <div id="studentRegPage" class="hidden">
-        <h2>ಮಕ್ಕಳ ನೋಂದಣಿ ಫಾರ್ಮ್</h2>
-        <input type="number" id="sTeacherId" placeholder="ನಿಮ್ಮ 4-ಅಂಕಿಯ ಟೀಚರ್ ಐಡಿ ಹಾಕಿ" maxlength="4">
-        <input type="text" id="sName" placeholder="ಮಗುವಿನ ಹೆಸರು">
-        <input type="text" id="sParentName" placeholder="ತಂದೆ ಅಥವಾ ತಾಯಿಯ ಹೆಸರು">
-        <input type="text" id="sVillage" placeholder="ಊರು">
-        <input type="text" id="sClass" placeholder="ಎಷ್ಟನೇ ತರಗತಿ (ಉದಾ: 8ನೇ ತರಗತಿ)">
-        <input type="tel" id="sParentMobile" placeholder="ಪೋಷಕರ ಮೊಬೈಲ್ ನಂಬರ್">
-        
-        <p style="margin: 8px 0; font-weight: bold;">ಮಗುವಿನ ಸೆಲ್ಫಿ ಫೋಟೋ:</p>
-        <video id="sVideo" autoplay playsinline style="display:none;"></video>
-        <canvas id="sCanvas" style="display:none;"></canvas>
-        <button type="button" class="btn btn-success" onclick="startCamera('sVideo', 'sCaptureBtn')">📸 ಸೆಲ್ಫಿ ಕ್ಯಾಮೆರಾ ತೆರೆಯಿರಿ</button>
-        <button type="button" class="btn hidden" id="sCaptureBtn" onclick="capturePhoto('sVideo', 'sCanvas', 'sPhotoData', 'sPreview')">ಸೆಲ್ಫಿ ಸೆರೆಹಿಡಿಯಿರಿ</button>
-        <input type="hidden" id="sPhotoData">
-        <div id="sPreview" style="margin-top:8px;"></div>
+  void _handleLogin() async {
+    if (_nameController.text.isNotEmpty && _phoneController.text.length == 10) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('isLoggedIn', true);
+      await prefs.setString('userName', _nameController.text);
 
-        <button class="btn" onclick="registerStudent()">ಮಗುವನ್ನು ನೋಂದಾಯಿಸಿ</button>
-    </div>
-
-    <!-- 5. ಶಿಕ್ಷಕರ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್ ಮತ್ತು PDF ಡೌನ್‌ಲೋಡ್ ಪುಟ -->
-    <div id="teacherDashboardPage" class="hidden">
-        <h2>ನನ್ನ ನೋಂದಾಯಿತ ಮಕ್ಕಳ ಪಟ್ಟಿ</h2>
-        <input type="number" id="dashTeacherId" placeholder="ನಿಮ್ಮ 4-ಅಂಕಿಯ ಟೀಚರ್ ಐಡಿ ಹಾಕಿ" maxlength="4">
-        <button class="btn" onclick="loadTeacherDashboard()">ಮಕ್ಕಳ ವಿವರಗಳನ್ನು ನೋಡಿ</button>
-        <div id="dashContent" style="margin-top: 15px; max-height: 350px; overflow-y: auto;"></div>
-        <button class="btn btn-success hidden" id="downloadTeacherPdfBtn" onclick="downloadTeacherPDF()">📥 ಎಲ್ಲಾ ಮಕ್ಕಳ PDF ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ</button>
-    </div>
-
-    <!-- 6. ಹಾಜರಾತಿ ಪುಟ -->
-    <div id="attendancePage" class="hidden">
-        <h2>ಮಕ್ಕಳ ಹಾಜರಾತಿ ದಾಖಲು</h2>
-        <input type="number" id="attTeacherId" placeholder="ನಿಮ್ಮ 4-ಅಂಕಿಯ ಟೀಚರ್ ಐಡಿ ಹಾಕಿ" maxlength="4">
-        <input type="number" id="attStudentId" placeholder="ಮಗುವಿನ 4-ಅಂಕಿಯ ಐಡಿ ಹಾಕಿ" maxlength="4">
-        
-        <p style="font-weight: bold;">ಕ್ಯಾಮೆರಾ ಮುಂದೆ ಮಗುವಿನ ಮುಖ ತೋರಿಸಿ:</p>
-        <video id="attVideo" autoplay playsinline style="display:none;"></video>
-        <canvas id="attCanvas" style="display:none;"></canvas>
-        <button type="button" class="btn btn-success" onclick="startCamera('attVideo', 'attCaptureBtn')">📸 ಪರಿಶೀಲನೆಗೆ ಕ್ಯಾಮೆರಾ ತೆರೆಯಿರಿ</button>
-        <button type="button" class="btn hidden" id="attCaptureBtn" onclick="verifyAndMarkAttendance()">ಚೆಕ್ ಮಾರ್ಕ್ ಹಾಕಿ ಓಕೆ ಮಾಡಿ (Verify)</button>
-    </div>
-</div>
-
-<!-- ಪಾಪ್-ಅಪ್ ಸಂದೇಶ ವಿಂಡೋ (Popup Modal) -->
-<div id="popupModal" class="modal">
-    <div class="modal-content">
-        <h3 id="popupTitle" style="color: #27ae60;">ಯಶಸ್ವಿಯಾಗಿದೆ</h3>
-        <p id="popupMessage" style="font-size: 16px; margin: 15px 0;"></p>
-        <button class="btn" onclick="closePopupAndGoHome()">ಸರಿ (OK)</button>
-    </div>
-</div>
-
-<script>
-    let teachers = JSON.parse(localStorage.getItem('teachers')) || [];
-    let students = JSON.parse(localStorage.getItem('students')) || [];
-    let attendanceRecords = JSON.parse(localStorage.getItem('attendanceRecords')) || [];
-    let voiceEnabled = true;
-    let currentStream = null;
-
-    function speakText(text) {
-        if (!voiceEnabled || !('speechSynthesis' in window)) return;
-        window.speechSynthesis.cancel();
-        let lang = document.getElementById('langSelect').value;
-        let utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = lang === 'kn' ? 'kn-IN' : (lang === 'hi' ? 'hi-IN' : 'en-US');
-        window.speechSynthesis.speak(utterance);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomePage()),
+      );
+    } else {
+      Scaffold.ោង("దయವಿಟ್ಟು ಸರಿಯಾದ ಹೆಸರು ಮತ್ತು ಮೊಬೈಲ್ ನಂಬರ್ ಹಾಕಿ");
     }
+  }
 
-    function toggleVoice() {
-        voiceEnabled = !voiceEnabled;
-        let btn = document.getElementById('voiceToggleBtn');
-        btn.innerText = voiceEnabled ? "🔊 ಧ್ವನಿ: ಚಾಲು" : "🔇 ಧ್ವನಿ: ಬಂದ್";
-        speakText(voiceEnabled ? "ಧ್ವನಿ ಸಹಾಯ ಚಾಲು" : "ಧ್ವನಿ ಸಹಾಯ ಬಂದ್");
-    }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('ಲಾಗಿನ್ ಮಾಡಿ')),
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextField(
+              controller: _nameController,
+              decoration: InputDecoration(labelText: 'ನಿಮ್ಮ ಹೆಸರು', border: OutlineInputBorder()),
+            ),
+            SizedBox(height: 15),
+            TextField(
+              controller: _phoneController,
+              keyboardType: TextInputType.phone,
+              decoration: InputDecoration(labelText: 'ಮೊಬೈಲ್ ನಂಬರ್', border: OutlineInputBorder()),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _handleLogin,
+              child: Text('ಸರಿ (OK)', style: TextStyle(fontSize: 18)),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
-    function checkAutoLogin() {
-        let savedUser = localStorage.getItem('loggedUser');
-        if (savedUser) {
-            showPage('homePage');
-            speakText("ಮುಖ್ಯ ಪೇಜ್‌ಗೆ ಸ್ವಾಗತ");
-        } else {
-            showPage('loginPage');
-            speakText("ನಮ್ಮದೇಶಿ ಲಾಗಿನ್ ಪೇಜ್‌ಗೆ ಸ್ವಾಗತ. ದಯವಿಟ್ಟು ಲಾಗಿನ್ ಮಾಡಿ");
-        }
-    }
+// ೨. ಮುಖ್ಯ ಮುಖಪುಟ (Home Page)
+class HomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('ಮುಖ್ಯ ಮುಖಪುಟ'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.language),
+            onPressed: () {
+              // ಭಾಷಾ ಸೆಟ್ಟಿಂಗ್ಸ್ (ಕನ್ನಡ, ಇಂಗ್ಲಿಷ್, ಹಿಂದಿ) ಆಯ್ಕೆ ಇಲ್ಲಿ ಬರಬಹುದು
+            },
+          )
+        ],
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15)),
+              icon: Icon(Icons.person, size: 28),
+              label: Text('ಶಿಕ್ಷಕರು (Teacher)', style: TextStyle(fontSize: 20)),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => TeacherFormScreen()),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
-    function saveLogin() {
-        let name = document.getElementById('loginName').value;
-        let mobile = document.getElementById('loginMobile').value;
-        if (name && mobile.length >= 10) {
-            localStorage.setItem('loggedUser', JSON.stringify({ name, mobile }));
-            speakText("ಲಾಗಿನ್ ಯಶಸ್ವಿಯಾಗಿದೆ");
-            showPage('homePage');
-        } else {
-            speakText("ದಯವಿಟ್ಟು ಸರಿಯಾದ ಹೆಸರು ಮತ್ತು ಮೊಬೈಲ್ ನಂಬರ್ ಹಾಕಿ");
-            alert('ದಯವಿಟ್ಟು ಸರಿಯಾದ ಹೆಸರು ಮತ್ತು 10 ಅಂಕಿಯ ಮೊಬೈಲ್ ನಂಬರ್ ಹಾಕಿ!');
-        }
-    }
+// ೩. ಶಿಕ್ಷಕರ ವಿವರಗಳ ನಮೂನೆ (Teacher Details Form)
+class TeacherFormScreen extends StatefulWidget {
+  @override
+  _TeacherFormScreenState createState() => _TeacherFormScreenState();
+}
 
-    function logout() {
-        localStorage.removeItem('loggedUser');
-        showPage('loginPage');
-        speakText("ಲಾಗಿನ್‌ನಿಂದ ಹೊರಬರಲಾಗಿದೆ");
-    }
+class _TeacherFormScreenState extends State<TeacherFormScreen> {
+  String? selectedClass;
+  String? selectedSubject;
 
-    function showPage(pageId) {
-        let pages = ['loginPage', 'homePage', 'teacherRegPage', 'studentRegPage', 'teacherDashboardPage', 'attendancePage'];
-        pages.forEach(p => document.getElementById(p).classList.add('hidden'));
-        document.getElementById(pageId).classList.remove('hidden');
+  final List<String> classes = ['LKG', 'UKG', '1ನೇ ತರಗತಿ', '2ನೇ ತರಗತಿ', '3ನೇ ತರಗತಿ', '4ನೇ ತರಗತಿ', '5ನೇ ತರಗತಿ', '6ನೇ ತರಗತಿ', '7ನೇ ತರಗತಿ', '8ನೇ ತರಗತಿ', '9ನೇ ತರಗತಿ', '10ನೇ ತರಗತಿ', 'PUC', 'Degree'];
+  final List<String> subjects = ['ಕನ್ನಡ', 'ಇಂಗ್ಲಿಷ್', 'ಹಿಂದಿ', 'ಗಣಿತ', 'ವಿಜ್ಞಾನ', 'ಸಮಾಜ ವಿಜ್ಞಾನ'];
 
-        if (pageId === 'homePage' || pageId === 'loginPage') {
-            document.getElementById('topNav').classList.add('hidden');
-        } else {
-            document.getElementById('topNav').classList.remove('hidden');
-        }
-        if(pageId === 'teacherRegPage') updateClassOptions();
-    }
+  void _generateIdAndProceed() {
+    int randomId = Random().nextInt(9000) + 1000; // 4 ಡಿಜಿಟ್ ನಂಬರ್
+    
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('ಯಶಸ್ವಿಯಾಗಿದೆ!'),
+        content: Text('ನಿಮ್ಮ 4 ಡಿಜಿಟ್ ಐಡಿ ಸಂಖ್ಯೆ: $randomId\nಮಕ್ಕಳ ಹಾಜರಾತಿ ಹಾಕುವಾಗ ಇದು ಬೇಕಾಗುತ್ತದೆ. ದಯವಿಟ್ಟು ನೆನಪಿನಲ್ಲಿಡಿ.'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.push(context, MaterialPageRoute(builder: (context) => IdDetailsScreen(id: randomId)));
+            },
+            child: Text('ಸರಿ (OK)'),
+          ),
+        ],
+      ),
+    );
+  }
 
-    function goHome() {
-        if (currentStream) {
-            currentStream.getTracks().forEach(track => track.stop());
-        }
-        showPage('homePage');
-        speakText("ಮುಖಪುಟಕ್ಕೆ ಹಿಂತಿರುಗಲಾಗಿದೆ");
-    }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('ಶಿಕ್ಷಕರ ವಿವರಗಳು')),
+      body: ListView(
+        padding: EdgeInsets.all(16.0),
+        children: [
+          TextField(decoration: InputDecoration(labelText: 'ನಿಮ್ಮ ಹೆಸರು')),
+          TextField(decoration: InputDecoration(labelText: 'ಮೊಬೈಲ್ ನಂಬರ್')),
+          TextField(decoration: InputDecoration(labelText: 'ಜಿಲ್ಲೆ')),
+          TextField(decoration: InputDecoration(labelText: 'ತಾಲೂಕು')),
+          TextField(decoration: InputDecoration(labelText: 'ಊರು')),
+          TextField(decoration: InputDecoration(labelText: 'ಹೈಸ್ಕೂಲ್ / ಕಾಲೇಜು ಹೆಸರು')),
+          SizedBox(height: 15),
+          DropdownButtonFormField<String>(
+            decoration: InputDecoration(labelText: 'ತರಗತಿ ಆಯ್ಕೆಮಾಡಿ'),
+            items: classes.map((c) => DropdownMenuItem(value: c, child: Text(c))).toList(),
+            onChanged: (val) => setState(() => selectedClass = val),
+          ),
+          SizedBox(height: 15),
+          DropdownButtonFormField<String>(
+            decoration: InputDecoration(labelText: 'ಪಾಠದ ವಿಷಯ ಆಯ್ಕೆಮಾಡಿ'),
+            items: subjects.map((s) => DropdownMenuItem(value: s, child: Text(s))).toList(),
+            onChanged: (val) => setState(() => selectedSubject = val),
+          ),
+          SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: _generateIdAndProceed,
+            child: Text('ಸಂರಕ್ಷಿಸಿ ಮತ್ತು ಐಡಿ ಪಡೆಯಿರಿ'),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
-    function updateClassOptions() {
-        let type = document.getElementById('tInstitutionType').value;
-        let select = document.getElementById('tClassRange');
-        select.innerHTML = '';
-        if (type === 'highschool') {
-            select.innerHTML = `<option value="1 ರಿಂದ 10ನೇ ತರಗತಿ">1 ರಿಂದ 10ನೇ ತರಗತಿ ವರೆಗೆ</option>
-                                <option value="8 ರಿಂದ 10ನೇ ತರಗತಿ">8 ರಿಂದ 10ನೇ ತರಗತಿ ವರೆಗೆ</option>`;
-            speakText("ಹೈಸ್ಕೂಲ್ ತರಗತಿಗಳು ಆಯ್ಕೆಯಾಗಿವೆ");
-        } else {
-            select.innerHTML = `<option value="ಪಿಯುಸಿ (11 ಮತ್ತು 12)">ಪಿಯುಸಿ (1st & 2nd PUC)</option>
-                                <option value="ಡಿಗ್ರಿ ವರೆಗೆ">ಡಿಗ್ರಿ ವರೆಗೆ (Degree)</option>`;
-            speakText("ಕಾಲೇಜು ತರಗತಿಗಳು ಆಯ್ಕೆಯಾಗಿವೆ");
-        }
-    }
+// ೪. ಐಡಿ ಮತ್ತು ಮಕ್ಕಳನ್ನು ಸೇರಿಸುವ ಪೇಜ್ (ID Page & Add Children Button)
+class IdDetailsScreen extends StatelessWidget {
+  final int id;
+  IdDetailsScreen({required this.id});
 
-    function generateId() {
-        return Math.floor(1000 + Math.random() * 9000);
-    }
-
-    function startCamera(videoId, captureBtnId) {
-        let video = document.getElementById(videoId);
-        document.getElementById(captureBtnId).classList.remove('hidden');
-        video.style.display = 'block';
-
-        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-            navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } })
-            .then(function(stream) {
-                currentStream = stream;
-                video.srcObject = stream;
-                speakText("ಕ್ಯಾಮೆರಾ ತೆರೆಯಲಾಗಿದೆ");
-            })
-            .catch(function(err) {
-                alert("ಕ್ಯಾಮೆರಾ ಅನುಮತಿ ಸಿಕ್ಕಿಲ್ಲ. ದಯವಿಟ್ಟು ಬ್ರೌಸರ್ ಸೆಟ್ಟಿಂಗ್ಸ್‌ನಲ್ಲಿ Camera Permission Allow ಮಾಡಿ ಅಥವಾ HTTPS ಲಿಂಕ್ ಬಳಸಿ.");
-                speakText("ಕ್ಯಾಮೆರಾ ಅನುಮತಿ ಸಿಕ್ಕಿಲ್ಲ");
-            });
-        } else {
-            alert("ನಿಮ್ಮ ಬ್ರೌಸರ್ ಕ್ಯಾಮೆರಾ ಬೆಂಬಲಿಸುವುದಿಲ್ಲ.");
-        }
-    }
-
-    function capturePhoto(videoId, canvasId, inputId, previewId) {
-        let video = document.getElementById(videoId);
-        let canvas = document.getElementById(canvasId);
-        canvas.width = video.videoWidth || 300;
-        canvas.height = video.videoHeight || 200;
-        let ctx = canvas.getContext('2d');
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-        let dataUrl = canvas.toDataURL('image/png');
-        document.getElementById(inputId).value = dataUrl;
-
-        if (currentStream) {
-            currentStream.getTracks().forEach(track => track.stop());
-        }
-        video.style.display = 'none';
-        document.getElementById(previewId).innerHTML = `<img src="${dataUrl}" style="width:100px; height:80px; border-radius:5px;"><p style="color:green; font-weight:bold; margin:2px 0;">✓ ಫೋಟೋ ಸೆರೆಹಿಡಿಯಲಾಗಿದೆ!</p>`;
-        speakText("ಫೋಟೋ ಯಶಸ್ವಿಯಾಗಿ ಸೆರೆಹಿಡಿಯಲಾಗಿದೆ");
-    }
-
-    function showPopup(title, msg) {
-        document.getElementById('popupTitle').innerText = title;
-        document.getElementById('popupMessage').innerHTML = msg;
-        document.getElementById('popupModal').style.display = 'flex';
-        speakText(title + ". " + msg.replace(/<[^>]*>?/gm, ''));
-    }
-
-    function closePopupAndGoHome() {
-        document.getElementById('popupModal').style.display = 'none';
-        goHome();
-    }
-
-    function registerTeacher() {
-        let name = document.getElementById('tName').value;
-        let mobile = document.getElementById('tMobile').value;
-        if (!name || !mobile) {
-            speakText("ದಯವಿಟ್ಟು ಎಲ್ಲಾ ಮಾಹಿತಿ ಭರ್ತಿ ಮಾಡಿ");
-            alert('ದಯವಿಟ್ಟು ಎಲ್ಲಾ ಮಾಹಿತಿ ಭರ್ತಿ ಮಾಡಿ!');
-            return;
-        }
-
-        let id = generateId();
-        let teacherData = {
-            id: id,
-            name: name,
-            mobile: mobile,
-            district: document.getElementById('tDistrict').value,
-            taluk: document.getElementById('tTaluk').value,
-            village: document.getElementById('tVillage').value,
-            institutionType: document.getElementById('tInstitutionType').value,
-            classRange: document.getElementById('tClassRange').value,
-            subject: document.getElementById('tSubject').value,
-            photo: document.getElementById('tPhotoData').value
-        };
-
-        teachers.push(teacherData);
-        localStorage.setItem('teachers', JSON.stringify(teachers));
-
-        showPopup("ಅಭಿನಂದನೆಗಳು! ನೋಂದಣಿ ಯಶಸ್ವಿಯಾಗಿದೆ", 
-            `ಈ ನಾಲ್ಕು ಡಿಜಿಟಲ್ ಐಡಿಗಳು ನಿಮ್ಮ ಗಮನದಲ್ಲಿ ಇಟ್ಟುಕೊಳ್ಳಿ:<br><b style="font-size:24px; color:#e74c3c;">${id}</b><br><br>ಮಕ್ಕಳು ಹಾಜರಾತಿ ಹಾಕುವಾಗ ಈ ಕೋಡನ್ನು ಅಲ್ಲಿ ಹಾಕಬೇಕಾಗುತ್ತದೆ.`);
-    }
-
-    function registerStudent() {
-        let tid = document.getElementById('sTeacherId').value;
-        let sname = document.getElementById('sName').value;
-        if (tid.length !== 4) {
-            alert('ದಯವಿಟ್ಟು 4-ಅಂಕಿಯ ಸರಿಯಾದ ಟೀಚರ್ ಐಡಿ ಹಾಕಿ!');
-            speakText("ನಾಲ್ಕು ಅಂಕಿಯ ಟೀಚರ್ ಐಡಿ ಹಾಕಿ");
-            return;
-        }
-
-        let tCheck = teachers.find(t => t.id == tid);
-        if (!tCheck) {
-            alert('ಈ ಟೀಚರ್ ಐಡಿ ಲಭ್ಯವಿಲ್ಲ! ಮೊದಲು ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಮಾಡಿ.');
-            speakText("ಈ ಟೀಚರ್ ಐಡಿ ಸಿಗಲಿಲ್ಲ");
-            return;
-        }
-
-        let id = generateId();
-        let studentData = {
-            id: id,
-            teacherId: tid,
-            name: sname,
-            parentName: document.getElementById('sParentName').value,
-            village: document.getElementById('sVillage').value,
-            class: document.getElementById('sClass').value,
-            parentMobile: document.getElementById('sParentMobile').value,
-            selfiePhoto: document.getElementById('sPhotoData').value
-        };
-
-        students.push(studentData);
-        localStorage.setItem('students', JSON.stringify(students));
-
-        showPopup("ಮಗುವಿನ ನೋಂದಣಿ ಯಶಸ್ವಿಯಾಗಿದೆ!", 
-            `ಮಗುವಿನ 4-ಅಂಕಿಯ ಐಡಿ:<br><b style="font-size:24px; color:#27ae60;">${id}</b><br><br>ಈ ಐಡಿಯನ್ನು ಹಾಜರಾತಿಗಾಗಿ ನೆನಪಿನಲ್ಲಿಡಿ.`);
-    }
-
-    function loadTeacherDashboard() {
-        let tid = document.getElementById('dashTeacherId').value;
-        if (tid.length !== 4) {
-            alert('ದಯವಿಟ್ಟು 4-ಅಂಕಿಯ ಟೀಚರ್ ಐಡಿ ಹಾಕಿ!');
-            return;
-        }
-
-        let teacherStudents = students.filter(s => s.teacherId == tid);
-        let content = `<p><b>ಒಟ್ಟು ಮಕ್ಕಳು:</b> ${teacherStudents.length}</p>`;
-        
-        if (teacherStudents.length === 0) {
-            content += `<p style="color:red;">ಈ ಐಡಿಗೆ ಯಾವುದೇ ಮಕ್ಕಳು ನೋಂದಣಿಯಾಗಿಲ್ಲ.</p>`;
-            document.getElementById('downloadTeacherPdfBtn').classList.add('hidden');
-        } else {
-            teacherStudents.forEach((s, idx) => {
-                content += `<div class="card">
-                    <b>${idx + 1}. ಹೆಸರು:</b> ${s.name} (ಮಗುವಿನ ID: <span style="color:blue;">${s.id}</span>)<br>
-                    <b>ತರಗತಿ:</b> ${s.class} | <b>ಊರು:</b> ${s.village}<br>
-                    <b>ಪೋಷಕರು:</b> ${s.parentName} (${s.parentMobile})
-                </div>`;
-            });
-            document.getElementById('downloadTeacherPdfBtn').classList.remove('hidden');
-        }
-        document.getElementById('dashContent').innerHTML = content;
-        speakText("ಮಕ್ಕಳ ಪಟ್ಟಿ ತೋರಿಸಲಾಗಿದೆ");
-    }
-
-    function downloadTeacherPDF() {
-        let tid = document.getElementById('dashTeacherId').value;
-        let teacher = teachers.find(t => t.id == tid);
-        let teacherStudents = students.filter(s => s.teacherId == tid);
-
-        let reportText = `=== ಶಿಕ್ಷಕರ ಮತ್ತು ಮಕ್ಕಳ ಹಾಜರಾತಿ ವರದಿ ===\n`;
-        reportText += `ಶಿಕ್ಷಕರ ಹೆಸರು: ${teacher ? teacher.name : 'N/A'} (ID: ${tid})\n`;
-        reportText += `ದಿನಾಂಕ: ${new Date().toLocaleDateString()}\n\n`;
-        
-        teacherStudents.forEach((s, idx) => {
-            reportText += `${idx + 1}. ಮಗುವಿನ ಹೆಸರು: ${s.name} | ID: ${s.id} | ತರಗತಿ: ${s.class} | ಪೋಷಕರ ಮೊಬೈಲ್: ${s.parentMobile}\n`;
-        });
-
-        let blob = new Blob([reportText], { type: 'text/plain;charset=utf-8' });
-        let link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = `Teacher_${tid}_Students_Report.txt`;
-        link.click();
-        speakText("ವರದಿ ಡೌನ್‌ಲೋಡ್ ಆಗಿದೆ");
-    }
-
-    function verifyAndMarkAttendance() {
-        let tid = document.getElementById('attTeacherId').value;
-        let sid = document.getElementById('attStudentId').value;
-
-        if (tid.length !== 4 || sid.length !== 4) {
-            alert('ದಯವಿಟ್ಟು ಸರಿಯಾದ 4-ಅಂಕಿಯ ಟೀಚರ್ ಮತ್ತು ಸ್ಟೂಡೆಂಟ್ ಐಡಿ ಹಾಕಿ!');
-            return;
-        }
-
-        let student = students.find(s => s.id == sid && s.teacherId == tid);
-        if (!student) {
-            alert('ತಪ್ಪಾದ ಐಡಿ ಅಥವಾ ಮಗು ಈ ಶಿಕ್ಷಕರ ಅಡಿಯಲ್ಲಿಲ್ಲ!');
-            speakText("ತಪ್ಪಾದ ಐಡಿ");
-            return;
-        }
-
-        if (currentStream) {
-            currentStream.getTracks().forEach(track => track.stop());
-        }
-        document.getElementById('attVideo').style.display, 'none';
-
-        let now = new Date();
-        let record = { studentId: student.id, studentName: student.name, parentMobile: student.parentMobile, dateStr: now.toLocaleString() };
-        attendanceRecords.push(record);
-        localStorage.setItem('attendanceRecords', JSON.stringify(attendanceRecords));
-
-        speakText("ಹಾಜರಾತಿ ಯಶಸ್ವಿಯಾಗಿದೆ. ವಾಟ್ಸಾಪ್ ಸಂದೇಶ ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ");
-        let msg = `ನಮಸ್ಕಾರ, ನಿಮ್ಮ ಮಗು ${student.name} (ID: ${student.id}) ಇಂದು ಶಾಲೆಗೆ ಹಾಜರಾಗಿದ್ದಾರೆ. ಸಮಯ: ${record.dateStr}`;
-        let whatsappUrl = `https://api.whatsapp.com/send?phone=91${student.parentMobile}&text=${encodeURIComponent(msg)}`;
-        window.open(whatsappUrl, '_blank');
-        goHome();
-    }
-
-    function changeLanguage() {
-        let lang = document.getElementById('langSelect').value;
-        if (lang === 'en') {
-            speakText("Language changed to English");
-        } else if (lang === 'kn') {
-            speakText("ಭಾಷೆಯನ್ನು ಕನ್ನಡಕ್ಕೆ ಬದಲಾಯಿಸಲಾಗಿದೆ");
-        } else if (lang === 'hi') {
-            speakText("भाषा हिंदी कर दी गई है");
-        }
-    }
-</script>
-
-</body>
-</html>
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('ನಿಮ್ಮ ಐಡಿ ವಿವರ'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            // ಮುಖಪುಟಕ್ಕೆ ಮರಳಲು
+            Navigator.popUntil(context, (route) => route.isFirst);
+          },
+        ),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('ನಿಮ್ಮ ಐಡಿ ಸಂಖ್ಯೆ: $id', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            SizedBox(height: 30),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+              onPressed: () {
+                // ಮಕ್ಕಳನ್ನು ಸೇರಿಸುವ ಪೇಜ್ ಗೆ ಹೋಗಲು
+              },
+              child: Text('ನಿಮ್ಮ ಮಕ್ಕಳನ್ನು ಸೇರಿಸಿ (Add Children)', style: TextStyle(fontSize: 18)),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
