@@ -446,9 +446,9 @@
             return;
         }
 
+        // ಫೋಟೋ ಆಯ್ಕೆ ಮಾಡದಿದ್ದರೆ ಡೀಫಾಲ್ಟ್ ಇಮೇಜ್ ಅಥವಾ ಎಚ್ಚರಿಕೆ ನೀಡಲು
         if(!capturedImageSrc) {
-            alert("ದಯವಿಟ್ಟು ನಿಮ್ಮ ಸೆಲ್ಫಿ ಫೋಟೋ ಆಯ್ಕೆಮಾಡಿ!");
-            return;
+            capturedImageSrc = "https://via.placeholder.com/150";
         }
 
         let generatedId = Math.floor(1000 + Math.random() * 9000).toString();
@@ -504,10 +504,13 @@
         let cVillage = document.getElementById('childVillage').value.trim();
         let cClass = document.getElementById('childClass').value;
 
-        if(!cName || !fName || !mName || pPhone.length !== 10 || !cVillage || !cClass || !childSelfieSrc || !schoolIdSrc) {
-            alert("ದಯವಿಟ್ಟು ಮಕ್ಕಳ ಎಲ್ಲಾ ವಿವರಗಳನ್ನು ಮತ್ತು ಫೋಟೋಗಳನ್ನು ಹಾಕಿ!");
+        if(!cName || !fName || !mName || pPhone.length !== 10 || !cVillage || !cClass) {
+            alert("ದಯವಿಟ್ಟು ಮಕ್ಕಳ ಎಲ್ಲಾ ವಿವರಗಳನ್ನು ಭರ್ತಿ ಮಾಡಿ!");
             return;
         }
+
+        if(!childSelfieSrc) childSelfieSrc = "https://via.placeholder.com/150";
+        if(!schoolIdSrc) schoolIdSrc = "https://via.placeholder.com/150";
 
         let childUniqueId = Math.floor(1000 + Math.random() * 9000).toString();
 
@@ -578,7 +581,7 @@
         if(confirm("ನೀವು ಈ ಮಗುವಿನ ಐಡಿಯನ್ನು ಅಳಿಸಲು ಬಯಸುತ್ತೀರಾ?")) {
             childrenList = childrenList.filter(c => c.id !== id);
             localStorage.setItem('childrenList', JSON.stringify(childrenList));
-            renderChildren(childrenList);
+            renderChildren(filtered);
         }
     }
 
