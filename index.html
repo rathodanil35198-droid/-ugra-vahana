@@ -60,9 +60,26 @@
         button:hover {
             background-color: #0056b3;
         }
+        /* ಸುಂದರವಾದ ಹಾಗೂ ಸಣ್ಣ ಬಟನ್‌ಗಳ ವಿನ್ಯಾಸ */
+        .small-btn {
+            width: 100%;
+            padding: 10px 15px;
+            font-size: 14px;
+            border-radius: 6px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: 0.2s;
+        }
+        .small-btn:active {
+            transform: scale(0.98);
+        }
         .back-btn {
             background-color: #6c757d;
             margin-bottom: 15px;
+            width: auto;
+            padding: 8px 12px;
+            font-size: 14px;
         }
         .back-btn:hover {
             background-color: #5a6268;
@@ -114,6 +131,7 @@
             padding: 8px;
             font-size: 14px;
             margin-top: 8px;
+            width: auto;
         }
         .delete-btn:hover {
             background-color: #c82333;
@@ -133,24 +151,24 @@
         </select>
     </div>
 
-    <!-- ೦. ಮುಖ್ಯ ಪೇಜ್ (Home Page) - ಎರಡು ಬಟನ್‌ಗಳು -->
+    <!-- ೦. ಮುಖ್ಯ ಪೇಜ್ (Home Page) - ಎರಡು ಸಣ್ಣ ಹಾಗೂ ಸುಂದರವಾದ ಬಟನ್‌ಗಳು -->
     <div id="homePage" class="page active-page">
         <h2 onclick="speakText(this.innerText)">ಶಾಲೆ ಮತ್ತು ಮಕ್ಕಳ ಸುರಕ್ಷತಾ ಆಪ್</h2>
-        <p style="text-align: center; color: #666; margin-bottom: 30px;">ದಯವಿಟ್ಟು ಕೆಳಗಿನ ಆಯ್ಕೆಯನ್ನು ಆರಿಸಿ[span_6](start_span)[span_6](end_span)[span_7](start_span)[span_7](end_span)[span_8](start_span)[span_8](end_span)</p>
+        <p style="text-align: center; color: #666; margin-bottom: 20px;">ದಯವಿಟ್ಟು ಕೆಳಗಿನ ಆಯ್ಕೆಯನ್ನು ಆರಿಸಿ</p>
         
-        <button style="background-color: #007bff; padding: 18px; font-size: 18px; margin-bottom: 20px;" onclick="goToTeacherRegister()">
-            👨‍🏫 ಶಿಕ್ಷಕರ ನೋಂದಣಿ (Teacher Registration)[span_9](start_span)[span_9](end_span)[span_10](start_span)[span_10](end_span)[span_11](start_span)[span_11](end_span)
+        <button class="small-btn" style="background-color: #007bff;" onclick="goToTeacherRegister(); speakText('ಶಿಕ್ಷಕರ ನೋಂದಣಿ');">
+            👨‍🏫 ಶಿಕ್ಷಕರ ನೋಂದಣಿ (Teacher Registration)
         </button>
         
-        <button style="background-color: #ffc107; color: #000; font-weight: bold; padding: 18px; font-size: 18px;" onclick="promptTeacherAttendanceId()">
-            📋 ಮಕ್ಕಳ ಹಾಜರಾತಿ (Student Attendance)[span_12](start_span)[span_12](end_span)[span_13](start_span)[span_13](end_span)[span_14](start_span)[span_14](end_span)
+        <button class="small-btn" style="background-color: #ffc107; color: #000;" onclick="promptTeacherAttendanceId(); speakText('ಮಕ್ಕಳ ಹಾಜರಾತಿ');">
+            📋 ಮಕ್ಕಳ ಹಾಜರಾತಿ (Student Attendance)
         </button>
     </div>
 
     <!-- ೧. ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಪೇಜ್ -->
     <div id="registerPage" class="page">
         <button class="back-btn" onclick="goToHomeFromRegister()">⬅ ಮುಖ್ಯ ಪೇಜ್‌ಗೆ ಹಿಂದಿರುಗಿ</button>
-        <h2 id="tRegTitle" onclick="speakText(this.innerText)">ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಪೇಜ್[span_15](start_span)[span_15](end_span)[span_16](start_span)[span_16](end_span)[span_17](start_span)[span_17](end_span)</h2>
+        <h2 id="tRegTitle" onclick="speakText(this.innerText)">ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಪೇಜ್</h2>
         
         <form id="teacherForm" onsubmit="validateAndSubmit(event)">
             <div class="form-group">
@@ -239,15 +257,15 @@
     <!-- ೨. ಐಡಿ ಮತ್ತು ಮುಖಪುಟ ಪೇಜ್ -->
     <div id="idPage" class="page">
         <button class="back-btn" onclick="goToHomeFromRegister()">⬅ ಮುಖ್ಯ ಪೇಜ್‌ಗೆ ಹಿಂದಿರುಗಿ</button>
-        <h2 onclick="speakText(this.innerText)">ನಿಮ್ಮ ಐಡಿ ವಿವರಗಳು[span_18](start_span)[span_18](end_span)[span_19](start_span)[span_19](end_span)[span_20](start_span)[span_20](end_span)</h2>
+        <h2 onclick="speakText(this.innerText)">ನಿಮ್ಮ ಐಡಿ ವಿವರಗಳು</h2>
         <div style="text-align: center;">
             <img id="displayPhoto" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 15px;" alt="ಫೋಟೋ">
             <h3 id="displayName"></h3>
             <p><b>ಐಡಿ ಸಂಖ್ಯೆ:</b> <span id="displayId" style="color: #007bff; font-size: 22px;"></span></p>
             <p id="displayDetails"></p>
             
-            <button style="background-color: #28a745;" onclick="openChildPage()">ನಿಮ್ಮ ಮಕ್ಕಳನ್ನು / ಹೈಸ್ಕೂಲ್ ಮಕ್ಕಳನ್ನು ಇಲ್ಲಿ ಸೇರಿಸಿ[span_21](start_span)[span_21](end_span)[span_22](start_span)[span_22](end_span)[span_23](start_span)[span_23](end_span)</button>
-            <button style="background-color: #ffc107; color: #000; font-weight: bold;" onclick="promptTeacherAttendanceId()">📋 ಮಕ್ಕಳ ಹಾಜರಾತಿ ಹಾಕಲು ಇಲ್ಲಿ ಒತ್ತಿ[span_24](start_span)[span_24](end_span)[span_25](start_span)[span_25](end_span)[span_26](start_span)[span_26](end_span)</button>
+            <button style="background-color: #28a745;" onclick="openChildPage(); speakText('ನಿಮ್ಮ ಮಕ್ಕಳನ್ನು ಅಥವಾ ಹೈಸ್ಕೂಲ್ ಮಕ್ಕಳನ್ನು ಇಲ್ಲಿ ಸೇರಿಸಿ');">ನಿಮ್ಮ ಮಕ್ಕಳನ್ನು / ಹೈಸ್ಕೂಲ್ ಮಕ್ಕಳನ್ನು ಇಲ್ಲಿ ಸೇರಿಸಿ</button>
+            <button style="background-color: #ffc107; color: #000; font-weight: bold;" onclick="promptTeacherAttendanceId(); speakText('ಮಕ್ಕಳ ಹಾಜರಾತಿ ಹಾಕಲು ಇಲ್ಲಿ ಒತ್ತಿ');">📋 ಮಕ್ಕಳ ಹಾಜರಾತಿ ಹಾಕಲು ಇಲ್ಲಿ ಒತ್ತಿ</button>
         </div>
 
         <hr style="margin: 20px 0;">
@@ -262,8 +280,8 @@
 
     <!-- ೩. ಮಕ್ಕಳ ನೋಂದಣಿ ಪೇಜ್ -->
     <div id="childRegPage" class="page">
-        <button class="back-btn" onclick="backToIdPage()">⬅ ಹಿಂದಕ್ಕೆ ತಿರುಗಿ[span_27](start_span)[span_27](end_span)[span_28](start_span)[span_28](end_span)[span_29](start_span)[span_29](end_span)</button>
-        <h2 onclick="speakText(this.innerText)">ಮಕ್ಕಳ ನೋಂದಣಿ ಫಾರ್ಮ್[span_30](start_span)[span_30](end_span)[span_31](start_span)[span_31](end_span)[span_32](start_span)[span_32](end_span)</h2>
+        <button class="back-btn" onclick="backToIdPage()">⬅ ಹಿಂದಕ್ಕೆ ತಿರುಗಿ</button>
+        <h2 onclick="speakText(this.innerText)">ಮಕ್ಕಳ ನೋಂದಣಿ ಫಾರ್ಮ್</h2>
         
         <form id="childForm" onsubmit="saveChildData(event)">
             <div class="form-group">
@@ -336,8 +354,8 @@
 
     <!-- ೪. ಮಕ್ಕಳ ಹಾಜರಾತಿ ಮತ್ತು ಕ್ಯಾಮೆರಾ ಸ್ಕ್ಯಾನಿಂಗ್ ಪೇಜ್ -->
     <div id="attendancePage" class="page">
-        <button class="back-btn" onclick="goToHomeFromAttendance()">⬅ ಮುಖ್ಯ ಪೇಜ್‌ಗೆ ಹಿಂದಿರುಗಿ[span_33](start_span)[span_33](end_span)[span_34](start_span)[span_34](end_span)[span_35](start_span)[span_35](end_span)</button>
-        <h2 onclick="speakText(this.innerText)">ಮಕ್ಕಳ ಹಾಜರಾತಿ ಕ್ಯಾಮೆರಾ ಸ್ಕ್ಯಾನ್[span_36](start_span)[span_36](end_span)[span_37](start_span)[span_37](end_span)[span_38](start_span)[span_38](end_span)</h2>
+        <button class="back-btn" onclick="goToHomeFromAttendance()">⬅ ಮುಖ್ಯ ಪೇಜ್‌ಗೆ ಹಿಂದಿರುಗಿ</button>
+        <h2 onclick="speakText(this.innerText)">ಮಕ್ಕಳ ಹಾಜರಾತಿ ಕ್ಯಾಮೆರಾ ಸ್ಕ್ಯಾನ್</h2>
         
         <div class="form-group">
             <label onclick="speakText('ಮಕ್ಕಳ ಹಾಜರಾತಿಗಾಗಿ ಫೋಟೋ ತೆಗೆಯಿರಿ ಅಥವಾ ಐಡಿ ನಮೂದಿಸಿ')">📷 ಮಕ್ಕಳ ಫೋಟೋ ತೆಗೆಯಿರಿ ಅಥವಾ ಐಡಿ ಹಾಕಿ:</label>
@@ -350,7 +368,7 @@
             <input type="text" id="attendanceChildIdInput" placeholder="ಮಗುವಿನ 4 ಡಿಜಿಟಲ್ ಐಡಿ ಹಾಕಿ...">
         </div>
 
-        <button style="background-color: #17a2b8;" onclick="checkChildAttendance()">ಚೆಕ್ ಮಾಡಿ (Check)</button>
+        <button style="background-color: #17a2b8;" onclick="checkChildAttendance(); speakText('ಚೆಕ್ ಮಾಡಿ');">ಚೆಕ್ ಮಾಡಿ (Check)</button>
 
         <div id="scannedChildResult" style="margin-top: 20px;"></div>
     </div>
@@ -397,7 +415,6 @@
     function goToTeacherRegister() {
         document.getElementById('homePage').classList.remove('active-page');
         document.getElementById('registerPage').classList.add('active-page');
-        speakText('ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಪೇಜ್ ತೆರೆಯಲಾಗಿದೆ');
     }
 
     function goToHomeFromRegister() {
@@ -496,7 +513,6 @@
     function openChildPage() {
         document.getElementById('idPage').classList.remove('active-page');
         document.getElementById('childRegPage').classList.add('active-page');
-        speakText('ಮಕ್ಕಳ ವಿವರಗಳನ್ನು ಭರ್ತಿ ಮಾಡಿ');
     }
 
     function backToIdPage() {
@@ -505,7 +521,7 @@
     }
 
     function promptTeacherAttendanceId() {
-        let enteredId = prompt("ಹಾಜರಾತಿಗಾಗಿ ನಿಮ್ಮ 4 ಡಿಜಿಟಲ್ ಟೀಚರ್ ಐಡಿ ನಮೂದಿಸಿ[span_39](start_span)[span_39](end_span)[span_40](start_span)[span_40](end_span)[span_41](start_span)[span_41](end_span):");
+        let enteredId = prompt("ಹಾಜರಾತಿಗಾಗಿ ನಿಮ್ಮ 4 ಡಿಜಿಟಲ್ ಟೀಚರ್ ಐಡಿ ನಮೂದಿಸಿ:");
         if (enteredId === null) return;
 
         if (generatedId !== "" && enteredId.trim() === generatedId) {
@@ -582,7 +598,7 @@
                         </div>
                     </div>
                     <div style="margin-top: 8px; text-align: right;">
-                        <button class="delete-btn" onclick="deleteChild('${child.id}')">ಮಗುವಿನ ಐಡಿ ಅಳಿಸಿ</button>
+                        <button class="delete-btn" onclick="deleteChild('${child.id}'); speakText('ಐಡಿ ಅಳಿಸಲಾಗಿದೆ');">ಮಗುವಿನ ಐಡಿ ಅಳಿಸಿ</button>
                     </div>
                 </div>
             `;
@@ -603,7 +619,6 @@
         if(confirm("ನೀವು ಈ ಮಗುವಿನ ಐಡಿಯನ್ನು ಅಳಿಸಲು ಬಯಸುತ್ತೀರಾ?")) {
             childrenList = childrenList.filter(c => c.id !== id);
             renderChildren(childrenList);
-            speakText("ಐಡಿ ಅಳಿಸಲಾಗಿದೆ");
         }
     }
 
@@ -650,7 +665,7 @@
                         <p style="margin: 0; font-size: 13px;">ತರಗತಿ: ${foundChild.className} | ಊರು: ${foundChild.village}</p>
                     </div>
                 </div>
-                <button style="background-color: #28a745; margin-top: 15px;" onclick='confirmAttendanceAndNotify("${foundChild.name}", "${foundChild.phone}", "${foundChild.id}")'>✅ ಚೆಕ್ ಮಾಡಿ ಹಾಜರಾತಿ ಖಚಿತಪಡಿಸಿ[span_42](start_span)[span_42](end_span)[span_43](start_span)[span_43](end_span)[span_44](start_span)[span_44](end_span)</button>
+                <button style="background-color: #28a745; margin-top: 15px;" onclick='confirmAttendanceAndNotify("${foundChild.name}", "${foundChild.phone}", "${foundChild.id}")'>✅ ಚೆಕ್ ಮಾಡಿ ಹಾಜರಾತಿ ಖಚಿತಪಡಿಸಿ</button>
             </div>
         `;
         speakText("ಮಗು ಪತ್ತೆಯಾಗಿದೆ. ಹಾಜರಾತಿ ಖಚಿತಪಡಿಸಿ.");
