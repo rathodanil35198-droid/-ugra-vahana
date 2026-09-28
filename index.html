@@ -60,7 +60,6 @@
         button:hover {
             background-color: #0056b3;
         }
-        /* ಸುಂದರವಾದ ಹಾಗೂ ಸಣ್ಣ ಬಟನ್‌ಗಳ ವಿನ್ಯಾಸ */
         .small-btn {
             width: 100%;
             padding: 10px 15px;
@@ -141,7 +140,6 @@
 <body>
 
 <div class="container">
-    <!-- ಭಾಷಾ ಸೆಟ್ಟಿಂಗ್ ಬಟನ್ -->
     <div style="text-align: right; margin-bottom: 15px;">
         <label for="langSelect" style="display:inline; font-size: 14px;" onclick="speakText('ಭಾಷೆಯನ್ನು ಆಯ್ಕೆ ಮಾಡಿ')">Language: </label>
         <select id="langSelect" style="width: auto; display: inline-block; padding: 5px;" onchange="changeLanguage()">
@@ -151,13 +149,13 @@
         </select>
     </div>
 
-    <!-- ೦. ಮುಖ್ಯ ಪೇಜ್ (Home Page) - ಎರಡು ಸಣ್ಣ ಹಾಗೂ ಸುಂದರವಾದ ಬಟನ್‌ಗಳು -->
+    <!-- ಮುಖ್ಯ ಪೇಜ್ -->
     <div id="homePage" class="page active-page">
         <h2 onclick="speakText(this.innerText)">ಶಾಲೆ ಮತ್ತು ಮಕ್ಕಳ ಸುರಕ್ಷತಾ ಆಪ್</h2>
         <p style="text-align: center; color: #666; margin-bottom: 20px;">ದಯವಿಟ್ಟು ಕೆಳಗಿನ ಆಯ್ಕೆಯನ್ನು ಆರಿಸಿ</p>
         
-        <button class="small-btn" style="background-color: #007bff;" onclick="goToTeacherRegister(); speakText('ಶಿಕ್ಷಕರ ನೋಂದಣಿ');">
-            👨‍🏫 ಶಿಕ್ಷಕರ ನೋಂದಣಿ (Teacher Registration)
+        <button class="small-btn" style="background-color: #007bff;" onclick="handleTeacherNav(); speakText('ಶಿಕ್ಷಕರ ನೋಂದಣಿ');">
+            👨‍🏫 ಶಿಕ್ಷಕರ ನೋಂದಣಿ / ಐಡಿ ವಿವರ (Teacher Registration)
         </button>
         
         <button class="small-btn" style="background-color: #ffc107; color: #000;" onclick="promptTeacherAttendanceId(); speakText('ಮಕ್ಕಳ ಹಾಜರಾತಿ');">
@@ -165,7 +163,7 @@
         </button>
     </div>
 
-    <!-- ೧. ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಪೇಜ್ -->
+    <!-- ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಪೇಜ್ -->
     <div id="registerPage" class="page">
         <button class="back-btn" onclick="goToHomeFromRegister()">⬅ ಮುಖ್ಯ ಪೇಜ್‌ಗೆ ಹಿಂದಿರುಗಿ</button>
         <h2 id="tRegTitle" onclick="speakText(this.innerText)">ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಪೇಜ್</h2>
@@ -254,7 +252,7 @@
         </form>
     </div>
 
-    <!-- ೨. ಐಡಿ ಮತ್ತು ಮುಖಪುಟ ಪೇಜ್ -->
+    <!-- ಐಡಿ ಮತ್ತು ಮುಖಪುಟ ಪೇಜ್ -->
     <div id="idPage" class="page">
         <button class="back-btn" onclick="goToHomeFromRegister()">⬅ ಮುಖ್ಯ ಪೇಜ್‌ಗೆ ಹಿಂದಿರುಗಿ</button>
         <h2 onclick="speakText(this.innerText)">ನಿಮ್ಮ ಐಡಿ ವಿವರಗಳು</h2>
@@ -266,6 +264,7 @@
             
             <button style="background-color: #28a745;" onclick="openChildPage(); speakText('ನಿಮ್ಮ ಮಕ್ಕಳನ್ನು ಅಥವಾ ಹೈಸ್ಕೂಲ್ ಮಕ್ಕಳನ್ನು ಇಲ್ಲಿ ಸೇರಿಸಿ');">ನಿಮ್ಮ ಮಕ್ಕಳನ್ನು / ಹೈಸ್ಕೂಲ್ ಮಕ್ಕಳನ್ನು ಇಲ್ಲಿ ಸೇರಿಸಿ</button>
             <button style="background-color: #ffc107; color: #000; font-weight: bold;" onclick="promptTeacherAttendanceId(); speakText('ಮಕ್ಕಳ ಹಾಜರಾತಿ ಹಾಕಲು ಇಲ್ಲಿ ಒತ್ತಿ');">📋 ಮಕ್ಕಳ ಹಾಜರಾತಿ ಹಾಕಲು ಇಲ್ಲಿ ಒತ್ತಿ</button>
+            <button style="background-color: #dc3545; margin-top: 10px;" onclick="resetTeacherData(); speakText('ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಮರುಹೊಂದಿಸಿ');">🔄 ಹೊಸದಾಗಿ ನೋಂದಣಿ ಮಾಡಿ (Reset ID)</button>
         </div>
 
         <hr style="margin: 20px 0;">
@@ -278,7 +277,7 @@
         <div id="childrenContainer"></div>
     </div>
 
-    <!-- ೩. ಮಕ್ಕಳ ನೋಂದಣಿ ಪೇಜ್ -->
+    <!-- ಮಕ್ಕಳ ನೋಂದಣಿ ಪೇಜ್ -->
     <div id="childRegPage" class="page">
         <button class="back-btn" onclick="backToIdPage()">⬅ ಹಿಂದಕ್ಕೆ ತಿರುಗಿ</button>
         <h2 onclick="speakText(this.innerText)">ಮಕ್ಕಳ ನೋಂದಣಿ ಫಾರ್ಮ್</h2>
@@ -352,7 +351,7 @@
         </form>
     </div>
 
-    <!-- ೪. ಮಕ್ಕಳ ಹಾಜರಾತಿ ಮತ್ತು ಕ್ಯಾಮೆರಾ ಸ್ಕ್ಯಾನಿಂಗ್ ಪೇಜ್ -->
+    <!-- ಮಕ್ಕಳ ಹಾಜರಾತಿ ಪೇಜ್ -->
     <div id="attendancePage" class="page">
         <button class="back-btn" onclick="goToHomeFromAttendance()">⬅ ಮುಖ್ಯ ಪೇಜ್‌ಗೆ ಹಿಂದಿರುಗಿ</button>
         <h2 onclick="speakText(this.innerText)">ಮಕ್ಕಳ ಹಾಜರಾತಿ ಕ್ಯಾಮೆರಾ ಸ್ಕ್ಯಾನ್</h2>
@@ -384,11 +383,10 @@
 </div>
 
 <script>
-    let generatedId = "";
     let capturedImageSrc = "";
     let childSelfieSrc = "";
     let schoolIdSrc = "";
-    let childrenList = [];
+    let childrenList = JSON.parse(localStorage.getItem('childrenList')) || [];
     let attendanceImageSrc = "";
 
     function speakText(text) {
@@ -412,9 +410,25 @@
         }
     }
 
-    function goToTeacherRegister() {
-        document.getElementById('homePage').classList.remove('active-page');
-        document.getElementById('registerPage').classList.add('active-page');
+    // ಶಿಕ್ಷಕರು ಈಗಾಗಲೇ ನೋಂದಣಿ ಮಾಡಿದ್ದರೆ ನೇರವಾಗಿ ID Page ತೋರಿಸುವುದು, ಇಲ್ಲದಿದ್ದರೆ Registration Page ತೋರಿಸುವುದು
+    function handleTeacherNav() {
+        let savedTeacher = localStorage.getItem('teacherData');
+        if (savedTeacher) {
+            loadTeacherProfile(JSON.parse(savedTeacher));
+            document.getElementById('homePage').classList.remove('active-page');
+            document.getElementById('idPage').classList.add('active-page');
+        } else {
+            document.getElementById('homePage').classList.remove('active-page');
+            document.getElementById('registerPage').classList.add('active-page');
+        }
+    }
+
+    function loadTeacherProfile(teacher) {
+        document.getElementById('displayName').innerText = teacher.name + " (" + teacher.phone + ")";
+        document.getElementById('displayId').innerText = teacher.id;
+        document.getElementById('displayDetails').innerText = teacher.district + " ಜಿಲ್ಲೆ, " + teacher.taluk + " ತಾಲೂಕು, " + teacher.village + " ಊರು.\nಶಾಲೆ: " + teacher.school + "\nತರಗತಿ: " + teacher.className + " | ವಿಷಯ: " + teacher.subject;
+        document.getElementById('displayPhoto').src = teacher.photo;
+        renderChildren(childrenList);
     }
 
     function goToHomeFromRegister() {
@@ -491,12 +505,25 @@
 
         if(!isValid) return;
 
-        generatedId = Math.floor(1000 + Math.random() * 9000).toString();
-        
-        document.getElementById('displayName').innerText = name + " (" + phone + ")";
-        document.getElementById('displayId').innerText = generatedId;
-        document.getElementById('displayDetails').innerText = district + " ಜಿಲ್ಲೆ, " + taluk + " ತಾಲೂಕು, " + village + " ಊರು.\nಶಾಲೆ: " + school + "\nತರಗತಿ: " + classVal + " | ವಿಷಯ: " + subjectVal;
-        document.getElementById('displayPhoto').src = capturedImageSrc;
+        let generatedId = Math.floor(1000 + Math.random() * 9000).toString();
+
+        let teacherObj = {
+            id: generatedId,
+            name: name,
+            phone: phone,
+            district: district,
+            taluk: taluk,
+            village: village,
+            school: school,
+            className: classVal,
+            subject: subjectVal,
+            photo: capturedImageSrc
+        };
+
+        // LocalStorage ನಲ್ಲಿ ಶಿಕ್ಷಕರ ವಿವರಗಳನ್ನು ಸೇವ್ ಮಾಡಲಾಗುತ್ತದೆ ಇದರಿಂದ ಇದು ಶಾಶ್ವತವಾಗಿರುತ್ತದೆ
+        localStorage.setItem('teacherData', JSON.stringify(teacherObj));
+
+        loadTeacherProfile(teacherObj);
 
         document.getElementById('popupTitle').innerText = "ಯಶಸ್ವಿಯಾಗಿದೆ!";
         document.getElementById('popupMessage').innerText = "ನಿಮ್ಮ ಐಡಿ ಯಶಸ್ವಿಯಾಗಿದೆ! ಐಡಿ ಸಂಖ್ಯೆ: " + generatedId;
@@ -510,6 +537,13 @@
         speakText("ನಿಮ್ಮ ಐಡಿ ಸಫಲವಾಗಿದೆ");
     }
 
+    function resetTeacherData() {
+        if(confirm("ನೀವು ಹೊಸದಾಗಿ ನೋಂದಣಿ ಮಾಡಲು ಬಯಸುತ್ತೀರಾ?")) {
+            localStorage.removeItem('teacherData');
+            location.reload();
+        }
+    }
+
     function openChildPage() {
         document.getElementById('idPage').classList.remove('active-page');
         document.getElementById('childRegPage').classList.add('active-page');
@@ -521,17 +555,25 @@
     }
 
     function promptTeacherAttendanceId() {
+        let savedTeacher = localStorage.getItem('teacherData');
+        if (!savedTeacher) {
+            alert("ದಯವಿಟ್ಟು ಮೊದಲು ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಪೂರ್ಣಗೊಳಿಸಿ!");
+            speakText("ದಯವಿಟ್ಟು ಮೊದಲು ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಪೂರ್ಣಗೊಳಿಸಿ");
+            return;
+        }
+
+        let teacher = JSON.parse(savedTeacher);
         let enteredId = prompt("ಹಾಜರಾತಿಗಾಗಿ ನಿಮ್ಮ 4 ಡಿಜಿಟಲ್ ಟೀಚರ್ ಐಡಿ ನಮೂದಿಸಿ:");
         if (enteredId === null) return;
 
-        if (generatedId !== "" && enteredId.trim() === generatedId) {
+        if (enteredId.trim() === teacher.id) {
             speakText("ಐಡಿ ಸರಿಯಾಗಿದೆ. ಹಾಜರಾತಿ ಪೇಜ್ ತೆರೆಯಲಾಗಿದೆ.");
             document.getElementById('homePage').classList.remove('active-page');
             document.getElementById('idPage').classList.remove('active-page');
             document.getElementById('attendancePage').classList.add('active-page');
         } else {
-            alert("ದಯವಿಟ್ಟು ಮೊದಲು ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಪೂರ್ಣಗೊಳಿಸಿ ಅಥವಾ ಸರಿಯಾದ ಐಡಿ ನಮೂದಿಸಿ!");
-            speakText("ಐಡಿ ತಪ್ಪಾಗಿದೆ ಅಥವಾ ನೋಂದಣಿ ಆಗಿಲ್ಲ");
+            alert("ನೀವು ನಮೂದಿಸಿದ ಐಡಿ ತಪ್ಪಾಗಿದೆ!");
+            speakText("ಐಡಿ ತಪ್ಪಾಗಿದೆ");
         }
     }
 
@@ -564,6 +606,7 @@
         };
 
         childrenList.push(childObj);
+        localStorage.setItem('childrenList', JSON.stringify(childrenList));
         renderChildren(childrenList);
 
         document.getElementById('childForm').reset();
@@ -618,6 +661,7 @@
     function deleteChild(id) {
         if(confirm("ನೀವು ಈ ಮಗುವಿನ ಐಡಿಯನ್ನು ಅಳಿಸಲು ಬಯಸುತ್ತೀರಾ?")) {
             childrenList = childrenList.filter(c => c.id !== id);
+            localStorage.setItem('childrenList', JSON.stringify(childrenList));
             renderChildren(childrenList);
         }
     }
