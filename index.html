@@ -47,7 +47,6 @@
             margin-top: 3px;
             display: none;
         }
-        /* ಆಕರ್ಷಕ ರಿಯಲ್ ಬಟನ್‌ಗಳು */
         .main-btn {
             width: 100%;
             padding: 16px;
@@ -140,7 +139,6 @@
 <body>
 
 <div class="container">
-    <!-- ಭಾಷಾ ಸೆಟ್ಟಿಂಗ್ ಬಟನ್ -->
     <div style="text-align: right; margin-bottom: 15px;">
         <label for="langSelect" style="display:inline; font-size: 14px;">Language: </label>
         <select id="langSelect" style="width: auto; display: inline-block; padding: 5px;" onchange="changeLanguage()">
@@ -150,7 +148,7 @@
         </select>
     </div>
 
-    <!-- ೦. ಮುಖ್ಯ ಪೇಜ್ (Home Page) - ಎರಡು ಸುಂದರವಾದ ಬಟನ್‌ಗಳು -->
+    <!-- ೦. ಮುಖ್ಯ ಪೇಜ್ (Home Page) -->
     <div id="homePage" class="page active-page">
         <h2>ಶಾಲೆ ಮತ್ತು ಮಕ್ಕಳ ಸುರಕ್ಷತಾ ಆಪ್</h2>
         <p style="text-align: center; color: #666; margin-bottom: 25px;">ದಯವಿಟ್ಟು ಕೆಳಗಿನ ಬಟನ್ ಆಯ್ಕೆಮಾಡಿ</p>
@@ -173,37 +171,31 @@
             <div class="form-group">
                 <label>ನಿಮ್ಮ ಹೆಸರು:</label>
                 <input type="text" id="name" placeholder="ನಿಮ್ಮ ಹೆಸರನ್ನು ಹಾಕಿ">
-                <div id="nameError" class="error">ದಯವಿಟ್ಟು ನಿಮ್ಮ ಹೆಸರು ಹಾಕಿ</div>
             </div>
 
             <div class="form-group">
                 <label>ಮೊಬೈಲ್ ನಂಬರ್:</label>
                 <input type="tel" id="phone" maxlength="10" placeholder="10 ಅಂಕಿಯ ಮೊಬೈಲ್ ನಂಬರ್">
-                <div id="phoneError" class="error">ಸರಿಯಾದ 10 ಅಂಕಿಯ ಮೊಬೈಲ್ ನಂಬರ್ ಹಾಕಿ</div>
             </div>
 
             <div class="form-group">
                 <label>ಜಿಲ್ಲೆ:</label>
                 <input type="text" id="district" placeholder="ನಿಮ್ಮ ಜಿಲ್ಲೆ">
-                <div id="districtError" class="error">ಜಿಲ್ಲೆಯ ಹೆಸರು ಹಾಕಿ</div>
             </div>
 
             <div class="form-group">
                 <label>ತಾಲೂಕು:</label>
                 <input type="text" id="taluk" placeholder="ನಿಮ್ಮ ತಾಲೂಕು">
-                <div id="talukError" class="error">ತಾಲೂಕು ಹೆಸರು ಹಾಕಿ</div>
             </div>
 
             <div class="form-group">
                 <label>ಊರು:</label>
                 <input type="text" id="village" placeholder="ನಿಮ್ಮ ಊರು">
-                <div id="villageError" class="error">ಊರಿನ ಹೆಸರು ಹಾಕಿ</div>
             </div>
 
             <div class="form-group">
                 <label>ಹೈಸ್ಕೂಲ್ / ಕಾಲೇಜು ಹೆಸರು:</label>
                 <input type="text" id="school" placeholder="ಶಾಲೆಯ ಹೆಸರು">
-                <div id="schoolError" class="error">ಶಾಲೆ/ಕಾಲೇಜು ಹೆಸರು ಹಾಕಿ</div>
             </div>
 
             <div class="form-group">
@@ -225,7 +217,6 @@
                     <option value="PUC">PUC</option>
                     <option value="Degree">Degree</option>
                 </select>
-                <div id="classError" class="error">ತರಗತಿ ಆಯ್ಕೆಮಾಡಿ</div>
             </div>
 
             <div class="form-group">
@@ -239,13 +230,11 @@
                     <option value="ವಿಜ್ಞಾನ">ವಿಜ್ಞಾನ</option>
                     <option value="ಸಮಾಜ ವಿಜ್ಞಾನ">ಸಮಾಜ ವಿಜ್ಞಾನ</option>
                 </select>
-                <div id="subjectError" class="error">ವಿಷಯ ಆಯ್ಕೆಮಾಡಿ</div>
             </div>
 
             <div class="form-group">
                 <label>ನಿಮ್ಮ ಸೆಲ್ಫಿ ಫೋಟೋ ಹಾಕಿ (ಕ್ಯಾಮೆರಾ ಓಪನ್ ಆಗುತ್ತದೆ):</label>
                 <input type="file" id="selfie" accept="image/*" capture="user" onchange="previewImage(event)">
-                <div id="selfieError" class="error">ದಯವಿಟ್ಟು ನಿಮ್ಮ ಸೆಲ್ಫಿ ಫೋಟೋ ಹಾಕಿ</div>
                 <img id="preview" alt="ಸೆಲ್ಫಿ ಪ್ರಿವ್ಯೂ">
             </div>
 
@@ -381,7 +370,6 @@
     let childrenList = JSON.parse(localStorage.getItem('childrenList')) || [];
     let attendanceImageSrc = "";
 
-    // ಪೇಜ್ ಲೋಡ್ ಆದಾಗ ಟೀಚರ್ ಐಡಿ ಈಗಾಗಲೇ ಇದ್ದರೆ ಪರಿಶೀಲಿಸುವುದು
     window.onload = function() {
         let savedTeacher = localStorage.getItem('teacherData');
         if(savedTeacher) {
@@ -401,14 +389,11 @@
         }
     }
 
-    // ಮುಖ್ಯ ಪೇಜ್‌ನ ಶಿಕ್ಷಕರ ಬಟನ್ ಕ್ಲಿಕ್ ಮಾಡಿದಾಗ
     function handleTeacherButtonClick() {
         let savedTeacher = localStorage.getItem('teacherData');
         if (savedTeacher) {
-            // ಈಗಾಗಲೇ ನೋಂದಣಿ ಆಗಿದ್ದರೆ ನೇರವಾಗಿ ಐಡಿ ಪೇಜ್ ತೋರಿಸು
             showPage('idPage');
         } else {
-            // ಇಲ್ಲದಿದ್ದರೆ ನೋಂದಣಿ ಪೇಜ್ ತೋರಿಸು
             showPage('registerPage');
         }
     }
@@ -502,7 +487,6 @@
             photo: capturedImageSrc
         };
 
-        // ಲೋಕಲ್ ಸ್ಟೋರೇಜ್‌ನಲ್ಲಿ ಶಾಶ್ವತವಾಗಿ ಸೇವ್ ಮಾಡುವುದು
         localStorage.setItem('teacherData', JSON.stringify(teacherObj));
         updateTeacherDisplay(teacherObj);
 
@@ -578,7 +562,7 @@
         container.innerHTML = "<h3>ಮಕ್ಕಳ ಐಡಿ ವಿವರಗಳು (" + list.length + ")</h3>";
         
         if(list.length === 0) {
-            container.innerHTML += "<p style='text-align:center; color:#777;'>ಯಾವುದೇ ಮಕ್ಕಳ ವಿವರಗಳಿಲ್ಲ</p>";
+            container.innerHTML += "<p style='text-align:center; color:#777;'>ಯಾವುದೇ ಮಕ್ಕಳ ವಿವರಗಳಿಲ್ಲ (ನೋಂದಣಿಯಾಗಿಲ್ಲ)</p>";
             return;
         }
 
@@ -645,7 +629,7 @@
         let foundChild = childrenList.find(c => c.id === searchId);
 
         if(!foundChild) {
-            resultContainer.innerHTML = "<p style='color:red; text-align:center;'>ಈ ಐಡಿ ಇರುವ ಮಗು ಕಂಡುಬಂದಿಲ್ಲ!</p>";
+            resultContainer.innerHTML = "<p style='color:red; text-align:center; font-weight:bold;'>ಈ ಐಡಿ ಇರುವ ಯಾವುದೇ ಮಕ್ಕಳು ನೊಂದಣಿಯಾಗಿಲ್ಲ!</p>";
             return;
         }
 
