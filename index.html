@@ -239,8 +239,9 @@
             </div>
 
             <div class="form-group">
-                <label>ನಿಮ್ಮ ಸೆಲ್ಫಿ ಫೋಟೋ ಹಾಕಿ:</label>
-                <input type="file" id="selfie" accept="image/*" onchange="previewImage(event)">
+                <label>ನಿಮ್ಮ ಸೆಲ್ಫಿ ಫೋಟೋ ಹಾಕಿ (ನೇರ ಕ್ಯಾಮೆರಾ):</label>
+                <!-- ನೇರವಾಗಿ ಮುಂಭಾಗದ ಕ್ಯಾಮೆರಾ ಓಪನ್ ಆಗಲು capture="user" ಸೇರಿಸಲಾಗಿದೆ -->
+                <input type="file" id="selfie" accept="image/*" capture="user" onchange="previewImage(event)">
                 <div id="selfieError" class="error">ದಯವಿಟ್ಟು ನಿಮ್ಮ ಸೆಲ್ಫಿ ಫೋಟೋ ಹಾಕಿ</div>
                 <img id="preview" alt="ಸೆಲ್ಫಿ ಪ್ರಿವ್ಯೂ">
             </div>
@@ -325,14 +326,16 @@
             </div>
 
             <div class="form-group">
-                <label>ಮಕ್ಕಳ ಸೆಲ್ಫಿ ಫೋಟೋ:</label>
-                <input type="file" id="childSelfie" accept="image/*" onchange="previewChildImage(event, 'selfie')">
+                <label>ಮಕ್ಕಳ ಸೆಲ್ಫಿ ಫೋಟೋ (ಕ್ಯಾಮೆರಾ):</label>
+                <!-- ಮಗುವಿನ ಸೆಲ್ಫಿಗೂ ಕ್ಯಾಮೆರಾ ನೇರವಾಗಿ ಓಪನ್ ಆಗಲು capture="user" ಹಾಕಲಾಗಿದೆ -->
+                <input type="file" id="childSelfie" accept="image/*" capture="user" onchange="previewChildImage(event, 'selfie')">
                 <img id="childPreview" alt="ಸೆಲ್ಫಿ ಪ್ರಿವ್ಯೂ">
             </div>
 
             <div class="form-group">
-                <label>ಹೈಸ್ಕೂಲ್ ಕೊಟ್ಟಿರುವ ಐಡಿ ಕಾರ್ಡ್ ಫೋಟೋ:</label>
-                <input type="file" id="schoolIdPhoto" accept="image/*" onchange="previewChildImage(event, 'idcard')">
+                <label>ಹೈಸ್ಕೂಲ್ ಕೊಟ್ಟಿರುವ ಐಡಿ ಕಾರ್ಡ್ ಫೋಟೋ (ಕ್ಯಾಮೆರಾ):</label>
+                <!-- ಐಡಿ ಕಾರ್ಡ್ ಫೋಟೋಗೆ ಹಿಂಭಾಗದ ಕ್ಯಾಮೆರಾ ಓಪನ್ ಆಗಲು capture="environment" ಹಾಕಲಾಗಿದೆ -->
+                <input type="file" id="schoolIdPhoto" accept="image/*" capture="environment" onchange="previewChildImage(event, 'idcard')">
                 <img id="idCardPreview" alt="ಐಡಿ ಕಾರ್ಡ್ ಪ್ರಿವ್ಯೂ">
             </div>
 
@@ -346,8 +349,9 @@
         <h2>ಮಕ್ಕಳ ಹಾಜರಾತಿ ಕ್ಯಾಮೆರಾ ಸ್ಕ್ಯಾನ್</h2>
         
         <div class="form-group">
-            <label>📷 ಮಕ್ಕಳ ಫೋಟೋ ತೆಗೆಯಿರಿ ಅಥವಾ ಐಡಿ ಹಾಕಿ:</label>
-            <input type="file" id="attendanceCamera" accept="image/*" onchange="previewAttendanceImage(event)">
+            <label>📷 ಮಕ್ಕಳ ಫೋಟೋ ತೆಗೆಯಿರಿ (ಕ್ಯಾಮೆರಾ):</label>
+            <!-- ಹಾಜರಾತಿ ಫೋಟೋಗೂ ನೇರ ಕ್ಯಾಮೆರಾ ಬರಲು capture="environment" ಹಾಕಲಾಗಿದೆ -->
+            <input type="file" id="attendanceCamera" accept="image/*" capture="environment" onchange="previewAttendanceImage(event)">
             <img id="attendancePreview" alt="ಹಾಜರಾತಿ ಫೋಟೋ ಪ್ರಿವ್ಯೂ">
         </div>
 
