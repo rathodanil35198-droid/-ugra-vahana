@@ -73,7 +73,7 @@
         .active-page {
             display: block;
         }
-        #preview, #childPreview {
+        #preview, #childPreview, #attendancePreview {
             width: 100%;
             max-height: 200px;
             object-fit: cover;
@@ -101,7 +101,6 @@
             border-radius: 10px;
             text-align: center;
         }
-        /* ಡ್ರೈವರ್ ಆ್ಯಪ್ ಶೈಲಿಯ ಕಾಂಪ್ಯಾಕ್ಟ್ ಕಾರ್ಡ್ ವಿನ್ಯಾಸ[span_3](start_span)[span_3](end_span) */
         .child-card {
             background: #ffffff;
             border: 1px solid #ddd;
@@ -236,6 +235,9 @@
             
             <!-- ಮಕ್ಕಳನ್ನು ಸೇರಿಸುವ ಬಟನ್ -->
             <button style="background-color: #28a745;" onclick="openChildPage()">ನಿಮ್ಮ ಮಕ್ಕಳನ್ನು / ಹೈಸ್ಕೂಲ್ ಮಕ್ಕಳನ್ನು ಇಲ್ಲಿ ಸೇರಿಸಿ</button>
+            
+            <!-- ಮಕ್ಕಳ ಹಾಜರಾತಿ ಬಟನ್ -->
+            <button style="background-color: #ffc107; color: #000; font-weight: bold;" onclick="promptTeacherAttendanceId()">📋 ಮಕ್ಕಳ ಹಾಜರಾತಿ ಹಾಕಲು ಇಲ್ಲಿ ಒತ್ತಿ</button>
         </div>
 
         <hr style="margin: 20px 0;">
@@ -323,12 +325,34 @@
             <button type="submit" onclick="speakText('ಮಗುವಿನ ಐಡಿ ಪಡೆಯಿರಿ')">ಮಗುವಿನ ಐಡಿ ಪಡೆಯಿರಿ</button>
         </form>
     </div>
+
+    <!-- ೪. ಮಕ್ಕಳ ಹಾಜರಾತಿ ಮತ್ತು ಕ್ಯಾಮೆರಾ ಸ್ಕ್ಯಾನಿಂಗ್ ಪೇಜ್ -->
+    <div id="attendancePage" class="page">
+        <button class="back-btn" onclick="backToIdPageFromAttendance()">⬅ ಮುಖ್ಯ ಪೇಜ್‌ಗೆ ಹಿಂದಿರುಗಿ</button>
+        <h2 onclick="speakText(this.innerText)">ಮಕ್ಕಳ ಹಾಜರಾತಿ ಕ್ಯಾಮೆರಾ ಸ್ಕ್ಯಾನ್</h2>
+        
+        <div class="form-group">
+            <label onclick="speakText('ಮಕ್ಕಳ ಹಾಜರಾತಿಗಾಗಿ ಫೋಟೋ ತೆಗೆಯಿರಿ ಅಥವಾ ಐಡಿ ನಮೂದಿಸಿ')">📷 ಮಕ್ಕಳ ಫೋಟೋ ತೆಗೆಯಿರಿ ಅಥವಾ ಐಡಿ ಹಾಕಿ:</label>
+            <input type="file" id="attendanceCamera" accept="image/*" capture="user" onchange="previewAttendanceImage(event)">
+            <img id="attendancePreview" alt="ಹಾಜರಾತಿ ಫೋಟೋ ಪ್ರಿವ್ಯೂ">
+        </div>
+
+        <div class="form-group">
+            <label onclick="speakText('ಅಥವಾ ಮಗುವಿನ ಐಡಿ ನಂಬರ್ ಹಾಕಿ')">ಮಗುವಿನ ಐಡಿ ನಂಬರ್ ಹಾಕಿ:</label>
+            <input type="text" id="attendanceChildIdInput" placeholder="ಮಗುವಿನ 4 ಡಿಜಿಟಲ್ ಐಡಿ ಹಾಕಿ...">
+        </div>
+
+        <button style="background-color: #17a2b8;" onclick="checkChildAttendance()">ಚೆಕ್ ಮಾಡಿ (Check)</button>
+
+        <!-- ಸ್ಕ್ಯಾನ್ ಮಾಡಿದ ಮಗುವಿನ ವಿವರಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ -->
+        <div id="scannedChildResult" style="margin-top: 20px;"></div>
+    </div>
 </div>
 
 <!-- ಪಾಪ್ ಅಪ್ ಸಂದೇಶ ಬಾಕ್ಸ್ -->
 <div id="popupModal" class="modal">
     <div class="modal-content">
-        <h3 style="color: green;">ಯಶಸ್ವಿಯಾಗಿದೆ!</h3>
+        <h3 style="color: green;" id="popupTitle">ಯಶಸ್ವಿಯಾಗಿದೆ!</h3>
         <p id="popupMessage">ನಿಮ್ಮ ಐಡಿ ಸೆಕ್ಸಸ್ ಆಗಿದೆ.</p>
         <button onclick="closePopupAndNext()">ಸರಿ (OK)</button>
     </div>
@@ -340,10 +364,11 @@
     let childSelfieSrc = "";
     let schoolIdSrc = "";
     let childrenList = [];
+    let attendanceImageSrc = "";
 
     function speakText(text) {
         if ('speechSynthesis' in window) {
-            window.speechSynthesis.cancel(); // ಹಳೆಯ ಧ್ವನಿ ನಿಲ್ಲಿಸಲು
+            window.speechSynthesis.cancel();
             let utterance = new SpeechSynthesisUtterance(text);
             let lang = document.getElementById('langSelect').value;
             utterance.lang = lang === 'hi' ? 'hi-IN' : (lang === 'en' ? 'en-US' : 'kn-IN');
@@ -425,13 +450,14 @@
 
         if(!isValid) return;
 
-        generatedId = Math.floor(1000 + Math.random() * 9000);
+        generatedId = Math.floor(1000 + Math.random() * 9000).toString();
         
         document.getElementById('displayName').innerText = name + " (" + phone + ")";
         document.getElementById('displayId').innerText = generatedId;
         document.getElementById('displayDetails').innerText = district + " ಜಿಲ್ಲೆ, " + taluk + " ತಾಲೂಕು, " + village + " ಊರು.\nಶಾಲೆ: " + school + "\nತರಗತಿ: " + classVal + " | ವಿಷಯ: " + subjectVal;
         document.getElementById('displayPhoto').src = capturedImageSrc;
 
+        document.getElementById('popupTitle').innerText = "ಯಶಸ್ವಿಯಾಗಿದೆ!";
         document.getElementById('popupMessage').innerText = "ನಿಮ್ಮ ಐಡಿ ಯಶಸ್ವಿಯಾಗಿದೆ! ಐಡಿ ಸಂಖ್ಯೆ: " + generatedId;
         document.getElementById('popupModal').style.display = 'block';
     }
@@ -459,6 +485,26 @@
         document.getElementById('idPage').classList.add('active-page');
     }
 
+    function backToIdPageFromAttendance() {
+        document.getElementById('attendancePage').classList.remove('active-page');
+        document.getElementById('idPage').classList.add('active-page');
+    }
+
+    /* ಹಾಜರಾತಿ ಬಟನ್ ಒತ್ತಿದಾಗ 4 ಡಿಜಿಟಲ್ ಟೀಚರ್ ಐಡಿ ಕೇಳುವುದು */
+    function promptTeacherAttendanceId() {
+        let enteredId = prompt("ದಯವಿಟ್ಟು ನಿಮ್ಮ 4 ಡಿಜಿಟಲ್ ಐಡಿಯನ್ನು ನಮೂದಿಸಿ:");
+        if (enteredId === null) return; // ರದ್ದುಗೊಳಿಸಿದರೆ
+
+        if (enteredId.trim() === generatedId) {
+            speakText("ಐಡಿ ಸರಿಯಾಗಿದೆ. ಹಾಜರಾತಿ ಪೇಜ್ ತೆರೆಯಲಾಗಿದೆ.");
+            document.getElementById('idPage').classList.remove('active-page');
+            document.getElementById('attendancePage').classList.add('active-page');
+        } else {
+            alert("ನೀವು ನಮೂದಿಸಿದ ಐಡಿ ತಪ್ಪಾಗಿದೆ ಅಥವಾ ಲಾಗಿನ್ ಆಗಿಲ್ಲ! ದಯವಿಟ್ಟು ಸರಿಯಾದ ಐಡಿ ಹಾಕಿ.");
+            speakText("ಐಡಿ ತಪ್ಪಾಗಿದೆ");
+        }
+    }
+
     function saveChildData(event) {
         event.preventDefault();
         let cName = document.getElementById('childName').value.trim();
@@ -473,7 +519,7 @@
             return;
         }
 
-        let childUniqueId = Math.floor(1000 + Math.random() * 9000);
+        let childUniqueId = Math.floor(1000 + Math.random() * 9000).toString();
 
         let childObj = {
             id: childUniqueId,
@@ -510,7 +556,7 @@
             return;
         }
 
-        list.forEach((child, index) => {
+        list.forEach((child) => {
             container.innerHTML += `
                 <div class="child-card">
                     <div style="display: flex; align-items: center; gap: 10px;">
@@ -522,7 +568,7 @@
                         </div>
                     </div>
                     <div style="margin-top: 8px; text-align: right;">
-                        <button class="delete-btn" onclick="deleteChild(${child.id})">ಮಗುವಿನ ಐಡಿ ಅಳಿಸಿ</button>
+                        <button class="delete-btn" onclick="deleteChild('${child.id}')">ಮಗುವಿನ ಐಡಿ ಅಳಿಸಿ</button>
                     </div>
                 </div>
             `;
@@ -533,7 +579,7 @@
         let query = document.getElementById('searchChildInput').value.toLowerCase();
         let filtered = childrenList.filter(c => 
             c.name.toLowerCase().includes(query) || 
-            c.id.toString().includes(query) || 
+            c.id.includes(query) || 
             c.phone.includes(query)
         );
         renderChildren(filtered);
@@ -545,6 +591,77 @@
             renderChildren(childrenList);
             speakText("ಐಡಿ ಅಳಿಸಲಾಗಿದೆ");
         }
+    }
+
+    function previewAttendanceImage(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                attendanceImageSrc = e.target.result;
+                const img = document.getElementById('attendancePreview');
+                img.src = attendanceImageSrc;
+                img.style.display = 'block';
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+
+    /* ಮಗುವಿನ ಹಾಜರಾತಿ ಪರಿಶೀಲನೆ ಮತ್ತು ವಾಟ್ಸಾಪ್ ನೋಟಿಫಿಕೇಶನ್ */
+    function checkChildAttendance() {
+        let searchId = document.getElementById('attendanceChildIdInput').value.trim();
+        let resultContainer = document.getElementById('scannedChildResult');
+
+        if(searchId === "") {
+            alert("ದಯವಿಟ್ಟು ಮಗುವಿನ ಐಡಿ ನಂಬರ್ ಹಾಕಿ!");
+            return;
+        }
+
+        let foundChild = childrenList.find(c => c.id === searchId);
+
+        if(!foundChild) {
+            resultContainer.innerHTML = "<p style='color:red; text-align:center;'>ಈ ಐಡಿ ಇರುವ ಮಗು ಕಂಡುಬಂದಿಲ್ಲ!</p>";
+            speakText("ಮಗು ಕಂಡುಬಂದಿಲ್ಲ");
+            return;
+        }
+
+        // ಮಗುವಿನ ವಿವರಗಳು ಮತ್ತು ಚೆಕ್ ಬಟನ್ ತೋರಿಸುವುದು
+        resultContainer.innerHTML = `
+            <div class="child-card" style="border: 2px solid #28a745; background: #e8f5e9;">
+                <h3 style="color: #2e7d32; margin-top: 0;">ಮಗು ಪತ್ತೆಯಾಗಿದೆ!</h3>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <img src="${foundChild.selfie}" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;" alt="ಫೋಟೋ">
+                    <div>
+                        <p style="margin: 0; font-weight: bold;">ಹೆಸರು: ${foundChild.name}</p>
+                        <p style="margin: 2px 0; font-size: 14px;">ಐಡಿ: <b>${foundChild.id}</b></p>
+                        <p style="margin: 0; font-size: 13px;">ಪೋಷಕರ ನಂಬರ್: ${foundChild.phone}</p>
+                        <p style="margin: 0; font-size: 13px;">ತರಗತಿ: ${foundChild.className} | ಊರು: ${foundChild.village}</p>
+                    </div>
+                </div>
+                <button style="background-color: #28a745; margin-top: 15px;" onclick='confirmAttendanceAndNotify("${foundChild.name}", "${foundChild.phone}", "${foundChild.id}")'>✅ ಚೆಕ್ ಮಾಡಿ ಹಾಜರಾತಿ ಖಚಿತಪಡಿಸಿ</button>
+            </div>
+        `;
+        speakText("ಮಗು ಪತ್ತೆಯಾಗಿದೆ. ಹಾಜರಾತಿ ಖಚಿತಪಡಿಸಿ.");
+    }
+
+    function confirmAttendanceAndNotify(childName, parentPhone, childId) {
+        // ವಾಟ್ಸಾಪ್ ಸಂದೇಶ ಲಿಂಕ್ ರಚಿಸುವುದು
+        let message = `ನಮಸ್ಕಾರ, ನಿಮ್ಮ ಮಗು ${childName} (ಐಡಿ: ${childId}) ಇಂದು ಶಾಲೆಗೆ ಸುರಕ್ಷಿತವಾಗಿ ತಲುಪಿದ್ದಾರೆ. ಹಾಜರಾತಿ ದಾಖಲಾಗಿದೆ. - ಶಾಲೆ ಮತ್ತು ಮಕ್ಕಳ ಸುರಕ್ಷತಾ ಆಪ್`;
+        let whatsappUrl = `https://wa.me/91${parentPhone}?text=${encodeURIComponent(message)}`;
+
+        // ಪಾಪ್-ಅಪ್ ಸಂದೇಶ ತೋರಿಸುವುದು
+        document.getElementById('popupTitle').innerText = "ಹಾಜರಾತಿ ಯಶಸ್ವಿ!";
+        document.getElementById('popupMessage').innerText = `ಮಕ್ಕಳ ಹಾಜರಾತಿ ಸ್ಕೂಲಿಗೆ ಆಗಿದ್ದು ಯಶಸ್ವಿಯಾಗಿದೆ!\nತಾಯಿ/ತಂದೆಗೆ (${parentPhone}) ವಾಟ್ಸಾಪ್ ನೋಟಿಫಿಕೇಶನ್ ಕಳುಹಿಸಲಾಗಿದೆ.`;
+        document.getElementById('popupModal').style.display = 'block';
+        speakText("ಮಕ್ಕಳ ಹಾಜರಾತಿ ಸ್ಕೂಲಿಗೆ ಆಗಿದ್ದು ಸಕ್ಸಸ್ ಆಗಿದೆ. ಪೋಷಕರಿಗೆ ನೋಟಿಫಿಕೇಶನ್ ಕಳುಹಿಸಲಾಗಿದೆ.");
+
+        // ವಾಟ್ಸಾಪ್ ತೆರೆಯಲು ಯತ್ನಿಸುವುದು
+        window.open(whatsappUrl, '_blank');
+
+        // ಕ್ಯಾಮೆರಾವನ್ನು ಮರುಹೊಂದಿಸುವುದು ಅಥವಾ ಮತ್ತೆ ಹಾಜರಾತಿ ಹಾಕಲು ಸಿದ್ಧಪಡಿಸುವುದು
+        document.getElementById('attendanceChildIdInput').value = "";
+        document.getElementById('scannedChildResult').innerHTML = "";
+        document.getElementById('attendancePreview').style.display = 'none';
     }
 </script>
 
