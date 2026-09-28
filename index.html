@@ -81,7 +81,6 @@
             display: none;
             border-radius: 5px;
         }
-        /* ಪಾಪ್-ಅಪ್ ಸಂದೇಶ ಸ್ಟೈಲ್ */
         .modal {
             display: none;
             position: fixed;
@@ -134,10 +133,24 @@
         </select>
     </div>
 
+    <!-- ೦. ಮುಖ್ಯ ಪೇಜ್ (Home Page) - ಎರಡು ಬಟನ್‌ಗಳು -->
+    <div id="homePage" class="page active-page">
+        <h2 onclick="speakText(this.innerText)">ಶಾಲೆ ಮತ್ತು ಮಕ್ಕಳ ಸುರಕ್ಷತಾ ಆಪ್</h2>
+        <p style="text-align: center; color: #666; margin-bottom: 30px;">ದಯವಿಟ್ಟು ಕೆಳಗಿನ ಆಯ್ಕೆಯನ್ನು ಆರಿಸಿ[span_6](start_span)[span_6](end_span)[span_7](start_span)[span_7](end_span)[span_8](start_span)[span_8](end_span)</p>
+        
+        <button style="background-color: #007bff; padding: 18px; font-size: 18px; margin-bottom: 20px;" onclick="goToTeacherRegister()">
+            👨‍🏫 ಶಿಕ್ಷಕರ ನೋಂದಣಿ (Teacher Registration)[span_9](start_span)[span_9](end_span)[span_10](start_span)[span_10](end_span)[span_11](start_span)[span_11](end_span)
+        </button>
+        
+        <button style="background-color: #ffc107; color: #000; font-weight: bold; padding: 18px; font-size: 18px;" onclick="promptTeacherAttendanceId()">
+            📋 ಮಕ್ಕಳ ಹಾಜರಾತಿ (Student Attendance)[span_12](start_span)[span_12](end_span)[span_13](start_span)[span_13](end_span)[span_14](start_span)[span_14](end_span)
+        </button>
+    </div>
+
     <!-- ೧. ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಪೇಜ್ -->
-    <div id="registerPage" class="page active-page">
-        <button class="back-btn" onclick="speakText('ಹಿಂದಕ್ಕೆ ತಿರುಗಿ')">⬅ ಹಿಂದಕ್ಕೆ ತಿರುಗಿ</button>
-        <h2 id="tRegTitle" onclick="speakText(this.innerText)">ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಪೇಜ್</h2>
+    <div id="registerPage" class="page">
+        <button class="back-btn" onclick="goToHomeFromRegister()">⬅ ಮುಖ್ಯ ಪೇಜ್‌ಗೆ ಹಿಂದಿರುಗಿ</button>
+        <h2 id="tRegTitle" onclick="speakText(this.innerText)">ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಪೇಜ್[span_15](start_span)[span_15](end_span)[span_16](start_span)[span_16](end_span)[span_17](start_span)[span_17](end_span)</h2>
         
         <form id="teacherForm" onsubmit="validateAndSubmit(event)">
             <div class="form-group">
@@ -225,37 +238,32 @@
 
     <!-- ೨. ಐಡಿ ಮತ್ತು ಮುಖಪುಟ ಪೇಜ್ -->
     <div id="idPage" class="page">
-        <button class="back-btn" onclick="goBackToRegister()">⬅ ಹಿಂದಕ್ಕೆ ತಿರುಗಿ</button>
-        <h2 onclick="speakText(this.innerText)">ನಿಮ್ಮ ಐಡಿ ವಿವರಗಳು</h2>
+        <button class="back-btn" onclick="goToHomeFromRegister()">⬅ ಮುಖ್ಯ ಪೇಜ್‌ಗೆ ಹಿಂದಿರುಗಿ</button>
+        <h2 onclick="speakText(this.innerText)">ನಿಮ್ಮ ಐಡಿ ವಿವರಗಳು[span_18](start_span)[span_18](end_span)[span_19](start_span)[span_19](end_span)[span_20](start_span)[span_20](end_span)</h2>
         <div style="text-align: center;">
             <img id="displayPhoto" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 15px;" alt="ಫೋಟೋ">
             <h3 id="displayName"></h3>
             <p><b>ಐಡಿ ಸಂಖ್ಯೆ:</b> <span id="displayId" style="color: #007bff; font-size: 22px;"></span></p>
             <p id="displayDetails"></p>
             
-            <!-- ಮಕ್ಕಳನ್ನು ಸೇರಿಸುವ ಬಟನ್ -->
-            <button style="background-color: #28a745;" onclick="openChildPage()">ನಿಮ್ಮ ಮಕ್ಕಳನ್ನು / ಹೈಸ್ಕೂಲ್ ಮಕ್ಕಳನ್ನು ಇಲ್ಲಿ ಸೇರಿಸಿ</button>
-            
-            <!-- ಮಕ್ಕಳ ಹಾಜರಾತಿ ಬಟನ್ -->
-            <button style="background-color: #ffc107; color: #000; font-weight: bold;" onclick="promptTeacherAttendanceId()">📋 ಮಕ್ಕಳ ಹಾಜರಾತಿ ಹಾಕಲು ಇಲ್ಲಿ ಒತ್ತಿ</button>
+            <button style="background-color: #28a745;" onclick="openChildPage()">ನಿಮ್ಮ ಮಕ್ಕಳನ್ನು / ಹೈಸ್ಕೂಲ್ ಮಕ್ಕಳನ್ನು ಇಲ್ಲಿ ಸೇರಿಸಿ[span_21](start_span)[span_21](end_span)[span_22](start_span)[span_22](end_span)[span_23](start_span)[span_23](end_span)</button>
+            <button style="background-color: #ffc107; color: #000; font-weight: bold;" onclick="promptTeacherAttendanceId()">📋 ಮಕ್ಕಳ ಹಾಜರಾತಿ ಹಾಕಲು ಇಲ್ಲಿ ಒತ್ತಿ[span_24](start_span)[span_24](end_span)[span_25](start_span)[span_25](end_span)[span_26](start_span)[span_26](end_span)</button>
         </div>
 
         <hr style="margin: 20px 0;">
 
-        <!-- ಮಕ್ಕಳ ಐಡಿ ಹುಡುಕಲು ಸರ್ಚ್ ಬಾಕ್ಸ್ -->
         <div class="form-group">
             <label onclick="speakText('ಮಕ್ಕಳ ಐಡಿ ಅಥವಾ ಮೊಬೈಲ್ ನಂಬರ್ ಬಳಸಿ ಹುಡುಕಿ')">🔍 ಮಕ್ಕಳ ಐಡಿ ಅಥವಾ ಮೊಬೈಲ್ ನಂಬರ್ ಹುಡುಕಿ:</label>
             <input type="text" id="searchChildInput" placeholder="ಹೆಸರು, ಐಡಿ ಅಥವಾ ಮೊಬೈಲ್ ನಂಬರ್ ಹಾಕಿ..." onkeyup="filterChildren()">
         </div>
 
-        <!-- ಮಕ್ಕಳ ಐಡಿಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ -->
         <div id="childrenContainer"></div>
     </div>
 
     <!-- ೩. ಮಕ್ಕಳ ನೋಂದಣಿ ಪೇಜ್ -->
     <div id="childRegPage" class="page">
-        <button class="back-btn" onclick="backToIdPage()">⬅ ಹಿಂದಕ್ಕೆ ತಿರುಗಿ</button>
-        <h2 onclick="speakText(this.innerText)">ಮಕ್ಕಳ ನೋಂದಣಿ ಫಾರ್ಮ್</h2>
+        <button class="back-btn" onclick="backToIdPage()">⬅ ಹಿಂದಕ್ಕೆ ತಿರುಗಿ[span_27](start_span)[span_27](end_span)[span_28](start_span)[span_28](end_span)[span_29](start_span)[span_29](end_span)</button>
+        <h2 onclick="speakText(this.innerText)">ಮಕ್ಕಳ ನೋಂದಣಿ ಫಾರ್ಮ್[span_30](start_span)[span_30](end_span)[span_31](start_span)[span_31](end_span)[span_32](start_span)[span_32](end_span)</h2>
         
         <form id="childForm" onsubmit="saveChildData(event)">
             <div class="form-group">
@@ -283,7 +291,7 @@
             </div>
 
             <div class="form-group">
-                <label onclick="speakText('ಮಗುವಿನ ಊರು ಯಾವುದು')">ಮಗುವಿಂದು ಊರು ಯಾವುದು:</label>
+                <label onclick="speakText('ಮಗುವಿನ ಊರು ಯಾವುದು')">ಮಗುವಿನ ಊರು ಯಾವುದು:</label>
                 <input type="text" id="childVillage" placeholder="ಊರಿನ ಹೆಸರು">
                 <div id="childVillageError" class="error">ಊರಿನ ಹೆಸರು ಹಾಕಿ</div>
             </div>
@@ -328,8 +336,8 @@
 
     <!-- ೪. ಮಕ್ಕಳ ಹಾಜರಾತಿ ಮತ್ತು ಕ್ಯಾಮೆರಾ ಸ್ಕ್ಯಾನಿಂಗ್ ಪೇಜ್ -->
     <div id="attendancePage" class="page">
-        <button class="back-btn" onclick="backToIdPageFromAttendance()">⬅ ಮುಖ್ಯ ಪೇಜ್‌ಗೆ ಹಿಂದಿರುಗಿ</button>
-        <h2 onclick="speakText(this.innerText)">ಮಕ್ಕಳ ಹಾಜರಾತಿ ಕ್ಯಾಮೆರಾ ಸ್ಕ್ಯಾನ್</h2>
+        <button class="back-btn" onclick="goToHomeFromAttendance()">⬅ ಮುಖ್ಯ ಪೇಜ್‌ಗೆ ಹಿಂದಿರುಗಿ[span_33](start_span)[span_33](end_span)[span_34](start_span)[span_34](end_span)[span_35](start_span)[span_35](end_span)</button>
+        <h2 onclick="speakText(this.innerText)">ಮಕ್ಕಳ ಹಾಜರಾತಿ ಕ್ಯಾಮೆರಾ ಸ್ಕ್ಯಾನ್[span_36](start_span)[span_36](end_span)[span_37](start_span)[span_37](end_span)[span_38](start_span)[span_38](end_span)</h2>
         
         <div class="form-group">
             <label onclick="speakText('ಮಕ್ಕಳ ಹಾಜರಾತಿಗಾಗಿ ಫೋಟೋ ತೆಗೆಯಿರಿ ಅಥವಾ ಐಡಿ ನಮೂದಿಸಿ')">📷 ಮಕ್ಕಳ ಫೋಟೋ ತೆಗೆಯಿರಿ ಅಥವಾ ಐಡಿ ಹಾಕಿ:</label>
@@ -344,7 +352,6 @@
 
         <button style="background-color: #17a2b8;" onclick="checkChildAttendance()">ಚೆಕ್ ಮಾಡಿ (Check)</button>
 
-        <!-- ಸ್ಕ್ಯಾನ್ ಮಾಡಿದ ಮಗುವಿನ ವಿವರಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ -->
         <div id="scannedChildResult" style="margin-top: 20px;"></div>
     </div>
 </div>
@@ -385,6 +392,23 @@
         } else {
             document.getElementById('tRegTitle').innerText = "ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಪೇಜ್";
         }
+    }
+
+    function goToTeacherRegister() {
+        document.getElementById('homePage').classList.remove('active-page');
+        document.getElementById('registerPage').classList.add('active-page');
+        speakText('ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಪೇಜ್ ತೆರೆಯಲಾಗಿದೆ');
+    }
+
+    function goToHomeFromRegister() {
+        document.getElementById('registerPage').classList.remove('active-page');
+        document.getElementById('idPage').classList.remove('active-page');
+        document.getElementById('homePage').classList.add('active-page');
+    }
+
+    function goToHomeFromAttendance() {
+        document.getElementById('attendancePage').classList.remove('active-page');
+        document.getElementById('homePage').classList.add('active-page');
     }
 
     function previewImage(event) {
@@ -469,11 +493,6 @@
         speakText("ನಿಮ್ಮ ಐಡಿ ಸಫಲವಾಗಿದೆ");
     }
 
-    function goBackToRegister() {
-        document.getElementById('idPage').classList.remove('active-page');
-        document.getElementById('registerPage').classList.add('active-page');
-    }
-
     function openChildPage() {
         document.getElementById('idPage').classList.remove('active-page');
         document.getElementById('childRegPage').classList.add('active-page');
@@ -485,23 +504,18 @@
         document.getElementById('idPage').classList.add('active-page');
     }
 
-    function backToIdPageFromAttendance() {
-        document.getElementById('attendancePage').classList.remove('active-page');
-        document.getElementById('idPage').classList.add('active-page');
-    }
-
-    /* ಹಾಜರಾತಿ ಬಟನ್ ಒತ್ತಿದಾಗ 4 ಡಿಜಿಟಲ್ ಟೀಚರ್ ಐಡಿ ಕೇಳುವುದು */
     function promptTeacherAttendanceId() {
-        let enteredId = prompt("ದಯವಿಟ್ಟು ನಿಮ್ಮ 4 ಡಿಜಿಟಲ್ ಐಡಿಯನ್ನು ನಮೂದಿಸಿ:");
-        if (enteredId === null) return; // ರದ್ದುಗೊಳಿಸಿದರೆ
+        let enteredId = prompt("ಹಾಜರಾತಿಗಾಗಿ ನಿಮ್ಮ 4 ಡಿಜಿಟಲ್ ಟೀಚರ್ ಐಡಿ ನಮೂದಿಸಿ[span_39](start_span)[span_39](end_span)[span_40](start_span)[span_40](end_span)[span_41](start_span)[span_41](end_span):");
+        if (enteredId === null) return;
 
-        if (enteredId.trim() === generatedId) {
+        if (generatedId !== "" && enteredId.trim() === generatedId) {
             speakText("ಐಡಿ ಸರಿಯಾಗಿದೆ. ಹಾಜರಾತಿ ಪೇಜ್ ತೆರೆಯಲಾಗಿದೆ.");
+            document.getElementById('homePage').classList.remove('active-page');
             document.getElementById('idPage').classList.remove('active-page');
             document.getElementById('attendancePage').classList.add('active-page');
         } else {
-            alert("ನೀವು ನಮೂದಿಸಿದ ಐಡಿ ತಪ್ಪಾಗಿದೆ ಅಥವಾ ಲಾಗಿನ್ ಆಗಿಲ್ಲ! ದಯವಿಟ್ಟು ಸರಿಯಾದ ಐಡಿ ಹಾಕಿ.");
-            speakText("ಐಡಿ ತಪ್ಪಾಗಿದೆ");
+            alert("ದಯವಿಟ್ಟು ಮೊದಲು ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಪೂರ್ಣಗೊಳಿಸಿ ಅಥವಾ ಸರಿಯಾದ ಐಡಿ ನಮೂದಿಸಿ!");
+            speakText("ಐಡಿ ತಪ್ಪಾಗಿದೆ ಅಥವಾ ನೋಂದಣಿ ಆಗಿಲ್ಲ");
         }
     }
 
@@ -607,7 +621,6 @@
         }
     }
 
-    /* ಮಗುವಿನ ಹಾಜರಾತಿ ಪರಿಶೀಲನೆ ಮತ್ತು ವಾಟ್ಸಾಪ್ ನೋಟಿಫಿಕೇಶನ್ */
     function checkChildAttendance() {
         let searchId = document.getElementById('attendanceChildIdInput').value.trim();
         let resultContainer = document.getElementById('scannedChildResult');
@@ -625,7 +638,6 @@
             return;
         }
 
-        // ಮಗುವಿನ ವಿವರಗಳು ಮತ್ತು ಚೆಕ್ ಬಟನ್ ತೋರಿಸುವುದು
         resultContainer.innerHTML = `
             <div class="child-card" style="border: 2px solid #28a745; background: #e8f5e9;">
                 <h3 style="color: #2e7d32; margin-top: 0;">ಮಗು ಪತ್ತೆಯಾಗಿದೆ!</h3>
@@ -638,27 +650,23 @@
                         <p style="margin: 0; font-size: 13px;">ತರಗತಿ: ${foundChild.className} | ಊರು: ${foundChild.village}</p>
                     </div>
                 </div>
-                <button style="background-color: #28a745; margin-top: 15px;" onclick='confirmAttendanceAndNotify("${foundChild.name}", "${foundChild.phone}", "${foundChild.id}")'>✅ ಚೆಕ್ ಮಾಡಿ ಹಾಜರಾತಿ ಖಚಿತಪಡಿಸಿ</button>
+                <button style="background-color: #28a745; margin-top: 15px;" onclick='confirmAttendanceAndNotify("${foundChild.name}", "${foundChild.phone}", "${foundChild.id}")'>✅ ಚೆಕ್ ಮಾಡಿ ಹಾಜರಾತಿ ಖಚಿತಪಡಿಸಿ[span_42](start_span)[span_42](end_span)[span_43](start_span)[span_43](end_span)[span_44](start_span)[span_44](end_span)</button>
             </div>
         `;
         speakText("ಮಗು ಪತ್ತೆಯಾಗಿದೆ. ಹಾಜರಾತಿ ಖಚಿತಪಡಿಸಿ.");
     }
 
     function confirmAttendanceAndNotify(childName, parentPhone, childId) {
-        // ವಾಟ್ಸಾಪ್ ಸಂದೇಶ ಲಿಂಕ್ ರಚಿಸುವುದು
         let message = `ನಮಸ್ಕಾರ, ನಿಮ್ಮ ಮಗು ${childName} (ಐಡಿ: ${childId}) ಇಂದು ಶಾಲೆಗೆ ಸುರಕ್ಷಿತವಾಗಿ ತಲುಪಿದ್ದಾರೆ. ಹಾಜರಾತಿ ದಾಖಲಾಗಿದೆ. - ಶಾಲೆ ಮತ್ತು ಮಕ್ಕಳ ಸುರಕ್ಷತಾ ಆಪ್`;
         let whatsappUrl = `https://wa.me/91${parentPhone}?text=${encodeURIComponent(message)}`;
 
-        // ಪಾಪ್-ಅಪ್ ಸಂದೇಶ ತೋರಿಸುವುದು
         document.getElementById('popupTitle').innerText = "ಹಾಜರಾತಿ ಯಶಸ್ವಿ!";
-        document.getElementById('popupMessage').innerText = `ಮಕ್ಕಳ ಹಾಜರಾತಿ ಸ್ಕೂಲಿಗೆ ಆಗಿದ್ದು ಯಶಸ್ವಿಯಾಗಿದೆ!\nತಾಯಿ/ತಂದೆಗೆ (${parentPhone}) ವಾಟ್ಸಾಪ್ ನೋಟಿಫಿಕೇಶನ್ ಕಳುಹಿಸಲಾಗಿದೆ.`;
+        document.getElementById('popupMessage').innerText = `ಮಕ್ಕಳ ಹಾಜರಾತಿ ಯಶಸ್ವಿಯಾಗಿದೆ!\nಪೋಷಕರಿಗೆ (${parentPhone}) ವಾಟ್ಸಾಪ್ ನೋಟಿಫಿಕೇಶನ್ ಕಳುಹಿಸಲಾಗಿದೆ.`;
         document.getElementById('popupModal').style.display = 'block';
-        speakText("ಮಕ್ಕಳ ಹಾಜರಾತಿ ಸ್ಕೂಲಿಗೆ ಆಗಿದ್ದು ಸಕ್ಸಸ್ ಆಗಿದೆ. ಪೋಷಕರಿಗೆ ನೋಟಿಫಿಕೇಶನ್ ಕಳುಹಿಸಲಾಗಿದೆ.");
+        speakText("ಮಕ್ಕಳ ಹಾಜರಾತಿ ಸಕ್ಸಸ್ ಆಗಿದೆ. ಪೋಷಕರಿಗೆ ನೋಟಿಫಿಕೇಶನ್ ಕಳುಹಿಸಲಾಗಿದೆ.");
 
-        // ವಾಟ್ಸಾಪ್ ತೆರೆಯಲು ಯತ್ನಿಸುವುದು
         window.open(whatsappUrl, '_blank');
 
-        // ಕ್ಯಾಮೆರಾವನ್ನು ಮರುಹೊಂದಿಸುವುದು ಅಥವಾ ಮತ್ತೆ ಹಾಜರಾತಿ ಹಾಕಲು ಸಿದ್ಧಪಡಿಸುವುದು
         document.getElementById('attendanceChildIdInput').value = "";
         document.getElementById('scannedChildResult').innerHTML = "";
         document.getElementById('attendancePreview').style.display = 'none';
