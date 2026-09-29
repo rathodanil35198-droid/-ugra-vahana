@@ -159,6 +159,11 @@
             👨‍🏫 ಶಿಕ್ಷಕರ ನೋಂದಣಿ / ಐಡಿ ವಿವರ (Teacher Registration)
         </button>
         
+        <!-- ಮುಖ್ಯ ಪೇಜ್‌ಗೆ ಹೊಸ ಮಕ್ಕಳನ್ನು ಸೇರಿಸುವ ಬಟನ್ ಸೇರಿಸಲಾಗಿದೆ -->
+        <button class="small-btn" id="btnHomeAddChild" style="background-color: #28a745; color: white;" onclick="promptTeacherIdForChildReg()">
+            ➕ ಶಿಕ್ಷಕರು ನಿಮ್ಮ ಮಕ್ಕಳನ್ನು ಇಲ್ಲಿ ಸೇರಿಸಿ (Add New Child)
+        </button>
+
         <button class="small-btn" id="btnStudentAtt" style="background-color: #ffc107; color: #000;" onclick="promptTeacherAttendanceId()">
             📋 ಮಕ್ಕಳ ಹಾಜರಾತಿ (Student Attendance)
         </button>
@@ -232,9 +237,10 @@
                 </select>
             </div>
 
+            <!-- ಸೆಲ್ಫಿ ಕ್ಯಾಮೆರಾ ನೇರವಾಗಿ ಓಪನ್ ಆಗಲು capture="user" ಸೇರಿಸಲಾಗಿದೆ -->
             <div class="form-group">
-                <label id="lblSelfie">ನಿಮ್ಮ ಫೋಟೋ ಹಾಕಿ (ಕ್ಯಾಮೆರಾ ಅಥವಾ ಗ್ಯಾಲರಿ):</label>
-                <input type="file" id="selfie" accept="image/*" onchange="previewImage(event)">
+                <label id="lblSelfie">ನಿಮ್ಮ ನೇರ ಸೆಲ್ಫಿ ಫೋಟೋ ಹಾಕಿ (ಕ್ಯಾಮೆರಾ ಓಪನ್ ಆಗುತ್ತದೆ):</label>
+                <input type="file" id="selfie" accept="image/*" capture="user" onchange="previewImage(event)">
                 <img id="preview" alt="ಪ್ರಿವ್ಯೂ">
             </div>
 
@@ -259,6 +265,7 @@
 
         <hr style="margin: 20px 0;">
 
+        <!-- ಮಕ್ಕಳ ಹುಡುಕಾಟ (Search Option) -->
         <div class="form-group">
             <label id="lblSearchChild">🔍 ಮಕ್ಕಳ ಐಡಿ ಅಥವಾ ಮೊಬೈಲ್ ನಂಬರ್ ಹುಡುಕಿ:</label>
             <input type="text" id="searchChildInput" placeholder="ಹೆಸರು, ಐಡಿ ಅಥವಾ ಮೊಬೈಲ್ ನಂಬರ್ ಹಾಕಿ..." onkeyup="filterChildren()">
@@ -319,7 +326,7 @@
 
             <div class="form-group">
                 <label id="lblChildPhoto">ಮಕ್ಕಳ ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ:</label>
-                <input type="file" id="childSelfie" accept="image/*" onchange="previewChildImage(event, 'selfie')">
+                <input type="file" id="childSelfie" accept="image/*" capture="user" onchange="previewChildImage(event, 'selfie')">
                 <img id="childPreview" alt="ಪ್ರಿವ್ಯೂ">
             </div>
 
@@ -343,7 +350,6 @@
             <video id="videoElement" autoplay playsinline muted></video>
             <canvas id="snapshotCanvas" style="display:none;"></canvas>
             
-            <!-- ಕ್ಯಾಮೆರಾ ಬದಲಾಯಿಸುವ ಬಟನ್ (ಬ್ಯಾಕ್ ಮತ್ತು ಸೆಲ್ಫಿ ಕ್ಯಾಮೆರಾ) -->
             <button type="button" style="background-color: #6c757d; color: white; margin-bottom: 10px;" onclick="switchCamera()">🔄 ಕ್ಯಾಮೆರಾ ಬದಲಾಯಿಸಿ (Back/Selfie)</button>
             
             <button type="button" style="background-color: #28a745; color: white;" onclick="scanFaceAndMatch()">ಮುಖ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ ಮ್ಯಾಚ್ ಮಾಡಿ</button>
@@ -375,7 +381,7 @@
     let childrenList = JSON.parse(localStorage.getItem('childrenList')) || [];
     let currentLang = 'kn';
     let mediaStream = null;
-    let useFrontCamera = true; // ಡಿಫಾಲ್ಟ್ ಸೆಲ್ಫಿ ಕ್ಯಾಮೆರಾ
+    let useFrontCamera = true;
     let afterNotificationAction = null;
 
     const translations = {
@@ -384,6 +390,7 @@
             mainTitle: "ಶಾಲೆ ಮತ್ತು ಮಕ್ಕಳ ಸುರಕ್ಷತಾ ಆಪ್",
             mainSub: "ದಯವಿಟ್ಟು ಕೆಳಗಿನ ಆಯ್ಕೆಯನ್ನು ಆರಿಸಿ",
             btnTeacherReg: "👨‍🏫 ಶಿಕ್ಷಕರ ನೋಂದಣಿ / ಐಡಿ ವಿವರ (Teacher Registration)",
+            btnHomeAddChild: "➕ ಶಿಕ್ಷಕರು ನಿಮ್ಮ ಮಕ್ಕಳನ್ನು ಇಲ್ಲಿ ಸೇರಿಸಿ",
             btnStudentAtt: "📋 ಮಕ್ಕಳ ಹಾಜರಾತಿ (Student Attendance)",
             btnBackHome: "⬅ ಮುಖ್ಯ ಪೇಜ್‌ಗೆ ಹಿಂದಿರುಗಿ",
             tRegTitle: "ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಪೇಜ್",
@@ -395,7 +402,7 @@
             lblSchool: "ಹೈಸ್ಕೂಲ್ / ಕಾಲೇಜು ಹೆಸರು:",
             lblClass: "ತರಗತಿ ಆಯ್ಕೆಮಾಡಿ:",
             lblSubject: "ಪಾಠದ ವಿಷಯ:",
-            lblSelfie: "ನಿಮ್ಮ ಫೋಟೋ ಹಾಕಿ (ಕ್ಯಾಮೆರಾ ಅಥವಾ ಗ್ಯಾಲರಿ):",
+            lblSelfie: "ನಿಮ್ಮ ನೇರ ಸೆಲ್ಫಿ ಫೋಟೋ ಹಾಕಿ (ಕ್ಯಾಮೆರಾ ಓಪನ್ ಆಗುತ್ತದೆ):",
             btnSaveTeacher: "ಸಂರಕ್ಷಿಸಿ ಮತ್ತು ಐಡಿ ಪಡೆಯಿರಿ",
             lblIdDetailsTitle: "ನಿಮ್ಮ ಐಡಿ ವಿವರಗಳು",
             lblIdNum: "ಐಡಿ ಸಂಖ್ಯೆ:",
@@ -425,6 +432,7 @@
             mainTitle: "स्कूल और बाल सुरक्षा ऐप",
             mainSub: "कृपया नीचे दिए गए विकल्प को चुनें",
             btnTeacherReg: "👨‍🏫 शिक्षक पंजीकरण / आईडी विवरण",
+            btnHomeAddChild: "➕ बच्चों को यहाँ जोड़ें",
             btnStudentAtt: "📋 बच्चों की उपस्थिति",
             btnBackHome: "⬅ मुख्य पृष्ठ पर वापस जाएं",
             tRegTitle: "शिक्षक पंजीकरण पृष्ठ",
@@ -436,7 +444,7 @@
             lblSchool: "हाई स्कूल / कॉलेज का नाम:",
             lblClass: "कक्षा चुनें:",
             lblSubject: "विषय:",
-            lblSelfie: "अपनी फोटो अपलोड करें:",
+            lblSelfie: "अपनी लाइव सेल्फी फोटो अपलोड करें:",
             btnSaveTeacher: "सहेजें और आईडी प्राप्त करें",
             lblIdDetailsTitle: "आपकी आईडी विवरण",
             lblIdNum: "आईडी नंबर:",
@@ -466,6 +474,7 @@
             mainTitle: "School & Child Safety App",
             mainSub: "Please select an option below",
             btnTeacherReg: "👨‍🏫 Teacher Registration / ID Details",
+            btnHomeAddChild: "➕ Add Children Here",
             btnStudentAtt: "📋 Student Attendance",
             btnBackHome: "⬅ Back to Home",
             tRegTitle: "Teacher Registration Page",
@@ -477,7 +486,7 @@
             lblSchool: "School / College Name:",
             lblClass: "Select Class:",
             lblSubject: "Subject:",
-            lblSelfie: "Upload Your Photo:",
+            lblSelfie: "Upload Your Live Selfie:",
             btnSaveTeacher: "Save and Get ID",
             lblIdDetailsTitle: "Your ID Details",
             lblIdNum: "ID Number:",
@@ -512,6 +521,7 @@
         document.getElementById('mainTitle').innerText = t.mainTitle;
         document.getElementById('mainSub').innerText = t.mainSub;
         document.getElementById('btnTeacherReg').innerText = t.btnTeacherReg;
+        document.getElementById('btnHomeAddChild').innerText = t.btnHomeAddChild;
         document.getElementById('btnStudentAtt').innerText = t.btnStudentAtt;
         document.getElementById('btnBackHome').innerText = t.btnBackHome;
         document.getElementById('btnBackHome2').innerText = t.btnBackHome;
@@ -560,6 +570,25 @@
         } else {
             document.getElementById('homePage').classList.remove('active-page');
             document.getElementById('registerPage').classList.add('active-page');
+        }
+    }
+
+    function promptTeacherIdForChildReg() {
+        let savedTeacher = localStorage.getItem('teacherData');
+        if (!savedTeacher) {
+            alert("ದಯವಿಟ್ಟು ಮೊದಲು ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಪೂರ್ಣಗೊಳಿಸಿ ನಂತರ ಮಕ್ಕಳನ್ನು ಸೇರಿಸಿ!");
+            return;
+        }
+
+        let teacher = JSON.parse(savedTeacher);
+        let enteredId = prompt("ಮಕ್ಕಳನ್ನು ಸೇರಿಸಲು ನಿಮ್ಮ 4 ಡಿಜಿಟಲ್ ಟೀಚರ್ ಐಡಿ ನಮೂದಿಸಿ:");
+        if (enteredId === null) return;
+
+        if (enteredId.trim() === teacher.id) {
+            document.getElementById('homePage').classList.remove('active-page');
+            document.getElementById('childRegPage').classList.add('active-page');
+        } else {
+            alert("ನೀವು ನಮೂದಿಸಿದ ಐಡಿ ತಪ್ಪಾಗಿದೆ!");
         }
     }
 
@@ -631,7 +660,7 @@
         let subjectVal = document.getElementById('subjectSelect').value;
 
         if(!name || phone.length !== 10 || !district || !taluk || !village || !school || !classVal || !subjectVal || !capturedImageSrc) {
-            alert("ದಯವಿಟ್ಟು ಎಲ್ಲಾ ಮಾಹಿತಿಗಳನ್ನು ಸರಿಯಾಗಿ ಭರ್ತಿ ಮಾಡಿ ಮತ್ತು ಫೋಟೋ ಹಾಕಿ!");
+            alert("ದಯವಿಟ್ಟು ಎಲ್ಲಾ ಮಾಹಿತಿಗಳನ್ನು ಸರಿಯಾಗಿ ಭರ್ತಿ ಮಾಡಿ ಮತ್ತು ನೇರ ಸೆಲ್ಫಿ ಫೋಟೋ ಹಾಕಿ!");
             return;
         }
 
@@ -763,35 +792,6 @@
         let ctx = canvas.getContext('2d');
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-        // ಕೇವಲ ಮುಖವಿದೆಯಾ ಅಥವಾ ಬೇರೆ ವಸ್ತುಗಳಿವೆಯಾ ಎಂದು ಪರೀಕ್ಷಿಸಲು ಬಣ್ಣದ ಪರಿಶೀಲನೆ
-        let imgData = ctx.getImageData(canvas.width / 4, canvas.height / 4, canvas.width / 2, canvas.height / 2);
-        let data = imgData.data;
-        let rSum = 0, gSum = 0, bSum = 0;
-        
-        for (let i = 0; i < data.length; i += 4) {
-            rSum += data[i];
-            gSum += data[i+1];
-            bSum += data[i+2];
-        }
-        let totalPixels = data.length / 4;
-        let avgR = rSum / totalPixels;
-        let avgG = gSum / totalPixels;
-        let avgB = bSum / totalPixels;
-
-        let isHumanFaceDetected = (avgR > 60 && avgG > 40 && avgB > 20 && Math.abs(avgR - avgG) > 5);
-
-        if (!isHumanFaceDetected) {
-            // ಮುಖ ಕಾಣದಿದ್ದರೆ ಅಥವಾ ಬೇರೆ ವಸ್ತುಗಳಿದ್ದರೆ ಪಾಪ್-ಅಪ್ ಸಂದೇಶ ತೋರಿಸುವುದು
-            document.getElementById('popupTitle').innerText = "ಗಮನಿಸಿ!";
-            document.getElementById('popupMessage').innerText = "ಮುಖ ಸರಿಯಾಗಿ ಕ್ಯಾಪ್ಚರ್ ಆಗುತ್ತಿಲ್ಲ! ನಮ್ಮ ಹೈಸ್ಕೂಲ್‌ನಲ್ಲಿ ಇವರ ಗುರುತು ತಿಳಿಯಲು ಆಗುತ್ತಿಲ್ಲ. ದಯವಿಟ್ಟು ಮಗುವಿನ ಐಡಿ ನಮೂದಿಸಿ.";
-            afterNotificationAction = () => {
-                resultContainer.innerHTML = "<p style='color:red; text-align:center; font-weight:bold; font-size:16px;'>⚠️ ಮುಖ ಮ್ಯಾಚ್ ಆಗಲಿಲ್ಲ! ದಯವಿಟ್ಟು ಕೆಳಗೆ ಮಗುವಿನ ಐಡಿ ನಂಬರ್ ಹಾಕಿ.</p>";
-            };
-            document.getElementById('popupModal').style.display = 'block';
-            return;
-        }
-
-        // ಮುಖ ಸರಿಯಾಗಿದ್ದರೆ ಮಗುವಿನ ವಿವರಗಳನ್ನು ತೋರಿಸುವುದು
         let matchedChild = childrenList[0]; 
         showMatchedChild(matchedChild);
     }
@@ -819,7 +819,7 @@
         let resultContainer = document.getElementById('scannedChildResult');
         resultContainer.innerHTML = `
             <div class="child-card" style="border: 2px solid #28a745; background: #e8f5e9;">
-                <h3 style="color: #2e7d32; margin-top: 0;">ಮುಖ ಮ್ಯಾಚ್ ಆಯಿತು! ಮಗು ಪತ್ತೆಯಾಗಿದೆ!</h3>
+                <h3 style="color: #2e7d32; margin-top: 0;">ಮಗು ಪತ್ತೆಯಾಗಿದೆ!</h3>
                 <div style="display: flex; align-items: center; gap: 10px;">
                     <img src="${child.selfie}" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;" alt="ಫೋಟೋ">
                     <div>
