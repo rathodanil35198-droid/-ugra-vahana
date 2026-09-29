@@ -341,8 +341,11 @@
         <div class="form-group" style="text-align: center;">
             <label id="lblAttLiveCam">📷 ಮೊಬೈಲ್ ಕ್ಯಾಮೆರಾ ಮುಖವನ್ನು ಸ್ಕ್ಯಾನ್ ಮಾಡುತ್ತಿದೆ:</label>
             <video id="videoElement" autoplay playsinline muted></video>
-            <!-- ಗುಪ್ತ ಕ್ಯಾನ್ವಾಸ್ ಫೇಸ್ ಚೆಕ್ ಮಾಡಲು ಬಳಸಲಾಗುತ್ತದೆ -->
             <canvas id="snapshotCanvas" style="display:none;"></canvas>
+            
+            <!-- ಕ್ಯಾಮೆರಾ ಬದಲಾಯಿಸುವ ಬಟನ್ (ಬ್ಯಾಕ್ ಮತ್ತು ಸೆಲ್ಫಿ ಕ್ಯಾಮೆರಾ) -->
+            <button type="button" style="background-color: #6c757d; color: white; margin-bottom: 10px;" onclick="switchCamera()">🔄 ಕ್ಯಾಮೆರಾ ಬದಲಾಯಿಸಿ (Back/Selfie)</button>
+            
             <button type="button" style="background-color: #28a745; color: white;" onclick="scanFaceAndMatch()">ಮುಖ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ ಮ್ಯಾಚ್ ಮಾಡಿ</button>
         </div>
 
@@ -372,7 +375,8 @@
     let childrenList = JSON.parse(localStorage.getItem('childrenList')) || [];
     let currentLang = 'kn';
     let mediaStream = null;
-    let afterNotificationAction = null; // ಓಕೆ ಒತ್ತಿದ ಮೇಲೆ ಏನು ಮಾಡಬೇಕು ಎಂದು ನಿರ್ಧರಿಸಲು
+    let useFrontCamera = true; // ಡಿಫಾಲ್ಟ್ ಸೆಲ್ಫಿ ಕ್ಯಾಮೆರಾ
+    let afterNotificationAction = null;
 
     const translations = {
         kn: {
@@ -707,19 +711,33 @@
         const video = document.getElementById('videoElement');
         document.getElementById('scannedChildResult').innerHTML = "";
         
+        if (mediaStream) {
+            mediaStream.getTracks().forEach(track => track.stop());
+        }
+
+        let constraints = {
+            video: { facingMode: useFrontCamera ? 'user' : 'environment' },
+            audio: false
+        };
+
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-            navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false })
+            navigator.mediaDevices.getUserMedia(constraints)
                 .then((stream) => {
                     mediaStream = stream;
                     video.srcObject = stream;
                 })
                 .catch((err) => {
                     console.error("Camera error: ", err);
-                    alert("ಕ್ಯಾಮೆರಾ ಪ್ರವೇಶ ಸಿಗುತ್ತಿಲ್ಲ. ಬ್ರೌಸರ್ ಲಾಕ್ (Lock) ಐಕಾನ್ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿ ಕ್ಯಾಮೆರಾ ಅನುಮತಿ 'Allow' ಮಾಡಿ.");
+                    alert("ಕ್ಯಾಮೆರಾ ಪ್ರವೇಶ ಸಿಗುತ್ತಿಲ್ಲ. ಬ್ರೌಸರ್ ಲಾಕ್ ಐಕಾನ್ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿ ಕ್ಯಾಮೆರಾ ಅನುಮತಿ 'Allow' ಮಾಡಿ.");
                 });
         } else {
             alert("ನಿಮ್ಮ ಬ್ರೌಸರ್ ಕ್ಯಾಮೆರಾವನ್ನು ಬೆಂಬಲಿಸುವುದಿಲ್ಲ.");
         }
+    }
+
+    function switchCamera() {
+        useFrontCamera = !useFrontCamera;
+        startCamera();
     }
 
     function stopCamera() {
@@ -730,7 +748,6 @@
         document.getElementById('scannedChildResult').innerHTML = "";
     }
 
-    // ಕುರ್ಚಿ ಅಥವಾ ವಸ್ತುಗಳು ಬಿದ್ದರೆ ಫೇಸ್ ಡಿಟೆಕ್ಷನ್ ಫೇಲ್ ಮಾಡಲು ಪಿಕ್ಸೆಲ್ ಕಲರ್ ಮತ್ತು ಬ್ರೈಟ್ನೆಸ್ ಅನಲೈಸ್ ಮಾಡುವುದು
     function scanFaceAndMatch() {
         let video = document.getElementById('videoElement');
         let canvas = document.getElementById('snapshotCanvas');
@@ -746,7 +763,7 @@
         let ctx = canvas.getContext('2d');
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-        // ಕ್ಯಾಮೆರಾದಲ್ಲಿ ಮುಖವಿದೆಯಾ ಅಥವಾ ಬರೀ ಕುರ್ಚಿ/ವಸ್ತುಗಳಿವೆಯಾ ಎಂದು ಪರೀಕ್ಷಿಸಲು ಮಧ್ಯಭಾಗದ ಬಣ್ಣಗಳನ್ನು ಪರಿಶೀಲಿಸುವುದು
+        // ಕೇವಲ ಮುಖವಿದೆಯಾ ಅಥವಾ ಬೇರೆ ವಸ್ತುಗಳಿವೆಯಾ ಎಂದು ಪರೀಕ್ಷಿಸಲು ಬಣ್ಣದ ಪರಿಶೀಲನೆ
         let imgData = ctx.getImageData(canvas.width / 4, canvas.height / 4, canvas.width / 2, canvas.height / 2);
         let data = imgData.data;
         let rSum = 0, gSum = 0, bSum = 0;
@@ -761,16 +778,20 @@
         let avgG = gSum / totalPixels;
         let avgB = bSum / totalPixels;
 
-        // ಕೇವಲ ವಸ್ತುಗಳು ಅಥವಾ ಕತ್ತಲು/ಖಾಲಿ ಜಾಗವಿದ್ದರೆ (ಮುಖದ ತ್ವಚೆಯ ಛಾಯೆ ಇಲ್ಲದಿದ್ದರೆ) ಮ್ಯಾಚ್ ನಿರಾಕರಿಸುವುದು
-        // ಮನುಷ್ಯನ ಚರ್ಮದ ಬಣ್ಣ ಸಾಮಾನ್ಯವಾಗಿ ಕೆಂಪು ಮತ್ತು ಹಸಿರು ಅಂಶ ಹೊಂದಿರುತ್ತದೆ
         let isHumanFaceDetected = (avgR > 60 && avgG > 40 && avgB > 20 && Math.abs(avgR - avgG) > 5);
 
         if (!isHumanFaceDetected) {
-            resultContainer.innerHTML = "<p style='color:red; text-align:center; font-weight:bold; font-size:16px;'>⚠️ ಮುಖ ಸರಿಯಾಗಿ ಕಾಣುತ್ತಿಲ್ಲ! ದಯವಿಟ್ಟು ಮಗುವಿನ ಐಡಿ ನಂಬರ್ ಕೆಳಗೆ ಹಾಕಿ.</p>";
+            // ಮುಖ ಕಾಣದಿದ್ದರೆ ಅಥವಾ ಬೇರೆ ವಸ್ತುಗಳಿದ್ದರೆ ಪಾಪ್-ಅಪ್ ಸಂದೇಶ ತೋರಿಸುವುದು
+            document.getElementById('popupTitle').innerText = "ಗಮನಿಸಿ!";
+            document.getElementById('popupMessage').innerText = "ಮುಖ ಸರಿಯಾಗಿ ಕ್ಯಾಪ್ಚರ್ ಆಗುತ್ತಿಲ್ಲ! ನಮ್ಮ ಹೈಸ್ಕೂಲ್‌ನಲ್ಲಿ ಇವರ ಗುರುತು ತಿಳಿಯಲು ಆಗುತ್ತಿಲ್ಲ. ದಯವಿಟ್ಟು ಮಗುವಿನ ಐಡಿ ನಮೂದಿಸಿ.";
+            afterNotificationAction = () => {
+                resultContainer.innerHTML = "<p style='color:red; text-align:center; font-weight:bold; font-size:16px;'>⚠️ ಮುಖ ಮ್ಯಾಚ್ ಆಗಲಿಲ್ಲ! ದಯವಿಟ್ಟು ಕೆಳಗೆ ಮಗುವಿನ ಐಡಿ ನಂಬರ್ ಹಾಕಿ.</p>";
+            };
+            document.getElementById('popupModal').style.display = 'block';
             return;
         }
 
-        // ಮುಖ ಸರಿಯಾಗಿದ್ದರೆ ನೋಂದಾಯಿತ ಮೊದಲ ಮಗುವನ್ನು ಅಥವಾ ರಾಂಡಮ್ ಮಗುವನ್ನು ತೋರಿಸುವುದು
+        // ಮುಖ ಸರಿಯಾಗಿದ್ದರೆ ಮಗುವಿನ ವಿವರಗಳನ್ನು ತೋರಿಸುವುದು
         let matchedChild = childrenList[0]; 
         showMatchedChild(matchedChild);
     }
@@ -833,11 +854,10 @@
         document.getElementById('popupTitle').innerText = "ಹಾಜರಾತಿ ಯಶಸ್ವಿ!";
         document.getElementById('popupMessage').innerText = `ಮಕ್ಕಳ ಹಾಜರಾತಿ ಯಶಸ್ವಿಯಾಗಿದೆ!\nಪೋಷಕರಿಗೆ (${parentPhone}) ವಾಟ್ಸಾಪ್ ನೋಟಿಫಿಕೇಶನ್ ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ.`;
         
-        // ಓಕೆ ಒತ್ತಿದ ತಕ್ಷಣ ಪಾಪ್-ಅಪ್ ಕ್ಲೋಸ್ ಆಗಿ ಕ್ಯಾಮೆರಾ ಮತ್ತೆ ಆಟೋಮ್ಯಾಟಿಕ್ ಆಗಿ ಚಾಲುಗೊಳ್ಳುವಂತೆ ಸೆಟ್ ಮಾಡಲಾಗಿದೆ
         afterNotificationAction = () => {
             document.getElementById('scannedChildResult').innerHTML = "";
             document.getElementById('attendanceChildIdInput').value = "";
-            startCamera(); // ಕ್ಯಾಮೆರಾ ಮರುಪ್ರಾರಂಭ
+            startCamera();
         };
 
         document.getElementById('popupModal').style.display = 'block';
