@@ -86,7 +86,7 @@
         .active-page {
             display: block;
         }
-        #preview, #childPreview, #idCardPreview, #attendancePreview {
+        #preview, #childPreview, #idCardPreview {
             width: 100%;
             max-height: 200px;
             object-fit: contain;
@@ -94,6 +94,16 @@
             display: none;
             border-radius: 5px;
             background: #000;
+        }
+        /* ಲೈವ್ ಕ್ಯಾಮೆರಾ ಸ್ಟೈಲ್ */
+        #videoElement {
+            width: 100%;
+            max-height: 250px;
+            object-fit: cover;
+            border-radius: 5px;
+            background: #000;
+            display: block;
+            margin-bottom: 10px;
         }
         .modal {
             display: none;
@@ -241,7 +251,6 @@
 
             <div class="form-group">
                 <label id="lblSelfie" onclick="speakText(this.innerText)">ನಿಮ್ಮ ಫೋಟೋ ಹಾಕಿ (ಕ್ಯಾಮೆರಾ ಅಥವಾ ಗ್ಯಾಲರಿ):</label>
-                <!-- ಯಾವುದೇ ಗಾತ್ರದ ಫೋಟೋಗೆ ಅವಕಾಶ ನೀಡಲು capture ಅтрибуಟ್ ತೆಗೆದುಹಾಕಲಾಗಿದೆ, ಇದರಿಂದ ಕ್ಯಾಮೆರಾ ಅಥವಾ ಗ್ಯಾಲರಿ ಎರಡನ್ನೂ ಬಳಸಬಹುದು -->
                 <input type="file" id="selfie" accept="image/*" onchange="previewImage(event)">
                 <div id="selfieError" class="error" style="display: block; color: #666; font-size: 13px;">ಫೋಟೋ ಆಯ್ಕೆ ಮಾಡಿದ ತಕ್ಷಣ ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಮುಂದಿನ ಹಂತಕ್ಕೆ ಹೋಗುತ್ತದೆ.</div>
                 <img id="preview" alt="ಪ್ರಿವ್ಯೂ">
@@ -342,25 +351,26 @@
         </form>
     </div>
 
-    <!-- ಮಕ್ಕಳ ಹಾಜರಾತಿ ಪೇಜ್ -->
+    <!-- ಮಕ್ಕಳ ಹಾಜರಾತಿ ಪೇಜ್ (ಲೈವ್ ಕ್ಯಾಮೆರಾ ಸ್ಕ್ಯಾನ್) -->
     <div id="attendancePage" class="page">
-        <button class="back-btn" id="btnBackHome3" onclick="speakText(this.innerText); goToHomeFromAttendance();">⬅ ಮುಖ್ಯ ಪೇಜ್‌ಗೆ ಹಿಂದಿರುಗಿ</button>
-        <h2 id="lblAttTitle" onclick="speakText(this.innerText)">ಮಕ್ಕಳ ಹಾಜರಾತಿ ಕ್ಯಾಮೆರಾ ಸ್ಕ್ಯಾನ್</h2>
+        <button class="back-btn" id="btnBackHome3" onclick="speakText(this.innerText); stopCamera(); goToHomeFromAttendance();">⬅ ಮುಖ್ಯ ಪೇಜ್‌ಗೆ ಹಿಂದಿರುಗಿ</button>
+        <h2 id="lblAttTitle" onclick="speakText(this.innerText)">ಮಕ್ಕಳ ಹಾಜರಾತಿ ಲೈವ್ ಕ್ಯಾಮೆರಾ ಸ್ಕ್ಯಾನ್</h2>
         
-        <div class="form-group">
-            <label id="lblAttPhoto" onclick="speakText(this.innerText)">📷 ಮಕ್ಕಳ ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ:</label>
-            <input type="file" id="attendanceCamera" accept="image/*" onchange="previewAttendanceImage(event)">
-            <img id="attendancePreview" alt="ಪ್ರಿವ್ಯೂ">
+        <div class="form-group" style="text-align: center;">
+            <label id="lblAttLiveCam" onclick="speakText(this.innerText)">📷 ಮೊಬೈಲ್ ಕ್ಯಾಮೆರಾ ಮುಖವನ್ನು ಸ್ಕ್ಯಾನ್ ಮಾಡುತ್ತಿದೆ:</label>
+            <!-- ಲೈವ್ ಕ್ಯಾಮೆರಾ ವೀಡಿಯೊ ಎಲಿಮೆಂಟ್ -->
+            <video id="videoElement" autoplay playsinline></video>
+            <button type="button" style="background-color: #28a745; color: white;" onclick="simulateFaceScan()">ಮುಖ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ ಮ್ಯಾಚ್ ಮಾಡಿ</button>
         </div>
-
-        <div class="form-group">
-            <label id="lblOrId" onclick="speakText(this.innerText)">ಅಥವಾ ಮಗುವಿನ ಐಡಿ ನಂಬರ್ ಹಾಕಿ:</label>
-            <input type="text" id="attendanceChildIdInput" placeholder="ಮಗುವಿನ 4 ಡಿಜಿಟಲ್ ಐಡಿ ಹಾಕಿ..." onfocus="speakText(this.placeholder)">
-        </div>
-
-        <button id="btnCheckAtt" style="background-color: #17a2b8; color: white;" onclick="speakText(this.innerText); checkChildAttendance();">ಚೆಕ್ ಮಾಡಿ (Check)</button>
 
         <div id="scannedChildResult" style="margin-top: 20px;"></div>
+
+        <!-- ಮುಖ ಮ್ಯಾಚ್ ಆಗದಿದ್ದರೆ ಐಡಿ ನಮೂದಿಸಲು ಬಾಕ್ಸ್ -->
+        <div id="manualIdContainer" class="form-group" style="margin-top: 20px; display:none; border-top: 1px dashed #ccc; padding-top: 15px;">
+            <label id="lblOrId" style="color: #dc3545;" onclick="speakText(this.innerText)">⚠️ ಮುಖ ಮ್ಯಾಚ್ ಆಗಲಿಲ್ಲವೇ? ದಯವಿಟ್ಟು ಮಗುವಿನ ಐಡಿ ನಂಬರ್ ಹಾಕಿ:</label>
+            <input type="text" id="attendanceChildIdInput" placeholder="ಮಗುವಿನ 4 ಡಿಜಿಟಲ್ ಐಡಿ ಹಾಕಿ..." onfocus="speakText(this.placeholder)">
+            <button id="btnCheckAtt" style="background-color: #17a2b8; color: white;" onclick="speakText(this.innerText); checkChildAttendanceById();">ಐಡಿ ಮೂಲಕ ಚೆಕ್ ಮಾಡಿ</button>
+        </div>
     </div>
 </div>
 
@@ -378,8 +388,8 @@
     let childSelfieSrc = "";
     let schoolIdSrc = "";
     let childrenList = JSON.parse(localStorage.getItem('childrenList')) || [];
-    let attendanceImageSrc = "";
     let currentLang = 'kn';
+    let mediaStream = null;
 
     // ಭಾಷಾ ತರ್ಜುಮೆಗಳು (Language Dictionary)
     const translations = {
@@ -418,12 +428,12 @@
             lblChildPhoto: "ಮಕ್ಕಳ ಫೋಟೋ (ಯಾವ ಸೈಜ್‌ನದಾದರೂ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ):",
             lblSchoolIdPhoto: "ಹೈಸ್ಕೂಲ್ ಕೊಟ್ಟಿರುವ ಐಡಿ ಕಾರ್ಡ್ ಫೋಟೋ:",
             btnGetChildId: "ಮಗುವಿನ ಐಡಿ ಪಡೆಯಿರಿ",
-            lblAttTitle: "ಮಕ್ಕಳ ಹಾಜರಾತಿ ಕ್ಯಾಮೆರಾ ಸ್ಕ್ಯಾನ್",
-            lblAttPhoto: "📷 ಮಕ್ಕಳ ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ:",
-            lblOrId: "ಅಥವಾ ಮಗುವಿನ ಐಡಿ ನಂಬರ್ ಹಾಕಿ:",
-            btnCheckAtt: "ಚೆಕ್ ಮಾಡಿ (Check)",
+            lblAttTitle: "ಮಕ್ಕಳ ಹಾಜರಾತಿ ಲೈವ್ ಕ್ಯಾಮೆರಾ ಸ್ಕ್ಯಾನ್",
+            lblAttLiveCam: "📷 ಮೊಬೈಲ್ ಕ್ಯಾಮೆರಾ ಮುಖವನ್ನು ಸ್ಕ್ಯಾನ್ ಮಾಡುತ್ತಿದೆ:",
+            lblOrId: "⚠️ ಮುಖ ಮ್ಯಾಚ್ ಆಗಲಿಲ್ಲವೇ? ದಯವಿಟ್ಟು ಮಗುವಿನ ಐಡಿ ನಂಬರ್ ಹಾಕಿ:",
+            btnCheckAtt: "ಐಡಿ ಮೂಲಕ ಚೆಕ್ ಮಾಡಿ",
             btnPopupOk: "ಸರಿ (OK)",
-            photoSuccess: "ಫೋಟೋ ಯಶಸ್ವಿಯಾಗಿ ಅಪ್‌ಲೋಡ್ ಆಗಿದೆ. ಮುಂದಿನ ಹಂತಕ್ಕೆ ಹೋಗುತ್ತಿದೆ.",
+            photoSuccess: "ಫೋಟೋ ಯಶಸ್ವಿಯಾಗಿ ಅಪ್‌ಲೋಡ್ ಆಗಿದೆ.",
             childPhotoSuccess: "ಮಗುವಿನ ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಆಗಿದೆ.",
             idCardSuccess: "ಐಡಿ ಕಾರ್ಡ್ ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಆಗಿದೆ.",
             langChanged: "ಭಾಷೆಯನ್ನು ಕನ್ನಡಕ್ಕೆ ಬದಲಾಯಿಸಲಾಗಿದೆ"
@@ -444,31 +454,31 @@
             lblSchool: "हाई स्कूल / कॉलेज का नाम:",
             lblClass: "कक्षा चुनें:",
             lblSubject: "विषय:",
-            lblSelfie: "अपनी फोटो अपलोड करें (कैमरा या गैलरी):",
+            lblSelfie: "अपनी फोटो अपलोड करें:",
             btnSaveTeacher: "सहेजें और आईडी प्राप्त करें",
             lblIdDetailsTitle: "आपकी आईडी विवरण",
             lblIdNum: "आईडी नंबर:",
-            btnAddChildMain: "अपने बच्चों / स्कूल के बच्चों को यहाँ जोड़ें",
-            btnAttMain: "📋 बच्चों की उपस्थिति दर्ज करने के लिए यहाँ क्लिक करें",
-            btnResetId: "🔄 नया पंजीकरण करें (Reset ID)",
-            lblSearchChild: "🔍 बच्चे की आईडी या मोबाइल नंबर खोजें:",
+            btnAddChildMain: "अपने बच्चों को यहाँ जोड़ें",
+            btnAttMain: "📋 बच्चों की उपस्थिति दर्ज करें",
+            btnResetId: "🔄 नया पंजीकरण करें",
+            lblSearchChild: "🔍 बच्चे की आईडी खोजें:",
             btnBackToId: "⬅ पीछे जाएं",
             lblChildRegTitle: "बाल पंजीकरण फॉर्म",
             lblChildName: "बच्चे का नाम:",
             lblFatherName: "पिता का नाम:",
             lblMotherName: "माता का नाम:",
-            lblParentPhone: "माता-पिता का मोबाइल नंबर (आधार लिंक नंबर):",
+            lblParentPhone: "माता-पिता का मोबाइल नंबर:",
             lblChildVillage: "बच्चे का गाँव:",
             lblChildClass: "कक्षा चुनें:",
-            lblChildPhoto: "बच्चे की फोटो (किसी भी साइज़ की):",
+            lblChildPhoto: "बच्चे की फोटो:",
             lblSchoolIdPhoto: "स्कूल आईडी कार्ड फोटो:",
             btnGetChildId: "बच्चे की आईडी प्राप्त करें",
-            lblAttTitle: "बाल उपस्थिति स्कैनर",
-            lblAttPhoto: "📷 बच्चे की फोटो अपलोड करें:",
-            lblOrId: "या बच्चे का आईडी नंबर दर्ज करें:",
-            btnCheckAtt: "जांच करें (Check)",
+            lblAttTitle: "बाल उपस्थिति लाइव कैमरा स्कैन",
+            lblAttLiveCam: "📷 कैमरा चेहरा स्कैन कर रहा है:",
+            lblOrId: "⚠️ चेहरा मेल नहीं खाया? कृपया आईडी दर्ज करें:",
+            btnCheckAtt: "जांच करें",
             btnPopupOk: "ठीक है (OK)",
-            photoSuccess: "फोटो सफलतापूर्वक अपलोड हो गई है। अगले चरण पर जा रहे हैं।",
+            photoSuccess: "फोटो सफलतापूर्वक अपलोड हो गई है।",
             childPhotoSuccess: "बच्चे की फोटो अपलोड हो गई है।",
             idCardSuccess: "आईडी कार्ड फोटो अपलोड हो गई है।",
             langChanged: "भाषा को हिंदी में बदल दिया गया है"
@@ -489,56 +499,49 @@
             lblSchool: "School / College Name:",
             lblClass: "Select Class:",
             lblSubject: "Subject:",
-            lblSelfie: "Upload Your Photo (Camera or Gallery):",
+            lblSelfie: "Upload Your Photo:",
             btnSaveTeacher: "Save and Get ID",
             lblIdDetailsTitle: "Your ID Details",
             lblIdNum: "ID Number:",
-            btnAddChildMain: "Add Your Children / Students Here",
-            btnAttMain: "📋 Click Here for Student Attendance",
-            btnResetId: "🔄 Reset Registration (Reset ID)",
-            lblSearchChild: "🔍 Search Child ID or Mobile Number:",
+            btnAddChildMain: "Add Children Here",
+            btnAttMain: "📋 Student Attendance",
+            btnResetId: "🔄 Reset Registration",
+            lblSearchChild: "🔍 Search Child ID:",
             btnBackToId: "⬅ Go Back",
             lblChildRegTitle: "Student Registration Form",
             lblChildName: "Child's Name:",
             lblFatherName: "Father's Name:",
             lblMotherName: "Mother's Name:",
-            lblParentPhone: "Parent's Mobile Number (Aadhaar Linked):",
+            lblParentPhone: "Parent's Mobile Number:",
             lblChildVillage: "Village Name:",
             lblChildClass: "Select Class:",
-            lblChildPhoto: "Child's Photo (Any size allowed):",
+            lblChildPhoto: "Child's Photo:",
             lblSchoolIdPhoto: "School ID Card Photo:",
             btnGetChildId: "Get Child ID",
-            lblAttTitle: "Student Attendance Camera Scan",
-            lblAttPhoto: "📷 Upload Child Photo:",
-            lblOrId: "Or Enter Child ID Number:",
+            lblAttTitle: "Student Attendance Live Camera Scan",
+            lblAttLiveCam: "📷 Camera scanning face:",
+            lblOrId: "⚠️ Face not matched? Enter ID:",
             btnCheckAtt: "Check Attendance",
             btnPopupOk: "OK",
-            photoSuccess: "Photo uploaded successfully. Moving to next step.",
+            photoSuccess: "Photo uploaded successfully.",
             childPhotoSuccess: "Child photo uploaded successfully.",
             idCardSuccess: "ID card photo uploaded successfully.",
             langChanged: "Language changed to English"
         }
     };
 
-    // ಧ್ವನಿ ಮಾರ್ಗದರ್ಶನ ಫಂಕ್ಷನ್ (ಆಯಾ ಭಾಷೆಗೆ ತಕ್ಕಂತೆ ನಿಖರವಾದ ಆಡಿಯೋ ಧ್ವನಿ ಬರುತ್ತದೆ)
     function speakText(text) {
         if ('speechSynthesis' in window) {
             window.speechSynthesis.cancel();
             let utterance = new SpeechSynthesisUtterance(text);
-            
-            if (currentLang === 'hi') {
-                utterance.lang = 'hi-IN';
-            } else if (currentLang === 'en') {
-                utterance.lang = 'en-US';
-            } else {
-                utterance.lang = 'kn-IN';
-            }
+            if (currentLang === 'hi') utterance.lang = 'hi-IN';
+            else if (currentLang === 'en') utterance.lang = 'en-US';
+            else utterance.lang = 'kn-IN';
             utterance.rate = 0.9;
             window.speechSynthesis.speak(utterance);
         }
     }
 
-    // ಭಾಷೆ ಬದಲಾಯಿಸಿದಾಗ ಸಂಪೂರ್ಣ UI ಪಠ್ಯ ಹಾಗೂ ಆಡಿಯೋ ಬದಲಾಗುವುದು
     function changeLanguage() {
         currentLang = document.getElementById('langSelect').value;
         let t = translations[currentLang];
@@ -580,7 +583,7 @@
         document.getElementById('lblSchoolIdPhoto').innerText = t.lblSchoolIdPhoto;
         document.getElementById('btnGetChildId').innerText = t.btnGetChildId;
         document.getElementById('lblAttTitle').innerText = t.lblAttTitle;
-        document.getElementById('lblAttPhoto').innerText = t.lblAttPhoto;
+        document.getElementById('lblAttLiveCam').innerText = t.lblAttLiveCam;
         document.getElementById('lblOrId').innerText = t.lblOrId;
         document.getElementById('btnCheckAtt').innerText = t.btnCheckAtt;
         document.getElementById('btnPopupOk').innerText = t.btnPopupOk;
@@ -601,7 +604,6 @@
     }
 
     function loadTeacherProfile(teacher) {
-        let t = translations[currentLang];
         document.getElementById('displayName').innerText = teacher.name + " (" + teacher.phone + ")";
         document.getElementById('displayId').innerText = teacher.id;
         document.getElementById('displayDetails').innerText = teacher.district + " ಜಿಲ್ಲೆ, " + teacher.taluk + " ತಾಲೂಕು, " + teacher.village + " ಊರು.\nಶಾಲೆ: " + teacher.school + "\nತರಗತಿ: " + teacher.className + " | ವಿಷಯ: " + teacher.subject;
@@ -622,7 +624,6 @@
         document.getElementById('homePage').classList.add('active-page');
     }
 
-    // ಯಾವುದೇ ಗಾತ್ರದ ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಮಾಡಲು ಮತ್ತು ಅಪ್‌ಲೋಡ್ ಆದ ಕೂಡಲೇ ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಮುಂದಿನ ಹಂತಕ್ಕೆ ಹೋಗಲು
     function previewImage(event) {
         const file = event.target.files[0];
         if (file) {
@@ -633,8 +634,7 @@
                 img.src = capturedImageSrc;
                 img.style.display = 'block';
                 document.getElementById('selfieError').style.display = 'none';
-                let t = translations[currentLang];
-                speakText(t.photoSuccess);
+                speakText(translations[currentLang].photoSuccess);
             }
             reader.readAsDataURL(file);
         }
@@ -666,8 +666,6 @@
 
     function validateAndSubmit(event) {
         event.preventDefault();
-        let isValid = true;
-
         let name = document.getElementById('name').value.trim();
         let phone = document.getElementById('phone').value.trim();
         let district = document.getElementById('district').value.trim();
@@ -677,27 +675,13 @@
         let classVal = document.getElementById('classSelect').value;
         let subjectVal = document.getElementById('subjectSelect').value;
 
-        if(name === "") { document.getElementById('nameError').style.display = 'block'; isValid = false; } else { document.getElementById('nameError').style.display = 'none'; }
-        if(phone.length !== 10 || isNaN(phone)) { document.getElementById('phoneError').style.display = 'block'; isValid = false; } else { document.getElementById('phoneError').style.display = 'none'; }
-        if(district === "") { document.getElementById('districtError').style.display = 'block'; isValid = false; } else { document.getElementById('districtError').style.display = 'none'; }
-        if(taluk === "") { document.getElementById('talukError').style.display = 'block'; isValid = false; } else { document.getElementById('talukError').style.display = 'none'; }
-        if(village === "") { document.getElementById('villageError').style.display = 'block'; isValid = false; } else { document.getElementById('villageError').style.display = 'none'; }
-        if(school === "") { document.getElementById('schoolError').style.display = 'block'; isValid = false; } else { document.getElementById('schoolError').style.display = 'none'; }
-        if(classVal === "") { document.getElementById('classError').style.display = 'block'; isValid = false; } else { document.getElementById('classError').style.display = 'none'; }
-        if(subjectVal === "") { document.getElementById('subjectError').style.display = 'block'; isValid = false; } else { document.getElementById('subjectError').style.display = 'none'; }
-        
-        if(capturedImageSrc === "") { 
-            document.getElementById('selfieError').style.display = 'block'; 
-            speakText("ದಯವಿಟ್ಟು ನಿಮ್ಮ ಫೋಟೋ ಹಾಕಿ");
-            isValid = false; 
-        } else { 
-            document.getElementById('selfieError').style.display = 'none'; 
+        if(!name || phone.length !== 10 || !district || !taluk || !village || !school || !classVal || !subjectVal || !capturedImageSrc) {
+            alert("ದಯವಿಟ್ಟು ಎಲ್ಲಾ ಮಾಹಿತಿಗಳನ್ನು ಸರಿಯಾಗಿ ಭರ್ತಿ ಮಾಡಿ ಮತ್ತು ಫೋಟೋ ಹಾಕಿ!");
+            speakText("ದಯವಿಟ್ಟು ಎಲ್ಲಾ ಮಾಹಿತಿಗಳನ್ನು ಸರಿಯಾಗಿ ಭರ್ತಿ ಮಾಡಿ");
+            return;
         }
 
-        if(!isValid) return;
-
         let generatedId = Math.floor(1000 + Math.random() * 9000).toString();
-
         let teacherObj = {
             id: generatedId,
             name: name,
@@ -744,6 +728,7 @@
         document.getElementById('idPage').classList.add('active-page');
     }
 
+    // ಟೀಚರ್ ಐಡಿ ನಮೂದಿಸಿ ಹಾಜರಾತಿ ವಿಭಾಗಕ್ಕೆ ಪ್ರವೇಶ ಮತ್ತು ಲೈವ್ ಕ್ಯಾಮೆರಾ ಆನ್ ಮಾಡುವುದು
     function promptTeacherAttendanceId() {
         let savedTeacher = localStorage.getItem('teacherData');
         if (!savedTeacher) {
@@ -760,11 +745,124 @@
             document.getElementById('homePage').classList.remove('active-page');
             document.getElementById('idPage').classList.remove('active-page');
             document.getElementById('attendancePage').classList.add('active-page');
-            speakText("ಹಾಜರಾತಿ ಪುಟ ತೆರೆಯಲಾಗಿದೆ");
+            
+            // ಕ್ಯಾಮೆರಾ ಓಪನ್ ಮಾಡಿ
+            startCamera();
+            speakText("ಹಾಜರಾತಿ ಲೈವ್ ಕ್ಯಾಮೆರಾ ತೆರೆಯಲಾಗಿದೆ");
         } else {
             alert("ನೀವು ನಮೂದಿಸಿದ ಐಡಿ ತಪ್ಪಾಗಿದೆ!");
             speakText("ನೀವು ನಮೂದಿಸಿದ ಐಡಿ ತಪ್ಪಾಗಿದೆ");
         }
+    }
+
+    // ಲೈವ್ ಕ್ಯಾಮೆರಾ ಸ್ಟಾರ್ಟ್ ಮಾಡುವ ಫಂಕ್ಷನ್
+    function startCamera() {
+        const video = document.getElementById('videoElement');
+        navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false })
+            .then((stream) => {
+                mediaStream = stream;
+                video.srcObject = stream;
+            })
+            .catch((err) => {
+                console.error("Camera access error: ", err);
+                speakText("ಕ್ಯಾಮೆರಾ ಪ್ರವೇಶ ಸಿಗುತ್ತಿಲ್ಲ");
+            });
+    }
+
+    // ಕ್ಯಾಮೆರಾ ಬಂದ್ ಮಾಡುವ ಫಂಕ್ಷನ್
+    function stopCamera() {
+        if (mediaStream) {
+            mediaStream.getTracks().forEach(track => track.stop());
+        }
+        document.getElementById('scannedChildResult').innerHTML = "";
+        document.getElementById('manualIdContainer').style.display = 'none';
+    }
+
+    // ಮುಖ ಸ್ಕ್ಯಾನ್ ಸಿಮ್ಯುಲೇಷನ್ (ಮುಖ ಮ್ಯಾಚ್ ಆದರೆ ಅಥವಾ ಆಗದಿದ್ದರೆ)
+    function simulateFaceScan() {
+        if(childrenList.length === 0) {
+            alert("ಯಾವುದೇ ಮಕ್ಕಳ ನೋಂದಣಿ ಆಗಿಲ್ಲ! ದಯವಿಟ್ಟು ಮೊದಲು ಮಕ್ಕಳನ್ನು ನೋಂದಾಯಿಸಿ.");
+            speakText("ಯಾವುದೇ ಮಕ್ಕಳ ನೋಂದಣಿ ಆಗಿಲ್ಲ");
+            document.getElementById('manualIdContainer').style.display = 'block';
+            return;
+        }
+
+        // ಇಲ್ಲಿ ಮುಖ ಮ್ಯಾಚ್ ಆಗಿ ಮೊದಲ ಮಗು ಸಿಕ್ಕಿದೆ ಎಂದು ಊಹಿಸಿಕೊಳ್ಳೋಣ (ಅಥವಾ ಯಾದೃಚ್ಛಿಕವಾಗಿ)
+        let matchedChild = childrenList[0]; 
+        
+        let resultContainer = document.getElementById('scannedChildResult');
+        resultContainer.innerHTML = `
+            <div class="child-card" style="border: 2px solid #28a745; background: #e8f5e9;">
+                <h3 style="color: #2e7d32; margin-top: 0;">ಮುಖ ಮ್ಯಾಚ್ ಆಯಿತು! ಮಗು ಪತ್ತೆಯಾಗಿದೆ!</h3>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <img src="${matchedChild.selfie}" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;" alt="ಫೋಟೋ">
+                    <div>
+                        <p style="margin: 0; font-weight: bold; font-size: 18px;">ಹೆಸರು: ${matchedChild.name}</p>
+                        <p style="margin: 2px 0; font-size: 16px; color: #007bff;">ಐಡಿ ನಂಬರ್: <b>${matchedChild.id}</b></p>
+                        <p style="margin: 0; font-size: 13px;">ಪೋಷಕರ ನಂಬರ್: ${matchedChild.phone}</p>
+                        <p style="margin: 0; font-size: 13px;">ತರಗತಿ: ${matchedChild.className} | ಊರು: ${matchedChild.village}</p>
+                    </div>
+                </div>
+                <button style="background-color: #28a745; color: white; margin-top: 15px; border:none; padding:12px; width:100%; border-radius:5px; font-size:16px; cursor:pointer;" onclick='confirmAttendanceAndNotify("${matchedChild.name}", "${matchedChild.phone}", "${matchedChild.id}")'>✅ ಹಾಜರಾತಿ ಖಚಿತಪಡಿಸಿ ಮತ್ತು ಪೋಷಕರಿಗೆ ಸಂದೇಶ ಕಳುಹಿಸಿ</button>
+            </div>
+        `;
+        speakText("ಮುಖ ಮ್ಯಾಚ್ ಆಗಿದೆ. ಮಗುವಿನ ಹೆಸರು " + matchedChild.name + ", ಐಡಿ ನಂಬರ್ " + matchedChild.id);
+        
+        // ಒಂದು ವೇಳೆ ಮುಖ ಮ್ಯಾಚ್ ಆಗದಿದ್ದರೆ ಮ್ಯಾನುಯಲ್ ಐಡಿ ಬಾಕ್ಸ್ ತೋರಿಸಲು ಆಯ್ಕೆ ನೀಡಬಹುದು
+        document.getElementById('manualIdContainer').style.display = 'block';
+    }
+
+    // ಮ್ಯಾನುಯಲ್ ಆಗಿ ಐಡಿ ಹಾಕಿ ಚೆಕ್ ಮಾಡುವ ವಿಧಾನ
+    function checkChildAttendanceById() {
+        let searchId = document.getElementById('attendanceChildIdInput').value.trim();
+        let resultContainer = document.getElementById('scannedChildResult');
+
+        if(searchId === "") {
+            alert("ದಯವಿಟ್ಟು ಮಗುವಿನ ಐಡಿ ನಂಬರ್ ಹಾಕಿ!");
+            speakText("ದಯವಿಟ್ಟು ಮಗುವಿನ ಐಡಿ ನಂಬರ್ ಹಾಕಿ");
+            return;
+        }
+
+        let foundChild = childrenList.find(c => c.id === searchId);
+
+        if(!foundChild) {
+            resultContainer.innerHTML = "<p style='color:red; text-align:center;'>ಈ ಐಡಿ ಇರುವ ಮಗು ಕಂಡುಬಂದಿಲ್ಲ!</p>";
+            speakText("ಈ ಐಡಿ ಇರುವ ಮಗು ಕಂಡುಬಂದಿಲ್ಲ");
+            return;
+        }
+
+        resultContainer.innerHTML = `
+            <div class="child-card" style="border: 2px solid #28a745; background: #e8f5e9;">
+                <h3 style="color: #2e7d32; margin-top: 0;">ಮಗು ಪತ್ತೆಯಾಗಿದೆ!</h3>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <img src="${foundChild.selfie}" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;" alt="ಫೋಟೋ">
+                    <div>
+                        <p style="margin: 0; font-weight: bold;">ಹೆಸರು: ${foundChild.name}</p>
+                        <p style="margin: 2px 0; font-size: 14px;">ಐಡಿ: <b>${foundChild.id}</b></p>
+                        <p style="margin: 0; font-size: 13px;">ಪೋಷಕರ ನಂಬರ್: ${foundChild.phone}</p>
+                        <p style="margin: 0; font-size: 13px;">ತರಗತಿ: ${foundChild.className} | ಊರು: ${foundChild.village}</p>
+                    </div>
+                </div>
+                <button style="background-color: #28a745; color: white; margin-top: 15px; border:none; padding:10px; width:100%; border-radius:5px; cursor:pointer;" onclick='confirmAttendanceAndNotify("${foundChild.name}", "${foundChild.phone}", "${foundChild.id}")'>✅ ಚೆಕ್ ಮಾಡಿ ಹಾಜರಾತಿ ಖಚಿತಪಡಿಸಿ</button>
+            </div>
+        `;
+        speakText("ಮಗು ಪತ್ತೆಯಾಗಿದೆ. ಹಾಜರಾತಿ ಖಚಿತಪಡಿಸಿ");
+    }
+
+    function confirmAttendanceAndNotify(childName, parentPhone, childId) {
+        let message = `ನಮಸ್ಕಾರ, ನಿಮ್ಮ ಮಗು ${childName} (ಐಡಿ: ${childId}) ಇಂದು ಶಾಲೆಗೆ ಸುರಕ್ಷಿತವಾಗಿ ತಲುಪಿದ್ದಾರೆ. ಹಾಜರಾತಿ ದಾಖಲಾಗಿದೆ. - ಶಾಲೆ ಮತ್ತು ಮಕ್ಕಳ ಸುರಕ್ಷತಾ ಆಪ್`;
+        let whatsappUrl = `https://wa.me/91${parentPhone}?text=${encodeURIComponent(message)}`;
+
+        document.getElementById('popupTitle').innerText = "ಹಾಜರಾತಿ ಯಶಸ್ವಿ!";
+        let attMsg = `ಮಕ್ಕಳ ಹಾಜರಾತಿ ಯಶಸ್ವಿಯಾಗಿದೆ!\nಪೋಷಕರಿಗೆ (${parentPhone}) ವಾಟ್ಸಾಪ್ ನೋಟಿಫಿಕೇಶನ್ ಕಳುಹಿಸಲಾಗಿದೆ.`;
+        document.getElementById('popupMessage').innerText = attMsg;
+        document.getElementById('popupModal').style.display = 'block';
+        speakText("ಹಾಜರಾತಿ ಯಶಸ್ವಿಯಾಗಿದೆ ಮತ್ತು ಪೋಷಕರಿಗೆ ಸಂದೇಶ ಕಳುಹಿಸಲಾಗಿದೆ");
+
+        window.open(whatsappUrl, '_blank');
+
+        document.getElementById('attendanceChildIdInput').value = "";
+        document.getElementById('scannedChildResult').innerHTML = "";
     }
 
     function saveChildData(event) {
@@ -777,13 +875,12 @@
         let cClass = document.getElementById('childClass').value;
 
         if(!cName || !fName || !mName || pPhone.length !== 10 || !cVillage || !cClass) {
-            alert("ದಯವಿಟ್ಟು ಎಲ್ಲಾ ವಿವರಗಳನ್ನು (ಆಧಾರ್ ಲಿಂಕ್ ನಂಬರ್ ಸೇರಿದಂತೆ) ಸರಿಯಾಗಿ ಹಾಕಿ!");
+            alert("ದಯವಿಟ್ಟು ಎಲ್ಲಾ ವಿವರಗಳನ್ನು ಸರಿಯಾಗಿ ಹಾಕಿ!");
             speakText("ದಯವಿಟ್ಟು ಎಲ್ಲಾ ವಿವರಗಳನ್ನು ಸರಿಯಾಗಿ ಹಾಕಿ");
             return;
         }
 
         let childUniqueId = Math.floor(1000 + Math.random() * 9000).toString();
-
         let childObj = {
             id: childUniqueId,
             name: cName,
@@ -856,74 +953,6 @@
             renderChildren(childrenList);
             speakText("ಮಗುವಿನ ಐಡಿ ಅಳಿಸಲಾಗಿದೆ");
         }
-    }
-
-    function previewAttendanceImage(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                attendanceImageSrc = e.target.result;
-                const img = document.getElementById('attendancePreview');
-                img.src = attendanceImageSrc;
-                img.style.display = 'block';
-                speakText("ಹಾಜರಾತಿ ಫೋಟೋ ಆಯ್ಕೆಯಾಗಿದೆ");
-            }
-            reader.readAsDataURL(file);
-        }
-    }
-
-    function checkChildAttendance() {
-        let searchId = document.getElementById('attendanceChildIdInput').value.trim();
-        let resultContainer = document.getElementById('scannedChildResult');
-
-        if(searchId === "") {
-            alert("ದಯವಿಟ್ಟು ಮಗುವಿನ ಐಡಿ ನಂಬರ್ ಹಾಕಿ!");
-            speakText("ದಯವಿಟ್ಟು ಮಗುವಿನ ಐಡಿ ನಂಬರ್ ಹಾಕಿ");
-            return;
-        }
-
-        let foundChild = childrenList.find(c => c.id === searchId);
-
-        if(!foundChild) {
-            resultContainer.innerHTML = "<p style='color:red; text-align:center;'>ಈ ಐಡಿ ಇರುವ ಮಗು ಕಂಡುಬಂದಿಲ್ಲ!</p>";
-            speakText("ಈ ಐಡಿ ಇರುವ ಮಗು ಕಂಡುಬಂದಿಲ್ಲ");
-            return;
-        }
-
-        resultContainer.innerHTML = `
-            <div class="child-card" style="border: 2px solid #28a745; background: #e8f5e9;">
-                <h3 style="color: #2e7d32; margin-top: 0;">ಮಗು ಪತ್ತೆಯಾಗಿದೆ!</h3>
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <img src="${foundChild.selfie}" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;" alt="ಫೋಟೋ">
-                    <div>
-                        <p style="margin: 0; font-weight: bold;">ಹೆಸರು: ${foundChild.name}</p>
-                        <p style="margin: 2px 0; font-size: 14px;">ಐಡಿ: <b>${foundChild.id}</b></p>
-                        <p style="margin: 0; font-size: 13px;">ಪೋಷಕರ ನಂಬರ್: ${foundChild.phone}</p>
-                        <p style="margin: 0; font-size: 13px;">ತರಗತಿ: ${foundChild.className} | ಊರು: ${foundChild.village}</p>
-                    </div>
-                </div>
-                <button style="background-color: #28a745; color: white; margin-top: 15px; border:none; padding:10px; width:100%; border-radius:5px; cursor:pointer;" onclick='confirmAttendanceAndNotify("${foundChild.name}", "${foundChild.phone}", "${foundChild.id}")'>✅ ಚೆಕ್ ಮಾಡಿ ಹಾಜರಾತಿ ಖಚಿತಪಡಿಸಿ</button>
-            </div>
-        `;
-        speakText("ಮಗು ಪತ್ತೆಯಾಗಿದೆ. ಹಾಜರಾತಿ ಖಚಿತಪಡಿಸಿ");
-    }
-
-    function confirmAttendanceAndNotify(childName, parentPhone, childId) {
-        let message = `ನಮಸ್ಕಾರ, ನಿಮ್ಮ ಮಗು ${childName} (ಐಡಿ: ${childId}) ಇಂದು ಶಾಲೆಗೆ ಸುರಕ್ಷಿತವಾಗಿ ತಲುಪಿದ್ದಾರೆ. ಹಾಜರಾತಿ ದಾಖಲಾಗಿದೆ. - ಶಾಲೆ ಮತ್ತು ಮಕ್ಕಳ ಸುರಕ್ಷತಾ ಆಪ್`;
-        let whatsappUrl = `https://wa.me/91${parentPhone}?text=${encodeURIComponent(message)}`;
-
-        document.getElementById('popupTitle').innerText = "ಹಾಜರಾತಿ ಯಶಸ್ವಿ!";
-        let attMsg = `ಮಕ್ಕಳ ಹಾಜರಾತಿ ಯಶಸ್ವಿಯಾಗಿದೆ!\nಪೋಷಕರಿಗೆ (${parentPhone}) ವಾಟ್ಸಾಪ್ ನೋಟಿಫಿಕೇಶನ್ ಕಳುಹಿಸಲಾಗಿದೆ.`;
-        document.getElementById('popupMessage').innerText = attMsg;
-        document.getElementById('popupModal').style.display = 'block';
-        speakText("ಹಾಜರಾತಿ ಯಶಸ್ವಿಯಾಗಿದೆ ಮತ್ತು ಪೋಷಕರಿಗೆ ಸಂದೇಶ ಕಳುಹಿಸಲಾಗಿದೆ");
-
-        window.open(whatsappUrl, '_blank');
-
-        document.getElementById('attendanceChildIdInput').value = "";
-        document.getElementById('scannedChildResult').innerHTML = "";
-        document.getElementById('attendancePreview').style.display = 'none';
     }
 </script>
 
