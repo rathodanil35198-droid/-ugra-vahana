@@ -702,11 +702,10 @@
         document.getElementById('popupTitle').innerText = "ನೋಂದಣಿ ಯಶಸ್ವಿಯಾಗಿದೆ! 🎉";
         document.getElementById('popupMessage').innerText = `ನಿಮ್ಮ ನಾಲ್ಕು ಡಿಜಿಟಲ್ ಐಡಿ ಇದು: ${generatedId}\n\nಗಮನಿಸಿ: ನಿಮ್ಮ ಮಕ್ಕಳನ್ನು ಸೇರಿಸುವಾಗ ಮತ್ತು ಹಾಜರಾತಿ ಪಡೆಯುವಾಗ ನಿಮಗೆ ಈ ಕೋಡ್ ಬೇಕಾಗುತ್ತದೆ. ಇದನ್ನು ಬೇರೆಯವರಿಗೆ ಕೊಡಲು ಹೋಗಬೇಡಿ!`;
         
-        // OK ಒತ್ತಿದ ಕೂಡಲೇ ಆಟೋಮ್ಯಾಟಿಕ್ ಆಗಿ ಮುಖ್ಯ ಪೇಜಿಗೆ ತಿರುಗಿ ಬರುವಂತೆ ಸೆಟ್ ಮಾಡಲಾಗಿದೆ
+        // ಇಲ್ಲಿ ಬದಲಾವಣೆ ಮಾಡಲಾಗಿದೆ: OK ಒತ್ತಿದ ನಂತರ ನೇರವಾಗಿ ಟೀಚರ್ ಐಡಿ ಪ್ರೊಫೈಲ್ ಪೇಜ್‌ಗೆ ಹೋಗುತ್ತದೆ
         afterNotificationAction = () => {
             document.getElementById('registerPage').classList.remove('active-page');
-            document.getElementById('idPage').classList.remove('active-page');
-            document.getElementById('homePage').classList.add('active-page');
+            document.getElementById('idPage').classList.add('active-page');
         };
         
         document.getElementById('popupModal').style.display = 'block';
@@ -813,7 +812,6 @@
         let ctx = canvas.getContext('2d');
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-        // ಸಿಮ್ಯುಲೇಶನ್ ಮೂಲಕ ಮೊದಲ ಮಗುವನ್ನು ಮ್ಯಾಚ್ ಮಾಡಲಾಗಿದೆ (ಮುಖ ಗುರುತಿಸುವಿಕೆ)
         let matchedChild = childrenList[0]; 
         showMatchedChild(matchedChild);
     }
@@ -876,8 +874,6 @@
         };
 
         document.getElementById('popupModal').style.display = 'block';
-
-        // ವಾಟ್ಸಾಪ್/ಎಸ್‌ಎಂಎಸ್ ಲಿಂಕ್ ತೆರೆಯುವುದು
         window.open(whatsappUrl, '_blank');
     }
 
