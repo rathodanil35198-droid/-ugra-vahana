@@ -177,37 +177,37 @@
         <form id="teacherForm" onsubmit="validateAndSubmit(event)">
             <div class="form-group">
                 <label id="lblTeacherName">ನಿಮ್ಮ ಹೆಸರು:</label>
-                <input type="text" id="name" placeholder="ನಿಮ್ಮ ಹೆಸರನ್ನು ಹಾಕಿ">
+                <input type="text" id="name" placeholder="ನಿಮ್ಮ ಹೆಸರನ್ನು ಹಾಕಿ" required>
             </div>
 
             <div class="form-group">
                 <label id="lblPhone">ಮೊಬೈಲ್ ನಂಬರ್:</label>
-                <input type="tel" id="phone" maxlength="10" placeholder="10 ಅಂಕಿಯ ಮೊಬೈಲ್ ನಂಬರ್">
+                <input type="tel" id="phone" maxlength="10" placeholder="10 ಅಂಕಿಯ ಮೊಬೈಲ್ ನಂಬರ್" required>
             </div>
 
             <div class="form-group">
                 <label id="lblDistrict">ಜಿಲ್ಲೆ:</label>
-                <input type="text" id="district" placeholder="ನಿಮ್ಮ ಜಿಲ್ಲೆ">
+                <input type="text" id="district" placeholder="ನಿಮ್ಮ ಜಿಲ್ಲೆ" required>
             </div>
 
             <div class="form-group">
                 <label id="lblTaluk">ತಾಲೂಕು:</label>
-                <input type="text" id="taluk" placeholder="ನಿಮ್ಮ ತಾಲೂಕು">
+                <input type="text" id="taluk" placeholder="ನಿಮ್ಮ ತಾಲೂಕು" required>
             </div>
 
             <div class="form-group">
                 <label id="lblVillage">ಊರು:</label>
-                <input type="text" id="village" placeholder="ನಿಮ್ಮ ಊರು">
+                <input type="text" id="village" placeholder="ನಿಮ್ಮ ಊರು" required>
             </div>
 
             <div class="form-group">
                 <label id="lblSchool">ಹೈಸ್ಕೂಲ್ / ಕಾಲೇಜು ಹೆಸರು:</label>
-                <input type="text" id="school" placeholder="ಶಾಲೆಯ ಹೆಸರು">
+                <input type="text" id="school" placeholder="ಶಾಲೆಯ ಹೆಸರು" required>
             </div>
 
             <div class="form-group">
                 <label id="lblClass">ತರಗತಿ ಆಯ್ಕೆಮಾಡಿ:</label>
-                <select id="classSelect">
+                <select id="classSelect" required>
                     <option value="">-- ತರಗತಿ ಆಯ್ಕೆಮಾಡಿ --</option>
                     <option value="LKG">LKG</option>
                     <option value="UKG">UKG</option>
@@ -226,7 +226,7 @@
 
             <div class="form-group">
                 <label id="lblSubject">ಪಾಠದ ವಿಷಯ:</label>
-                <select id="subjectSelect">
+                <select id="subjectSelect" required>
                     <option value="">-- ವಿಷಯ ಆಯ್ಕೆಮಾಡಿ --</option>
                     <option value="ಕನ್ನಡ">ಕನ್ನಡ</option>
                     <option value="ಇಂಗ್ಲಿಷ್">ಇಂಗ್ಲಿಷ್</option>
@@ -237,10 +237,9 @@
                 </select>
             </div>
 
-            <!-- ಸೆಲ್ಫಿ ಫೋಟೋ ಸಮಸ್ಯೆ ಸರಿಪಡಿಸಲಾಗಿದೆ -->
             <div class="form-group">
-                <label id="lblSelfie">ನಿಮ್ಮ ನೇರ ಸೆಲ್ಫಿ ಫೋಟೋ ಹಾಕಿ (ಕ್ಯಾಮೆರಾ ಓಪನ್ ಆಗುತ್ತದೆ):</label>
-                <input type="file" id="selfie" accept="image/*" capture="user" onchange="previewImage(event)">
+                <label id="lblSelfie">ನಿಮ್ಮ ನೇರ ಸೆಲ್ಫಿ ಫೋಟೋ ಹಾಕಿ (ಬ್ಯಾಕ್ ಅಥವಾ ಸೆಲ್ಫಿ):</label>
+                <input type="file" id="selfie" accept="image/*" onchange="previewImage(event)" required>
                 <img id="preview" alt="ಪ್ರಿವ್ಯೂ">
             </div>
 
@@ -281,32 +280,32 @@
         <form id="childForm" onsubmit="saveChildData(event)">
             <div class="form-group">
                 <label id="lblChildName">ಮಕ್ಕಳು ಹೆಸರು:</label>
-                <input type="text" id="childName" placeholder="ಮಗುವಿನ ಹೆಸರು">
+                <input type="text" id="childName" placeholder="ಮಗುವಿನ ಹೆಸರು" required>
             </div>
 
             <div class="form-group">
                 <label id="lblFatherName">ತಂದೆಯ ಹೆಸರು:</label>
-                <input type="text" id="fatherName" placeholder="ತಂದೆಯ ಹೆಸರು">
+                <input type="text" id="fatherName" placeholder="ತಂದೆಯ ಹೆಸರು" required>
             </div>
 
             <div class="form-group">
                 <label id="lblMotherName">ತಾಯಿಯ ಹೆಸರು:</label>
-                <input type="text" id="motherName" placeholder="ತಾಯಿಯ ಹೆಸರು">
+                <input type="text" id="motherName" placeholder="ತಾಯಿಯ ಹೆಸರು" required>
             </div>
 
             <div class="form-group">
                 <label id="lblParentPhone">ತಂದೆ/ತಾಯಿಯ ಮೊಬೈಲ್ ನಂಬರ್:</label>
-                <input type="tel" id="parentPhone" maxlength="10" placeholder="10 ಅಂಕಿಯ ಮೊಬೈಲ್ ನಂಬರ್">
+                <input type="tel" id="parentPhone" maxlength="10" placeholder="10 ಅಂಕಿಯ ಮೊಬೈಲ್ ನಂಬರ್" required>
             </div>
 
             <div class="form-group">
                 <label id="lblChildVillage">ಮಗುವಿನ ಊರು ಯಾವುದು:</label>
-                <input type="text" id="childVillage" placeholder="ಊರಿನ ಹೆಸರು">
+                <input type="text" id="childVillage" placeholder="ಊರಿನ ಹೆಸರು" required>
             </div>
 
             <div class="form-group">
                 <label id="lblChildClass">ಎಷ್ಟನೇ ತರಗತಿ ಇದ್ದಾರೆ:</label>
-                <select id="childClass">
+                <select id="childClass" required>
                     <option value="">-- ತರಗತಿ ಆಯ್ಕೆಮಾಡಿ --</option>
                     <option value="LKG">LKG</option>
                     <option value="UKG">UKG</option>
@@ -325,12 +324,12 @@
 
             <div class="form-group">
                 <label id="lblChildPhoto">ಮಕ್ಕಳ ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ:</label>
-                <input type="file" id="childSelfie" accept="image/*" capture="user" onchange="previewChildImage(event, 'selfie')">
+                <input type="file" id="childSelfie" accept="image/*" onchange="previewChildImage(event, 'selfie')" required>
                 <img id="childPreview" alt="ಪ್ರಿವ್ಯೂ">
             </div>
 
             <div class="form-group">
-                <label id="lblSchoolIdPhoto">ಹೈಸ್ಕೂಲ್ ಕೊಟ್ಟಿರುವ ಐಡಿ ಕಾರ್ಡ್ ಫೋಟೋ:</label>
+                <label id="lblSchoolIdPhoto">ಹೈಸ್ಕೂಲ್ ಕೊಟ್ಟಿರುವ ಐಡಿ ಕಾರ್ಡ್ ಫೋಟೋ (ಆಯ್ಕೆ):</label>
                 <input type="file" id="schoolIdPhoto" accept="image/*" onchange="previewChildImage(event, 'idcard')">
                 <img id="idCardPreview" alt="ಪ್ರಿವ್ಯೂ">
             </div>
@@ -384,11 +383,10 @@
     let afterNotificationAction = null;
     let audioGuideEnabled = false;
 
-    // ಆಡಿಯೋ ಮಾರ್ಗದರ್ಶನ (Voice Guidance Function using Web Speech API)
     function speakText(text) {
         if (!audioGuideEnabled) return;
         if ('speechSynthesis' in window) {
-            window.speechSynthesis.cancel(); // Stop previous audio
+            window.speechSynthesis.cancel();
             let utterance = new SpeechSynthesisUtterance(text);
             utterance.lang = currentLang === 'kn' ? 'kn-IN' : (currentLang === 'hi' ? 'hi-IN' : 'en-US');
             utterance.rate = 1.0;
@@ -436,7 +434,7 @@
             lblSchool: "ಹೈಸ್ಕೂಲ್ / ಕಾಲೇಜು ಹೆಸರು:",
             lblClass: "ತರಗತಿ ಆಯ್ಕೆಮಾಡಿ:",
             lblSubject: "ಪಾಠದ ವಿಷಯ:",
-            lblSelfie: "ನಿಮ್ಮ ನೇರ ಸೆಲ್ಫಿ ಫೋಟೋ ಹಾಕಿ (ಕ್ಯಾಮೆರಾ ಓಪನ್ ಆಗುತ್ತದೆ):",
+            lblSelfie: "ನಿಮ್ಮ ನೇರ ಸೆಲ್ಫಿ ಅಥವಾ ಬ್ಯಾಕ್ ಫೋಟೋ ಹಾಕಿ:",
             btnSaveTeacher: "ಸಂರಕ್ಷಿಸಿ ಮತ್ತು ಐಡಿ ಪಡೆಯಿರಿ",
             lblIdDetailsTitle: "ನಿಮ್ಮ ಐಡಿ ವಿವರಗಳು",
             lblIdNum: "ಐಡಿ ಸಂಖ್ಯೆ:",
@@ -478,7 +476,7 @@
             lblSchool: "हाई स्कूल / कॉलेज का नाम:",
             lblClass: "कक्षा चुनें:",
             lblSubject: "विषय:",
-            lblSelfie: "अपनी लाइव सेल्फी फोटो अपलोड करें:",
+            lblSelfie: "अपनी फोटो अपलोड करें:",
             btnSaveTeacher: "सहेजें और आईडी प्राप्त करें",
             lblIdDetailsTitle: "आपकी आईडी विवरण",
             lblIdNum: "आईडी नंबर:",
@@ -520,7 +518,7 @@
             lblSchool: "School / College Name:",
             lblClass: "Select Class:",
             lblSubject: "Subject:",
-            lblSelfie: "Upload Your Live Selfie:",
+            lblSelfie: "Upload Your Photo:",
             btnSaveTeacher: "Save and Get ID",
             lblIdDetailsTitle: "Your ID Details",
             lblIdNum: "ID Number:",
@@ -696,12 +694,11 @@
 
         if(!name || phone.length !== 10 || !district || !taluk || !village || !school || !classVal || !subjectVal) {
             alert("ದಯವಿಟ್ಟು ಎಲ್ಲಾ ಮಾಹಿತಿಗಳನ್ನು ಸರಿಯಾಗಿ ಭರ್ತಿ ಮಾಡಿ!");
-            speakText("ದಯವಿಟ್ಟು ಎಲ್ಲಾ ಮಾಹಿತಿಗಳನ್ನು ಸರಿಯಾಗಿ ಭರ್ತಿ ಮಾಡಿ.");
             return;
         }
 
         if(!capturedImageSrc) {
-            alert("ದಯವಿಟ್ಟು ನಿಮ್ಮ ಸೆಲ್ಫಿ ಫೋಟೋ ಆಯ್ಕೆಮಾಡಿ!");
+            alert("ದಯವಿಟ್ಟು ನಿಮ್ಮ ಫೋಟೋ (ಸೆಲ್ಫಿ ಅಥವಾ ಬ್ಯಾಕ್ ಫೋಟೋ) ಆಯ್ಕೆಮಾಡಿ!");
             return;
         }
 
@@ -724,12 +721,13 @@
 
         document.getElementById('popupTitle').innerText = "ಯಶಸ್ವಿಯಾಗಿದೆ!";
         document.getElementById('popupMessage').innerText = "ನಿಮ್ಮ ಐಡಿ ಯಶಸ್ವಿಯಾಗಿದೆ! ಐಡಿ ಸಂಖ್ಯೆ: " + generatedId;
-        speakText("ನಿಮ್ಮ ನೋಂದಣಿ ಯಶಸ್ವಿಯಾಗಿದೆ.");
         
+        // ಸರಿ (OK) ಒತ್ತಿದ ಕೂಡಲೇ ಮುಂದಿನ ಪುಟಕ್ಕೆ ಹೋಗುವಂತೆ ಇಲ್ಲಿ ಸೆಟ್ ಮಾಡಲಾಗಿದೆ
         afterNotificationAction = () => {
             document.getElementById('registerPage').classList.remove('active-page');
             document.getElementById('idPage').classList.add('active-page');
         };
+        
         document.getElementById('popupModal').style.display = 'block';
     }
 
@@ -875,7 +873,6 @@
                 <button style="background-color: #28a745; color: white; margin-top: 15px; border:none; padding:12px; width:100%; border-radius:5px; font-size:16px; cursor:pointer;" onclick='confirmAttendanceAndNotify("${child.name}", "${child.phone}", "${child.id}")'>✅ ಹಾಜರಾತಿ ಖಚಿತಪಡಿಸಿ ಮತ್ತು ಪೋಷಕರಿಗೆ ಸಂದೇಶ ಕಳುಹಿಸಿ</button>
             </div>
         `;
-        speakText("ಮಗು ಪತ್ತೆಯಾಗಿದೆ. ಹಾಜರಾತಿ ಖಚಿತಪಡಿಸಿ.");
     }
 
     function confirmAttendanceAndNotify(childName, parentPhone, childId) {
@@ -905,7 +902,6 @@
         };
 
         document.getElementById('popupModal').style.display = 'block';
-        speakText("ಹಾಜರಾತಿ ಯಶಸ್ವಿಯಾಗಿದೆ.");
 
         window.open(whatsappUrl, '_blank');
     }
