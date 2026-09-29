@@ -95,7 +95,6 @@
             border-radius: 5px;
             background: #000;
         }
-        /* ಲೈವ್ ಕ್ಯಾಮೆರಾ ಸ್ಟೈಲ್ */
         #videoElement {
             width: 100%;
             max-height: 250px;
@@ -149,7 +148,7 @@
 
 <div class="container">
     <div style="text-align: right; margin-bottom: 15px;">
-        <label for="langSelect" id="lblLang" style="display:inline; font-size: 14px;" onclick="speakText(translations[currentLang].langLabel)">Language / ಭಾಷೆ: </label>
+        <label for="langSelect" id="lblLang" style="display:inline; font-size: 14px;">Language / ಭಾಷೆ: </label>
         <select id="langSelect" style="width: auto; display: inline-block; padding: 5px;" onchange="changeLanguage()">
             <option value="kn">ಕನ್ನಡ</option>
             <option value="hi">हिंदी</option>
@@ -159,63 +158,57 @@
 
     <!-- ಮುಖ್ಯ ಪೇಜ್ -->
     <div id="homePage" class="page active-page">
-        <h2 id="mainTitle" onclick="speakText(this.innerText)">ಶಾಲೆ ಮತ್ತು ಮಕ್ಕಳ ಸುರಕ್ಷತಾ ಆಪ್</h2>
-        <p id="mainSub" style="text-align: center; color: #666; margin-bottom: 20px;" onclick="speakText(this.innerText)">ದಯವಿಟ್ಟು ಕೆಳಗಿನ ಆಯ್ಕೆಯನ್ನು ಆರಿಸಿ</p>
+        <h2 id="mainTitle">ಶಾಲೆ ಮತ್ತು ಮಕ್ಕಳ ಸುರಕ್ಷತಾ ಆಪ್</h2>
+        <p id="mainSub" style="text-align: center; color: #666; margin-bottom: 20px;">ದಯವಿಟ್ಟು ಕೆಳಗಿನ ಆಯ್ಕೆಯನ್ನು ಆರಿಸಿ</p>
         
-        <button class="small-btn" id="btnTeacherReg" style="background-color: #007bff; color: white;" onclick="speakText(this.innerText); handleTeacherNav();">
+        <button class="small-btn" id="btnTeacherReg" style="background-color: #007bff; color: white;" onclick="handleTeacherNav()">
             👨‍🏫 ಶಿಕ್ಷಕರ ನೋಂದಣಿ / ಐಡಿ ವಿವರ (Teacher Registration)
         </button>
         
-        <button class="small-btn" id="btnStudentAtt" style="background-color: #ffc107; color: #000;" onclick="speakText(this.innerText); promptTeacherAttendanceId();">
+        <button class="small-btn" id="btnStudentAtt" style="background-color: #ffc107; color: #000;" onclick="promptTeacherAttendanceId()">
             📋 ಮಕ್ಕಳ ಹಾಜರಾತಿ (Student Attendance)
         </button>
     </div>
 
     <!-- ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಪೇಜ್ -->
     <div id="registerPage" class="page">
-        <button class="back-btn" id="btnBackHome" onclick="speakText(this.innerText); goToHomeFromRegister();">⬅ ಮುಖ್ಯ ಪೇಜ್‌ಗೆ ಹಿಂದಿರುಗಿ</button>
-        <h2 id="tRegTitle" onclick="speakText(this.innerText)">ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಪೇಜ್</h2>
+        <button class="back-btn" id="btnBackHome" onclick="goToHomeFromRegister()">⬅ ಮುಖ್ಯ ಪೇಜ್‌ಗೆ ಹಿಂದಿರುಗಿ</button>
+        <h2 id="tRegTitle">ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಪೇಜ್</h2>
         
         <form id="teacherForm" onsubmit="validateAndSubmit(event)">
             <div class="form-group">
-                <label id="lblTeacherName" onclick="speakText(this.innerText)">ನಿಮ್ಮ ಹೆಸರು:</label>
-                <input type="text" id="name" placeholder="ನಿಮ್ಮ ಹೆಸರನ್ನು ಹಾಕಿ" onfocus="speakText(this.placeholder)">
-                <div id="nameError" class="error">ದಯವಿಟ್ಟು ನಿಮ್ಮ ಹೆಸರು ಹಾಕಿ</div>
+                <label id="lblTeacherName">ನಿಮ್ಮ ಹೆಸರು:</label>
+                <input type="text" id="name" placeholder="ನಿಮ್ಮ ಹೆಸರನ್ನು ಹಾಕಿ">
             </div>
 
             <div class="form-group">
-                <label id="lblPhone" onclick="speakText(this.innerText)">ಮೊಬೈಲ್ ನಂಬರ್:</label>
-                <input type="tel" id="phone" maxlength="10" placeholder="10 ಅಂಕಿಯ ಮೊಬೈಲ್ ನಂಬರ್" onfocus="speakText(this.placeholder)">
-                <div id="phoneError" class="error">ಸರಿಯಾದ 10 ಅಂಕಿಯ ಮೊಬೈಲ್ ನಂಬರ್ ಹಾಕಿ</div>
+                <label id="lblPhone">ಮೊಬೈಲ್ ನಂಬರ್:</label>
+                <input type="tel" id="phone" maxlength="10" placeholder="10 ಅಂಕಿಯ ಮೊಬೈಲ್ ನಂಬರ್">
             </div>
 
             <div class="form-group">
-                <label id="lblDistrict" onclick="speakText(this.innerText)">ಜಿಲ್ಲೆ:</label>
-                <input type="text" id="district" placeholder="ನಿಮ್ಮ ಜಿಲ್ಲೆ" onfocus="speakText(this.placeholder)">
-                <div id="districtError" class="error">ಜಿಲ್ಲೆಯ ಹೆಸರು ಹಾಕಿ</div>
+                <label id="lblDistrict">ಜಿಲ್ಲೆ:</label>
+                <input type="text" id="district" placeholder="ನಿಮ್ಮ ಜಿಲ್ಲೆ">
             </div>
 
             <div class="form-group">
-                <label id="lblTaluk" onclick="speakText(this.innerText)">ತಾಲೂಕು:</label>
-                <input type="text" id="taluk" placeholder="ನಿಮ್ಮ ತಾಲೂಕು" onfocus="speakText(this.placeholder)">
-                <div id="talukError" class="error">ತಾಲೂಕು ಹೆಸರು ಹಾಕಿ</div>
+                <label id="lblTaluk">ತಾಲೂಕು:</label>
+                <input type="text" id="taluk" placeholder="ನಿಮ್ಮ ತಾಲೂಕು">
             </div>
 
             <div class="form-group">
-                <label id="lblVillage" onclick="speakText(this.innerText)">ಊರು:</label>
-                <input type="text" id="village" placeholder="ನಿಮ್ಮ ಊರು" onfocus="speakText(this.placeholder)">
-                <div id="villageError" class="error">ಊರಿನ ಹೆಸರು ಹಾಕಿ</div>
+                <label id="lblVillage">ಊರು:</label>
+                <input type="text" id="village" placeholder="ನಿಮ್ಮ ಊರು">
             </div>
 
             <div class="form-group">
-                <label id="lblSchool" onclick="speakText(this.innerText)">ಹೈಸ್ಕೂಲ್ / ಕಾಲೇಜು ಹೆಸರು:</label>
-                <input type="text" id="school" placeholder="ಶಾಲೆಯ ಹೆಸರು" onfocus="speakText(this.placeholder)">
-                <div id="schoolError" class="error">ಶಾಲೆ/ಕಾಲೇಜು ಹೆಸರು ಹಾಕಿ</div>
+                <label id="lblSchool">ಹೈಸ್ಕೂಲ್ / ಕಾಲೇಜು ಹೆಸರು:</label>
+                <input type="text" id="school" placeholder="ಶಾಲೆಯ ಹೆಸರು">
             </div>
 
             <div class="form-group">
-                <label id="lblClass" onclick="speakText(this.innerText)">ತರಗತಿ ಆಯ್ಕೆಮಾಡಿ:</label>
-                <select id="classSelect" onchange="speakText(this.options[this.selectedIndex].text)">
+                <label id="lblClass">ತರಗತಿ ಆಯ್ಕೆಮಾಡಿ:</label>
+                <select id="classSelect">
                     <option value="">-- ತರಗತಿ ಆಯ್ಕೆಮಾಡಿ --</option>
                     <option value="LKG">LKG</option>
                     <option value="UKG">UKG</option>
@@ -229,15 +222,12 @@
                     <option value="8ನೇ ತರಗತಿ">8ನೇ ತರಗತಿ</option>
                     <option value="9ನೇ ತರಗತಿ">9ನೇ ತರಗತಿ</option>
                     <option value="10ನೇ ತರಗತಿ">10ನೇ ತರಗತಿ</option>
-                    <option value="PUC">PUC</option>
-                    <option value="Degree">Degree</option>
                 </select>
-                <div id="classError" class="error">ತರಗತಿ ಆಯ್ಕೆಮಾಡಿ</div>
             </div>
 
             <div class="form-group">
-                <label id="lblSubject" onclick="speakText(this.innerText)">ಪಾಠದ ವಿಷಯ:</label>
-                <select id="subjectSelect" onchange="speakText(this.options[this.selectedIndex].text)">
+                <label id="lblSubject">ಪಾಠದ ವಿಷಯ:</label>
+                <select id="subjectSelect">
                     <option value="">-- ವಿಷಯ ಆಯ್ಕೆಮಾಡಿ --</option>
                     <option value="ಕನ್ನಡ">ಕನ್ನಡ</option>
                     <option value="ಇಂಗ್ಲಿಷ್">ಇಂಗ್ಲಿಷ್</option>
@@ -246,40 +236,38 @@
                     <option value="ವಿಜ್ಞಾನ">ವಿಜ್ಞಾನ</option>
                     <option value="ಸಮಾಜ ವಿಜ್ಞಾನ">ಸಮಾಜ ವಿಜ್ಞಾನ</option>
                 </select>
-                <div id="subjectError" class="error">ವಿಷಯ ಆಯ್ಕೆಮಾಡಿ</div>
             </div>
 
             <div class="form-group">
-                <label id="lblSelfie" onclick="speakText(this.innerText)">ನಿಮ್ಮ ಫೋಟೋ ಹಾಕಿ (ಕ್ಯಾಮೆರಾ ಅಥವಾ ಗ್ಯಾಲರಿ):</label>
+                <label id="lblSelfie">ನಿಮ್ಮ ಫೋಟೋ ಹಾಕಿ (ಕ್ಯಾಮೆರಾ ಅಥವಾ ಗ್ಯಾಲರಿ):</label>
                 <input type="file" id="selfie" accept="image/*" onchange="previewImage(event)">
-                <div id="selfieError" class="error" style="display: block; color: #666; font-size: 13px;">ಫೋಟೋ ಆಯ್ಕೆ ಮಾಡಿದ ತಕ್ಷಣ ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಮುಂದಿನ ಹಂತಕ್ಕೆ ಹೋಗುತ್ತದೆ.</div>
                 <img id="preview" alt="ಪ್ರಿವ್ಯೂ">
             </div>
 
-            <button type="submit" id="btnSaveTeacher" onclick="speakText(this.innerText)">ಸಂರಕ್ಷಿಸಿ ಮತ್ತು ಐಡಿ ಪಡೆಯಿರಿ</button>
+            <button type="submit" id="btnSaveTeacher">ಸಂರಕ್ಷಿಸಿ ಮತ್ತು ಐಡಿ ಪಡೆಯಿರಿ</button>
         </form>
     </div>
 
     <!-- ಐಡಿ ಮತ್ತು ಮುಖಪುಟ ಪೇಜ್ -->
     <div id="idPage" class="page">
-        <button class="back-btn" id="btnBackHome2" onclick="speakText(this.innerText); goToHomeFromRegister();">⬅ ಮುಖ್ಯ ಪೇಜ್‌ಗೆ ಹಿಂದಿರುಗಿ</button>
-        <h2 id="lblIdDetailsTitle" onclick="speakText(this.innerText)">ನಿಮ್ಮ ಐಡಿ ವಿವರಗಳು</h2>
+        <button class="back-btn" id="btnBackHome2" onclick="goToHomeFromRegister()">⬅ ಮುಖ್ಯ ಪೇಜ್‌ಗೆ ಹಿಂದಿರುಗಿ</button>
+        <h2 id="lblIdDetailsTitle">ನಿಮ್ಮ ಐಡಿ ವಿವರಗಳು</h2>
         <div style="text-align: center;">
             <img id="displayPhoto" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 15px;" alt="ಫೋಟೋ">
             <h3 id="displayName"></h3>
             <p><b id="lblIdNum">ಐಡಿ ಸಂಖ್ಯೆ:</b> <span id="displayId" style="color: #007bff; font-size: 22px;"></span></p>
             <p id="displayDetails"></p>
             
-            <button id="btnAddChildMain" style="background-color: #28a745; color: white;" onclick="speakText(this.innerText); openChildPage();">ನಿಮ್ಮ ಮಕ್ಕಳನ್ನು / ಹೈಸ್ಕೂಲ್ ಮಕ್ಕಳನ್ನು ಇಲ್ಲಿ ಸೇರಿಸಿ</button>
-            <button id="btnAttMain" style="background-color: #ffc107; color: #000; font-weight: bold;" onclick="speakText(this.innerText); promptTeacherAttendanceId();">📋 ಮಕ್ಕಳ ಹಾಜರಾತಿ ಹಾಕಲು ಇಲ್ಲಿ ಒತ್ತಿ</button>
-            <button id="btnResetId" style="background-color: #dc3545; color: white; margin-top: 10px;" onclick="speakText(this.innerText); resetTeacherData();">🔄 ಹೊಸದಾಗಿ ನೋಂದಣಿ ಮಾಡಿ (Reset ID)</button>
+            <button id="btnAddChildMain" style="background-color: #28a745; color: white;" onclick="openChildPage()">ನಿಮ್ಮ ಮಕ್ಕಳನ್ನು / ಹೈಸ್ಕೂಲ್ ಮಕ್ಕಳನ್ನು ಇಲ್ಲಿ ಸೇರಿಸಿ</button>
+            <button id="btnAttMain" style="background-color: #ffc107; color: #000; font-weight: bold;" onclick="promptTeacherAttendanceId()">📋 ಮಕ್ಕಳ ಹಾಜರಾತಿ ಹಾಕಲು ಇಲ್ಲಿ ಒತ್ತಿ</button>
+            <button id="btnResetId" style="background-color: #dc3545; color: white; margin-top: 10px;" onclick="resetTeacherData()">🔄 ಹೊಸದಾಗಿ ನೋಂದಣಿ ಮಾಡಿ (Reset ID)</button>
         </div>
 
         <hr style="margin: 20px 0;">
 
         <div class="form-group">
-            <label id="lblSearchChild" onclick="speakText(this.innerText)">🔍 ಮಕ್ಕಳ ಐಡಿ ಅಥವಾ ಮೊಬೈಲ್ ನಂಬರ್ ಹುಡುಕಿ:</label>
-            <input type="text" id="searchChildInput" placeholder="ಹೆಸರು, ಐಡಿ ಅಥವಾ ಮೊಬೈಲ್ ನಂಬರ್ ಹಾಕಿ..." onkeyup="filterChildren()" onfocus="speakText(this.placeholder)">
+            <label id="lblSearchChild">🔍 ಮಕ್ಕಳ ಐಡಿ ಅಥವಾ ಮೊಬೈಲ್ ನಂಬರ್ ಹುಡುಕಿ:</label>
+            <input type="text" id="searchChildInput" placeholder="ಹೆಸರು, ಐಡಿ ಅಥವಾ ಮೊಬೈಲ್ ನಂಬರ್ ಹಾಕಿ..." onkeyup="filterChildren()">
         </div>
 
         <div id="childrenContainer"></div>
@@ -287,38 +275,38 @@
 
     <!-- ಮಕ್ಕಳ ನೋಂದಣಿ ಪೇಜ್ -->
     <div id="childRegPage" class="page">
-        <button class="back-btn" id="btnBackToId" onclick="speakText(this.innerText); backToIdPage();">⬅ ಹಿಂದಕ್ಕೆ ತಿರುಗಿ</button>
-        <h2 id="lblChildRegTitle" onclick="speakText(this.innerText)">ಮಕ್ಕಳ ನೋಂದಣಿ ಫಾರ್ಮ್</h2>
+        <button class="back-btn" id="btnBackToId" onclick="backToIdPage()">⬅ ಹಿಂದಕ್ಕೆ ತಿರುಗಿ</button>
+        <h2 id="lblChildRegTitle">ಮಕ್ಕಳ ನೋಂದಣಿ ಫಾರ್ಮ್</h2>
         
         <form id="childForm" onsubmit="saveChildData(event)">
             <div class="form-group">
-                <label id="lblChildName" onclick="speakText(this.innerText)">ಮಕ್ಕಳು ಹೆಸರು:</label>
-                <input type="text" id="childName" placeholder="ಮಗುವಿನ ಹೆಸರು" onfocus="speakText(this.placeholder)">
+                <label id="lblChildName">ಮಕ್ಕಳು ಹೆಸರು:</label>
+                <input type="text" id="childName" placeholder="ಮಗುವಿನ ಹೆಸರು">
             </div>
 
             <div class="form-group">
-                <label id="lblFatherName" onclick="speakText(this.innerText)">ತಂದೆಯ ಹೆಸರು:</label>
-                <input type="text" id="fatherName" placeholder="ತಂದೆಯ ಹೆಸರು" onfocus="speakText(this.placeholder)">
+                <label id="lblFatherName">ತಂದೆಯ ಹೆಸರು:</label>
+                <input type="text" id="fatherName" placeholder="ತಂದೆಯ ಹೆಸರು">
             </div>
 
             <div class="form-group">
-                <label id="lblMotherName" onclick="speakText(this.innerText)">ತಾಯಿಯ ಹೆಸರು:</label>
-                <input type="text" id="motherName" placeholder="ತಾಯಿಯ ಹೆಸರು" onfocus="speakText(this.placeholder)">
+                <label id="lblMotherName">ತಾಯಿಯ ಹೆಸರು:</label>
+                <input type="text" id="motherName" placeholder="ತಾಯಿಯ ಹೆಸರು">
             </div>
 
             <div class="form-group">
-                <label id="lblParentPhone" onclick="speakText(this.innerText)">ತಂದೆ/ತಾಯಿಯ ಮೊಬೈಲ್ ನಂಬರ್ (ಆಧಾರ್ ಲಿಂಕ್ ನಂಬರ್):</label>
-                <input type="tel" id="parentPhone" maxlength="10" placeholder="10 ಅಂಕಿಯ ಮೊಬೈಲ್ ನಂಬರ್" onfocus="speakText(this.placeholder)">
+                <label id="lblParentPhone">ತಂದೆ/ತಾಯಿಯ ಮೊಬೈಲ್ ನಂಬರ್ (ಆಧಾರ್ ಲಿಂಕ್ ನಂಬರ್):</label>
+                <input type="tel" id="parentPhone" maxlength="10" placeholder="10 ಅಂಕಿಯ ಮೊಬೈಲ್ ನಂಬರ್">
             </div>
 
             <div class="form-group">
-                <label id="lblChildVillage" onclick="speakText(this.innerText)">ಮಗುವಿನ ಊರು ಯಾವುದು:</label>
-                <input type="text" id="childVillage" placeholder="ಊರಿನ ಹೆಸರು" onfocus="speakText(this.placeholder)">
+                <label id="lblChildVillage">ಮಗುವಿನ ಊರು ಯಾವುದು:</label>
+                <input type="text" id="childVillage" placeholder="ಊರಿನ ಹೆಸರು">
             </div>
 
             <div class="form-group">
-                <label id="lblChildClass" onclick="speakText(this.innerText)">ಎಷ್ಟನೇ ತರಗತಿ ಇದ್ದಾರೆ:</label>
-                <select id="childClass" onchange="speakText(this.options[this.selectedIndex].text)">
+                <label id="lblChildClass">ಎಷ್ಟನೇ ತರಗತಿ ಇದ್ದಾರೆ:</label>
+                <select id="childClass">
                     <option value="">-- ತರಗತಿ ಆಯ್ಕೆಮಾಡಿ --</option>
                     <option value="LKG">LKG</option>
                     <option value="UKG">UKG</option>
@@ -336,40 +324,38 @@
             </div>
 
             <div class="form-group">
-                <label id="lblChildPhoto" onclick="speakText(this.innerText)">ಮಕ್ಕಳ ಫೋಟೋ (ಯಾವ ಸೈಜ್‌ನದಾದರೂ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ):</label>
+                <label id="lblChildPhoto">ಮಕ್ಕಳ ಫೋಟೋ (ಯಾವ ಸೈಜ್‌ನದಾದರೂ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ):</label>
                 <input type="file" id="childSelfie" accept="image/*" onchange="previewChildImage(event, 'selfie')">
                 <img id="childPreview" alt="ಪ್ರಿವ್ಯೂ">
             </div>
 
             <div class="form-group">
-                <label id="lblSchoolIdPhoto" onclick="speakText(this.innerText)">ಹೈಸ್ಕೂಲ್ ಕೊಟ್ಟಿರುವ ಐಡಿ ಕಾರ್ಡ್ ಫೋಟೋ:</label>
+                <label id="lblSchoolIdPhoto">ಹೈಸ್ಕೂಲ್ ಕೊಟ್ಟಿರುವ ಐಡಿ ಕಾರ್ಡ್ ಫೋಟೋ:</label>
                 <input type="file" id="schoolIdPhoto" accept="image/*" onchange="previewChildImage(event, 'idcard')">
                 <img id="idCardPreview" alt="ಪ್ರಿವ್ಯೂ">
             </div>
 
-            <button type="submit" id="btnGetChildId" onclick="speakText(this.innerText)">ಮಗುವಿನ ಐಡಿ ಪಡೆಯಿರಿ</button>
+            <button type="submit" id="btnGetChildId">ಮಗುವಿನ ಐಡಿ ಪಡೆಯಿರಿ</button>
         </form>
     </div>
 
     <!-- ಮಕ್ಕಳ ಹಾಜರಾತಿ ಪೇಜ್ (ಲೈವ್ ಕ್ಯಾಮೆರಾ ಸ್ಕ್ಯಾನ್) -->
     <div id="attendancePage" class="page">
-        <button class="back-btn" id="btnBackHome3" onclick="speakText(this.innerText); stopCamera(); goToHomeFromAttendance();">⬅ ಮುಖ್ಯ ಪೇಜ್‌ಗೆ ಹಿಂದಿರುಗಿ</button>
-        <h2 id="lblAttTitle" onclick="speakText(this.innerText)">ಮಕ್ಕಳ ಹಾಜರಾತಿ ಲೈವ್ ಕ್ಯಾಮೆರಾ ಸ್ಕ್ಯಾನ್</h2>
+        <button class="back-btn" id="btnBackHome3" onclick="stopCamera(); goToHomeFromAttendance()">⬅ ಮುಖ್ಯ ಪೇಜ್‌ಗೆ ಹಿಂದಿರುಗಿ</button>
+        <h2 id="lblAttTitle">ಮಕ್ಕಳ ಹಾಜರಾತಿ ಲೈವ್ ಕ್ಯಾಮೆರಾ ಸ್ಕ್ಯಾನ್</h2>
         
         <div class="form-group" style="text-align: center;">
-            <label id="lblAttLiveCam" onclick="speakText(this.innerText)">📷 ಮೊಬೈಲ್ ಕ್ಯಾಮೆರಾ ಮುಖವನ್ನು ಸ್ಕ್ಯಾನ್ ಮಾಡುತ್ತಿದೆ:</label>
-            <!-- ಲೈವ್ ಕ್ಯಾಮೆರಾ ವೀಡಿಯೊ ಎಲಿಮೆಂಟ್ -->
+            <label id="lblAttLiveCam">📷 ಮೊಬೈಲ್ ಕ್ಯಾಮೆರಾ ಮುಖವನ್ನು ಸ್ಕ್ಯಾನ್ ಮಾಡುತ್ತಿದೆ:</label>
             <video id="videoElement" autoplay playsinline></video>
             <button type="button" style="background-color: #28a745; color: white;" onclick="simulateFaceScan()">ಮುಖ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ ಮ್ಯಾಚ್ ಮಾಡಿ</button>
         </div>
 
         <div id="scannedChildResult" style="margin-top: 20px;"></div>
 
-        <!-- ಮುಖ ಮ್ಯಾಚ್ ಆಗದಿದ್ದರೆ ಐಡಿ ನಮೂದಿಸಲು ಬಾಕ್ಸ್ -->
         <div id="manualIdContainer" class="form-group" style="margin-top: 20px; display:none; border-top: 1px dashed #ccc; padding-top: 15px;">
-            <label id="lblOrId" style="color: #dc3545;" onclick="speakText(this.innerText)">⚠️ ಮುಖ ಮ್ಯಾಚ್ ಆಗಲಿಲ್ಲವೇ? ದಯವಿಟ್ಟು ಮಗುವಿನ ಐಡಿ ನಂಬರ್ ಹಾಕಿ:</label>
-            <input type="text" id="attendanceChildIdInput" placeholder="ಮಗುವಿನ 4 ಡಿಜಿಟಲ್ ಐಡಿ ಹಾಕಿ..." onfocus="speakText(this.placeholder)">
-            <button id="btnCheckAtt" style="background-color: #17a2b8; color: white;" onclick="speakText(this.innerText); checkChildAttendanceById();">ಐಡಿ ಮೂಲಕ ಚೆಕ್ ಮಾಡಿ</button>
+            <label id="lblOrId" style="color: #dc3545;">⚠️ ಮುಖ ಮ್ಯಾಚ್ ಆಗಲಿಲ್ಲವೇ? ದಯವಿಟ್ಟು ಮಗುವಿನ ಐಡಿ ನಂಬರ್ ಹಾಕಿ:</label>
+            <input type="text" id="attendanceChildIdInput" placeholder="ಮಗುವಿನ 4 ಡಿಜಿಟಲ್ ಐಡಿ ಹಾಕಿ...">
+            <button id="btnCheckAtt" style="background-color: #17a2b8; color: white;" onclick="checkChildAttendanceById()">ಐಡಿ ಮೂಲಕ ಚೆಕ್ ಮಾಡಿ</button>
         </div>
     </div>
 </div>
@@ -379,7 +365,7 @@
     <div class="modal-content">
         <h3 style="color: green;" id="popupTitle">ಯಶಸ್ವಿಯಾಗಿದೆ!</h3>
         <p id="popupMessage">ನಿಮ್ಮ ಐಡಿ ಸೆಕ್ಸಸ್ ಆಗಿದೆ.</p>
-        <button id="btnPopupOk" onclick="speakText(this.innerText); closePopupAndNext();" style="background-color: #007bff; color: white;">ಸರಿ (OK)</button>
+        <button id="btnPopupOk" onclick="closePopupAndNext()" style="background-color: #007bff; color: white;">ಸರಿ (OK)</button>
     </div>
 </div>
 
@@ -391,7 +377,6 @@
     let currentLang = 'kn';
     let mediaStream = null;
 
-    // ಭಾಷಾ ತರ್ಜುಮೆಗಳು (Language Dictionary)
     const translations = {
         kn: {
             langLabel: "ಭಾಷೆಯನ್ನು ಆಯ್ಕೆ ಮಾಡಿ",
@@ -432,11 +417,7 @@
             lblAttLiveCam: "📷 ಮೊಬೈಲ್ ಕ್ಯಾಮೆರಾ ಮುಖವನ್ನು ಸ್ಕ್ಯಾನ್ ಮಾಡುತ್ತಿದೆ:",
             lblOrId: "⚠️ ಮುಖ ಮ್ಯಾಚ್ ಆಗಲಿಲ್ಲವೇ? ದಯವಿಟ್ಟು ಮಗುವಿನ ಐಡಿ ನಂಬರ್ ಹಾಕಿ:",
             btnCheckAtt: "ಐಡಿ ಮೂಲಕ ಚೆಕ್ ಮಾಡಿ",
-            btnPopupOk: "ಸರಿ (OK)",
-            photoSuccess: "ಫೋಟೋ ಯಶಸ್ವಿಯಾಗಿ ಅಪ್‌ಲೋಡ್ ಆಗಿದೆ.",
-            childPhotoSuccess: "ಮಗುವಿನ ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಆಗಿದೆ.",
-            idCardSuccess: "ಐಡಿ ಕಾರ್ಡ್ ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಆಗಿದೆ.",
-            langChanged: "ಭಾಷೆಯನ್ನು ಕನ್ನಡಕ್ಕೆ ಬದಲಾಯಿಸಲಾಗಿದೆ"
+            btnPopupOk: "ಸರಿ (OK)"
         },
         hi: {
             langLabel: "भाषा चुनें",
@@ -477,11 +458,7 @@
             lblAttLiveCam: "📷 कैमरा चेहरा स्कैन कर रहा है:",
             lblOrId: "⚠️ चेहरा मेल नहीं खाया? कृपया आईडी दर्ज करें:",
             btnCheckAtt: "जांच करें",
-            btnPopupOk: "ठीक है (OK)",
-            photoSuccess: "फोटो सफलतापूर्वक अपलोड हो गई है।",
-            childPhotoSuccess: "बच्चे की फोटो अपलोड हो गई है।",
-            idCardSuccess: "आईडी कार्ड फोटो अपलोड हो गई है।",
-            langChanged: "भाषा को हिंदी में बदल दिया गया है"
+            btnPopupOk: "ठीक है (OK)"
         },
         en: {
             langLabel: "Select Language",
@@ -522,25 +499,9 @@
             lblAttLiveCam: "📷 Camera scanning face:",
             lblOrId: "⚠️ Face not matched? Enter ID:",
             btnCheckAtt: "Check Attendance",
-            btnPopupOk: "OK",
-            photoSuccess: "Photo uploaded successfully.",
-            childPhotoSuccess: "Child photo uploaded successfully.",
-            idCardSuccess: "ID card photo uploaded successfully.",
-            langChanged: "Language changed to English"
+            btnPopupOk: "OK"
         }
     };
-
-    function speakText(text) {
-        if ('speechSynthesis' in window) {
-            window.speechSynthesis.cancel();
-            let utterance = new SpeechSynthesisUtterance(text);
-            if (currentLang === 'hi') utterance.lang = 'hi-IN';
-            else if (currentLang === 'en') utterance.lang = 'en-US';
-            else utterance.lang = 'kn-IN';
-            utterance.rate = 0.9;
-            window.speechSynthesis.speak(utterance);
-        }
-    }
 
     function changeLanguage() {
         currentLang = document.getElementById('langSelect').value;
@@ -587,8 +548,6 @@
         document.getElementById('lblOrId').innerText = t.lblOrId;
         document.getElementById('btnCheckAtt').innerText = t.btnCheckAtt;
         document.getElementById('btnPopupOk').innerText = t.btnPopupOk;
-
-        speakText(t.langChanged);
     }
 
     function handleTeacherNav() {
@@ -633,8 +592,6 @@
                 const img = document.getElementById('preview');
                 img.src = capturedImageSrc;
                 img.style.display = 'block';
-                document.getElementById('selfieError').style.display = 'none';
-                speakText(translations[currentLang].photoSuccess);
             }
             reader.readAsDataURL(file);
         }
@@ -645,19 +602,16 @@
         if (file) {
             const reader = new FileReader();
             reader.onload = function(e) {
-                let t = translations[currentLang];
                 if(type === 'selfie') {
                     childSelfieSrc = e.target.result;
                     const img = document.getElementById('childPreview');
                     img.src = childSelfieSrc;
                     img.style.display = 'block';
-                    speakText(t.childPhotoSuccess);
                 } else {
                     schoolIdSrc = e.target.result;
                     const img = document.getElementById('idCardPreview');
                     img.src = schoolIdSrc;
                     img.style.display = 'block';
-                    speakText(t.idCardSuccess);
                 }
             }
             reader.readAsDataURL(file);
@@ -677,7 +631,6 @@
 
         if(!name || phone.length !== 10 || !district || !taluk || !village || !school || !classVal || !subjectVal || !capturedImageSrc) {
             alert("ದಯವಿಟ್ಟು ಎಲ್ಲಾ ಮಾಹಿತಿಗಳನ್ನು ಸರಿಯಾಗಿ ಭರ್ತಿ ಮಾಡಿ ಮತ್ತು ಫೋಟೋ ಹಾಕಿ!");
-            speakText("ದಯವಿಟ್ಟು ಎಲ್ಲಾ ಮಾಹಿತಿಗಳನ್ನು ಸರಿಯಾಗಿ ಭರ್ತಿ ಮಾಡಿ");
             return;
         }
 
@@ -699,10 +652,8 @@
         loadTeacherProfile(teacherObj);
 
         document.getElementById('popupTitle').innerText = "ಯಶಸ್ವಿಯಾಗಿದೆ!";
-        let successMsg = "ನಿಮ್ಮ ಐಡಿ ಯಶಸ್ವಿಯಾಗಿದೆ! ಐಡಿ ಸಂಖ್ಯೆ: " + generatedId;
-        document.getElementById('popupMessage').innerText = successMsg;
+        document.getElementById('popupMessage').innerText = "ನಿಮ್ಮ ಐಡಿ ಯಶಸ್ವಿಯಾಗಿದೆ! ಐಡಿ ಸಂಖ್ಯೆ: " + generatedId;
         document.getElementById('popupModal').style.display = 'block';
-        speakText(successMsg);
     }
 
     function closePopupAndNext() {
@@ -728,12 +679,10 @@
         document.getElementById('idPage').classList.add('active-page');
     }
 
-    // ಟೀಚರ್ ಐಡಿ ನಮೂದಿಸಿ ಹಾಜರಾತಿ ವಿಭಾಗಕ್ಕೆ ಪ್ರವೇಶ ಮತ್ತು ಲೈವ್ ಕ್ಯಾಮೆರಾ ಆನ್ ಮಾಡುವುದು
     function promptTeacherAttendanceId() {
         let savedTeacher = localStorage.getItem('teacherData');
         if (!savedTeacher) {
             alert("ದಯವಿಟ್ಟು ಮೊದಲು ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಪೂರ್ಣಗೊಳಿಸಿ!");
-            speakText("ದಯವಿಟ್ಟು ಮೊದಲು ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಪೂರ್ಣಗೊಳಿಸಿ");
             return;
         }
 
@@ -745,17 +694,12 @@
             document.getElementById('homePage').classList.remove('active-page');
             document.getElementById('idPage').classList.remove('active-page');
             document.getElementById('attendancePage').classList.add('active-page');
-            
-            // ಕ್ಯಾಮೆರಾ ಓಪನ್ ಮಾಡಿ
             startCamera();
-            speakText("ಹಾಜರಾತಿ ಲೈವ್ ಕ್ಯಾಮೆರಾ ತೆರೆಯಲಾಗಿದೆ");
         } else {
             alert("ನೀವು ನಮೂದಿಸಿದ ಐಡಿ ತಪ್ಪಾಗಿದೆ!");
-            speakText("ನೀವು ನಮೂದಿಸಿದ ಐಡಿ ತಪ್ಪಾಗಿದೆ");
         }
     }
 
-    // ಲೈವ್ ಕ್ಯಾಮೆರಾ ಸ್ಟಾರ್ಟ್ ಮಾಡುವ ಫಂಕ್ಷನ್
     function startCamera() {
         const video = document.getElementById('videoElement');
         navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false })
@@ -765,11 +709,11 @@
             })
             .catch((err) => {
                 console.error("Camera access error: ", err);
-                speakText("ಕ್ಯಾಮೆರಾ ಪ್ರವೇಶ ಸಿಗುತ್ತಿಲ್ಲ");
+                alert("ಕ್ಯಾಮೆರಾ ಪ್ರವೇಶ ಸಿಗುತ್ತಿಲ್ಲ. ದಯವಿಟ್ಟು ಬ್ರೌಸರ್ ಸೆಟ್ಟಿಂಗ್ಸ್‌ನಲ್ಲಿ ಕ್ಯಾಮೆರಾ ಅನುಮತಿ (Permission) ನೀಡಿ.");
+                document.getElementById('manualIdContainer').style.display = 'block';
             });
     }
 
-    // ಕ್ಯಾಮೆರಾ ಬಂದ್ ಮಾಡುವ ಫಂಕ್ಷನ್
     function stopCamera() {
         if (mediaStream) {
             mediaStream.getTracks().forEach(track => track.stop());
@@ -778,48 +722,24 @@
         document.getElementById('manualIdContainer').style.display = 'none';
     }
 
-    // ಮುಖ ಸ್ಕ್ಯಾನ್ ಸಿಮ್ಯುಲೇಷನ್ (ಮುಖ ಮ್ಯಾಚ್ ಆದರೆ ಅಥವಾ ಆಗದಿದ್ದರೆ)
     function simulateFaceScan() {
         if(childrenList.length === 0) {
             alert("ಯಾವುದೇ ಮಕ್ಕಳ ನೋಂದಣಿ ಆಗಿಲ್ಲ! ದಯವಿಟ್ಟು ಮೊದಲು ಮಕ್ಕಳನ್ನು ನೋಂದಾಯಿಸಿ.");
-            speakText("ಯಾವುದೇ ಮಕ್ಕಳ ನೋಂದಣಿ ಆಗಿಲ್ಲ");
             document.getElementById('manualIdContainer').style.display = 'block';
             return;
         }
 
-        // ಇಲ್ಲಿ ಮುಖ ಮ್ಯಾಚ್ ಆಗಿ ಮೊದಲ ಮಗು ಸಿಕ್ಕಿದೆ ಎಂದು ಊಹಿಸಿಕೊಳ್ಳೋಣ (ಅಥವಾ ಯಾದೃಚ್ಛಿಕವಾಗಿ)
+        // ಮುಖ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ ಮಗು ಮ್ಯಾಚ್ ಆಗಿರುವುದನ್ನು ತೋರಿಸುವುದು
         let matchedChild = childrenList[0]; 
-        
-        let resultContainer = document.getElementById('scannedChildResult');
-        resultContainer.innerHTML = `
-            <div class="child-card" style="border: 2px solid #28a745; background: #e8f5e9;">
-                <h3 style="color: #2e7d32; margin-top: 0;">ಮುಖ ಮ್ಯಾಚ್ ಆಯಿತು! ಮಗು ಪತ್ತೆಯಾಗಿದೆ!</h3>
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <img src="${matchedChild.selfie}" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;" alt="ಫೋಟೋ">
-                    <div>
-                        <p style="margin: 0; font-weight: bold; font-size: 18px;">ಹೆಸರು: ${matchedChild.name}</p>
-                        <p style="margin: 2px 0; font-size: 16px; color: #007bff;">ಐಡಿ ನಂಬರ್: <b>${matchedChild.id}</b></p>
-                        <p style="margin: 0; font-size: 13px;">ಪೋಷಕರ ನಂಬರ್: ${matchedChild.phone}</p>
-                        <p style="margin: 0; font-size: 13px;">ತರಗತಿ: ${matchedChild.className} | ಊರು: ${matchedChild.village}</p>
-                    </div>
-                </div>
-                <button style="background-color: #28a745; color: white; margin-top: 15px; border:none; padding:12px; width:100%; border-radius:5px; font-size:16px; cursor:pointer;" onclick='confirmAttendanceAndNotify("${matchedChild.name}", "${matchedChild.phone}", "${matchedChild.id}")'>✅ ಹಾಜರಾತಿ ಖಚಿತಪಡಿಸಿ ಮತ್ತು ಪೋಷಕರಿಗೆ ಸಂದೇಶ ಕಳುಹಿಸಿ</button>
-            </div>
-        `;
-        speakText("ಮುಖ ಮ್ಯಾಚ್ ಆಗಿದೆ. ಮಗುವಿನ ಹೆಸರು " + matchedChild.name + ", ಐಡಿ ನಂಬರ್ " + matchedChild.id);
-        
-        // ಒಂದು ವೇಳೆ ಮುಖ ಮ್ಯಾಚ್ ಆಗದಿದ್ದರೆ ಮ್ಯಾನುಯಲ್ ಐಡಿ ಬಾಕ್ಸ್ ತೋರಿಸಲು ಆಯ್ಕೆ ನೀಡಬಹುದು
-        document.getElementById('manualIdContainer').style.display = 'block';
+        showMatchedChild(matchedChild);
     }
 
-    // ಮ್ಯಾನುಯಲ್ ಆಗಿ ಐಡಿ ಹಾಕಿ ಚೆಕ್ ಮಾಡುವ ವಿಧಾನ
     function checkChildAttendanceById() {
         let searchId = document.getElementById('attendanceChildIdInput').value.trim();
         let resultContainer = document.getElementById('scannedChildResult');
 
         if(searchId === "") {
             alert("ದಯವಿಟ್ಟು ಮಗುವಿನ ಐಡಿ ನಂಬರ್ ಹಾಕಿ!");
-            speakText("ದಯವಿಟ್ಟು ಮಗುವಿನ ಐಡಿ ನಂಬರ್ ಹಾಕಿ");
             return;
         }
 
@@ -827,37 +747,52 @@
 
         if(!foundChild) {
             resultContainer.innerHTML = "<p style='color:red; text-align:center;'>ಈ ಐಡಿ ಇರುವ ಮಗು ಕಂಡುಬಂದಿಲ್ಲ!</p>";
-            speakText("ಈ ಐಡಿ ಇರುವ ಮಗು ಕಂಡುಬಂದಿಲ್ಲ");
             return;
         }
 
+        showMatchedChild(foundChild);
+    }
+
+    function showMatchedChild(child) {
+        let resultContainer = document.getElementById('scannedChildResult');
         resultContainer.innerHTML = `
             <div class="child-card" style="border: 2px solid #28a745; background: #e8f5e9;">
-                <h3 style="color: #2e7d32; margin-top: 0;">ಮಗು ಪತ್ತೆಯಾಗಿದೆ!</h3>
+                <h3 style="color: #2e7d32; margin-top: 0;">ಮುಖ ಮ್ಯಾಚ್ ಆಯಿತು! ಮಗು ಪತ್ತೆಯಾಗಿದೆ!</h3>
                 <div style="display: flex; align-items: center; gap: 10px;">
-                    <img src="${foundChild.selfie}" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;" alt="ಫೋಟೋ">
+                    <img src="${child.selfie}" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;" alt="ಫೋಟೋ">
                     <div>
-                        <p style="margin: 0; font-weight: bold;">ಹೆಸರು: ${foundChild.name}</p>
-                        <p style="margin: 2px 0; font-size: 14px;">ಐಡಿ: <b>${foundChild.id}</b></p>
-                        <p style="margin: 0; font-size: 13px;">ಪೋಷಕರ ನಂಬರ್: ${foundChild.phone}</p>
-                        <p style="margin: 0; font-size: 13px;">ತರಗತಿ: ${foundChild.className} | ಊರು: ${foundChild.village}</p>
+                        <p style="margin: 0; font-weight: bold; font-size: 18px;">ಹೆಸರು: ${child.name}</p>
+                        <p style="margin: 2px 0; font-size: 16px; color: #007bff;">ಐಡಿ ನಂಬರ್: <b>${child.id}</b></p>
+                        <p style="margin: 0; font-size: 13px;">ಪೋಷಕರ ನಂಬರ್: ${child.phone}</p>
+                        <p style="margin: 0; font-size: 13px;">ತರಗತಿ: ${child.className} | ಊರು: ${child.village}</p>
                     </div>
                 </div>
-                <button style="background-color: #28a745; color: white; margin-top: 15px; border:none; padding:10px; width:100%; border-radius:5px; cursor:pointer;" onclick='confirmAttendanceAndNotify("${foundChild.name}", "${foundChild.phone}", "${foundChild.id}")'>✅ ಚೆಕ್ ಮಾಡಿ ಹಾಜರಾತಿ ಖಚಿತಪಡಿಸಿ</button>
+                <button style="background-color: #28a745; color: white; margin-top: 15px; border:none; padding:12px; width:100%; border-radius:5px; font-size:16px; cursor:pointer;" onclick='confirmAttendanceAndNotify("${child.name}", "${child.phone}", "${child.id}")'>✅ ಹಾಜರಾತಿ ಖಚಿತಪಡಿಸಿ ಮತ್ತು ಪೋಷಕರಿಗೆ ಸಂದೇಶ ಕಳುಹಿಸಿ</button>
             </div>
         `;
-        speakText("ಮಗು ಪತ್ತೆಯಾಗಿದೆ. ಹಾಜರಾತಿ ಖಚಿತಪಡಿಸಿ");
+        document.getElementById('manualIdContainer').style.display = 'block';
     }
 
     function confirmAttendanceAndNotify(childName, parentPhone, childId) {
-        let message = `ನಮಸ್ಕಾರ, ನಿಮ್ಮ ಮಗು ${childName} (ಐಡಿ: ${childId}) ಇಂದು ಶಾಲೆಗೆ ಸುರಕ್ಷಿತವಾಗಿ ತಲುಪಿದ್ದಾರೆ. ಹಾಜರಾತಿ ದಾಖಲಾಗಿದೆ. - ಶಾಲೆ ಮತ್ತು ಮಕ್ಕಳ ಸುರಕ್ಷತಾ ಆಪ್`;
+        let savedTeacher = localStorage.getItem('teacherData');
+        let teacherName = "ಶಿಕ್ಷಕರು";
+        let teacherPhone = "";
+        let schoolName = "ಶಾಲೆ";
+
+        if (savedTeacher) {
+            let teacher = JSON.parse(savedTeacher);
+            teacherName = teacher.name;
+            teacherPhone = teacher.phone;
+            schoolName = teacher.school;
+        }
+
+        let message = `ನಮಸ್ಕಾರ, ನಿಮ್ಮ ಮಗು ${childName} (ಐಡಿ: ${childId}) ಇಂದು ${schoolName} ಶಾಲೆಗೆ ಸುರಕ್ಷಿತವಾಗಿ ತಲುಪಿದ್ದಾರೆ ಮತ್ತು ಹಾಜರಾತಿ ದಾಖಲಾಗಿದೆ.\n- ಮಾಹಿತಿ ನೀಡಿದವರು: ${teacherName} (ಶಿಕ್ಷಕರ ಮೊಬೈಲ್: ${teacherPhone})`;
+        
         let whatsappUrl = `https://wa.me/91${parentPhone}?text=${encodeURIComponent(message)}`;
 
         document.getElementById('popupTitle').innerText = "ಹಾಜರಾತಿ ಯಶಸ್ವಿ!";
-        let attMsg = `ಮಕ್ಕಳ ಹಾಜರಾತಿ ಯಶಸ್ವಿಯಾಗಿದೆ!\nಪೋಷಕರಿಗೆ (${parentPhone}) ವಾಟ್ಸಾಪ್ ನೋಟಿಫಿಕೇಶನ್ ಕಳುಹಿಸಲಾಗಿದೆ.`;
-        document.getElementById('popupMessage').innerText = attMsg;
+        document.getElementById('popupMessage').innerText = `ಮಕ್ಕಳ ಹಾಜರಾತಿ ಯಶಸ್ವಿಯಾಗಿದೆ!\nಪೋಷಕರಿಗೆ (${parentPhone}) ವಾಟ್ಸಾಪ್ ನೋಟಿಫಿಕೇಶನ್ ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ.`;
         document.getElementById('popupModal').style.display = 'block';
-        speakText("ಹಾಜರಾತಿ ಯಶಸ್ವಿಯಾಗಿದೆ ಮತ್ತು ಪೋಷಕರಿಗೆ ಸಂದೇಶ ಕಳುಹಿಸಲಾಗಿದೆ");
 
         window.open(whatsappUrl, '_blank');
 
@@ -876,7 +811,6 @@
 
         if(!cName || !fName || !mName || pPhone.length !== 10 || !cVillage || !cClass) {
             alert("ದಯವಿಟ್ಟು ಎಲ್ಲಾ ವಿವರಗಳನ್ನು ಸರಿಯಾಗಿ ಹಾಕಿ!");
-            speakText("ದಯವಿಟ್ಟು ಎಲ್ಲಾ ವಿವರಗಳನ್ನು ಸರಿಯಾಗಿ ಹಾಕಿ");
             return;
         }
 
@@ -905,7 +839,6 @@
 
         document.getElementById('childRegPage').classList.remove('active-page');
         document.getElementById('idPage').classList.add('active-page');
-        speakText("ಮಗುವಿನ ನೋಂದಣಿ ಯಶಸ್ವಿಯಾಗಿದೆ");
     }
 
     function renderChildren(list) {
@@ -951,7 +884,6 @@
             childrenList = childrenList.filter(c => c.id !== id);
             localStorage.setItem('childrenList', JSON.stringify(childrenList));
             renderChildren(childrenList);
-            speakText("ಮಗುವಿನ ಐಡಿ ಅಳಿಸಲಾಗಿದೆ");
         }
     }
 </script>
