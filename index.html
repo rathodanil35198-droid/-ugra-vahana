@@ -40,12 +40,6 @@
             border-radius: 5px;
             box-sizing: border-box;
         }
-        .error {
-            color: red;
-            font-size: 12px;
-            margin-top: 3px;
-            display: none;
-        }
         button {
             width: 100%;
             padding: 12px;
@@ -295,7 +289,7 @@
             </div>
 
             <div class="form-group">
-                <label id="lblParentPhone">ತಂದೆ/ತಾಯಿಯ ಮೊಬೈಲ್ ನಂಬರ್ (ಆಧಾರ್ ಲಿಂಕ್ ನಂಬರ್):</label>
+                <label id="lblParentPhone">ತಂದೆ/ತಾಯಿಯ ಮೊಬೈಲ್ ನಂಬರ್:</label>
                 <input type="tel" id="parentPhone" maxlength="10" placeholder="10 ಅಂಕಿಯ ಮೊಬೈಲ್ ನಂಬರ್">
             </div>
 
@@ -324,7 +318,7 @@
             </div>
 
             <div class="form-group">
-                <label id="lblChildPhoto">ಮಕ್ಕಳ ಫೋಟೋ (ಯಾವ ಸೈಜ್‌ನದಾದರೂ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ):</label>
+                <label id="lblChildPhoto">ಮಕ್ಕಳ ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ:</label>
                 <input type="file" id="childSelfie" accept="image/*" onchange="previewChildImage(event, 'selfie')">
                 <img id="childPreview" alt="ಪ್ರಿವ್ಯೂ">
             </div>
@@ -346,7 +340,7 @@
         
         <div class="form-group" style="text-align: center;">
             <label id="lblAttLiveCam">📷 ಮೊಬೈಲ್ ಕ್ಯಾಮೆರಾ ಮುಖವನ್ನು ಸ್ಕ್ಯಾನ್ ಮಾಡುತ್ತಿದೆ:</label>
-            <video id="videoElement" autoplay playsinline></video>
+            <video id="videoElement" autoplay playsinline muted></video>
             <button type="button" style="background-color: #28a745; color: white;" onclick="simulateFaceScan()">ಮುಖ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ ಮ್ಯಾಚ್ ಮಾಡಿ</button>
         </div>
 
@@ -407,10 +401,10 @@
             lblChildName: "ಮಕ್ಕಳು ಹೆಸರು:",
             lblFatherName: "ತಂದೆಯ ಹೆಸರು:",
             lblMotherName: "ತಾಯಿಯ ಹೆಸರು:",
-            lblParentPhone: "ತಂದೆ/ತಾಯಿಯ ಮೊಬೈಲ್ ನಂಬರ್ (ಆಧಾರ್ ಲಿಂಕ್ ನಂಬರ್):",
+            lblParentPhone: "ತಂದೆ/ತಾಯಿಯ ಮೊಬೈಲ್ ನಂಬರ್:",
             lblChildVillage: "ಮಗುವಿನ ಊರು ಯಾವುದು:",
             lblChildClass: "ಎಷ್ಟನೇ ತರಗತಿ ಇದ್ದಾರೆ:",
-            lblChildPhoto: "ಮಕ್ಕಳ ಫೋಟೋ (ಯಾವ ಸೈಜ್‌ನದಾದರೂ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ):",
+            lblChildPhoto: "ಮಕ್ಕಳ ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ:",
             lblSchoolIdPhoto: "ಹೈಸ್ಕೂಲ್ ಕೊಟ್ಟಿರುವ ಐಡಿ ಕಾರ್ಡ್ ಫೋಟೋ:",
             btnGetChildId: "ಮಗುವಿನ ಐಡಿ ಪಡೆಯಿರಿ",
             lblAttTitle: "ಮಕ್ಕಳ ಹಾಜರಾತಿ ಲೈವ್ ಕ್ಯಾಮೆರಾ ಸ್ಕ್ಯಾನ್",
@@ -700,23 +694,33 @@
         }
     }
 
+    // ಕ್ಯಾಮೆರಾ ಪರ್ಮಿಷನ್ ಮತ್ತು ಸ್ಟಾರ್ಟ್ ಮಾಡುವ ಕೋಡ್
     function startCamera() {
         const video = document.getElementById('videoElement');
-        navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false })
-            .then((stream) => {
-                mediaStream = stream;
-                video.srcObject = stream;
-            })
-            .catch((err) => {
-                console.error("Camera access error: ", err);
-                alert("ಕ್ಯಾಮೆರಾ ಪ್ರವೇಶ ಸಿಗುತ್ತಿಲ್ಲ. ದಯವಿಟ್ಟು ಬ್ರೌಸರ್ ಸೆಟ್ಟಿಂಗ್ಸ್‌ನಲ್ಲಿ ಕ್ಯಾಮೆರಾ ಅನುಮತಿ (Permission) ನೀಡಿ.");
-                document.getElementById('manualIdContainer').style.display = 'block';
-            });
+        
+        // ಮೊದಲು ಬ್ರೌಸರ್‌ನಲ್ಲಿ getUserMedia ಸಪೋರ್ಟ್ ಇದೆಯಾ ಎಂದು ಚೆಕ್ ಮಾಡುವುದು
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false })
+                .then((stream) => {
+                    mediaStream = stream;
+                    video.srcObject = stream;
+                    document.getElementById('manualIdContainer').style.display = 'none';
+                })
+                .catch((err) => {
+                    console.error("Camera error: ", err);
+                    alert("ಕ್ಯಾಮೆರಾ ಪ್ರವೇಶ ಸಿಗುತ್ತಿಲ್ಲ. ಬ್ರೌಸರ್ ಲಾಕ್ (Lock) ಐಕಾನ್ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿ ಕ್ಯಾಮೆರಾ ಅನುಮತಿ 'Allow' ಮಾಡಿ.");
+                    document.getElementById('manualIdContainer').style.display = 'block';
+                });
+        } else {
+            alert("ನಿಮ್ಮ ಬ್ರೌಸರ್ ಕ್ಯಾಮೆರಾವನ್ನು ಬೆಂಬಲಿಸುವುದಿಲ್ಲ.");
+            document.getElementById('manualIdContainer').style.display = 'block';
+        }
     }
 
     function stopCamera() {
         if (mediaStream) {
             mediaStream.getTracks().forEach(track => track.stop());
+            mediaStream = null;
         }
         document.getElementById('scannedChildResult').innerHTML = "";
         document.getElementById('manualIdContainer').style.display = 'none';
@@ -729,7 +733,6 @@
             return;
         }
 
-        // ಮುಖ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ ಮಗು ಮ್ಯಾಚ್ ಆಗಿರುವುದನ್ನು ತೋರಿಸುವುದು
         let matchedChild = childrenList[0]; 
         showMatchedChild(matchedChild);
     }
