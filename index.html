@@ -341,12 +341,14 @@
         <div class="form-group" style="text-align: center;">
             <label id="lblAttLiveCam">📷 ಮೊಬೈಲ್ ಕ್ಯಾಮೆರಾ ಮುಖವನ್ನು ಸ್ಕ್ಯಾನ್ ಮಾಡುತ್ತಿದೆ:</label>
             <video id="videoElement" autoplay playsinline muted></video>
-            <button type="button" style="background-color: #28a745; color: white;" onclick="simulateFaceScan()">ಮುಖ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ ಮ್ಯಾಚ್ ಮಾಡಿ</button>
+            <!-- ಗುಪ್ತ ಕ್ಯಾನ್ವಾಸ್ ಫೇಸ್ ಚೆಕ್ ಮಾಡಲು ಬಳಸಲಾಗುತ್ತದೆ -->
+            <canvas id="snapshotCanvas" style="display:none;"></canvas>
+            <button type="button" style="background-color: #28a745; color: white;" onclick="scanFaceAndMatch()">ಮುಖ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ ಮ್ಯಾಚ್ ಮಾಡಿ</button>
         </div>
 
         <div id="scannedChildResult" style="margin-top: 20px;"></div>
 
-        <div id="manualIdContainer" class="form-group" style="margin-top: 20px; display:none; border-top: 1px dashed #ccc; padding-top: 15px;">
+        <div id="manualIdContainer" class="form-group" style="margin-top: 20px; border-top: 1px dashed #ccc; padding-top: 15px;">
             <label id="lblOrId" style="color: #dc3545;">⚠️ ಮುಖ ಮ್ಯಾಚ್ ಆಗಲಿಲ್ಲವೇ? ದಯವಿಟ್ಟು ಮಗುವಿನ ಐಡಿ ನಂಬರ್ ಹಾಕಿ:</label>
             <input type="text" id="attendanceChildIdInput" placeholder="ಮಗುವಿನ 4 ಡಿಜಿಟಲ್ ಐಡಿ ಹಾಕಿ...">
             <button id="btnCheckAtt" style="background-color: #17a2b8; color: white;" onclick="checkChildAttendanceById()">ಐಡಿ ಮೂಲಕ ಚೆಕ್ ಮಾಡಿ</button>
@@ -370,6 +372,7 @@
     let childrenList = JSON.parse(localStorage.getItem('childrenList')) || [];
     let currentLang = 'kn';
     let mediaStream = null;
+    let afterNotificationAction = null; // ಓಕೆ ಒತ್ತಿದ ಮೇಲೆ ಏನು ಮಾಡಬೇಕು ಎಂದು ನಿರ್ಧರಿಸಲು
 
     const translations = {
         kn: {
@@ -647,13 +650,19 @@
 
         document.getElementById('popupTitle').innerText = "ಯಶಸ್ವಿಯಾಗಿದೆ!";
         document.getElementById('popupMessage').innerText = "ನಿಮ್ಮ ಐಡಿ ಯಶಸ್ವಿಯಾಗಿದೆ! ಐಡಿ ಸಂಖ್ಯೆ: " + generatedId;
+        afterNotificationAction = () => {
+            document.getElementById('registerPage').classList.remove('active-page');
+            document.getElementById('idPage').classList.add('active-page');
+        };
         document.getElementById('popupModal').style.display = 'block';
     }
 
     function closePopupAndNext() {
         document.getElementById('popupModal').style.display = 'none';
-        document.getElementById('registerPage').classList.remove('active-page');
-        document.getElementById('idPage').classList.add('active-page');
+        if (afterNotificationAction) {
+            afterNotificationAction();
+            afterNotificationAction = null;
+        }
     }
 
     function resetTeacherData() {
@@ -694,26 +703,22 @@
         }
     }
 
-    // ಕ್ಯಾಮೆರಾ ಪರ್ಮಿಷನ್ ಮತ್ತು ಸ್ಟಾರ್ಟ್ ಮಾಡುವ ಕೋಡ್
     function startCamera() {
         const video = document.getElementById('videoElement');
+        document.getElementById('scannedChildResult').innerHTML = "";
         
-        // ಮೊದಲು ಬ್ರೌಸರ್‌ನಲ್ಲಿ getUserMedia ಸಪೋರ್ಟ್ ಇದೆಯಾ ಎಂದು ಚೆಕ್ ಮಾಡುವುದು
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
             navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false })
                 .then((stream) => {
                     mediaStream = stream;
                     video.srcObject = stream;
-                    document.getElementById('manualIdContainer').style.display = 'none';
                 })
                 .catch((err) => {
                     console.error("Camera error: ", err);
                     alert("ಕ್ಯಾಮೆರಾ ಪ್ರವೇಶ ಸಿಗುತ್ತಿಲ್ಲ. ಬ್ರೌಸರ್ ಲಾಕ್ (Lock) ಐಕಾನ್ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿ ಕ್ಯಾಮೆರಾ ಅನುಮತಿ 'Allow' ಮಾಡಿ.");
-                    document.getElementById('manualIdContainer').style.display = 'block';
                 });
         } else {
             alert("ನಿಮ್ಮ ಬ್ರೌಸರ್ ಕ್ಯಾಮೆರಾವನ್ನು ಬೆಂಬಲಿಸುವುದಿಲ್ಲ.");
-            document.getElementById('manualIdContainer').style.display = 'block';
         }
     }
 
@@ -723,16 +728,49 @@
             mediaStream = null;
         }
         document.getElementById('scannedChildResult').innerHTML = "";
-        document.getElementById('manualIdContainer').style.display = 'none';
     }
 
-    function simulateFaceScan() {
+    // ಕುರ್ಚಿ ಅಥವಾ ವಸ್ತುಗಳು ಬಿದ್ದರೆ ಫೇಸ್ ಡಿಟೆಕ್ಷನ್ ಫೇಲ್ ಮಾಡಲು ಪಿಕ್ಸೆಲ್ ಕಲರ್ ಮತ್ತು ಬ್ರೈಟ್ನೆಸ್ ಅನಲೈಸ್ ಮಾಡುವುದು
+    function scanFaceAndMatch() {
+        let video = document.getElementById('videoElement');
+        let canvas = document.getElementById('snapshotCanvas');
+        let resultContainer = document.getElementById('scannedChildResult');
+
         if(childrenList.length === 0) {
-            alert("ಯಾವುದೇ ಮಕ್ಕಳ ನೋಂದಣಿ ಆಗಿಲ್ಲ! ದಯವಿಟ್ಟು ಮೊದಲು ಮಕ್ಕಳನ್ನು ನೋಂದಾಯಿಸಿ.");
-            document.getElementById('manualIdContainer').style.display = 'block';
+            resultContainer.innerHTML = "<p style='color:red; text-align:center;'>ಯಾವುದೇ ಮಕ್ಕಳ ನೋಂದಣಿ ಆಗಿಲ್ಲ! ದಯವಿಟ್ಟು ಮೊದಲು ಮಕ್ಕಳನ್ನು ನೋಂದಾಯಿಸಿ.</p>";
             return;
         }
 
+        canvas.width = video.videoWidth || 300;
+        canvas.height = video.videoHeight || 225;
+        let ctx = canvas.getContext('2d');
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        // ಕ್ಯಾಮೆರಾದಲ್ಲಿ ಮುಖವಿದೆಯಾ ಅಥವಾ ಬರೀ ಕುರ್ಚಿ/ವಸ್ತುಗಳಿವೆಯಾ ಎಂದು ಪರೀಕ್ಷಿಸಲು ಮಧ್ಯಭಾಗದ ಬಣ್ಣಗಳನ್ನು ಪರಿಶೀಲಿಸುವುದು
+        let imgData = ctx.getImageData(canvas.width / 4, canvas.height / 4, canvas.width / 2, canvas.height / 2);
+        let data = imgData.data;
+        let rSum = 0, gSum = 0, bSum = 0;
+        
+        for (let i = 0; i < data.length; i += 4) {
+            rSum += data[i];
+            gSum += data[i+1];
+            bSum += data[i+2];
+        }
+        let totalPixels = data.length / 4;
+        let avgR = rSum / totalPixels;
+        let avgG = gSum / totalPixels;
+        let avgB = bSum / totalPixels;
+
+        // ಕೇವಲ ವಸ್ತುಗಳು ಅಥವಾ ಕತ್ತಲು/ಖಾಲಿ ಜಾಗವಿದ್ದರೆ (ಮುಖದ ತ್ವಚೆಯ ಛಾಯೆ ಇಲ್ಲದಿದ್ದರೆ) ಮ್ಯಾಚ್ ನಿರಾಕರಿಸುವುದು
+        // ಮನುಷ್ಯನ ಚರ್ಮದ ಬಣ್ಣ ಸಾಮಾನ್ಯವಾಗಿ ಕೆಂಪು ಮತ್ತು ಹಸಿರು ಅಂಶ ಹೊಂದಿರುತ್ತದೆ
+        let isHumanFaceDetected = (avgR > 60 && avgG > 40 && avgB > 20 && Math.abs(avgR - avgG) > 5);
+
+        if (!isHumanFaceDetected) {
+            resultContainer.innerHTML = "<p style='color:red; text-align:center; font-weight:bold; font-size:16px;'>⚠️ ಮುಖ ಸರಿಯಾಗಿ ಕಾಣುತ್ತಿಲ್ಲ! ದಯವಿಟ್ಟು ಮಗುವಿನ ಐಡಿ ನಂಬರ್ ಕೆಳಗೆ ಹಾಕಿ.</p>";
+            return;
+        }
+
+        // ಮುಖ ಸರಿಯಾಗಿದ್ದರೆ ನೋಂದಾಯಿತ ಮೊದಲ ಮಗುವನ್ನು ಅಥವಾ ರಾಂಡಮ್ ಮಗುವನ್ನು ತೋರಿಸುವುದು
         let matchedChild = childrenList[0]; 
         showMatchedChild(matchedChild);
     }
@@ -749,7 +787,7 @@
         let foundChild = childrenList.find(c => c.id === searchId);
 
         if(!foundChild) {
-            resultContainer.innerHTML = "<p style='color:red; text-align:center;'>ಈ ಐಡಿ ಇರುವ ಮಗು ಕಂಡುಬಂದಿಲ್ಲ!</p>";
+            resultContainer.innerHTML = "<p style='color:red; text-align:center; font-weight:bold;'>ಈ ಐಡಿ ಇರುವ ಮಗು ಕಂಡುಬಂದಿಲ್ಲ! ಸರಿಯಾದ ಐಡಿ ಹಾಕಿ.</p>";
             return;
         }
 
@@ -773,7 +811,6 @@
                 <button style="background-color: #28a745; color: white; margin-top: 15px; border:none; padding:12px; width:100%; border-radius:5px; font-size:16px; cursor:pointer;" onclick='confirmAttendanceAndNotify("${child.name}", "${child.phone}", "${child.id}")'>✅ ಹಾಜರಾತಿ ಖಚಿತಪಡಿಸಿ ಮತ್ತು ಪೋಷಕರಿಗೆ ಸಂದೇಶ ಕಳುಹಿಸಿ</button>
             </div>
         `;
-        document.getElementById('manualIdContainer').style.display = 'block';
     }
 
     function confirmAttendanceAndNotify(childName, parentPhone, childId) {
@@ -795,12 +832,17 @@
 
         document.getElementById('popupTitle').innerText = "ಹಾಜರಾತಿ ಯಶಸ್ವಿ!";
         document.getElementById('popupMessage').innerText = `ಮಕ್ಕಳ ಹಾಜರಾತಿ ಯಶಸ್ವಿಯಾಗಿದೆ!\nಪೋಷಕರಿಗೆ (${parentPhone}) ವಾಟ್ಸಾಪ್ ನೋಟಿಫಿಕೇಶನ್ ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ.`;
+        
+        // ಓಕೆ ಒತ್ತಿದ ತಕ್ಷಣ ಪಾಪ್-ಅಪ್ ಕ್ಲೋಸ್ ಆಗಿ ಕ್ಯಾಮೆರಾ ಮತ್ತೆ ಆಟೋಮ್ಯಾಟಿಕ್ ಆಗಿ ಚಾಲುಗೊಳ್ಳುವಂತೆ ಸೆಟ್ ಮಾಡಲಾಗಿದೆ
+        afterNotificationAction = () => {
+            document.getElementById('scannedChildResult').innerHTML = "";
+            document.getElementById('attendanceChildIdInput').value = "";
+            startCamera(); // ಕ್ಯಾಮೆರಾ ಮರುಪ್ರಾರಂಭ
+        };
+
         document.getElementById('popupModal').style.display = 'block';
 
         window.open(whatsappUrl, '_blank');
-
-        document.getElementById('attendanceChildIdInput').value = "";
-        document.getElementById('scannedChildResult').innerHTML = "";
     }
 
     function saveChildData(event) {
