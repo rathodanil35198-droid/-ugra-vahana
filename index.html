@@ -138,7 +138,7 @@
         }
     </style>
 </head>
-<body>
+<body onclick="playVoiceGuide(event)">
 
 <div class="container">
     <div style="text-align: right; margin-bottom: 15px;">
@@ -148,6 +148,7 @@
             <option value="hi">हिंदी</option>
             <option value="en">English</option>
         </select>
+        <button onclick="toggleAudioGuide()" id="audioToggleBtn" style="margin-top:5px; padding:5px 10px; font-size:12px; background:#17a2b8;">🔊 ಆಡಿಯೋ ಸಹಾಯ ಆನ್/ಆಫ್</button>
     </div>
 
     <!-- ಮುಖ್ಯ ಪೇಜ್ -->
@@ -159,7 +160,6 @@
             👨‍🏫 ಶಿಕ್ಷಕರ ನೋಂದಣಿ / ಐಡಿ ವಿವರ (Teacher Registration)
         </button>
         
-        <!-- ಮುಖ್ಯ ಪೇಜ್‌ಗೆ ಹೊಸ ಮಕ್ಕಳನ್ನು ಸೇರಿಸುವ ಬಟನ್ ಸೇರಿಸಲಾಗಿದೆ -->
         <button class="small-btn" id="btnHomeAddChild" style="background-color: #28a745; color: white;" onclick="promptTeacherIdForChildReg()">
             ➕ ಶಿಕ್ಷಕರು ನಿಮ್ಮ ಮಕ್ಕಳನ್ನು ಇಲ್ಲಿ ಸೇರಿಸಿ (Add New Child)
         </button>
@@ -237,7 +237,7 @@
                 </select>
             </div>
 
-            <!-- ಸೆಲ್ಫಿ ಕ್ಯಾಮೆರಾ ನೇರವಾಗಿ ಓಪನ್ ಆಗಲು capture="user" ಸೇರಿಸಲಾಗಿದೆ -->
+            <!-- ಸೆಲ್ಫಿ ಫೋಟೋ ಸಮಸ್ಯೆ ಸರಿಪಡಿಸಲಾಗಿದೆ -->
             <div class="form-group">
                 <label id="lblSelfie">ನಿಮ್ಮ ನೇರ ಸೆಲ್ಫಿ ಫೋಟೋ ಹಾಕಿ (ಕ್ಯಾಮೆರಾ ಓಪನ್ ಆಗುತ್ತದೆ):</label>
                 <input type="file" id="selfie" accept="image/*" capture="user" onchange="previewImage(event)">
@@ -265,7 +265,6 @@
 
         <hr style="margin: 20px 0;">
 
-        <!-- ಮಕ್ಕಳ ಹುಡುಕಾಟ (Search Option) -->
         <div class="form-group">
             <label id="lblSearchChild">🔍 ಮಕ್ಕಳ ಐಡಿ ಅಥವಾ ಮೊಬೈಲ್ ನಂಬರ್ ಹುಡುಕಿ:</label>
             <input type="text" id="searchChildInput" placeholder="ಹೆಸರು, ಐಡಿ ಅಥವಾ ಮೊಬೈಲ್ ನಂಬರ್ ಹಾಕಿ..." onkeyup="filterChildren()">
@@ -340,7 +339,7 @@
         </form>
     </div>
 
-    <!-- ಮಕ್ಕಳ ಹಾಜರಾತಿ ಪೇಜ್ (ಲೈವ್ ಕ್ಯಾಮೆರಾ ಸ್ಕ್ಯಾನ್) -->
+    <!-- ಮಕ್ಕಳ ಹಾಜರಾತಿ ಪೇಜ್ -->
     <div id="attendancePage" class="page">
         <button class="back-btn" id="btnBackHome3" onclick="stopCamera(); goToHomeFromAttendance()">⬅ ಮುಖ್ಯ ಪೇಜ್‌ಗೆ ಹಿಂದಿರುಗಿ</button>
         <h2 id="lblAttTitle">ಮಕ್ಕಳ ಹಾಜರಾತಿ ಲೈವ್ ಕ್ಯಾಮೆರಾ ಸ್ಕ್ಯಾನ್</h2>
@@ -383,6 +382,41 @@
     let mediaStream = null;
     let useFrontCamera = true;
     let afterNotificationAction = null;
+    let audioGuideEnabled = false;
+
+    // ಆಡಿಯೋ ಮಾರ್ಗದರ್ಶನ (Voice Guidance Function using Web Speech API)
+    function speakText(text) {
+        if (!audioGuideEnabled) return;
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel(); // Stop previous audio
+            let utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = currentLang === 'kn' ? 'kn-IN' : (currentLang === 'hi' ? 'hi-IN' : 'en-US');
+            utterance.rate = 1.0;
+            window.speechSynthesis.speak(utterance);
+        }
+    }
+
+    function toggleAudioGuide() {
+        audioGuideEnabled = !audioGuideEnabled;
+        let btn = document.getElementById('audioToggleBtn');
+        if (audioGuideEnabled) {
+            btn.style.background = "#28a745";
+            btn.innerText = "🔊 ಆಡಿಯೋ ಸಹಾಯ ಆನ್ ಆಗಿದೆ";
+            speakText("ಆಡಿಯೋ ಸಹಾಯ ಸಕ್ರಿಯಗೊಂಡಿದೆ.");
+        } else {
+            btn.style.background = "#17a2b8";
+            btn.innerText = "🔇 ಆಡಿಯೋ ಸಹಾಯ ಆಫ್ ಆಗಿದೆ";
+            window.speechSynthesis.cancel();
+        }
+    }
+
+    function playVoiceGuide(event) {
+        if (!audioGuideEnabled) return;
+        let target = event.target;
+        if (target.tagName === 'LABEL' || target.tagName === 'BUTTON' || target.tagName === 'H2') {
+            speakText(target.innerText);
+        }
+    }
 
     const translations = {
         kn: {
@@ -577,6 +611,7 @@
         let savedTeacher = localStorage.getItem('teacherData');
         if (!savedTeacher) {
             alert("ದಯವಿಟ್ಟು ಮೊದಲು ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಪೂರ್ಣಗೊಳಿಸಿ ನಂತರ ಮಕ್ಕಳನ್ನು ಸೇರಿಸಿ!");
+            speakText("ದಯವಿಟ್ಟು ಮೊದಲು ಶಿಕ್ಷಕರ ನೋಂದಣಿ ಪೂರ್ಣಗೊಳಿಸಿ.");
             return;
         }
 
@@ -659,8 +694,14 @@
         let classVal = document.getElementById('classSelect').value;
         let subjectVal = document.getElementById('subjectSelect').value;
 
-        if(!name || phone.length !== 10 || !district || !taluk || !village || !school || !classVal || !subjectVal || !capturedImageSrc) {
-            alert("ದಯವಿಟ್ಟು ಎಲ್ಲಾ ಮಾಹಿತಿಗಳನ್ನು ಸರಿಯಾಗಿ ಭರ್ತಿ ಮಾಡಿ ಮತ್ತು ನೇರ ಸೆಲ್ಫಿ ಫೋಟೋ ಹಾಕಿ!");
+        if(!name || phone.length !== 10 || !district || !taluk || !village || !school || !classVal || !subjectVal) {
+            alert("ದಯವಿಟ್ಟು ಎಲ್ಲಾ ಮಾಹಿತಿಗಳನ್ನು ಸರಿಯಾಗಿ ಭರ್ತಿ ಮಾಡಿ!");
+            speakText("ದಯವಿಟ್ಟು ಎಲ್ಲಾ ಮಾಹಿತಿಗಳನ್ನು ಸರಿಯಾಗಿ ಭರ್ತಿ ಮಾಡಿ.");
+            return;
+        }
+
+        if(!capturedImageSrc) {
+            alert("ದಯವಿಟ್ಟು ನಿಮ್ಮ ಸೆಲ್ಫಿ ಫೋಟೋ ಆಯ್ಕೆಮಾಡಿ!");
             return;
         }
 
@@ -683,6 +724,8 @@
 
         document.getElementById('popupTitle').innerText = "ಯಶಸ್ವಿಯಾಗಿದೆ!";
         document.getElementById('popupMessage').innerText = "ನಿಮ್ಮ ಐಡಿ ಯಶಸ್ವಿಯಾಗಿದೆ! ಐಡಿ ಸಂಖ್ಯೆ: " + generatedId;
+        speakText("ನಿಮ್ಮ ನೋಂದಣಿ ಯಶಸ್ವಿಯಾಗಿದೆ.");
+        
         afterNotificationAction = () => {
             document.getElementById('registerPage').classList.remove('active-page');
             document.getElementById('idPage').classList.add('active-page');
@@ -757,7 +800,7 @@
                 })
                 .catch((err) => {
                     console.error("Camera error: ", err);
-                    alert("ಕ್ಯಾಮೆರಾ ಪ್ರವೇಶ ಸಿಗುತ್ತಿಲ್ಲ. ಬ್ರೌಸರ್ ಲಾಕ್ ಐಕಾನ್ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿ ಕ್ಯಾಮೆರಾ ಅನುಮತಿ 'Allow' ಮಾಡಿ.");
+                    alert("ಕ್ಯಾಮೆರಾ ಪ್ರವೇಶ ಸಿಗುತ್ತಿಲ್ಲ. ಬ್ರೌಸರ್ ಅನುಮತಿ ಪರಿಶೀಲಿಸಿ.");
                 });
         } else {
             alert("ನಿಮ್ಮ ಬ್ರೌಸರ್ ಕ್ಯಾಮೆರಾವನ್ನು ಬೆಂಬಲಿಸುವುದಿಲ್ಲ.");
@@ -783,7 +826,7 @@
         let resultContainer = document.getElementById('scannedChildResult');
 
         if(childrenList.length === 0) {
-            resultContainer.innerHTML = "<p style='color:red; text-align:center;'>ಯಾವುದೇ ಮಕ್ಕಳ ನೋಂದಣಿ ಆಗಿಲ್ಲ! ದಯವಿಟ್ಟು ಮೊದಲು ಮಕ್ಕಳನ್ನು ನೋಂದಾಯಿಸಿ.</p>";
+            resultContainer.innerHTML = "<p style='color:red; text-align:center;'>ಯಾವುದೇ ಮಕ್ಕಳ ನೋಂದಣಿ ಆಗಿಲ್ಲ!</p>";
             return;
         }
 
@@ -808,7 +851,7 @@
         let foundChild = childrenList.find(c => c.id === searchId);
 
         if(!foundChild) {
-            resultContainer.innerHTML = "<p style='color:red; text-align:center; font-weight:bold;'>ಈ ಐಡಿ ಇರುವ ಮಗು ಕಂಡುಬಂದಿಲ್ಲ! ಸರಿಯಾದ ಐಡಿ ಹಾಕಿ.</p>";
+            resultContainer.innerHTML = "<p style='color:red; text-align:center; font-weight:bold;'>ಈ ಐಡಿ ಇರುವ ಮಗು ಕಂಡುಬಂದಿಲ್ಲ!</p>";
             return;
         }
 
@@ -832,6 +875,7 @@
                 <button style="background-color: #28a745; color: white; margin-top: 15px; border:none; padding:12px; width:100%; border-radius:5px; font-size:16px; cursor:pointer;" onclick='confirmAttendanceAndNotify("${child.name}", "${child.phone}", "${child.id}")'>✅ ಹಾಜರಾತಿ ಖಚಿತಪಡಿಸಿ ಮತ್ತು ಪೋಷಕರಿಗೆ ಸಂದೇಶ ಕಳುಹಿಸಿ</button>
             </div>
         `;
+        speakText("ಮಗು ಪತ್ತೆಯಾಗಿದೆ. ಹಾಜರಾತಿ ಖಚಿತಪಡಿಸಿ.");
     }
 
     function confirmAttendanceAndNotify(childName, parentPhone, childId) {
@@ -852,7 +896,7 @@
         let whatsappUrl = `https://wa.me/91${parentPhone}?text=${encodeURIComponent(message)}`;
 
         document.getElementById('popupTitle').innerText = "ಹಾಜರಾತಿ ಯಶಸ್ವಿ!";
-        document.getElementById('popupMessage').innerText = `ಮಕ್ಕಳ ಹಾಜರಾತಿ ಯಶಸ್ವಿಯಾಗಿದೆ!\nಪೋಷಕರಿಗೆ (${parentPhone}) ವಾಟ್ಸಾಪ್ ನೋಟಿಫಿಕೇಶನ್ ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ.`;
+        document.getElementById('popupMessage').innerText = `ಮಕ್ಕಳ ಹಾಜರಾತಿ ಯಶಸ್ವಿಯಾಗಿದೆ!\nಪೋಷಕರಿಗೆ ವಾಟ್ಸಾಪ್ ನೋಟಿಫಿಕೇಶನ್ ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ.`;
         
         afterNotificationAction = () => {
             document.getElementById('scannedChildResult').innerHTML = "";
@@ -861,6 +905,7 @@
         };
 
         document.getElementById('popupModal').style.display = 'block';
+        speakText("ಹಾಜರಾತಿ ಯಶಸ್ವಿಯಾಗಿದೆ.");
 
         window.open(whatsappUrl, '_blank');
     }
