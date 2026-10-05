@@ -3,51 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ಕನ್ನಡ ಆಲ್-ಇನ್-ಒನ್ ಗೇಮ್ ಸ್ಪಿನ್</title>
+    <title>A R Super Gaming Zone</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; user-select: none; }
-        body { background: linear-gradient(135deg, #101820, #1c2a38); color: white; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 10px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', system-ui, sans-serif; user-select: none; }
+        body { background: #0f172a; color: white; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 10px; }
         
-        .app-container { background: #182232; width: 100%; max-width: 420px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); overflow: hidden; border: 2px solid #2c3e50; position: relative; min-height: 580px; display: flex; flex-direction: column; }
+        .app-container { background: linear-gradient(180deg, #1e1b4b, #0f172a); width: 100%; max-width: 420px; border-radius: 25px; box-shadow: 0 0 30px rgba(236, 72, 153, 0.3); overflow: hidden; border: 3px solid #6366f1; position: relative; min-height: 620px; display: flex; flex-direction: column; }
         
         /* Top Navigation Header */
-        .app-header { background: #0f172a; padding: 15px; text-align: center; font-size: 1.2rem; font-weight: bold; color: #f59e0b; border-bottom: 2px solid #334155; display: flex; justify-content: space-between; align-items: center; }
-        .home-btn { background: #ef4444; color: white; border: none; padding: 5px 12px; border-radius: 8px; font-size: 0.85rem; cursor: pointer; font-weight: bold; }
+        .app-header { background: rgba(15, 23, 42, 0.9); padding: 15px; text-align: center; font-size: 1.2rem; font-weight: 800; color: #facc15; border-bottom: 2px solid #312e81; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(5px); }
+        .back-btn { background: linear-gradient(135deg, #ef4444, #dc2626); color: white; border: none; padding: 8px 15px; border-radius: 12px; font-size: 0.9rem; cursor: pointer; font-weight: bold; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.4); }
+        .back-btn:active { transform: scale(0.95); }
 
         /* Main Menu View */
-        .menu-view { padding: 20px; display: flex; flex-direction: column; gap: 12px; }
-        .menu-title { text-align: center; color: #38bdf8; font-size: 1.1rem; margin-bottom: 10px; }
-        .game-card-btn { background: linear-gradient(135deg, #1e293b, #334155); border: 2px solid #475569; border-radius: 15px; padding: 15px; display: flex; align-items: center; gap: 15px; cursor: pointer; transition: transform 0.2s, border-color 0.2s; }
-        .game-card-btn:active { transform: scale(0.98); border-color: #f59e0b; }
-        .game-icon { font-size: 2rem; background: #0f172a; width: 50px; height: 50px; border-radius: 12px; display: flex; justify-content: center; align-items: center; }
-        .game-info { text-align: left; }
-        .game-info h4 { color: #f8fafc; font-size: 1rem; }
-        .game-info p { color: #94a3b8; font-size: 0.8rem; }
+        .menu-view { padding: 20px; display: flex; flex-direction: column; gap: 14px; overflow-y: auto; }
+        .app-logo-box { text-align: center; margin-bottom: 10px; }
+        .app-logo-box h2 { font-size: 1.6rem; background: linear-gradient(90deg, #ec4899, #8b5cf6, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; }
+        
+        .game-card { background: linear-gradient(135deg, #312e81, #1e1b4b); border: 2px solid #4f46e5; border-radius: 20px; padding: 15px; display: flex; align-items: center; gap: 15px; cursor: pointer; box-shadow: 0 8px 15px rgba(0,0,0,0.3); transition: transform 0.2s; }
+        .game-card:active { transform: scale(0.96); border-color: #facc15; }
+        .game-icon { font-size: 2.2rem; background: linear-gradient(135deg, #4f46e5, #9333ea); width: 60px; height: 60px; border-radius: 16px; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .game-info h4 { color: #ffffff; font-size: 1.1rem; font-weight: 700; }
+        .game-info p { color: #a5b4fc; font-size: 0.8rem; margin-top: 2px; }
 
         /* Game Screen Views */
-        .game-screen { display: none; padding: 20px; flex-direction: column; align-items: center; justify-content: space-between; flex: 1; }
-        
-        /* 1. Word Puzzle Style */
-        .word-box { display: flex; gap: 8px; min-height: 55px; border: 2px dashed #f59e0b; width: 100%; border-radius: 12px; justify-content: center; align-items: center; margin: 15px 0; background: #0f172a; }
+        .game-screen { display: none; padding: 15px; flex-direction: column; align-items: center; justify-content: space-between; flex: 1; }
+        .game-canvas-area { width: 100%; height: 320px; background: #020617; border-radius: 20px; border: 2px solid #3b82f6; position: relative; overflow: hidden; display: flex; justify-content: center; align-items: center; }
+
+        /* Custom Word Game Boxes */
+        .word-box { display: flex; gap: 8px; min-height: 60px; border: 2px dashed #facc15; width: 100%; border-radius: 15px; justify-content: center; align-items: center; margin: 15px 0; background: #020617; }
         .letters-pool { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
-        .tile-btn { background: #f59e0b; color: #000; font-size: 1.4rem; font-weight: bold; width: 50px; height: 50px; border-radius: 10px; border: none; cursor: pointer; box-shadow: 0 4px #b45309; }
+        .tile-btn { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; font-size: 1.4rem; font-weight: bold; width: 55px; height: 55px; border-radius: 14px; border: none; cursor: pointer; box-shadow: 0 5px #b45309; }
         .tile-btn:active { transform: translateY(3px); box-shadow: none; }
         
         .action-row { display: flex; gap: 10px; width: 100%; }
-        .action-btn { flex: 1; padding: 12px; border: none; border-radius: 10px; font-weight: bold; font-size: 0.95rem; cursor: pointer; }
-        .btn-check { background: #22c55e; color: white; }
-        .btn-reset { background: #ef4444; color: white; }
+        .action-btn { flex: 1; padding: 14px; border: none; border-radius: 12px; font-weight: 800; font-size: 1rem; cursor: pointer; text-transform: uppercase; }
+        .btn-check { background: linear-gradient(135deg, #22c55e, #16a34a); color: white; box-shadow: 0 4px 12px rgba(34,197,94,0.4); }
+        .btn-reset { background: linear-gradient(135deg, #ef4444, #dc2626); color: white; box-shadow: 0 4px 12px rgba(239,68,68,0.4); }
 
-        /* Generic Canvas / Interactive Box */
-        .game-area { width: 100%; height: 260px; background: #0f172a; border-radius: 15px; border: 2px solid #334155; position: relative; overflow: hidden; display: flex; justify-content: center; align-items: center; flex-direction: column; }
-        
         /* Modals (Out / Ad Popups) */
-        .modal-overlay { display: none; position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.85); z-index: 10; flex-direction: column; justify-content: center; align-items: center; padding: 20px; }
-        .modal-card { background: #1e293b; border: 2px solid #ef4444; padding: 20px; border-radius: 15px; text-align: center; width: 90%; }
-        .ad-placeholder { background: #0f172a; border: 2px dashed #64748b; height: 120px; border-radius: 10px; margin: 15px 0; display: flex; justify-content: center; align-items: center; color: #94a3b8; font-size: 0.85rem; }
-        .btn-continue { background: #3b82f6; color: white; border: none; padding: 12px; width: 100%; border-radius: 10px; font-weight: bold; font-size: 1rem; cursor: pointer; }
+        .modal-overlay { display: none; position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); z-index: 10; flex-direction: column; justify-content: center; align-items: center; padding: 20px; }
+        .modal-card { background: #1e1b4b; border: 3px solid #ec4899; padding: 25px; border-radius: 20px; text-align: center; width: 90%; box-shadow: 0 0 25px rgba(236, 72, 153, 0.5); }
+        .ad-placeholder { background: #020617; border: 2px dashed #64748b; height: 130px; border-radius: 12px; margin: 15px 0; display: flex; justify-content: center; align-items: center; color: #94a3b8; font-size: 0.9rem; font-weight: bold; }
+        .btn-continue { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border: none; padding: 14px; width: 100%; border-radius: 12px; font-weight: 800; font-size: 1.1rem; cursor: pointer; box-shadow: 0 4px 15px rgba(59,130,246,0.5); }
 
-        .score-badge { background: #334155; padding: 5px 12px; border-radius: 20px; font-size: 0.9rem; color: #38bdf8; }
+        .score-badge { background: #312e81; padding: 6px 15px; border-radius: 20px; font-size: 0.95rem; color: #facc15; border: 1px solid #4f46e5; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -55,309 +55,337 @@
 <div class="app-container">
     <!-- Header -->
     <div class="app-header">
-        <span id="header-title">🎮 ಕನ್ನಡ ಗೇಮ್ ಜೋನ್</span>
-        <button class="home-btn" id="home-btn" onclick="showMenu()" style="display:none;">ಮನೆಗೆ (Home)</button>
+        <button class="back-btn" id="back-btn" onclick="showMenu()" style="display:none;">⬅️ ಬ್ಯಾಕ್ (Back)</button>
+        <span id="header-title" style="flex:1;">🔥 A R G A M E S 🔥</span>
     </div>
 
-    <!-- MAIN MENU (5 Games Selection) -->
+    <!-- MAIN MENU -->
     <div class="menu-view" id="menu-view">
-        <div class="menu-title">ನಿಮಗೆ ಇಷ್ಟವಾದ ಗೇಮ್ ಆಯ್ಕೆ ಮಾಡಿ:</div>
+        <div class="app-logo-box">
+            <h2>🎮 ಗೇಮಿಂಗ್ ಅಡ್ಡ 🎮</h2>
+            <p style="color:#a5b4fc; font-size:0.85rem;">ನಿಮಗೆ ಇಷ್ಟವಾದ ಗೇಮ್ ಆಯ್ಕೆ ಮಾಡಿ ಆಡಿ!</p>
+        </div>
         
-        <div class="game-card-btn" onclick="openGame(1)">
+        <div class="game-card" onclick="openGame(1)">
+            <div class="game-icon">🎯</div>
+            <div class="game-info">
+                <h4>೧. ಟಾರ್ಗೆಟ್ ಬ್ರೇಕ್</h4>
+                <p>ಚಕ್ರಕ್ಕೆ ಪಿನ್ ಹೊಡೆದು ಸ್ಕೋರ್ ಮಾಡಿ!</p>
+            </div>
+        </div>
+
+        <div class="game-card" onclick="openGame(2)">
+            <div class="game-icon">🏎️</div>
+            <div class="game-info">
+                <h4>೨. ಸ್ಪೀಡ್ ಕಾರ್ ರೇಸ್</h4>
+                <p>ಕಾರ್ ಡ್ರೈವ್ ಮಾಡಿ ಅಡೆತಡೆಗಳಿಂದ ತಪ್ಪಿಸಿ</p>
+            </div>
+        </div>
+
+        <div class="game-card" onclick="openGame(3)">
             <div class="game-icon">🧩</div>
             <div class="game-info">
-                <h4>೧. ಕನ್ನಡ ಪದ ಜೋಡಣೆ</h4>
-                <p>ಅಕ್ಷರಗಳನ್ನು ಸೇರಿಸಿ ಸರಿಯಾದ ಪಾಠ/ಪದ ಮಾಡಿ</p>
+                <h4>೩. ಕನ್ನಡ ಪದ ಜೋಡಣೆ</h4>
+                <p>ಅಕ್ಷರಗಳನ್ನು ಸೇರಿಸಿ ಸರಿಯಾದ ಪದ ಮಾಡಿ</p>
             </div>
         </div>
 
-        <div class="game-card-btn" onclick="openGame(2)">
-            <div class="game-icon">🎈</div>
+        <div class="game-card" onclick="openGame(4)">
+            <div class="game-icon">💎</div>
             <div class="game-info">
-                <h4>೨. ಬಲೂನ್ ಶೂಟರ್</h4>
-                <p>ಬಲೂನ್‌ಗಳ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿ ಸ್ಕೋರ್ ಗಳಿಸಿ</p>
+                <h4>೪. ಡೈಮಂಡ್ ಕೆಚರ್</h4>
+                <p>ವೇಗವಾಗಿ ಬೀಳುವ ವಜ್ರಗಳನ್ನು ಹಿಡಿಯಿರಿ</p>
             </div>
         </div>
 
-        <div class="game-card-btn" onclick="openGame(3)">
-            <div class="game-icon">🎲</div>
+        <div class="game-card" onclick="openGame(5)">
+            <div class="game-icon">🐍</div>
             <div class="game-info">
-                <h4>೩. ಲೂಡೋ ಡೈಸ್ ರೋಲರ್</h4>
-                <p>ಡೈಸ್ ಉರುಳಿಸಿ ಲಕ್ಕಿ ನಂಬರ್ ಪಡೆಯಿರಿ</p>
-            </div>
-        </div>
-
-        <div class="game-card-btn" onclick="openGame(4)">
-            <div class="game-icon">🍎</div>
-            <div class="game-info">
-                <h4>೪. ಫ್ರೂಟ್ ಸ್ಮ್ಯಾಶ್</h4>
-                <p>ಹಣ್ಣುಗಳನ್ನು ಒಡೆದು ಪಾಯಿಂಟ್ಸ್ ಪಡೆಯಿರಿ</p>
-            </div>
-        </div>
-
-        <div class="game-card-btn" onclick="openGame(5)">
-            <div class="game-icon">🧱</div>
-            <div class="game-info">
-                <h4>೫. ಕಲರ್ ಮ್ಯಾಚ್ ಪಝಲ್</h4>
-                <p>ಸರಿಯಾದ ಬಣ್ಣ ಗುರುತಿಸಿ ತಲೆಗೆ ಕೆಲಸ ಕೊಡಿ</p>
+                <h4>೫. ಕ್ಲಾಸಿಕ್ ಸ್ನೇಕ್ ಗೇಮ್</h4>
+                <p>ಹಾವು ಸಾಕಿ ದೊಡ್ಡದು ಮಾಡಿ!</p>
             </div>
         </div>
     </div>
 
-    <!-- GAME 1: Word Puzzle -->
+    <!-- GAME 1: Target Pin -->
     <div class="game-screen" id="game-1">
-        <div style="display:flex; justify-content:space-between; width:100%;">
-            <span class="score-badge">ಲೆವೆಲ್: <b id="g1-level">1</b></span>
-            <span class="score-badge">ಅಂಕಗಳು: <b id="g1-score">0</b></span>
+        <span class="score-badge">ಸ್ಕೋರ್: <b id="g1-score">0</b></span>
+        <div class="game-canvas-area" id="g1-area" onclick="shootPin()">
+            <div id="target-wheel" style="width:100px; height:100px; background:#ec4899; border-radius:50%; border:4px solid #fff; display:flex; justify-content:center; align-items:center; font-size:2rem; animation: spin 2s linear infinite;">🎯</div>
+            <div id="pin" style="position:absolute; bottom:20px; font-size:2rem;">📍</div>
         </div>
-        <p style="margin-top:10px; color:#cbd5e1;">ಅಕ್ಷರಗಳನ್ನು ಸರಿಯಾದ ಕ್ರಮದಲ್ಲಿ ಕ್ಲಿಕ್ ಮಾಡಿ:</p>
-        
-        <div class="word-box" id="g1-answer-box"></div>
-        <div class="letters-pool" id="g1-options-box"></div>
+        <p style="color:#a5b4fc;">ಸ್ಕ್ರೀನ್ ಮೇಲೆ ಟ್ಯಾಪ್ ಮಾಡಿ ಪಿನ್ ಹೊಡೆಯಿರಿ!</p>
+    </div>
 
+    <!-- GAME 2: Car Racing -->
+    <div class="game-screen" id="game-2">
+        <span class="score-badge">ಡಿಸ್ಟೆನ್ಸ್: <b id="g2-score">0</b>m</span>
+        <div class="game-canvas-area" id="g2-area">
+            <div id="enemy-car" style="position:absolute; top:0; font-size:2.5rem; left:30px;">🚘</div>
+            <div id="player-car" style="position:absolute; bottom:10px; font-size:2.5rem; left:30px;">🏎️</div>
+        </div>
+        <div class="action-row" style="margin-top:10px;">
+            <button class="action-btn btn-check" onclick="moveCar('left')">⬅️ ಲೆಫ್ಟ್</button>
+            <button class="action-btn btn-check" onclick="moveCar('right')">ರೈಟ್ ➡️</button>
+        </div>
+    </div>
+
+    <!-- GAME 3: Word Puzzle -->
+    <div class="game-screen" id="game-3">
+        <div style="display:flex; justify-content:space-between; width:100%;">
+            <span class="score-badge">ಲೆವೆಲ್: <b id="g3-level">1</b></span>
+            <span class="score-badge">ಅಂಕಗಳು: <b id="g3-score">0</b></span>
+        </div>
+        <div class="word-box" id="g3-answer-box"></div>
+        <div class="letters-pool" id="g3-options-box"></div>
         <div class="action-row">
             <button class="action-btn btn-reset" onclick="resetWordGame()">ರಿಸೆಟ್</button>
             <button class="action-btn btn-check" onclick="checkWordGame()">ಸರಿ ನೋಡೊ</button>
         </div>
     </div>
 
-    <!-- GAME 2: Balloon Pop -->
-    <div class="game-screen" id="game-2">
-        <div style="display:flex; justify-content:space-between; width:100%; margin-bottom:10px;">
-            <span class="score-badge">ಟೈಮ್: <b id="g2-time">15</b>s</span>
-            <span class="score-badge">ಬಲೂನ್ ಸ್ಕೋರ್: <b id="g2-score">0</b></span>
-        </div>
-        <div class="game-area" id="g2-area">
-            <div id="balloon" onclick="popBalloon()" style="font-size:3.5rem; cursor:pointer; position:absolute;">🎈</div>
-        </div>
-    </div>
-
-    <!-- GAME 3: Ludo Dice -->
-    <div class="game-screen" id="game-3">
-        <span class="score-badge" style="margin-bottom:15px;">ಒಟ್ಟು ಅಂಕ: <b id="g3-score">0</b></span>
-        <div class="game-area">
-            <div id="dice" style="font-size:5rem;">🎲</div>
-            <p id="dice-num" style="font-size:1.5rem; margin-top:10px; color:#f59e0b;">1</p>
-        </div>
-        <button class="action-btn btn-check" style="margin-top:20px;" onclick="rollDice()">ಡೈಸ್ ಉರುಳಿಸಿ!</button>
-    </div>
-
-    <!-- GAME 4: Fruit Smash -->
+    <!-- GAME 4: Diamond Catch -->
     <div class="game-screen" id="game-4">
-        <span class="score-badge" style="margin-bottom:10px;">ಕತ್ತರಿಸಿದ ಹಣ್ಣು: <b id="g4-score">0</b></span>
-        <div class="game-area" id="g4-area" onclick="smashFruit(event)">
-            <div id="fruit" style="font-size:3.5rem; position:absolute;">🍎</div>
+        <span class="score-badge">ವಜ್ರಗಳು: <b id="g4-score">0</b></span>
+        <div class="game-canvas-area" id="g4-area">
+            <div id="diamond" onclick="catchDiamond()" style="font-size:3rem; position:absolute; cursor:pointer;">💎</div>
         </div>
     </div>
 
-    <!-- GAME 5: Color Match -->
+    <!-- GAME 5: Snake Game -->
     <div class="game-screen" id="game-5">
-        <span class="score-badge" style="margin-bottom:10px;">ಮ್ಯಾಚ್ ಸ್ಕೋರ್: <b id="g5-score">0</b></span>
-        <p style="margin-bottom:10px; color:#94a3b8;">ತೋರಿಸಿದ ಬಣ್ಣದ ಹೆಸರಿಗೆ ಸರಿಯಾದ ಬಣ್ಣ ಆಯ್ಕೆ ಮಾಡಿ:</p>
-        <h2 id="color-target-text" style="font-size:2rem; margin-bottom:15px;">ಕೆಂಪು</h2>
-        <div class="action-row" id="color-options" style="flex-wrap:wrap; gap:10px;"></div>
+        <span class="score-badge">ಸ್ನೇಕ್ ಸ್ಕೋರ್: <b id="g5-score">0</b></span>
+        <div class="game-canvas-area" style="flex-direction:column;">
+            <div id="snake-food" style="font-size:2rem; position:absolute;">🍎</div>
+            <div id="snake-head" style="font-size:2rem; position:absolute;">🟢</div>
+        </div>
+        <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:5px; width:60%; margin-top:5px;">
+            <div></div><button class="action-btn btn-check" onclick="dir('UP')">⬆️</button><div></div>
+            <button class="action-btn btn-check" onclick="dir('LEFT')">⬅️</button>
+            <button class="action-btn btn-check" onclick="dir('DOWN')">⬇️</button>
+            <button class="action-btn btn-check" onclick="dir('RIGHT')">➡️</button>
+        </div>
     </div>
 
     <!-- OUT / AD POPUP MODAL -->
     <div class="modal-overlay" id="ad-modal">
         <div class="modal-card">
-            <h2 style="color:#ef4444;">ಆಟ ಮುಗಿಯಿತು! ❌</h2>
-            <p style="margin-top:5px; color:#cbd5e1;">ಮುಂದಿನ ಆಟಕ್ಕೆ ಹೋಗಲು 'OK' ಒತ್ತಿ</p>
+            <h1 id="out-title" style="color:#ef4444; font-size:1.8rem;">ಆಟ ಮುಗಿಯಿತು! ❌</h1>
+            <p id="out-msg" style="margin-top:5px; color:#a5b4fc; font-weight:bold;">ಮುಂದೆ ಹೋಗಲು OK ಒತ್ತಿ</p>
             
             <div class="ad-placeholder">
-                📢 [Google AdMob Ads ಪ್ರದರ್ಶನ ಜಾಗ]
+                📢 [Google AdMob Ads ಪ್ಲೇ ಆಗುವ ಜಾಗ]
             </div>
 
-            <button class="btn-continue" onclick="closeModal()">OK / ಮುಂದೆ ಹೋಗಿ</button>
+            <button class="btn-continue" onclick="closeModal()">OK / ಮುಂದೆ ಹೋಗಿ ➡️</button>
         </div>
     </div>
 </div>
 
+<style>
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+</style>
+
 <script>
-    let currentActiveGame = 0;
+    // Audio Sound Effects (Web Audio API - No External Files Needed!)
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    
+    function playWinSound() {
+        let osc = audioCtx.createOscillator();
+        let gain = audioCtx.createGain();
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.3);
+        gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+        osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+    }
+
+    function playLoseSound() {
+        let osc = audioCtx.createOscillator();
+        let gain = audioCtx.createGain();
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(300, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.4);
+        gain.gain.setValueAtTime(0.4, audioCtx.currentTime);
+        osc.start(); osc.stop(audioCtx.currentTime + 0.4);
+    }
+
+    let activeGame = 0;
+    let gameLoopInterval;
 
     function showMenu() {
+        clearInterval(gameLoopInterval);
         document.querySelectorAll('.game-screen').forEach(s => s.style.display = 'none');
         document.getElementById('menu-view').style.display = 'flex';
-        document.getElementById('home-btn').style.display = 'none';
-        document.getElementById('header-title').innerText = "🎮 ಕನ್ನಡ ಗೇಮ್ ಜೋನ್";
-        clearInterval(bTimer);
+        document.getElementById('back-btn').style.display = 'none';
+        document.getElementById('header-title').innerText = "🔥 A R G A M E S 🔥";
     }
 
-    function openGame(gameId) {
-        currentActiveGame = gameId;
+    function openGame(id) {
+        activeGame = id;
         document.getElementById('menu-view').style.display = 'none';
-        document.getElementById('home-btn').style.display = 'block';
+        document.getElementById('back-btn').style.display = 'block';
         document.querySelectorAll('.game-screen').forEach(s => s.style.display = 'none');
-        document.getElementById(`game-${gameId}`).style.display = 'flex';
+        document.getElementById(`game-${id}`).style.display = 'flex';
 
-        if(gameId === 1) { document.getElementById('header-title').innerText = "🧩 ಪದ ಜೋಡಣೆ"; initWordGame(); }
-        if(gameId === 2) { document.getElementById('header-title').innerText = "🎈 ಬಲೂನ್ ಶೂಟರ್"; initBalloonGame(); }
-        if(gameId === 3) { document.getElementById('header-title').innerText = "🎲 ಲೂಡೋ ಡೈಸ್"; }
-        if(gameId === 4) { document.getElementById('header-title').innerText = "🍎 ಫ್ರೂಟ್ ಸ್ಮ್ಯಾಶ್"; moveFruit(); }
-        if(gameId === 5) { document.getElementById('header-title').innerText = "🧱 ಕಲರ್ ಮ್ಯಾಚ್"; initColorGame(); }
+        if(id === 1) { document.getElementById('header-title').innerText = "🎯 ಟಾರ್ಗೆಟ್ ಬ್ರೇಕ್"; g1Score=0; }
+        if(id === 2) { document.getElementById('header-title').innerText = "🏎️ ಕಾರ್ ರೇಸ್"; startCarGame(); }
+        if(id === 3) { document.getElementById('header-title').innerText = "🧩 ಪದ ಜೋಡಣೆ"; initWordGame(); }
+        if(id === 4) { document.getElementById('header-title').innerText = "💎 ಡೈಮಂಡ್ ಕೆಚರ್"; startDiamondGame(); }
+        if(id === 5) { document.getElementById('header-title').innerText = "🐍 ಸ್ನೇಕ್ ಗೇಮ್"; startSnakeGame(); }
     }
 
-    function triggerOutModal() {
+    function triggerOutModal(title="ಆಟ ಮುಗಿಯಿತು! ❌", msg="ಮುಂದೆ ಹೋಗಲು OK ಒತ್ತಿ") {
+        playLoseSound();
+        document.getElementById('out-title').innerText = title;
+        document.getElementById('out-msg').innerText = msg;
         document.getElementById('ad-modal').style.display = 'flex';
+        clearInterval(gameLoopInterval);
     }
 
     function closeModal() {
         document.getElementById('ad-modal').style.display = 'none';
-        if(currentActiveGame === 1) resetWordGame();
-        if(currentActiveGame === 2) initBalloonGame();
+        showMenu();
     }
 
-    /* --- GAME 1: WORD PUZZLE LOGIC --- */
+    /* GAME 1 LOGIC */
+    let g1Score = 0;
+    function shootPin() {
+        playWinSound();
+        g1Score += 10;
+        document.getElementById('g1-score').innerText = g1Score;
+        if(g1Score >= 50) { playWinSound(); alert("ಲೆವೆಲ್ ಕಂಪ್ಲೀಟ್! 🎉"); g1Score = 0; }
+    }
+
+    /* GAME 2 CAR LOGIC */
+    let carPos = 30, enemyY = 0, enemyX = 30, carScore = 0;
+    function startCarGame() {
+        carScore = 0; enemyY = 0;
+        gameLoopInterval = setInterval(() => {
+            enemyY += 15;
+            if(enemyY > 280) {
+                enemyY = 0;
+                enemyX = Math.random() > 0.5 ? 30 : 200;
+                carScore += 10;
+                document.getElementById('g2-score').innerText = carScore;
+            }
+            document.getElementById('enemy-car').style.top = enemyY + 'px';
+            document.getElementById('enemy-car').style.left = enemyX + 'px';
+            
+            // Collision Check
+            if(enemyY > 220 && enemyX === carPos) {
+                triggerOutModal("ಆ್ಯಕ್ಸಿಡೆಂಟ್ ಆಯ್ತು! 💥", "ನಿಮ್ಮ ಸ್ಕೋರ್: " + carScore);
+            }
+        }, 100);
+    }
+    function moveCar(dir) {
+        carPos = dir === 'left' ? 30 : 200;
+        document.getElementById('player-car').style.left = carPos + 'px';
+    }
+
+    /* GAME 3 WORD PUZZLE LOGIC */
     const wordLevels = [
         { level: 1, letters: ["ಪಾ", "ಠ"], answer: "ಪಾಠ" },
         { level: 2, letters: ["ಮ", "ರ"], answer: "ಮರ" },
-        { level: 3, letters: ["ಪು", "ಸ್ತ", "ಕ"], answer: "ಪುಸ್ತಕ" },
-        { level: 4, letters: ["ಶಾ", "ಲೇ"], answer: "ಶಾಲೇ" }
+        { level: 3, letters: ["ಪು", "ಸ್ತ", "ಕ"], answer: "ಪುಸ್ತಕ" }
     ];
-    let g1Idx = 0, g1Score = 0, selectedLetters = [];
+    let g3Idx = 0, g3Score = 0, selLetters = [];
 
     function initWordGame() {
-        const lvlData = wordLevels[g1Idx];
-        document.getElementById('g1-level').innerText = lvlData.level;
-        document.getElementById('g1-answer-box').innerHTML = '';
-        document.getElementById('g1-options-box').innerHTML = '';
-        selectedLetters = [];
+        const lvl = wordLevels[g3Idx];
+        document.getElementById('g3-level').innerText = lvl.level;
+        document.getElementById('g3-answer-box').innerHTML = '';
+        document.getElementById('g3-options-box').innerHTML = '';
+        selLetters = [];
 
-        lvlData.letters.forEach((ltr) => {
+        lvl.letters.forEach((ltr) => {
             let btn = document.createElement('button');
-            btn.className = 'tile-btn';
-            btn.innerText = ltr;
+            btn.className = 'tile-btn'; btn.innerText = ltr;
             btn.onclick = () => {
-                selectedLetters.push({ ltr, btnRef: btn });
+                selLetters.push({ ltr, ref: btn });
                 btn.style.visibility = 'hidden';
-                renderAnswerTiles();
+                renderWordAnswer();
             };
-            document.getElementById('g1-options-box').appendChild(btn);
+            document.getElementById('g3-options-box').appendChild(btn);
         });
     }
 
-    function renderAnswerTiles() {
-        const box = document.getElementById('g1-answer-box');
+    function renderWordAnswer() {
+        const box = document.getElementById('g3-answer-box');
         box.innerHTML = '';
-        selectedLetters.forEach((item, index) => {
+        selLetters.forEach((item, index) => {
             let tile = document.createElement('button');
-            tile.className = 'tile-btn';
-            tile.innerText = item.ltr;
+            tile.className = 'tile-btn'; tile.innerText = item.ltr;
             tile.onclick = () => {
-                item.btnRef.style.visibility = 'visible';
-                selectedLetters.splice(index, 1);
-                renderAnswerTiles();
+                item.ref.style.visibility = 'visible';
+                selLetters.splice(index, 1);
+                renderWordAnswer();
             };
             box.appendChild(tile);
         });
     }
-
-    function resetWordGame() {
-        initWordGame();
-    }
-
+    function resetWordGame() { initWordGame(); }
     function checkWordGame() {
-        const userWord = selectedLetters.map(i => i.ltr).join('');
-        const correctWord = wordLevels[g1Idx].answer;
-
-        if (userWord === correctWord) {
-            alert("ಅದ್ಭುತ! ಸರಿಯಾದ ಉತ್ತರ! 🎉");
-            g1Score += 10;
-            document.getElementById('g1-score').innerText = g1Score;
-            g1Idx = (g1Idx + 1) % wordLevels.length;
+        const ans = selLetters.map(i => i.ltr).join('');
+        if(ans === wordLevels[g3Idx].answer) {
+            playWinSound();
+            g3Score += 10;
+            document.getElementById('g3-score').innerText = g3Score;
+            g3Idx = (g3Idx + 1) % wordLevels.length;
             initWordGame();
         } else {
-            triggerOutModal();
+            triggerOutModal("ತಪ್ಪು ಉತ್ತರ! ❌", "ಸರಿಯಾದ ಪದ ಜೋಡಿಸಿರಿ");
         }
     }
 
-    /* --- GAME 2: BALLOON POP LOGIC --- */
-    let bScore = 0, bTime = 15, bTimer;
-    function initBalloonGame() {
-        bScore = 0; bTime = 15;
-        document.getElementById('g2-score').innerText = bScore;
-        document.getElementById('g2-time').innerText = bTime;
-        moveBalloon();
-        clearInterval(bTimer);
-        bTimer = setInterval(() => {
-            bTime--;
-            document.getElementById('g2-time').innerText = bTime;
-            if(bTime <= 0) {
-                clearInterval(bTimer);
-                triggerOutModal();
+    /* GAME 4 DIAMOND LOGIC */
+    let diaScore = 0;
+    function startDiamondGame() {
+        moveDiamond();
+    }
+    function moveDiamond() {
+        const d = document.getElementById('diamond');
+        d.style.top = Math.random() * 230 + 'px';
+        d.style.left = Math.random() * 250 + 'px';
+    }
+    function catchDiamond() {
+        playWinSound();
+        diaScore += 10;
+        document.getElementById('g4-score').innerText = diaScore;
+        moveDiamond();
+    }
+
+    /* GAME 5 SNAKE LOGIC */
+    let snakeX = 100, snakeY = 100, foodX = 200, foodY = 150, snakeScore = 0, currentDir = 'RIGHT';
+    function startSnakeGame() {
+        snakeScore = 0; snakeX = 100; snakeY = 100;
+        gameLoopInterval = setInterval(() => {
+            if(currentDir === 'RIGHT') snakeX += 20;
+            if(currentDir === 'LEFT') snakeX -= 20;
+            if(currentDir === 'UP') snakeY -= 20;
+            if(currentDir === 'DOWN') snakeY += 20;
+
+            if(snakeX < 0 || snakeX > 300 || snakeY < 0 || snakeY > 260) {
+                triggerOutModal("ಸ್ನೇಕ್ ಔಟ್ ಆಯ್ತು! 🐍", "ಸ್ಕೋರ್: " + snakeScore);
             }
-        }, 1000);
-    }
-    function moveBalloon() {
-        const b = document.getElementById('balloon');
-        b.style.top = Math.random() * 180 + 'px';
-        b.style.left = Math.random() * 250 + 'px';
-    }
-    function popBalloon() {
-        bScore += 5;
-        document.getElementById('g2-score').innerText = bScore;
-        moveBalloon();
-    }
 
-    /* --- GAME 3: LUDO DICE LOGIC --- */
-    let diceTotal = 0;
-    function rollDice() {
-        const rand = Math.floor(Math.random() * 6) + 1;
-        document.getElementById('dice-num').innerText = rand;
-        diceTotal += rand;
-        document.getElementById('g3-score').innerText = diceTotal;
-    }
+            if(Math.abs(snakeX - foodX) < 20 && Math.abs(snakeY - foodY) < 20) {
+                playWinSound();
+                snakeScore += 10;
+                document.getElementById('g5-score').innerText = snakeScore;
+                foodX = Math.floor(Math.random() * 12) * 20;
+                foodY = Math.floor(Math.random() * 10) * 20;
+            }
 
-    /* --- GAME 4: FRUIT SMASH LOGIC --- */
-    let fScore = 0;
-    const fruits = ['🍎', '🍌', '🍇', '🥭', '🍉'];
-    function moveFruit() {
-        const f = document.getElementById('fruit');
-        f.innerText = fruits[Math.floor(Math.random()*fruits.length)];
-        f.style.top = Math.random() * 180 + 'px';
-        f.style.left = Math.random() * 250 + 'px';
+            document.getElementById('snake-head').style.left = snakeX + 'px';
+            document.getElementById('snake-head').style.top = snakeY + 'px';
+            document.getElementById('snake-food').style.left = foodX + 'px';
+            document.getElementById('snake-food').style.top = foodY + 'px';
+        }, 200);
     }
-    function smashFruit(e) {
-        if(e.target.id === 'fruit') {
-            fScore += 10;
-            document.getElementById('g4-score').innerText = fScore;
-            moveFruit();
-        }
-    }
-
-    /* --- GAME 5: COLOR MATCH LOGIC --- */
-    let cScore = 0;
-    const colors = [
-        { name: "ಕೆಂಪು", code: "#ef4444" },
-        { name: "ಹಸಿರು", code: "#22c55e" },
-        { name: "ನೀಲಿ", code: "#3b82f6" },
-        { name: "ಹಳದಿ", code: "#f59e0b" }
-    ];
-    function initColorGame() {
-        const target = colors[Math.floor(Math.random()*colors.length)];
-        document.getElementById('color-target-text').innerText = target.name;
-        document.getElementById('color-target-text').style.color = target.code;
-
-        const container = document.getElementById('color-options');
-        container.innerHTML = '';
-        colors.forEach(c => {
-            let btn = document.createElement('button');
-            btn.className = 'action-btn';
-            btn.style.background = c.code;
-            btn.style.height = '60px';
-            btn.onclick = () => {
-                if(c.name === target.name) {
-                    cScore += 10;
-                    document.getElementById('g5-score').innerText = cScore;
-                    initColorGame();
-                } else {
-                    triggerOutModal();
-                }
-            };
-            container.appendChild(btn);
-        });
-    }
+    function dir(d) { currentDir = d; }
 </script>
 
 </body>
