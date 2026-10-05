@@ -3,255 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ಶಾಲಾ ಹಾಜರಾತಿ ಮತ್ತು ಪೋಷಕರ ಆ್ಯಪ್</title>
+    <title>ಕನ್ನಡ ಪದ ಜೋಡಣೆ ಗೇಮ್</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Arial, sans-serif;
-        }
-        body {
-            background-color: #f0f2f5;
-            color: #333;
-            display: flex;
-            justify-content: center;
-            padding: 10px;
-        }
-        .app-container {
-            width: 100%;
-            max-width: 450px;
-            background: #ffffff;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            overflow: hidden;
-            min-height: 90vh;
-            display: flex;
-            flex-direction: column;
-        }
-        header {
-            background: #1e3c72;
-            background: linear-gradient(to right, #1e3c72, #2a5298);
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-        header h1 {
-            font-size: 20px;
-            margin-bottom: 5px;
-        }
-        header p {
-            font-size: 13px;
-            opacity: 0.9;
-        }
-        .view-section {
-            display: none;
-            padding: 15px;
-            flex: 1;
-        }
-        .active {
-            display: block;
-        }
-        .portal-buttons {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 12px;
-            margin-top: 20px;
-        }
-        .btn {
-            padding: 14px;
-            border: none;
-            border-radius: 8px;
-            font-size: 15px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        .btn-teacher { background: #28a745; color: white; }
-        .btn-parent { background: #007bff; color: white; }
-        .btn-admin { background: #6c757d; color: white; }
-        .btn-back { background: #dc3545; color: white; margin-top: 15px; width: 100%; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
         
-        /* Camera Section */
-        .camera-box {
-            width: 100%;
-            height: 220px;
-            background: #000;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            margin-bottom: 15px;
-            position: relative;
-            overflow: hidden;
-        }
-        video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .card {
-            background: #f8f9fa;
-            border: 1px solid #e9ecef;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-        }
-        .student-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px;
-            background: white;
-            border-bottom: 1px solid #ddd;
-        }
-        .badge {
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            color: white;
-        }
-        .bg-success { background: #28a745; }
-        .bg-danger { background: #dc3545; }
+        .game-card { background: #ffffff; color: #333; width: 90%; max-width: 400px; border-radius: 20px; padding: 20px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.3); position: relative; }
         
-        .notification-item {
-            background: #e7f3fe;
-            border-left: 4px solid #2196F3;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 4px;
-            font-size: 13px;
-        }
+        .header { display: flex; justify-content: space-between; font-weight: bold; font-size: 1.1rem; margin-bottom: 20px; color: #1e3c72; }
+        .score-box { background: #f0f3f8; padding: 6px 12px; border-radius: 10px; }
+
+        .answer-box { display: flex; justify-content: center; gap: 10px; min-height: 60px; border: 2px dashed #2a5298; border-radius: 12px; align-items: center; margin-bottom: 25px; background: #fafafa; }
+        
+        .letter-btn { background: #ff9800; color: white; font-size: 1.5rem; font-weight: bold; width: 55px; height: 55px; border-radius: 12px; border: none; cursor: pointer; box-shadow: 0 4px 0 #e68a00; transition: transform 0.1s; }
+        .letter-btn:active { transform: translateY(4px); box-shadow: none; }
+        
+        .options-container { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+
+        .action-btns { display: flex; gap: 10px; }
+        .btn { flex: 1; padding: 12px; font-size: 1rem; font-weight: bold; border: none; border-radius: 10px; cursor: pointer; }
+        .btn-check { background: #4caf50; color: white; }
+        .btn-clear { background: #f44336; color: white; }
+
+        /* Out / Ad Modal Screen */
+        .modal { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); border-radius: 20px; flex-direction: column; justify-content: center; align-items: center; padding: 20px; color: white; }
+        .modal-content { background: white; color: #333; padding: 20px; border-radius: 15px; width: 100%; text-align: center; }
+        .ad-space { background: #e0e0e0; height: 150px; border: 2px dashed #999; margin: 15px 0; display: flex; justify-content: center; align-items: center; color: #666; font-size: 0.9rem; font-weight: bold; }
+        .btn-continue { background: #2196f3; color: white; padding: 12px 25px; border: none; font-size: 1.1rem; font-weight: bold; border-radius: 8px; cursor: pointer; width: 100%; }
     </style>
 </head>
 <body>
 
-<div class="app-container">
-    <header>
-        <h1>🏫 ಸರ್ಕಾರಿ ಪ್ರೌಢಶಾಲೆ</h1>
-        <p>ಡಿಜಿಟಲ್ ಹಾಜರಾತಿ ಮತ್ತು ನೋಟಿಫಿಕೇಶನ್ ವ್ಯವಸ್ಥೆ</p>
-    </header>
-
-    <!-- 1. HOME / PORTAL SELECTION VIEW -->
-    <div id="home-view" class="view-section active">
-        <h3 style="text-align: center; margin-top: 10px;">ಲಾಗಿನ್ ವಿಭಾಗ ಆಯ್ಕೆಮಾಡಿ</h3>
-        <div class="portal-buttons">
-            <button class="btn btn-teacher" onclick="showView('teacher-view')">📘 ೧. ಶಿಕ್ಷಕರ ವಿಭಾಗ (Teacher Login)</button>
-            <button class="btn btn-parent" onclick="showView('parent-view')">👨‍👩‍👧 ೨. ಪೋಷಕರ ವಿಭಾಗ (Parent Login)</button>
-            <button class="btn btn-admin" onclick="showView('admin-view')">🏫 ೩. ಆಡಳಿತ ವಿಭಾಗ (Admin Portal)</button>
-        </div>
-    </div>
-
-    <!-- 2. TEACHER PORTAL -->
-    <div id="teacher-view" class="view-section">
-        <h3>📘 ಶಿಕ್ಷಕರ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್</h3>
-        <div class="card">
-            <p><strong>ಶಿಕ್ಷಕರ ಹೆಸರು:</strong> ರಮೇಶ್ ಕುಮಾರ್</p>
-            <p><strong>ನಿಯೋಜಿತ ರೂಮ್:</strong> ರೂಮ್ ನಂ. 5 (8ನೇ ತರಗತಿ)</p>
+    <div class="game-card">
+        <div class="header">
+            <div class="score-box">ಲೆವೆಲ್: <span id="level-num">1</span></div>
+            <div class="score-box">ಅಂಕಗಳು: <span id="score">0</span></div>
         </div>
 
-        <h4>📷 ಕ್ಯಾಮೆರಾ ಹಾಜರಾತಿ (Smart Attendance)</h4>
-        <div class="camera-box" id="camera-container">
-            <video id="webcam" autoplay playsinline></video>
-            <span id="camera-placeholder">ಕ್ಯಾಮೆರಾ ಪ್ರಾರಂಭಿಸಿ...</span>
-        </div>
-        <button class="btn btn-teacher" style="width: 100%;" onclick="startCamera()">📷 ಕ್ಯಾಮೆರಾ ಆನ್ ಮಾಡಿ / ಸ್ಕ್ಯಾನ್ ಮಾಡಿ</button>
+        <h3 id="hint-text" style="margin-bottom: 15px; color: #555;">ಅಕ್ಷರಗಳನ್ನು ಸೇರಿಸಿ ಸರಿಯಾದ ಪದ ಮಾಡಿ:</h3>
 
-        <h4 style="margin-top: 15px;">ವಿದ್ಯಾರ್ಥಿಗಳ ಪಟ್ಟಿ</h4>
-        <div id="student-list">
-            <div class="student-item">
-                <span>೧. ರಾಹುಲ್ ಶರ್ಮಾ (ID: 101)</span>
-                <button class="btn btn-teacher" style="padding: 5px 10px;" onclick="markAttendance('ರಾಹುಲ್ ಶರ್ಮಾ', 'Present')">ಹಾಜರು</button>
-            </div>
-            <div class="student-item">
-                <span>೨. ಪ್ರಿಯಾ ಪಾಟೀಲ್ (ID: 102)</span>
-                <button class="btn btn-teacher" style="padding: 5px 10px;" onclick="markAttendance('ಪ್ರಿಯಾ ಪಾಟೀಲ್', 'Present')">ಹಾಜರು</button>
+        <!-- ಆಯ್ಕೆ ಮಾಡಿದ ಅಕ್ಷರಗಳು ಬೀಳುವ ಜಾಗ -->
+        <div class="answer-box" id="answer-box"></div>
+
+        <!-- ಕೆಳಗೆ ಸಿಗುವ ಅಕ್ಷರಗಳು -->
+        <div class="options-container" id="options-box"></div>
+
+        <div class="action-btns">
+            <button class="btn btn-clear" onclick="clearAnswer()">ಕ್ಲಿಯರ್</button>
+            <button class="btn btn-check" onclick="checkAnswer()">ಸರಿ ನೋಡೊ</button>
+        </div>
+
+        <!-- Out Screen & Ad Popup -->
+        <div class="modal" id="ad-modal">
+            <div class="modal-content">
+                <h2 style="color: #f44336;">ನೀವು ಔಟ್ ಆಗಿದ್ದೀರಿ! ❌</h2>
+                <p style="margin-top: 5px; font-weight: bold;">ಮುಂದಿನ ಲೆವೆಲ್‌ಗೆ ಹೋಗಲು OK ಒತ್ತಿ</p>
+                
+                <!-- Google AdMob / Advertisment Placeholder -->
+                <div class="ad-space">
+                    📢 [ಇಲ್ಲಿ ಗೂಗಲ್ ಜಾಹೀರಾತು ಪ್ಲೇ ಆಗುತ್ತದೆ]
+                </div>
+
+                <button class="btn-continue" onclick="closeModalNext()">OK / ಮುಂದೆ ಹೋಗಿ</button>
             </div>
         </div>
-
-        <button class="btn btn-back" onclick="showView('home-view')">← ಹಿಂತಿರುಗಿ</button>
     </div>
 
-    <!-- 3. PARENT PORTAL -->
-    <div id="parent-view" class="view-section">
-        <h3>👨‍👩‍👧 ಪೋಷಕರ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್</h3>
-        <div class="card">
-            <p><strong>ವಿದ್ಯಾರ್ಥಿ ಹೆಸರು:</strong> ರಾಹುಲ್ ಶರ್ಮಾ</p>
-            <p><strong>ತರಗತಿ:</strong> 8ನೇ 'ಎ' ವಿಭಾಗ (ರೂಮ್ ನಂ. 5)</p>
-            <p><strong>ಶಾಲೆಯ ಊರು:</strong> ಬೆಂಗಳೂರು</p>
-        </div>
+    <script>
+        // ಲೆವೆಲ್‌ಗಳ ಡೇಟಾಬೇಸ್ (ಇಲ್ಲಿ ನೀವು 1000 ಲೆವೆಲ್‌ಗಳನ್ನು ಸೇರಿಸಬಹುದು)
+        const levels = [
+            { level: 1, letters: ["ಠ", "ಪಾ"], answer: "ಪಾಠ" },
+            { level: 2, letters: ["ರ", "ಮ"], answer: "ಮರ" },
+            { level: 3, letters: ["ಕ", "ಪು", "ಸ್ತ"], answer: "ಪುಸ್ತಕ" },
+            { level: 4, letters: ["ಯ", "ಲೇ", "ಶಾ"], answer: "ಶಾಲೆಯ" },
+            { level: 5, letters: ["ರ", "ಭಾ", "ತ", "ರ"], answer: "ಭಾರತರ" }
+        ];
 
-        <h4>🔔 ತಕ್ಷಣದ ನೋಟಿಫಿಕೇಶನ್‌ಗಳು</h4>
-        <div id="notifications-list">
-            <div class="notification-item">
-                <strong>ಇಂದಿನ ಹಾಜರಾತಿ:</strong> ನಿಮ್ಮ ಮಗು ರಾಹುಲ್ ಇಂದು ಬೆಳಿಗ್ಗೆ 09:15ಕ್ಕೆ ಶಾಲೆಗೆ ತಲುಪಿದೆ.
-            </div>
-        </div>
+        let currentLevel = 0;
+        let selectedLetters = [];
+        let score = 0;
 
-        <h4>👨‍🏫 ಶಾಲಾ & ಶಿಕ್ಷಕರ ಸಂಪೂರ್ಣ ಮಾಹಿತಿ</h4>
-        <div class="card">
-            <p><strong>ಕ್ಲಾಸ್ ಟೀಚರ್:</strong> ರಮೇಶ್ ಕುಮಾರ್</p>
-            <p><strong>ಮೊಬೈಲ್ ನಂಬರ್:</strong> +91 9876543210</p>
-            <p><strong>ಶಾಲಾ ಡಯಾಸ್ ಕೋಡ್:</strong> 29280100101</p>
-        </div>
+        function loadLevel() {
+            const levelData = levels[currentLevel];
+            document.getElementById('level-num').innerText = levelData.level;
+            document.getElementById('answer-box').innerHTML = '';
+            document.getElementById('options-box').innerHTML = '';
+            selectedLetters = [];
 
-        <button class="btn btn-back" onclick="showView('home-view')">← ಹಿಂತಿರುಗಿ</button>
-    </div>
-
-    <!-- 4. ADMIN PORTAL -->
-    <div id="admin-view" class="view-section">
-        <h3>🏫 ಆಡಳಿತ / HM ವಿಭಾಗ</h3>
-        <div class="card">
-            <p><strong>ಒಟ್ಟು ವಿದ್ಯಾರ್ಥಿಗಳು:</strong> 450</p>
-            <p><strong>ಇಂದಿನ ಒಟ್ಟು ಹಾಜರಾತಿ:</strong> 94%</p>
-            <p><strong>ಹಾಜರಿದ್ದ ಶಿಕ್ಷಕರು:</strong> 12 / 12</p>
-        </div>
-        <h4>ರೂಮ್ & ತರಗತಿ ಮ್ಯಾಪಿಂಗ್</h4>
-        <p style="font-size: 13px; color: #666;">ಪ್ರತಿಯೊಂದು ರೂಮ್‌ಗೆ ಶಿಕ್ಷಕರನ್ನು ಹಾಗೂ ಮಕ್ಕಳ ಪಟ್ಟಿಯನ್ನು ಇಲ್ಲಿ ನಿಯೋಜಿಸಬಹುದು.</p>
-
-        <button class="btn btn-back" onclick="showView('home-view')">← ಹಿಂತಿರುಗಿ</button>
-    </div>
-</div>
-
-<script>
-    // View Switcher Function
-    function showView(viewId) {
-        document.querySelectorAll('.view-section').forEach(view => {
-            view.classList.remove('active');
-        });
-        document.getElementById(viewId).classList.add('active');
-    }
-
-    // Camera Access Function
-    async function startCamera() {
-        const video = document.getElementById('webcam');
-        const placeholder = document.getElementById('camera-placeholder');
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-            video.srcObject = stream;
-            placeholder.style.display = 'none';
-        } catch (err) {
-            alert('ಕ್ಯಾಮೆರಾ ಓಪನ್ ಮಾಡಲು ಅನುಮತಿ ನೀಡಿ ಅಥವಾ ಕ್ಯಾಮೆರಾ ಸರಿಪಡಿಸಿ.');
+            // ಅಕ್ಷರ ಬಟನ್‌ಗಳನ್ನು ಕ್ರಿಯೇಟ್ ಮಾಡುವುದು
+            levelData.letters.forEach((letter) => {
+                const btn = document.createElement('button');
+                btn.className = 'letter-btn';
+                btn.innerText = letter;
+                btn.onclick = () => selectLetter(letter, btn);
+                document.getElementById('options-box').appendChild(btn);
+            });
         }
-    }
 
-    // Attendance & Notification Logic
-    function markAttendance(studentName, status) {
-        alert(studentName + ' ಅವರ ಹಾಜರಾತಿ ದಾಖಲಾಗಿದೆ! ಪೋಷಕರ ಮೊಬೈಲ್‌ಗೆ ನೋಟಿಫಿಕೇಶನ್ ಕಳುಹಿಸಲಾಗಿದೆ.');
-        
-        const notifList = document.getElementById('notifications-list');
-        const newNotif = document.createElement('div');
-        newNotif.className = 'notification-item';
-        const time = new Date().toLocaleTimeString();
-        newNotif.innerHTML = `<strong>ಅಪ್‌ಡೇಟ್ (${time}):</strong> ನಿಮ್ಮ ಮಗು ${studentName} ಶಾಲೆಗೆ ಹಾಜರಾಗಿದ್ದಾರೆ.`;
-        notifList.prepend(newNotif);
-    }
-</script>
+        function selectLetter(letter, btnElement) {
+            selectedLetters.push(letter);
+            
+            // ಬೋರ್ಡ್‌ಗೆ ಅಕ್ಷರ ಸೇರಿಸುವುದು
+            const selectedBtn = document.createElement('button');
+            selectedBtn.className = 'letter-btn';
+            selectedBtn.innerText = letter;
+            document.getElementById('answer-box').appendChild(selectedBtn);
+
+            btnElement.style.visibility = 'hidden'; // ಒತ್ತಿದ ಬಟನ್ ಹೈಡ್ ಮಾಡುವುದು
+        }
+
+        function clearAnswer() {
+            loadLevel(); // ಮತ್ತೆ ರಿಸೆಟ್ ಮಾಡುವುದು
+        }
+
+        function checkAnswer() {
+            const userWord = selectedLetters.join('');
+            const correctAnswer = levels[currentLevel].answer;
+
+            if (userWord === correctAnswer) {
+                alert("ಅದ್ಭುತ! ಸರಿಯಾದ ಉತ್ತರ! 🎉");
+                score += 10;
+                document.getElementById('score').innerText = score;
+                currentLevel++;
+
+                if (currentLevel < levels.length) {
+                    loadLevel();
+                } else {
+                    alert("ಅಭಿನಂದನೆಗಳು! ನೀವು ಎಲ್ಲಾ ಲೆವೆಲ್‌ಗಳನ್ನು ಮುಗಿಸಿದ್ದೀರಿ! 🏆");
+                }
+            } else {
+                // ತಪ್ಪು ಉತ್ತರ ಬಂದರೆ - OUT Modal & Ad ಬರುತ್ತದೆ
+                document.getElementById('ad-modal').style.display = 'flex';
+            }
+        }
+
+        function closeModalNext() {
+            document.getElementById('ad-modal').style.display = 'none';
+            loadLevel(); // ಆಟವನ್ನು ಮುಂದುವರಿಸುವುದು
+        }
+
+        // ಗೇಮ್ ಸ್ಟಾರ್ಟ್ ಮಾಡುವುದು
+        loadLevel();
+    </script>
 
 </body>
 </html>
