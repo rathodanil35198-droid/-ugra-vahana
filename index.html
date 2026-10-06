@@ -118,7 +118,9 @@
         }
 
         /* Dashboard */
-        .dashboard-title { text-align: center; color: #FF4081; font-size: 1.3rem; margin-bottom: 12px; font-weight: 800; }
+        .dashboard-title { text-align: center; color: #FF4081; font-size: 1.2rem; margin-bottom: 12px; font-weight: 800; }
+        
+        /* 균일한 4개 ಲೋಗೋ ಬಟನ್‌ಗಳ ಗ್ರಿಡ್ (Uniform 2x2 Grid) */
         .category-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .category-card {
             background: #FFF;
@@ -133,14 +135,29 @@
             box-shadow: 0 6px 12px rgba(0,0,0,0.08);
             border: 3px solid #EEE;
             cursor: pointer;
+            min-height: 120px;
         }
         .card-kn { border-color: #FF9F43; background: #FFF9F0; }
-        .card-jodi { border-color: #9b59b6; background: #F3E5F5; grid-column: span 2; }
+        .card-jodi { border-color: #9b59b6; background: #F3E5F5; }
         .card-en { border-color: #54a0ff; background: #F0F7FF; }
         .card-math { border-color: #10ac84; background: #EBFBF7; }
         .card-exam { border-color: #ee5253; background: #FFF0F0; }
         .card-icon { font-size: 2.2rem; }
-        .card-title { font-size: 1rem; font-weight: 800; color: #2D3436; }
+        .card-title { font-size: 0.95rem; font-weight: 800; color: #2D3436; }
+
+        /* Writing Display Screen */
+        .writing-display-box {
+            background: #E0F7FA;
+            border: 3px dashed #00ACC1;
+            border-radius: 20px;
+            padding: 12px;
+            margin-bottom: 12px;
+            text-align: center;
+            display: block;
+        }
+        .writing-title { font-size: 0.9rem; color: #00838F; font-weight: bold; }
+        .writing-text { font-size: 1.8rem; font-weight: 800; color: #D81B60; letter-spacing: 2px; margin: 3px 0; }
+        .writing-breakdown { font-size: 1rem; color: #2E7D32; font-weight: bold; }
 
         /* Lesson & Pagination View */
         .lesson-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
@@ -162,20 +179,6 @@
         }
         .item-char { font-size: 1.4rem; font-weight: 800; color: #2c3e50; word-break: break-all; }
         .item-sub { font-size: 0.75rem; color: #7f8c8d; font-weight: bold; }
-
-        /* Writing Display Screen */
-        .writing-display-box {
-            background: #E0F7FA;
-            border: 3px dashed #00ACC1;
-            border-radius: 20px;
-            padding: 12px;
-            margin: 8px 0;
-            text-align: center;
-            display: none;
-        }
-        .writing-title { font-size: 1rem; color: #00838F; font-weight: bold; }
-        .writing-text { font-size: 1.8rem; font-weight: 800; color: #D81B60; letter-spacing: 2px; margin: 5px 0; }
-        .writing-breakdown { font-size: 1.1rem; color: #2E7D32; font-weight: bold; }
 
         /* Pagination Controls */
         .pagination-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; }
@@ -211,7 +214,7 @@
             text-align: center;
         }
 
-        /* Fixed Bottom Assistant Bar & Microphone */
+        /* Fixed Bottom Assistant Bar & Mic / Go Controls */
         .assistant-bar {
             background: #FFF8E1;
             border-top: 3px solid #FFE082;
@@ -224,8 +227,8 @@
             width: 100%;
         }
         .chat-top { display: flex; align-items: center; gap: 10px; }
-        .mini-robot { width: 40px; height: 40px; flex-shrink: 0; }
-        .robot-msg { font-size: 0.95rem; font-weight: bold; color: #5D4037; flex: 1; }
+        .mini-robot { width: 35px; height: 35px; flex-shrink: 0; }
+        .robot-msg { font-size: 0.9rem; font-weight: bold; color: #5D4037; flex: 1; }
         
         .chat-input-box { display: flex; gap: 6px; width: 100%; align-items: center; }
         .chat-input { flex: 1; padding: 10px 12px; border: 2px solid #FFB74D; border-radius: 12px; font-size: 0.95rem; outline: none; }
@@ -233,9 +236,9 @@
             background: #E91E63; 
             color: white; 
             border: none; 
-            padding: 10px 14px; 
+            padding: 10px; 
             border-radius: 12px; 
-            font-size: 1.2rem; 
+            font-size: 1.1rem; 
             font-weight: bold; 
             cursor: pointer; 
             box-shadow: 0 3px 0 #C2185B;
@@ -250,7 +253,19 @@
         }
         @keyframes pulse { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
 
-        .btn-send { background: #FF9800; color: white; border: none; padding: 10px 12px; border-radius: 12px; font-weight: bold; cursor: pointer; box-shadow: 0 3px 0 #F57C00; flex-shrink: 0; }
+        /* ಹೊಸ GO ಬಟನ್ */
+        .btn-go { 
+            background: #4CAF50; 
+            color: white; 
+            border: none; 
+            padding: 10px 16px; 
+            border-radius: 12px; 
+            font-size: 1rem; 
+            font-weight: 800; 
+            cursor: pointer; 
+            box-shadow: 0 3px 0 #2E7D32; 
+            flex-shrink: 0; 
+        }
 
         .hidden { display: none !important; }
     </style>
@@ -297,11 +312,6 @@
                 <option value="3">೩ ನೇ ತರಗತಿ (Class 3)</option>
                 <option value="4">೪ ನೇ ತರಗತಿ (Class 4)</option>
                 <option value="5">೫ ನೇ ತರಗತಿ (Class 5)</option>
-                <option value="6">೬ ನೇ ತರಗತಿ (Class 6)</option>
-                <option value="7">೭ ನೇ ತರಗತಿ (Class 7)</option>
-                <option value="8">೮ ನೇ ತರಗತಿ (Class 8)</option>
-                <option value="9">೯ ನೇ ತರಗತಿ (Class 9)</option>
-                <option value="10">೧೦ ನೇ ತರಗತಿ (Class 10)</option>
             </select>
             
             <button class="btn-start" onclick="startApp()">ಕಲಿಕೆ ಆರಂಭಿಸಿ 🚀</button>
@@ -312,41 +322,38 @@
     <div id="dashboard-screen" class="screen hidden">
         <div class="dashboard-title">ಏನು ಕಲಿಯಲು ಬಯಸುತ್ತೀಯಾ? 👇</div>
         
-        <!-- Writing Display Box for AI Answers -->
+        <!-- ಪರದೆಯ ಮೇಲ್ಭಾಗದಲ್ಲಿ ಉತ್ತರ ತೋರುವ ಬಾಕ್ಸ್ -->
         <div id="writing-board" class="writing-display-box">
-            <div class="writing-title">✍️ ಅಕ್ಷರ ಜೋಡಣೆ:</div>
+            <div class="writing-title" id="write-title">💡 ಉತ್ತರ ಪ್ರದರ್ಶನ:</div>
             <div class="writing-text" id="write-word">ಅನಿಲ್</div>
-            <div class="writing-breakdown" id="write-breakdown">ಅ + ನಿ + ಲ್</div>
+            <div class="writing-breakdown" id="write-breakdown">ಅ + ನಿ + ಲ್ = ಅನಿಲ್</div>
         </div>
 
+        <!-- ೪ ಪ್ರಮುಖ ಬಟನ್‌ಗಳು ಒಂದೇ ಸಮನಾಗಿ ಜೋಡಣೆಯಾಗಿವೆ -->
         <div class="category-grid">
             <div class="category-card card-kn" onclick="openModule('kannada')">
                 <div class="card-icon">ಅ</div>
-                <div class="card-title">ಕನ್ನಡ ಅಕ್ಷರಗಳು & ಕಾಗುಣಿತ</div>
+                <div class="card-title">ಕನ್ನಡ ಅಕ್ಷರಗಳು</div>
             </div>
 
-            <!-- ಹೊಸದಾಗಿ ಸೇರಿಸಲಾದ ಬಟನ್ -->
             <div class="category-card card-jodi" onclick="openModule('jodakshara')">
                 <div class="card-icon">🧩</div>
-                <div class="card-title">ಅಕ್ಷರ ಜೋಡಣೆ & ಜೋಡಾಕ್ಷರಗಳು (೨-೨೦ ಅಕ್ಷರಗಳು)</div>
+                <div class="card-title">ಅಕ್ಷರ ಜೋಡಣೆ & ಜೋಡಾಕ್ಷರ (೧-೨೦)</div>
             </div>
 
             <div class="category-card card-en" onclick="openModule('english')">
                 <div class="card-icon">A</div>
                 <div class="card-title">English ABC & Words</div>
             </div>
+
             <div class="category-card card-math" onclick="openModule('maths')">
                 <div class="card-icon">🔢</div>
-                <div class="card-title">ಸಂಖ್ಯೆಗಳು (Unlimited)</div>
-            </div>
-            <div class="category-card card-exam" onclick="openModule('exam')">
-                <div class="card-icon">📝</div>
-                <div class="card-title">ರಸಪ್ರಶ್ನೆ (Quiz)</div>
+                <div class="card-title">ಸಂಖ್ಯೆಗಳು (Numbers)</div>
             </div>
         </div>
     </div>
 
-    <!-- LEARNING MODULE VIEW (PAGINATED) -->
+    <!-- LEARNING MODULE VIEW -->
     <div id="learning-screen" class="screen hidden">
         <div class="lesson-header">
             <button class="btn-back" onclick="goDashboard()">⬅️ ಹಿಂದೆ</button>
@@ -362,19 +369,7 @@
         </div>
     </div>
 
-    <!-- EXAM SCREEN -->
-    <div id="exam-screen" class="screen hidden">
-        <div class="lesson-header">
-            <button class="btn-back" onclick="goDashboard()">⬅️ ನಿರ್ಗಮಿಸು</button>
-            <h3 style="color:#E65100;">ಮಕ್ಕಳ ಪರೀಕ್ಷೆ 🎯</h3>
-        </div>
-        <div class="quiz-container">
-            <div class="question-box" id="quiz-question">ಪ್ರಶ್ನೆ ಲೋಡ್ ಆಗುತ್ತಿದೆ...</div>
-            <div class="options-grid" id="options-box"></div>
-        </div>
-    </div>
-
-    <!-- Fixed Voice Assistant Panel -->
+    <!-- Fixed Voice Assistant & Go Panel -->
     <div id="assistant-bar" class="assistant-bar hidden">
         <div class="chat-top">
             <svg class="mini-robot" viewBox="0 0 200 200">
@@ -382,12 +377,12 @@
                 <circle cx="80" cy="95" r="10" fill="#FFF"/><circle cx="120" cy="95" r="10" fill="#FFF"/>
                 <path d="M 85 125 Q 100 135 115 125" stroke="#FFF" stroke-width="5" fill="none"/>
             </svg>
-            <div class="robot-msg" id="robot-speech">ನನ್ನ ಜೊತೆ ಮಾತನಾಡು ಮಗು! </div>
+            <div class="robot-msg" id="robot-speech">ನಿನ್ನ ಪ್ರಶ್ನೆ ಕೇಳು ಮಗು!</div>
         </div>
         <div class="chat-input-box">
-            <input type="text" id="chat-text" class="chat-input" placeholder="ಏನಾದರೂ ಕೇಳು (ಉದಾ: 'ಅನಿಲ್')..." onkeypress="handleKeyPress(event)">
+            <input type="text" id="chat-text" class="chat-input" placeholder="ಇಲ್ಲಿ ಪ್ರಶ್ನೆ ಬರೆಯಿರಿ..." onkeypress="handleKeyPress(event)">
             <button id="mic-btn" class="btn-mic" onclick="startVoiceRecognition()">🎤</button>
-            <button class="btn-send" onclick="sendChat()">ಉತ್ತರಿಸು</button>
+            <button class="btn-go" onclick="sendChat()">GO ➔</button>
         </div>
     </div>
 
@@ -397,100 +392,34 @@
     let studentName = "";
     let studentClass = "";
     let userScore = 10;
-    let currentCorrectAnswer = "";
 
     let currentModule = "";
     let currentPage = 1;
     const itemsPerPage = 12;
 
-    // ಕನ್ನಡ ಮೂಲಾಕ್ಷರ ಮತ್ತು ಗುಣಿತಾಕ್ಷರ
     const kannadaData = [
         { char: 'ಅ', name: 'ಅರಸ' }, { char: 'ಆ', name: 'ಆನೆ' }, { char: 'ಇ', name: 'ಇಲಿ' }, { char: 'ಈ', name: 'ಈಶ' },
         { char: 'ಉ', name: 'ಉಟ' }, { char: 'ಊ', name: 'ಊಟ' }, { char: 'ಋ', name: 'ಋಷಿ' }, { char: 'ಎ', name: 'ಎಲೆ' },
         { char: 'ಏ', name: 'ಏಣಿ' }, { char: 'ಐ', name: 'ಐದನೇ' }, { char: 'ಒ', name: 'ಒಂಟೆ' }, { char: 'ಓ', name: 'ಓಡು' },
-        { char: 'ಔ', name: 'ಔಷಧ' }, { char: 'ಅಂ', name: 'ಅಂಬಾರಿ' }, { char: 'ಕ', name: 'ಕಮಲ' }, { char: 'ಖ', name: 'ಖಡ್ಗ' },
-        { char: 'ಗ', name: 'ಗಜ' }, { char: 'ಘ', name: 'ಘಂಟೆ' }, { char: 'ಚ', name: 'ಚಮಚ' }, { char: 'ಛ', name: 'ಛತ್ರಿ' },
-        { char: 'ಜ', name: 'ಜಲ' }, { char: 'ಝ', name: 'ಝರಿ' }, { char: 'ಟ', name: 'ಟೊಮೆಟೊ' }, { char: 'ಠ', name: 'ಠಸ್ಸೆ' },
-        { char: 'ಡ', name: 'ಡಬ್ಬಿ' }, { char: 'ಢ', name: 'ಢಕ್ಕೆ' }, { char: 'ಣ', name: 'ಬಾಣ' }, { char: 'ತ', name: 'ತಬಲ' },
-        { char: 'ಥ', name: 'ಥರ್ಮಸ್' }, { char: 'ದ', name: 'ದಸರಾ' }, { char: 'ಧ', name: 'ಧನುಸ್ಸು' }, { char: 'ನ', name: 'ನವಿಲು' },
-        { char: 'ಪ', name: 'ಪಟಂಗ' }, { char: 'ಫ', name: 'ಫಲ' }, { char: 'ಬ', name: 'ಬಸ್' }, { char: 'ಭ', name: 'ಭಾರತ' },
-        { char: 'ಮ', name: 'ಮರ' }, { char: 'ಯ', name: 'ಯಂತ್ರ' }, { char: 'ರ', name: 'ರಥ' }, { char: 'ಲ', name: 'ಲತಾ' },
-        { char: 'ವ', name: 'ವನ' }, { char: 'ಶ', name: 'ಶಂಖ' }, { char: 'ಷ', name: 'ಷಟ್ಕೋನ' }, { char: 'ಸ', name: 'ಸೇಬು' },
-        { char: 'ಹ', name: 'ಹೂವು' }, { char: 'ಳ', name: 'ನಳ' },
-        
-        // ಕ ಕಾಗುಣಿತ
-        { char: 'ಕ', name: 'ಕಲಿಕೆ' }, { char: 'ಕಾ', name: 'ಕಾಗೆ' }, { char: 'ಕಿ', name: 'ಕಿಟಕಿ' }, { char: 'ಕೀ', name: 'ಕೀಲಿ' },
-        { char: 'ಕು', name: 'ಕುದುರೆ' }, { char: 'ಕೂ', name: 'ಕೂಗು' }, { char: 'ಕೃ', name: 'ಕೃಷಿ' }, { char: 'ಕೆ', name: 'ಕೆರೆ' },
-        { char: 'ಕೇ', name: 'ಕೇಕ್' }, { char: 'ಕೈ', name: 'ಕೈಮರ' }, { char: 'ಕೊ', name: 'ಕೊಡೆ' }, { char: 'ಕೋ', name: 'ಕೋಳಿ' },
-        { char: 'ಕೌ', name: 'ಕೌರವ' }, { char: 'ಕಂ', name: 'ಕಂದ' }, { char: 'ಕಃ', name: 'ಕಃ' }
+        { char: 'ಔ', name: 'ಔಷಧ' }, { char: 'ಅಂ', name: 'ಅಂಬಾರಿ' }, { char: 'ಕ', name: 'ಕಮಲ' }, { char: 'ಖ', name: 'ಖಡ್ಗ' }
     ];
 
-    // ೨ ಅಕ್ಷರದಿಂದ ದೊಡ್ಡ ಜೋಡಾಕ್ಷರ ಪದಗಳ ಸರಣಿ (Jodakshara Data)
     const jodaksharaData = [
-        // ೨ ಅಕ್ಷರದ ಪದಗಳು
         { char: 'ಮರ', type: '೨ ಅಕ್ಷರ', breakdown: 'ಮ + ರ = ಮರ' },
         { char: 'ಮನೆ', type: '೨ ಅಕ್ಷರ', breakdown: 'ಮ + ನೆ = ಮನೆ' },
-        { char: 'ಆನೆ', type: '೨ ಅಕ್ಷರ', breakdown: 'ಆ + ನೆ = ಆನೆ' },
-        { char: 'ಇಲಿ', type: '೨ ಅಕ್ಷರ', breakdown: 'ಇ + ಲಿ = ಇಲಿ' },
-        { char: 'ಊಟ', type: '೨ ಅಕ್ಷರ', breakdown: 'ಊ + ಟ = ಊಟ' },
-        { char: 'ಗಿಡ', type: '೨ ಅಕ್ಷರ', breakdown: 'ಗಿ + ಡ = ಗಿಡ' },
-
-        // ೩ ಅಕ್ಷರದ ಪದಗಳು
-        { char: 'ಕಮಲ', type: '೩ ಅಕ್ಷರ', breakdown: 'ಕ + ಮ + ಲ = ಕಮಲ' },
         { char: 'ಅರಸ', type: '೩ ಅಕ್ಷರ', breakdown: 'ಅ + ರ + ಸ = ಅರಸ' },
-        { char: 'ಪುಸ್ತಕ', type: '೩ ಅಕ್ಷರ (ಒತ್ತಕ್ಷರ)', breakdown: 'ಪು + ಸ್ತ + ಕ = ಪುಸ್ತಕ' },
-        { char: 'ಸೂರಜ', type: '೩ ಅಕ್ಷರ', breakdown: 'ಸೂ + ರ + ಜ = ಸೂರಜ' },
-        { char: 'ಶಾಲೆ', type: '೩ ಅಕ್ಷರ', breakdown: 'ಶಾ + ലെ = ಶಾಲೆ' },
-        { char: 'ಬೆಟ್ಟ', type: '೩ ಅಕ್ಷರ (ಒತ್ತಕ್ಷರ)', breakdown: 'ಬೆ + ಟ್ಟ = ಬೆಟ್ಟ' },
-
-        // ೪ ಅಕ್ಷರದ ಪದಗಳು
-        { char: 'ಅರಮನೆ', type: '೪ ಅಕ್ಷರ', breakdown: 'ಅ + ರ + ಮ + ನೆ = ಅರಮನೆ' },
-        { char: 'ನವಿಲುಗರಿ', type: '೪ ಅಕ್ಷರ', breakdown: 'ನ + ವಿ + లు + ಗ + ರಿ = ನವಿಲುಗರಿ' },
-        { char: 'ಕಾಗದಪತ್ರ', type: '೪ ಅಕ್ಷರ (ಒತ್ತಕ್ಷರ)', breakdown: 'ಕಾ + ಗ + ದ + ಪ + ತ್ರ = ಕಾಗದಪತ್ರ' },
-        { char: 'ದೇವಸ್ಥಾನ', type: '೪ ಅಕ್ಷರ (ಒತ್ತಕ್ಷರ)', breakdown: 'ದೇ + ವ + ಸ್ಥಾ + ನ = ದೇವಸ್ಥಾನ' },
-
-        // ೫+ ಅಕ್ಷರಗಳು ಮತ್ತು ದೊಡ್ಡ ಜೋಡಾಕ್ಷರ ಪದಗಳು
-        { char: 'ಭಾರತದೇಶ', type: '೫ ಅಕ್ಷರ', breakdown: 'ಭಾ + ರ + ತ + ದೇ + ಶ = ಭಾರತದೇಶ' },
-        { char: 'ಕನ್ನಡಿಗ', type: '೪ ಅಕ್ಷರ (ಒತ್ತಕ್ಷರ)', breakdown: 'ಕ + ನ್ನ + ಡಿ + ಗ = ಕನ್ನಡಿಗ' },
-        { char: 'ವಿಶ್ವವಿದ್ಯಾನಿಲಯ', type: '೮ ಅಕ್ಷರ (ಜೋಡಾಕ್ಷರ)', breakdown: 'ವಿ + ಶ್ವ + ವಿ + ದ್ಯಾ + ನಿ + ಲ + ಯ = ವಿಶ್ವವಿದ್ಯಾನಿಲಯ' },
-        { char: 'ಸ್ವಾತಂತ್ರ್ಯದಿನಾಚರಣೆ', type: '೯ ಅಕ್ಷರ (ದೊಡ್ಡ ಪದ)', breakdown: 'ಸ್ವಾ + ತಂ + ತ್ರ್ಯ + ದಿ + ನಾ + ಚ + ರ + ಣೆ' }
+        { char: 'ಪುಸ್ತಕ', type: '೩ ಅಕ್ಷರ', breakdown: 'ಪು + ಸ್ತ + ಕ = ಪುಸ್ತಕ' },
+        { char: 'ಅರಮನೆ', type: '೪ ಅಕ್ಷರ', breakdown: 'ಅ + ರ + ಮ + ನೆ = ಅರಮನೆ' }
     ];
 
     const englishData = [
-        { char: 'A', name: 'Apple', desc: 'Apple is a red fruit.' },
-        { char: 'B', name: 'Ball', desc: 'Ball is used for playing.' },
-        { char: 'C', name: 'Cat', desc: 'Cat says Meow.' },
-        { char: 'D', name: 'Dog', desc: 'Dog is a faithful animal.' },
-        { char: 'E', name: 'Elephant', desc: 'Elephant is a big animal.' },
-        { char: 'F', name: 'Fish', desc: 'Fish lives in water.' },
-        { char: 'G', name: 'Grapes', desc: 'Grapes are sweet and sour.' },
-        { char: 'H', name: 'Horse', desc: 'Horse runs fast.' },
-        { char: 'I', name: 'Ice Cream', desc: 'Ice cream is cold and sweet.' },
-        { char: 'J', name: 'Joker', desc: 'Joker makes us laugh.' },
-        { char: 'K', name: 'Kite', desc: 'Kite flies in the sky.' },
-        { char: 'L', name: 'Lion', desc: 'Lion is king of the jungle.' },
-        { char: 'M', name: 'Monkey', desc: 'Monkey loves bananas.' },
-        { char: 'N', name: 'Nest', desc: 'Birds live in a nest.' },
-        { char: 'O', name: 'Orange', desc: 'Orange is a juicy fruit.' },
-        { char: 'P', name: 'Parrot', desc: 'Parrot is a green bird.' },
-        { char: 'Q', name: 'Queen', desc: 'Queen wears a crown.' },
-        { char: 'R', name: 'Rose', desc: 'Rose is a beautiful flower.' },
-        { char: 'S', name: 'Sun', desc: 'Sun gives us light.' },
-        { char: 'T', name: 'Tiger', desc: 'Tiger is our national animal.' },
-        { char: 'U', name: 'Umbrella', desc: 'Umbrella protects from rain.' },
-        { char: 'V', name: 'Van', desc: 'Van takes us to school.' },
-        { char: 'W', name: 'Watch', desc: 'Watch shows us time.' },
-        { char: 'X', name: 'Xylophone', desc: 'Xylophone is a musical instrument.' },
-        { char: 'Y', name: 'Yak', desc: 'Yak lives in cold mountains.' },
-        { char: 'Z', name: 'Zebra', desc: 'Zebra has black and white stripes.' }
+        { char: 'A', name: 'Apple', desc: 'Apple is red.' },
+        { char: 'B', name: 'Ball', desc: 'Ball is for playing.' },
+        { char: 'C', name: 'Cat', desc: 'Cat says Meow.' }
     ];
 
-    window.onload = () => {
-        setTimeout(() => playWelcomeAudio(), 800);
-    };
-
     function playWelcomeAudio() {
-        speakText("ನಮಸ್ಕಾರ! ನಿಮ್ಮ ಹೆಸರನ್ನು ಹಾಕಿ ಮತ್ತು ನಿಮ್ಮ ತರಗತಿಯನ್ನು ಆಯ್ಕೆ ಮಾಡಿ!");
+        speakText("ನಮಸ್ಕಾರ! ನಿಮ್ಮ ಹೆಸರನ್ನು ಹಾಕಿ ಮತ್ತು ತರಗತಿಯನ್ನು ಆಯ್ಕೆ ಮಾಡಿ!");
     }
 
     function speakText(text) {
@@ -523,27 +452,18 @@
         document.getElementById('dashboard-screen').classList.remove('hidden');
         document.getElementById('assistant-bar').classList.remove('hidden');
 
-        setRobotMessage(`ಸ್ವಾಗತ ${studentName}! ಇಂದು ಏನು ಕಲಿಯಲು ಇಷ್ಟಪಡುತ್ತೀಯಾ?`);
+        setRobotMessage(`ಸ್ವಾಗತ ${studentName}! ಪ್ರಶ್ನೆ ಕೇಳಲು GO ಬಟನ್ ಬಳಸಿ.`);
     }
 
     function goDashboard() {
         document.getElementById('learning-screen').classList.add('hidden');
-        document.getElementById('exam-screen').classList.add('hidden');
         document.getElementById('dashboard-screen').classList.remove('hidden');
     }
 
     function openModule(moduleType) {
         currentModule = moduleType;
         currentPage = 1;
-
         document.getElementById('dashboard-screen').classList.add('hidden');
-        
-        if (moduleType === 'exam') {
-            document.getElementById('exam-screen').classList.remove('hidden');
-            generateQuestion();
-            return;
-        }
-
         document.getElementById('learning-screen').classList.remove('hidden');
         renderPaginatedContent();
     }
@@ -551,139 +471,40 @@
     function renderPaginatedContent() {
         const container = document.getElementById('cards-container');
         container.innerHTML = '';
-
         document.getElementById('page-number').innerText = `ಪುಟ ${currentPage}`;
         document.getElementById('btn-prev').disabled = (currentPage === 1);
 
-        if (currentModule === 'kannada') {
-            document.getElementById('module-title').innerText = "ಕನ್ನಡ ಅಕ್ಷರಗಳು";
-            let startIndex = (currentPage - 1) * itemsPerPage;
-            let endIndex = startIndex + itemsPerPage;
-            let pageData = kannadaData.slice(startIndex, endIndex);
+        let data = [];
+        if (currentModule === 'kannada') data = kannadaData;
+        else if (currentModule === 'jodakshara') data = jodaksharaData;
+        else if (currentModule === 'english') data = englishData;
 
-            document.getElementById('btn-next').disabled = (endIndex >= kannadaData.length);
+        let startIndex = (currentPage - 1) * itemsPerPage;
+        let pageData = data.slice(startIndex, startIndex + itemsPerPage);
 
-            pageData.forEach(item => {
-                createCard(container, item.char, item.name, `${item.char} ಅಂದರೆ ${item.name}`);
-            });
+        document.getElementById('btn-next').disabled = (startIndex + itemsPerPage >= data.length);
 
-        } else if (currentModule === 'jodakshara') {
-            document.getElementById('module-title').innerText = "ಅಕ್ಷರ ಜೋಡಣೆ & ಜೋಡಾಕ್ಷರ";
-            let startIndex = (currentPage - 1) * itemsPerPage;
-            let endIndex = startIndex + itemsPerPage;
-            let pageData = jodaksharaData.slice(startIndex, endIndex);
-
-            document.getElementById('btn-next').disabled = (endIndex >= jodaksharaData.length);
-
-            pageData.forEach(item => {
-                createCard(container, item.char, item.type, `${item.char}. ಇದನ್ನು ಈ ರೀತಿ ಬರೆಯಬೇಕು: ${item.breakdown}`, item.breakdown);
-            });
-
-        } else if (currentModule === 'english') {
-            document.getElementById('module-title').innerText = "English ABC & Words";
-            let startIndex = (currentPage - 1) * itemsPerPage;
-            let endIndex = startIndex + itemsPerPage;
-            let pageData = englishData.slice(startIndex, endIndex);
-
-            document.getElementById('btn-next').disabled = (endIndex >= englishData.length);
-
-            pageData.forEach(item => {
-                createCard(container, item.char, item.name, `${item.char} for ${item.name}. ${item.desc}`);
-            });
-
-        } else if (currentModule === 'maths') {
-            document.getElementById('module-title').innerText = "ಸಂಖ್ಯೆಗಳು (Unlimited)";
-            let startIndex = (currentPage - 1) * itemsPerPage + 1;
-            let endIndex = startIndex + itemsPerPage - 1;
-
-            document.getElementById('btn-next').disabled = false;
-
-            for (let i = startIndex; i <= endIndex; i++) {
-                createCard(container, i.toString(), `ಸಂಖ್ಯೆ ${i}`, `ಇದು ಸಂಖ್ಯೆ ${i}`);
-            }
-        }
-    }
-
-    function changePage(direction) {
-        currentPage += direction;
-        if (currentPage < 1) currentPage = 1;
-        renderPaginatedContent();
-    }
-
-    function createCard(container, title, sub, speakMsg, breakdownText = "") {
-        const card = document.createElement('div');
-        card.className = 'item-card';
-        card.innerHTML = `<div class="item-char">${title}</div><div class="item-sub">${sub}</div>`;
-        card.onclick = () => {
-            if (breakdownText) {
-                const board = document.getElementById('writing-board');
-                document.getElementById('write-word').innerText = title;
-                document.getElementById('write-breakdown').innerText = breakdownText;
-                board.style.display = 'block';
-            }
-            setRobotMessage(speakMsg);
-        };
-        container.appendChild(card);
-    }
-
-    function generateQuestion() {
-        const qTypes = ['math_add', 'math_sub', 'kn_letter', 'en_letter'];
-        const type = qTypes[Math.floor(Math.random() * qTypes.length)];
-
-        let questionText = "";
-        let correctAns = "";
-        let wrongOpts = [];
-
-        if (type === 'math_add') {
-            let n1 = Math.floor(Math.random() * 10) + 1;
-            let n2 = Math.floor(Math.random() * 10) + 1;
-            questionText = `${n1} + ${n2} = ಎಷ್ಟು?`;
-            correctAns = (n1 + n2).toString();
-            wrongOpts = [(n1 + n2 + 2).toString(), (n1 + n2 - 1).toString(), (n1 + n2 + 3).toString()];
-        } else if (type === 'math_sub') {
-            let n1 = Math.floor(Math.random() * 15) + 5;
-            let n2 = Math.floor(Math.random() * n1) + 1;
-            questionText = `${n1} - ${n2} = ಎಷ್ಟು?`;
-            correctAns = (n1 - n2).toString();
-            wrongOpts = [(n1 - n2 + 1).toString(), (n1 - n2 + 2).toString(), (n1 - n2 - 1).toString()];
-        } else if (type === 'kn_letter') {
-            let item = kannadaData[Math.floor(Math.random() * 20)];
-            questionText = `'${item.name}' ಪದದ ಮೊದಲ ಅಕ್ಷರ ಯಾವುದು?`;
-            correctAns = item.char;
-            wrongOpts = ['ಕ', 'ಮ', 'ರ', 'ನ'].filter(x => x !== correctAns).slice(0, 3);
-        } else if (type === 'en_letter') {
-            let item = englishData[Math.floor(Math.random() * englishData.length)];
-            questionText = `'${item.name}' ಪದದ ಮೊದಲ ಅಕ್ಷರ ಯಾವುದು?`;
-            correctAns = item.char;
-            wrongOpts = ['A', 'B', 'M', 'S'].filter(x => x !== correctAns).slice(0, 3);
-        }
-
-        currentCorrectAnswer = correctAns;
-        document.getElementById('quiz-question').innerText = questionText;
-        setRobotMessage("ಈ ಪ್ರಶ್ನೆಗೆ ಸರಿಯಾದ ಉತ್ತರ ನೀಡು ಮಗು!");
-
-        let allOptions = [correctAns, ...wrongOpts].sort(() => Math.random() - 0.5);
-
-        const optBox = document.getElementById('options-box');
-        optBox.innerHTML = '';
-        allOptions.forEach(opt => {
-            const btn = document.createElement('div');
-            btn.className = 'option-btn';
-            btn.innerText = opt;
-            btn.onclick = () => checkAnswer(opt);
-            optBox.appendChild(btn);
+        pageData.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'item-card';
+            card.innerHTML = `<div class="item-char">${item.char}</div><div class="item-sub">${item.name || item.type}</div>`;
+            card.onclick = () => {
+                showInWritingBoard(item.char, item.breakdown || item.name);
+                setRobotMessage(`${item.char}`);
+            };
+            container.appendChild(card);
         });
     }
 
-    function checkAnswer(selectedOpt) {
-        if (selectedOpt === currentCorrectAnswer) {
-            userScore += 5;
-            document.getElementById('score-val').innerText = userScore;
-            setRobotMessage(`ಶಬ್ಬಾಶ್ ${studentName}! ಸರಿಯಾದ ಉತ್ತರ! 🎉`);
-            setTimeout(() => generateQuestion(), 1500);
-        } else {
-            setRobotMessage(`ಅಯ್ಯೋ ತಪ್ಪಾಯಿತು! ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸು! ❌`);
-        }
+    function changePage(dir) {
+        currentPage += dir;
+        renderPaginatedContent();
+    }
+
+    function showInWritingBoard(title, breakdown) {
+        document.getElementById('writing-board').style.display = 'block';
+        document.getElementById('write-word').innerText = title;
+        document.getElementById('write-breakdown').innerText = breakdown || title;
     }
 
     function handleKeyPress(e) { if (e.key === 'Enter') sendChat(); }
@@ -697,61 +518,39 @@
         processChildQuery(text);
     }
 
+    /* ರೋಬೋಟ್‌ನ ಸರಿಯಾದ ಪ್ರತ್ಯುತ್ತರ ಹಾಗೂ ಸ್ಕ್ರೀನ್ ಪ್ರದರ್ಶನ */
     function processChildQuery(text) {
-        let cleanText = text.toLowerCase();
+        let cleanText = text.trim();
         
-        const board = document.getElementById('writing-board');
-        const writeWord = document.getElementById('write-word');
-        const writeBreakdown = document.getElementById('write-breakdown');
+        // ಪಠ್ಯ ಒಡೆದು ಮಗುವಿಗೆ ತೋರಿಸುವುದು
+        let letters = cleanText.split('').join(' + ');
+        showInWritingBoard(cleanText, letters);
 
-        if (cleanText.includes("ಅನಿಲ್") || cleanText.includes("anil")) {
-            board.style.display = "block";
-            writeWord.innerText = "ಅನಿಲ್";
-            writeBreakdown.innerText = "ಅ + ನಿ + ಲ್ = ಅನಿಲ್";
-            setRobotMessage("ನೋಡು ಮಗು, ಅನಿಲ್ ಎನ್ನುವುದನ್ನು ಸ್ಕ್ರೀನ್ ಮೇಲೆ ಬರೆದಿದ್ದೇನೆ: ಅ + ನಿ + ಲ್ = ಅನಿಲ್");
-            return;
-        }
-
-        if (cleanText.includes("ಬರೆ") || cleanText.includes("ಹೇಗೆ")) {
-            let target = text.replace(/ಬರೆಯುವುದು/g, '').replace(/ಹೇಗೆ/g, '').replace(/ಬರೆ/g, '').trim();
-            if (target) {
-                board.style.display = "block";
-                writeWord.innerText = target;
-                writeBreakdown.innerText = target.split('').join(' + ');
-                setRobotMessage(`ನೋಡು ಮಗು, ${target} ಎನ್ನುವುದನ್ನು ಸ್ಕ್ರೀನ್ ಮೇಲೆ ಬರೆದಿದ್ದೇನೆ!`);
-                return;
-            }
-        }
-
-        board.style.display = "none";
-
-        if (cleanText.includes("ಹೆಸರು")) {
-            setRobotMessage(`ನನ್ನ ಹೆಸರು ಚಿನ್ನು ರೋಬೋಟ್! ನಿನ್ನ ಜೊತೆ ಕಲಿಯಲು ಬಂದಿದ್ದೇನೆ ${studentName}!`);
-        } else if (cleanText.includes("ಹಾಯ್") || cleanText.includes("ನಮಸ್ಕಾರ")) {
-            setRobotMessage(`ಹಾಯ್ ${studentName}! ಇಂದು ಏನು ಕಲಿಯೋಣ? ಕನ್ನಡ, ಇಂಗ್ಲಿಷ್ ಅಥವಾ ಲೆಕ್ಕ?`);
-        } else if (cleanText.includes("ಕಥೆ")) {
-            setRobotMessage("ಒಂದು ಕಾಡಿನಲ್ಲಿ ಆಮೆ ಮತ್ತು ಮೊಲ ಓಟದ ಸ್ಪರ್ಧೆ ಮಾಡಿದವು. ಆಮೆ ಸತತ ಪ್ರಯತ್ನದಿಂದ ಗೆದ್ದಿತು!");
+        // ಉಲ್ಟಾ ಮತ್ತು ತಪ್ಪು ಉತ್ತರಗಳನ್ನು ತಡೆಗಟ್ಟಿ ಅರ್ಥಪೂರ್ಣ ಪ್ರತ್ಯುತ್ತರ ನೀಡುವುದು
+        if (cleanText.includes("ನೀನು ಯಾರು")) {
+            setRobotMessage(`ನಾನು ನಿಮ್ಮ ಪ್ರೀತಿಯ ಕಲಿ ರೋಬೋಟ್ ${studentName}!`);
+        } else if (cleanText.includes("ಹೆಸರು")) {
+            setRobotMessage(`ನಿನ್ನ ಹೆಸರು ${studentName}, ನನ್ನ ಹೆಸರು ರೋಬೋಟ್!`);
         } else {
-            setRobotMessage(`ತುಂಬಾ ಒಳ್ಳೆಯ ಪ್ರಶ್ನೆ ${studentName}! ಕಲಿಯುತ್ತಾ ಮುಂದುವರಿಯೋಣ!`);
+            setRobotMessage(`ನೀವು ಕೇಳಿದ ಉತ್ತರ: ${cleanText}. ಇದನ್ನು ಮೇಲಿನ ಬೋರ್ಡ್‌ನಲ್ಲಿ ಬರೆಯಲಾಗಿದೆ!`);
         }
     }
 
+    /* ಮೈಕ್ ಕಾರ್ಯನಿರ್ವಹಣೆ */
     function startVoiceRecognition() {
         const micBtn = document.getElementById('mic-btn');
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
         if (!SpeechRecognition) {
-            alert("ನಿಮ್ಮ ಫೋನ್ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಮೈಕ್ ಸಪೋರ್ಟ್ ಇಲ್ಲ. ದಯವಿಟ್ಟು ಗೂಗಲ್ ಕ್ರೋಮ್ (Google Chrome) ಬಳಸಿ.");
+            setRobotMessage("ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಮೈಕ್ ಲಭ್ಯವಿಲ್ಲ. ಪಠ್ಯವನ್ನು ಟೈಪ್ ಮಾಡಿ 'GO' ಬಟನ್ ಒತ್ತಿ.");
             return;
         }
 
         const recognition = new SpeechRecognition();
         recognition.lang = 'kn-IN';
-        recognition.continuous = false;
-        recognition.interimResults = false;
 
         micBtn.classList.add('listening');
-        setRobotMessage("ನಾನು ಕೇಳುತ್ತಿದ್ದೇನೆ, ಮಾತನಾಡು ಮಗು...");
+        setRobotMessage("ನಾನು ಕೇಳುತ್ತಿದ್ದೇನೆ, ಮಾತನಾಡಿ...");
 
         recognition.start();
 
@@ -762,9 +561,9 @@
             processChildQuery(transcript);
         };
 
-        recognition.onerror = function(event) {
+        recognition.onerror = function() {
             micBtn.classList.remove('listening');
-            setRobotMessage("ನಿನ್ನ ಧ್ವನಿ ಸರಿಯಾಗಿ ಕೇಳಿಸಲಿಲ್ಲ, ಮತ್ತೊಮ್ಮೆ ಮೈಕ್ ಒತ್ತಿ ಮಾತನಾಡು!");
+            setRobotMessage("ಧ್ವನಿ ಸ್ಪಷ್ಟವಾಗಿಲ್ಲ. ದಯವಿಟ್ಟು ಬರೆದು 'GO' ಬಟನ್ ಬಳಸಿ!");
         };
 
         recognition.onend = function() {
