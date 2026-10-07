@@ -23,7 +23,7 @@
         header {
             background: linear-gradient(135deg, #4A90E2, #50E3C2);
             color: white;
-            padding: 20px;
+            padding: 18px;
             text-align: center;
             border-bottom-left-radius: 20px;
             border-bottom-right-radius: 20px;
@@ -39,15 +39,15 @@
         .card {
             background: var(--card);
             border-radius: 15px;
-            padding: 20px;
+            padding: 18px;
             margin-bottom: 15px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.05);
         }
 
         input, select, button {
             width: 100%;
-            padding: 14px;
-            margin-top: 10px;
+            padding: 12px;
+            margin-top: 8px;
             border-radius: 10px;
             border: 1px solid #CCC;
             font-size: 16px;
@@ -63,9 +63,7 @@
             transition: 0.2s;
         }
 
-        button:active {
-            transform: scale(0.98);
-        }
+        button:active { transform: scale(0.98); }
 
         .module-grid {
             display: grid;
@@ -91,10 +89,10 @@
             display: inline-block;
             background: #E3F2FD;
             color: #0D47A1;
-            padding: 8px 14px;
-            margin: 5px;
-            border-radius: 20px;
-            font-size: 18px;
+            padding: 8px 12px;
+            margin: 4px;
+            border-radius: 15px;
+            font-size: 16px;
             font-weight: bold;
             cursor: pointer;
         }
@@ -103,7 +101,7 @@
         .page-section.active { display: block; }
 
         .chat-box {
-            height: 200px;
+            height: 220px;
             overflow-y: auto;
             border: 1px solid #EEE;
             padding: 10px;
@@ -117,64 +115,72 @@
             border-radius: 8px;
             margin-bottom: 8px;
             font-size: 14px;
+            line-height: 1.4;
         }
 
         .user-msg { background: #DCF8C6; text-align: right; }
         .bot-msg { background: #E8E8E8; }
+
+        .nav-btn-group {
+            display: flex;
+            gap: 5px;
+            overflow-x: auto;
+            margin-bottom: 12px;
+            padding-bottom: 5px;
+        }
+        .nav-btn-group button {
+            white-space: nowrap;
+            padding: 8px 12px;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <h1 id="appTitle">🤖 AI Mobile School</h1>
-        <p id="appSub">ನಿಮ್ಮ ಮಗುವಿನ ಭವಿಷ್ಯದ ಕಲಿಕಾ ತಾಣ</p>
+        <h1 style="margin:0; font-size:24px;">🤖 AI Mobile School</h1>
+        <p style="margin:5px 0 0 0; font-size:14px;">ಮಕ್ಕಳ ಸ್ಮಾರ್ಟ್ ಕಲಿಕಾ ಪೋರ್ಟಲ್</p>
     </header>
 
     <div class="container">
 
-        <!-- 1️⃣ ಪ್ರಥಮ ಮುಖಪುಟ (Welcome & Registration Screen) -->
+        <!-- 1️⃣ Registration Screen -->
         <div id="welcomeScreen" class="page-section active card">
             <h2 style="color: var(--primary); text-align: center;">👶 ಮಗುವಿನ ವಿವರ ನಮೂದಿಸಿ</h2>
             
             <label><b>ಮಗುವಿನ ಹೆಸರು:</b></label>
-            <input type="text" id="studentName" placeholder="ಹೆಸರನ್ನು ಇಲ್ಲಿ ಬರೆಯಿರಿ...">
+            <input type="text" id="studentName" placeholder="ಹೆಸರನ್ನು ಬರೆಯಿರಿ...">
 
-            <label style="margin-top: 15px; display: block;"><b>ತರಗತಿಯನ್ನು ಆಯ್ಕೆ ಮಾಡಿ:</b></label>
+            <label style="margin-top: 12px; display: block;"><b>ತರಗತಿ:</b></label>
             <select id="studentClass">
                 <option value="LKG/UKG">LKG / UKG</option>
-                <option value="1">1 ನೇ ತರಗತಿ</option>
-                <option value="2">2 ನೇ ತರಗತಿ</option>
-                <option value="3">3 ನೇ ತರಗತಿ</option>
-                <option value="4">4 ನೇ ತರಗತಿ</option>
-                <option value="5">5 ನೇ ತರಗತಿ</option>
-                <option value="6">6 ನೇ ತರಗತಿ</option>
-                <option value="7">7 ನೇ ತರಗತಿ</option>
-                <option value="8">8 ನೇ ತರಗತಿ</option>
-                <option value="9">9 ನೇ ತರಗತಿ</option>
-                <option value="10">10 ನೇ ತರಗತಿ</option>
+                <option value="1ನೇ">1 ನೇ ತರಗತಿ</option>
+                <option value="2ನೇ">2 ನೇ ತರಗತಿ</option>
+                <option value="3ನೇ">3 ನೇ ತರಗತಿ</option>
+                <option value="4ನೇ">4 ನೇ ತರಗತಿ</option>
+                <option value="5ನೇ">5 ನೇ ತರಗತಿ</option>
             </select>
 
-            <button onclick="startLearning()" style="margin-top: 25px; background: var(--success); font-size: 18px;">ಕಲಿಕೆ ಪ್ರಾರಂಬಿಸಿ 🚀</button>
+            <button onclick="startLearning()" style="margin-top: 20px; background: var(--success); font-size: 18px;">ಕಲಿಕೆ ಪ್ರಾರಂಬಿಸಿ 🚀</button>
         </div>
 
-        <!-- 2️⃣ ಮುಖ್ಯ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್ (Main Dashboard) -->
+        <!-- 2️⃣ Main Dashboard -->
         <div id="mainDashboard" class="page-section">
             <div class="card">
-                <h3 id="studentGreeting">ಸ್ವಾಗತ!</h3>
-                <p>ಕಲಿಯಲು ವಿಷಯವನ್ನು ಆಯ್ಕೆ ಮಾಡಿ:</p>
+                <h3 id="studentGreeting" style="margin:0 0 10px 0;">ಸ್ವಾಗತ!</h3>
                 <div class="module-grid">
                     <div class="module-btn" onclick="openModule('kannadaModule')">💛 ಕನ್ನಡ ಕಲಿಕೆ</div>
-                    <div class="module-btn" onclick="openModule('englishModule')">🔤 English Learn</div>
-                    <div class="module-btn" onclick="openModule('hindiModule')">🕉️  हिंदी सीखें</div>
-                    <div class="module-btn" onclick="openModule('mathsModule')">🔢 ಲೆಕ್ಕಗಳು (Maths)</div>
+                    <div class="module-btn" onclick="openModule('englishModule')">🔤 English / ಗುಣಿತಾಕ್ಷರ</div>
+                    <div class="module-btn" onclick="openModule('hindiModule')">🕉️ हिंदी भाषा</div>
+                    <div class="module-btn" onclick="openModule('mathsModule')">🔢 ಲೆಕ್ಕಗಳು (1-10000)</div>
                 </div>
             </div>
 
-            <!-- AI Tutor Assistant -->
+            <!-- Smart AI Robot -->
             <div class="card">
                 <h3>🤖 AI ರೋಬೋಟ್ ಗುರು</h3>
                 <div class="chat-box" id="chatBox">
-                    <div class="msg bot-msg">ನಮಸ್ಕಾರ ಮಗುವೇ! ನಿನಗೇನು ಕಲಿಯಬೇಕಿದೆ? ಪ್ರಶ್ನೆ ಕೇಳು!</div>
+                    <div class="msg bot-msg">ನಮಸ್ಕಾರ! ನಾನು ನಿನ್ನ AI ಗುರು. ನಿನಗೆ ಬೇಕಾದ ಪ್ರಶ್ನೆ ಕೇಳು, ನಾನು ಉತ್ತರಿಸುತ್ತೇನೆ!</div>
                 </div>
                 <input type="text" id="chatInput" placeholder="ನಿಮ್ಮ ಪ್ರಶ್ನೆ ಬರೆಯಿರಿ...">
                 <div style="display: flex; gap: 8px; margin-top: 5px;">
@@ -182,29 +188,38 @@
                     <button onclick="startVoiceInput()" style="background: var(--secondary);">🎤 ಮಾತನಾಡಿ</button>
                 </div>
             </div>
+
+            <div class="card" style="text-align: center;">
+                <h3>🎵 ಮಕ್ಕಳ ಹಾಡುಗಳು & ಕಥೆಗಳು</h3>
+                <button onclick="playAudioRhyme('ಕೈ ಬೀಸಮ್ಮ ಅಜ್ಜಿಗೆ, ಮಜ್ಜಿಗೆ ತಾಸಮ್ಮ ಅಮ್ಮಗೆ!')" style="background:#8E44AD;">🎶 ಹಾಡು 1 (ಕೈ ಬೀಸಮ್ಮ)</button>
+                <button onclick="playAudioRhyme('ಆನೆ ಬಂತೊಂದಾಣೆ, ಯಾವ ಊರಿನ ಆನೆ? ಸಾಲೂರು ಆನೆ!')" style="background:#27AE60; margin-top:5px;">🎶 ಹಾಡು 2 (ಆನೆ ಬಂತು)</button>
+            </div>
+
             <button onclick="goBack('welcomeScreen')" style="background: #7f8c8d;">◀️ ಹೆಸರು ಬದಲಿಸಿ</button>
         </div>
 
-        <!-- 3️⃣ ಕನ್ನಡ ಕಲಿಕಾ ವಿಭಾಗ (Kannada Learning) -->
+        <!-- 3️⃣ Kannada Module -->
         <div id="kannadaModule" class="page-section card">
-            <h2>💛 ಕನ್ನಡ ಜೋಡಣೆ ಶಬ್ದಗಳು</h2>
-            <div style="display: flex; gap: 5px; overflow-x: auto; margin-bottom: 15px;">
+            <h2>💛 ಕನ್ನಡ ಅಕ್ಷರ & ಶಬ್ದ ಕಲಿಕೆ</h2>
+            <div class="nav-btn-group">
+                <button onclick="loadKannadaWords(1)">ಸ್ವರಗಳು</button>
                 <button onclick="loadKannadaWords(2)">2 ಅಕ್ಷರ</button>
                 <button onclick="loadKannadaWords(3)">3 ಅಕ್ಷರ</button>
                 <button onclick="loadKannadaWords(4)">4 ಅಕ್ಷರ</button>
-                <button onclick="loadKannadaWords(5)">5 ಅಕ್ಷರ</button>
+                <button onclick="loadKannadaWords(5)">ವಾಕ್ಯಗಳು</button>
             </div>
             <div id="kannadaWordsContainer"></div>
             <button onclick="goBack('mainDashboard')" style="margin-top: 15px; background: #7f8c8d;">◀️ ಮುಖ್ಯ ಪುಟ</button>
         </div>
 
-        <!-- 4️⃣ English Learning Module -->
+        <!-- 4️⃣ English Module -->
         <div id="englishModule" class="page-section card">
-            <h2>🔤 English Alphabet & Words</h2>
-            <div style="display: flex; gap: 5px; margin-bottom: 15px;">
+            <h2>🔤 English & ಕನ್ನಡ-ಇಂಗ್ಲಿಷ್ ಗುಣಿತಾಕ್ಷರ</h2>
+            <div class="nav-btn-group">
                 <button onclick="loadEnglishABC('CAPITAL')">A B C D</button>
                 <button onclick="loadEnglishABC('SMALL')">a b c d</button>
-                <button onclick="loadTransliteration()">ಕನ್ನಡ-English</button>
+                <button onclick="loadTransliteration('KAGINITHO')">ಕ-ಖ-ಗ (Ka-Kha)</button>
+                <button onclick="loadTransliteration('BARAKHADI')">ಕಾ-ಕಿ-ಕೀ (Kaa-Ki)</button>
             </div>
             <div id="englishContainer"></div>
             <button onclick="goBack('mainDashboard')" style="margin-top: 15px; background: #7f8c8d;">◀️ ಮುಖ್ಯ ಪುಟ</button>
@@ -212,7 +227,12 @@
 
         <!-- 5️⃣ Hindi Module -->
         <div id="hindiModule" class="page-section card">
-            <h2>🕉️  हिंदी भाषा शिक्षण</h2>
+            <h2>🕉️ हिंदी संपूर्ण वर्णमाला</h2>
+            <div class="nav-btn-group">
+                <button onclick="loadHindi('SWAR')">स्वर (ಅ-ಅಃ)</button>
+                <button onclick="loadHindi('VYANJAN')">व्यंजन (ಕ-ಜ್ಞ)</button>
+                <button onclick="loadHindi('WORDS')">हिंदी शब्द</button>
+            </div>
             <div id="hindiContainer"></div>
             <button onclick="goBack('mainDashboard')" style="margin-top: 15px; background: #7f8c8d;">◀️ ಮುಖ್ಯ ಪುಟ</button>
         </div>
@@ -220,11 +240,12 @@
         <!-- 6️⃣ Maths Module -->
         <div id="mathsModule" class="page-section card">
             <h2>🔢 ಲೆಕ್ಕಗಳು & ಸಂಖ್ಯೆಗಳು (1 - 10,000)</h2>
-            <div style="display: flex; gap: 5px; margin-bottom: 10px;">
+            <div class="nav-btn-group">
                 <button onclick="loadNumbers(1, 100)">1 - 100</button>
-                <button onclick="loadNumbers(101, 250)">101 - 250</button>
-                <button onclick="loadNumbers(251, 500)">251 - 500</button>
+                <button onclick="loadNumbers(101, 500)">101 - 500</button>
                 <button onclick="loadNumbers(501, 1000)">501 - 1000</button>
+                <button onclick="loadNumbers(1001, 5000)">1001 - 5000</button>
+                <button onclick="loadNumbers(5001, 10000)">5001 - 10000</button>
             </div>
             <div id="mathsContainer"></div>
             <button onclick="goBack('mainDashboard')" style="margin-top: 15px; background: #7f8c8d;">◀️ ಮುಖ್ಯ ಪುಟ</button>
@@ -233,15 +254,14 @@
     </div>
 
     <script>
-        let studentName = '';
-        let studentClass = '';
+        let studentName = 'ಮಗು';
 
-        // Audio Speech Engine (Kannada & English Voice)
         function speak(text, lang = 'kn-IN') {
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
                 const ut = new SpeechSynthesisUtterance(text);
                 ut.lang = lang;
+                ut.rate = 0.9;
                 window.speechSynthesis.speak(ut);
             }
         }
@@ -251,45 +271,37 @@
             document.getElementById(pageId).classList.add('active');
         }
 
-        function goBack(pageId) {
-            showPage(pageId);
-        }
+        function goBack(pageId) { showPage(pageId); }
 
-        // Direct Start without API Key
         function startLearning() {
-            studentName = document.getElementById('studentName').value;
-            studentClass = document.getElementById('studentClass').value;
-
-            if (!studentName) {
-                alert("ದಯವಿಟ್ಟು ಮಗುವಿನ ಹೆಸರು ನಮೂದಿಸಿ!");
-                return;
-            }
-
-            document.getElementById('studentGreeting').innerText = `ಸ್ವಾಗತ ${studentName} (${studentClass} ತರಗತಿ)`;
-            speak(`ಸ್ವಾಗತ ${studentName}, ನಿನ್ನ ${studentClass} ತರಗತಿಯ ಅಭ್ಯಾಸ ಆರಂಭಿಸೋಣ.`);
+            studentName = document.getElementById('studentName').value || 'ಮಗು';
+            const cls = document.getElementById('studentClass').value;
+            document.getElementById('studentGreeting').innerText = `ಸ್ವಾಗತ ${studentName} (${cls} ತರಗತಿ)`;
+            speak(`ಸ್ವಾಗತ ${studentName}, ನಿನ್ನ ಕಲಿಕೆ ಆರಂಭಿಸೋಣ.`);
             showPage('mainDashboard');
         }
 
         function openModule(moduleId) {
             showPage(moduleId);
-            if (moduleId === 'kannadaModule') loadKannadaWords(2);
+            if (moduleId === 'kannadaModule') loadKannadaWords(1);
             if (moduleId === 'englishModule') loadEnglishABC('CAPITAL');
-            if (moduleId === 'hindiModule') loadHindi();
+            if (moduleId === 'hindiModule') loadHindi('SWAR');
             if (moduleId === 'mathsModule') loadNumbers(1, 100);
         }
 
-        // Kannada Words Database
+        // Expanded Kannada Data
         const kannadaData = {
-            2: ['ಅಮ್ಮ', 'ಅಪ್ಪ', 'ಊರು', 'ಮನೆ', 'ಅರಸು', 'ಆನೆ', 'ಈ ನೊ', 'ಉಪ್ಪ', 'ಋಷಿ', 'ಎಲೆ', 'ಏಣಿ', 'ಐದು', 'ಒಂಟೆ', 'ಓಟ', 'ಔಷಧ'],
-            3: ['ಅರಸನ', 'ಆಕಾಶ', 'ಇಲಿಗಳು', 'ಉಡುಪು', 'ಕಮಲ', 'ಗರುಡ', 'ಚಂದನ', 'ಜಲಜ', 'ಟಮಟ', 'ಡಮರುಗ'],
-            4: ['ಅರಮನೆ', 'ಕಮಲನಾಭ', 'ಗಜರಾಜ', 'ಚಮತ್ಕಾರ', 'ಜಯಭೇರಿ'],
-            5: ['ಉತ್ತರಕರ್ನಾಟಕ', 'ವಿಜಯನಗರ', 'ಸಾಹಿತ್ಯರತ್ನ']
+            1: ['ಅ', 'ಆ', 'ಇ', 'ಈ', 'ಉ', 'ಊ', 'ಋ', 'ಎ', 'ಏ', 'ಐ', 'ಒ', 'ಓ', 'ಔ', 'ಅಂ', 'ಅಃ'],
+            2: ['ಅಮ್ಮ', 'ಅಪ್ಪ', 'ಊರು', 'ಮನೆ', 'ಆನೆ', 'ಎಲೆ', 'ಏಣಿ', 'ಐದು', 'ಒಂಟೆ', 'ಓಟ', 'ಹೂವು', 'ಹಾಲು', 'ಗಿಡ', 'ಹಣ್ಣು', 'ಗುಡಿ', 'ಆಟ', 'ದಾರಿ', 'ನೀರು', 'ಬೆಕ್ಕು', 'ನಾಯಿ'],
+            3: ['ಆಕಾಶ', 'ಕಮಲ', 'ಗರುಡ', 'ಚಂದನ', 'ಟಮಟ', 'ಅರಸನ', 'ಇಲಿಗಳು', 'ಉಡುಪು', 'ಶಾಲೆ', 'ಪುಸ್ತಕ', 'ಪೆನ್ಸಿಲ್', 'ಶಿಕ್ಷಕ', 'ಸ್ನೇಹಿತ', 'ಬೆಟ್ಟ'],
+            4: ['ಅರಮನೆ', 'ಕಮಲನಾಭ', 'ಗಜರಾಜ', 'ಚಮತ್ಕಾರ', 'ಜಯಭೇರಿ', 'ಭಾರತದೇಶ', 'ಕರ್ನಾಟಕ', 'ಸೂರ್ಯಕಾಂತಿ'],
+            5: ['ನಮ್ಮ ಶಾಲೆ ಚಂದ', 'ನನ್ನ ದೇಶ ಭಾರತ', 'ಗುರು ಹಿರಿಯರಿಗೆ ಗೌರವ ನೀಡು', 'ಸತ್ಯವನ್ನೇ ಮಾತನಾಡು']
         };
 
-        function loadKannadaWords(letters) {
+        function loadKannadaWords(type) {
             const container = document.getElementById('kannadaWordsContainer');
-            container.innerHTML = `<h3>${letters} ಅಕ್ಷರಗಳ ಶಬ್ದಗಳು:</h3>`;
-            const list = kannadaData[letters] || ['ಅಮ್ಮ', 'ಅಪ್ಪ', 'ಮನೆ', 'ಊರು'];
+            container.innerHTML = '<h3>ಕನ್ನಡ ಅಭ್ಯಾಸ:</h3>';
+            const list = kannadaData[type] || [];
             list.forEach(w => {
                 const badge = document.createElement('span');
                 badge.className = 'word-badge';
@@ -299,7 +311,7 @@
             });
         }
 
-        // English Module
+        // Expanded English & Kaginito Data
         function loadEnglishABC(type) {
             const container = document.getElementById('englishContainer');
             container.innerHTML = '';
@@ -314,25 +326,41 @@
             }
         }
 
-        function loadTransliteration() {
+        function loadTransliteration(mode) {
             const container = document.getElementById('englishContainer');
-            container.innerHTML = '<h3>ಕನ್ನಡ - English ಅಕ್ಷರ ಕಲಿಕೆ:</h3>';
-            const trans = ['ಕ = Ka', 'ಖ = Kha', 'ಗ = Ga', 'ಘ = Gha', 'ಕಂ = Kam', 'ರವಿಚಂದ್ರ = Ravichandra'];
-            trans.forEach(t => {
-                const badge = document.createElement('div');
-                badge.className = 'word-badge';
-                badge.innerText = t;
-                badge.onclick = () => speak(t, 'en-US');
-                container.appendChild(badge);
-            });
+            container.innerHTML = '';
+            
+            if(mode === 'KAGINITHO') {
+                const kag = ['ಕ = Ka', 'ಖ = Kha', 'ಗ = Ga', 'ಘ = Gha', 'ಙ = Nga', 'ಚ = Cha', 'ಛ = Chha', 'ಜ = Ja', 'ಝ = Jha', 'ಞ = Nya', 'ಟ = Ta', 'ಠ = Tha', 'ಡ = Da', 'ಢ = Dha', 'ಣ = Na', 'ತ = Ta', 'ಥ = Tha', 'ದ = Da', 'ಧ = Dha', 'ನ = Na', 'ಪ = Pa', 'ಫ = Pha', 'ಬ = Ba', 'ಭ = Bha', 'ಮ = Ma', 'ಯ = Ya', 'ರ = Ra', 'ಲ = La', 'ವ = Va', 'ಶ = Sha', 'ಷ = Sha', 'ಸ = Sa', 'ಹ = Ha', 'ಳ = La'];
+                kag.forEach(t => {
+                    const badge = document.createElement('div');
+                    badge.className = 'word-badge';
+                    badge.innerText = t;
+                    badge.onclick = () => speak(t, 'en-US');
+                    container.appendChild(badge);
+                });
+            } else {
+                const bar = ['ಕ = Ka', 'ಕಾ = Kaa', 'ಕಿ = Ki', 'ಕೀ = Kee', 'ಕು = Ku', 'ಕೂ = Koo', 'ಕೃ = Kru', 'ಕೆ = Ke', 'ಕೇ = Kee', 'ಕೈ = Kai', 'ಕೊ = Ko', 'ಕೋ = Koo', 'ಕೌ = Kau', 'ಕಂ = Kam', 'ಕಃ = Kah'];
+                bar.forEach(b => {
+                    const badge = document.createElement('div');
+                    badge.className = 'word-badge';
+                    badge.innerText = b;
+                    badge.onclick = () => speak(b, 'en-US');
+                    container.appendChild(badge);
+                });
+            }
         }
 
-        // Hindi Module
-        function loadHindi() {
+        // Expanded Hindi Data
+        function loadHindi(mode) {
             const container = document.getElementById('hindiContainer');
-            container.innerHTML = '<h3>हिंदी वर्णमाला:</h3>';
-            const hindiChars = ['अ', 'आ', 'इ', 'ई', 'उ', 'ऊ', 'ऋ', 'ए', 'ऐ', 'ओ', 'औ', 'अं', 'अः', 'क', 'ख', 'ग', 'घ'];
-            hindiChars.forEach(h => {
+            container.innerHTML = '';
+            let list = [];
+            if(mode === 'SWAR') list = ['अ', 'आ', 'इ', 'ई', 'उ', 'ऊ', 'ऋ', 'ए', 'ऐ', 'ओ', 'औ', 'अं', 'अः'];
+            else if(mode === 'VYANJAN') list = ['क', 'ख', 'ग', 'घ', 'ङ', 'च', 'छ', 'ज', 'झ', 'ञ', 'ट', 'ठ', 'ड', 'ढ', 'ण', 'त', 'थ', 'द', 'ध', 'न', 'प', 'फ', 'ब', 'भ', 'म', 'य', 'र', 'ल', 'व', 'श', 'ष', 'स', 'ह', 'क्ष', 'त्र', 'ज्ञ'];
+            else list = ['नमस्ते', 'घर', 'जल', 'फल', 'राजा', 'किताब', 'भारत', 'माता', 'पिता'];
+
+            list.forEach(h => {
                 const badge = document.createElement('span');
                 badge.className = 'word-badge';
                 badge.innerText = h;
@@ -341,25 +369,60 @@
             });
         }
 
-        // Numbers Loader
+        // Expanded Numbers up to 10,000
         function loadNumbers(start, end) {
             const container = document.getElementById('mathsContainer');
             container.innerHTML = `<h3>ಸಂಖ್ಯೆಗಳು (${start} ರಿಂದ ${end}):</h3>`;
             let div = document.createElement('div');
-            div.style.maxHeight = '250px';
+            div.style.maxHeight = '260px';
             div.style.overflowY = 'auto';
-            for (let i = start; i <= end; i++) {
+            
+            let step = (end - start > 1000) ? 50 : 1; 
+            for (let i = start; i <= end; i += step) {
                 const badge = document.createElement('span');
                 badge.className = 'word-badge';
-                badge.style.fontSize = '15px';
+                badge.style.fontSize = '14px';
                 badge.innerText = i;
-                badge.onclick = () => speak(i.toString());
+                badge.onclick = () => speak(i.toString(), 'kn-IN');
                 div.appendChild(badge);
             }
             container.appendChild(div);
         }
 
-        // Voice Input
+        // Smart Dynamic AI Assistant Engine
+        function sendAIQuery() {
+            const text = document.getElementById('chatInput').value.trim();
+            const chatBox = document.getElementById('chatBox');
+
+            if (!text) return;
+
+            chatBox.innerHTML += `<div class="msg user-msg">${text}</div>`;
+            document.getElementById('chatInput').value = '';
+
+            let reply = "";
+            const lowerText = text.toLowerCase();
+
+            if (lowerText.includes("ಇಂಗ್ಲಿಷ್") || lowerText.includes("english")) {
+                reply = `${studentName}, ಇಂಗ್ಲಿಷ್ ಕಲಿಯಲು ಮೇಲಿರುವ 'English Learn' ಬಟನ್ ಒತ್ತಿ, ಅಲ್ಲಿ K, Kha ಗುಣಿತಾಕ್ಷರಗಳು ಇವೆ!`;
+            } else if (lowerText.includes("ಹೆಸರು") || lowerText.includes("name")) {
+                reply = `ನನ್ನ ಹೆಸರು AI ರೋಬೋಟ್ ಗುರು. ನಿನ್ನ ಹೆಸರು ${studentName}!`;
+            } else if (lowerText.includes("ನಮಸ್ಕಾರ") || lowerText.includes("hi") || lowerText.includes("hello")) {
+                reply = `ನಮಸ್ಕಾರ ${studentName}! ಇಂದು ನೀನು ಏನು ಕಲಿಯಲು ಬಯಸುತ್ತೀಯ?`;
+            } else if (lowerText.includes("+") || lowerText.includes("-") || lowerText.includes("ಲೆಕ್ಕ")) {
+                reply = `ಲೆಕ್ಕ ಕಲಿಯಲು ತುಂಬಾ ಸುಲಭ. ಲೆಕ್ಕಗಳ ವಿಭಾಗದಲ್ಲಿ 1 ರಿಂದ 10000 ಸಂಖ್ಯೆಗಳನ್ನು ಅಭ್ಯಾಸ ಮಾಡು!`;
+            } else if (lowerText.includes("ಹಾಡು") || lowerText.includes("song")) {
+                reply = `ಕೆಳಗೆ ಇರುವ 'ಮಕ್ಕಳ ಹಾಡುಗಳು' ಬಟನ್ ಒತ್ತಿ ಹಾಡು ಕೇಳು!`;
+            } else {
+                reply = `${studentName}, 'ಆಕಾಶ' ಎಂದರೆ ನಭ, 'ಶಾಲೆ' ಎಂದರೆ ವಿದ್ಯಾದೇಗುಲ. ಪ್ರತಿದಿನ ಹೊಸ ವಿಷಯ ಕಲಿಯುವುದು ಒಳ್ಳೆಯ ಅಭ್ಯಾಸ!`;
+            }
+
+            setTimeout(() => {
+                chatBox.innerHTML += `<div class="msg bot-msg">${reply}</div>`;
+                chatBox.scrollTop = chatBox.scrollHeight;
+                speak(reply);
+            }, 400);
+        }
+
         function startVoiceInput() {
             if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
                 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -371,25 +434,12 @@
                 };
                 rec.start();
             } else {
-                alert("ನಿಮ್ಮ ಸಾಧನದಲ್ಲಿ ಮೈಕ್ ಬೆಂಬಲಿಸುತ್ತಿಲ್ಲ.");
+                alert("ಮೈಕ್ ಬೆಂಬಲಿಸುತ್ತಿಲ್ಲ.");
             }
         }
 
-        // Response System
-        function sendAIQuery() {
-            const text = document.getElementById('chatInput').value;
-            const chatBox = document.getElementById('chatBox');
-
-            if (!text) return;
-
-            chatBox.innerHTML += `<div class="msg user-msg">${text}</div>`;
-            document.getElementById('chatInput').value = '';
-
-            const reply = `${studentName}, ನಿನ್ನ ಪ್ರಶ್ನೆಗೆ ಉತ್ತರವನ್ನು ಚೆನ್ನಾಗಿ ಅಭ್ಯಾಸ ಮಾಡು. ಆಟವಾಡುತ್ತಾ ಕಲಿ!`;
-            
-            chatBox.innerHTML += `<div class="msg bot-msg">${reply}</div>`;
-            chatBox.scrollTop = chatBox.scrollHeight;
-            speak(reply);
+        function playAudioRhyme(text) {
+            speak(text, 'kn-IN');
         }
     </script>
 </body>
