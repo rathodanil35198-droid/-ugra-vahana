@@ -3,18 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ಮೊಬೈಲ್ ಶಾಲೆ - Mobile School App</title>
+    <title>AI ರೋಬೋಟ್ ಮಾಸ್ಟರ್ - ಮಕ್ಕಳ ಶಾಲೆ</title>
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: #f0f4f8;
-            color: #333;
+            background-color: #eef2f7;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -23,41 +22,41 @@
 
         .app-container {
             width: 100%;
-            max-width: 430px;
-            height: 92vh;
-            max-height: 880px;
+            max-width: 440px;
+            height: 94vh;
             background: #ffffff;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border-radius: 24px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.2);
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            border: 1px solid #e0e0e0;
-            position: relative;
+            border: 2px solid #2196f3;
         }
 
-        .app-header {
-            background: linear-gradient(135deg, #1e88e5, #00b0ff);
+        /* Robot Header */
+        .header {
+            background: linear-gradient(135deg, #FF6F00, #FF8F00);
             color: white;
             padding: 15px;
-            font-weight: bold;
-            font-size: 1.1rem;
+            text-align: center;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            justify-content: space-between;
         }
 
-        .user-badge {
-            background: rgba(255,255,255,0.25);
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 0.8rem;
+        .robot-avatar {
+            font-size: 2.5rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
         }
 
         .screen {
             display: none;
-            padding: 18px;
+            padding: 15px;
             flex: 1;
             overflow-y: auto;
         }
@@ -66,438 +65,393 @@
             display: block;
         }
 
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        input, select, textarea, button {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 0.95rem;
-        }
-
-        button {
-            background-color: #1e88e5;
-            color: white;
-            border: none;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        button:hover {
-            background-color: #1565c0;
-        }
-
-        .section-title {
-            font-size: 1.05rem;
-            margin-bottom: 12px;
-            color: #1565c0;
-            border-bottom: 2px solid #1e88e5;
-            padding-bottom: 4px;
-            font-weight: bold;
-        }
-
-        .grid-container {
+        /* Navigation Grid */
+        .menu-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
-            margin-bottom: 20px;
+            margin-top: 10px;
         }
 
-        .card {
-            background: #f8f9fa;
-            border: 2px solid #e3f2fd;
-            border-radius: 12px;
+        .menu-card {
+            background: #f0f7ff;
+            border: 2px solid #90caf9;
+            border-radius: 16px;
             padding: 15px;
             text-align: center;
             cursor: pointer;
-            transition: transform 0.2s, border-color 0.2s;
+            transition: 0.2s;
         }
 
-        .card:hover {
-            transform: translateY(-3px);
-            border-color: #1e88e5;
+        .menu-card:hover {
             background: #e3f2fd;
+            transform: scale(1.03);
         }
 
-        .card-icon {
-            font-size: 2rem;
-            margin-bottom: 6px;
+        .menu-icon {
+            font-size: 2.2rem;
+            margin-bottom: 5px;
         }
 
-        #traceCanvas {
-            border: 2px dashed #1e88e5;
+        /* Letters Container */
+        .letters-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .letter-btn {
+            background: #fff3e0;
+            border: 2px solid #ffe0b2;
+            padding: 12px 5px;
+            font-size: 1.3rem;
+            font-weight: bold;
             border-radius: 10px;
-            background: #fff;
-            touch-action: none;
-            cursor: crosshair;
+            color: #e65100;
+            cursor: pointer;
+            text-align: center;
         }
 
-        .quiz-option {
-            background: #f0f7ff;
-            border: 1px solid #90caf9;
-            margin: 8px 0;
+        .letter-btn:hover {
+            background: #ffe0b2;
+        }
+
+        /* Word Picture Box */
+        .word-box {
+            background: #e8f5e9;
+            border: 2px solid #a5d6a7;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .word-box img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+        }
+
+        /* Buttons */
+        .btn-main {
+            width: 100%;
+            background: #2196f3;
+            color: white;
+            border: none;
             padding: 12px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn-main:hover {
+            background: #1976d2;
+        }
+
+        .btn-back {
+            background: #607d8b;
+            color: white;
+            border: none;
+            padding: 6px 12px;
             border-radius: 8px;
             cursor: pointer;
-            text-align: left;
-            font-weight: 500;
+            margin-bottom: 10px;
         }
 
-        .quiz-option:hover {
-            background: #bbdefb;
+        /* AI Chat/Doubt Box */
+        .chat-box {
+            background: #f5f5f5;
+            border-radius: 10px;
+            padding: 10px;
+            height: 220px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
         }
 
-        .bottom-nav {
+        .chat-msg {
+            margin-bottom: 8px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .bot-msg {
+            background: #e3f2fd;
+            color: #0d47a1;
+        }
+
+        .user-msg {
+            background: #e8f5e9;
+            color: #1b5e20;
+            text-align: right;
+        }
+
+        /* Tab Navigation */
+        .bottom-bar {
             display: flex;
             background: #ffffff;
             border-top: 1px solid #e0e0e0;
             padding: 8px 0;
         }
 
-        .nav-item {
+        .bar-item {
             flex: 1;
             text-align: center;
             font-size: 0.75rem;
-            color: #666;
+            color: #555;
             cursor: pointer;
         }
 
-        .nav-item.active {
-            color: #1e88e5;
+        .bar-item.active {
+            color: #FF6F00;
             font-weight: bold;
-        }
-
-        .nav-icon {
-            font-size: 1.2rem;
-            display: block;
-        }
-
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
-            border-radius: 10px;
-            margin-bottom: 12px;
-        }
-
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 0;
-        }
-
-        .notes-box {
-            background: #fff8e1;
-            border-left: 4px solid #ffb300;
-            padding: 12px;
-            border-radius: 4px;
-            margin-bottom: 12px;
-            font-size: 0.9rem;
-            line-height: 1.5;
         }
     </style>
 </head>
 <body>
 
 <div class="app-container">
-    <div class="app-header">
-        <span>🏫 ಮೊಬೈಲ್ ಶಾಲೆ</span>
-        <span class="user-badge" id="headerUser">ಅತಿಥಿ</span>
+    <!-- Header -->
+    <div class="header">
+        <div>
+            <h3 style="margin:0;">🤖 ರೋಬೋಟ್ ಮಾಸ್ಟರ್</h3>
+            <small>ನಿಮ್ಮ ಡಿಜಿಟಲ್ ಶಿಕ್ಷಕ</small>
+        </div>
+        <div class="robot-avatar">🤖</div>
     </div>
 
-    <!-- Login Screen -->
-    <div id="loginScreen" class="screen active">
-        <h2 style="margin-bottom: 10px; text-align:center; color:#1565c0;">ಸ್ವಾಗತ!</h2>
-        <p style="margin-bottom: 20px; color: #666; font-size: 0.85rem; text-align:center;">ನಿಮ್ಮ ಶೈಕ್ಷಣಿಕ ಪ್ರಯಾಣವನ್ನು ಪ್ರಾರಂಭಿಸಲು ಲಾಗಿನ್ ಆಗಿ</p>
-        
-        <div class="form-group">
-            <label for="studentName">ವಿದ್ಯಾರ್ಥಿಯ ಹೆಸರು</label>
-            <input type="text" id="studentName" placeholder="ನಿಮ್ಮ ಹೆಸರನ್ನು ನಮೂದಿಸಿ">
-        </div>
-
-        <div class="form-group">
-            <label for="gradeSelect">ತರಗತಿಯನ್ನು ಆಯ್ಕೆ ಮಾಡಿ</label>
-            <select id="gradeSelect">
-                <option value="LKG-UKG">LKG - UKG (ಪೂರ್ವ ಪ್ರಾಥಮಿಕ)</option>
-                <option value="1-5">1 ರಿಂದ 5ನೇ ತರಗತಿ (ಪ್ರಾಥಮಿಕ)</option>
-                <option value="6-10">6 ರಿಂದ 10ನೇ ತರಗತಿ (ಪ್ರೌಢಶಾಲೆ)</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="mediumSelect">ಮಾಧ್ಯಮ</label>
-            <select id="mediumSelect">
-                <option value="kn">ಕನ್ನಡ ಮಾಧ್ಯಮ</option>
-                <option value="en">English Medium</option>
-            </select>
-        </div>
-
-        <button onclick="startApp()">ಆರಂಭಿಸಿ (Start Learning)</button>
-    </div>
-
-    <!-- Home Dashboard -->
-    <div id="dashboardScreen" class="screen">
-        <div class="section-title">ಕಲಿಕಾ ವಿಭಾಗಗಳು</div>
-        <div class="grid-container" id="moduleGrid"></div>
-
-        <div class="section-title">ನಿಮ್ಮ ಕಲಿಕಾ ಪ್ರಗತಿ</div>
-        <div style="background:#f8f9fa; padding:12px; border-radius:8px; border:1px solid #eee;">
-            <span style="font-size:0.85rem; font-weight:600;">ಕೋರ್ಸ್ ಪೂರ್ಣಗೊಂಡಿದೆ: <span id="progressText">40%</span></span>
-            <div style="background:#e0e0e0; border-radius:10px; height:10px; width:100%; margin-top:6px; overflow:hidden;">
-                <div id="progressBar" style="background:#00c853; height:100%; width:40%;"></div>
+    <!-- Home Menu Screen -->
+    <div id="homeScreen" class="screen active">
+        <h4 style="color:#333; margin-bottom:10px;">ಏನು ಕಲಿಯಲು ಬಯಸುತ್ತೀರಾ?</h4>
+        <div class="menu-grid">
+            <div class="menu-card" onclick="openScreen('kannadaScreen')">
+                <div class="menu-icon">ಅ</div>
+                <strong>ಕನ್ನಡ ಅಕ್ಷರಮಾಲೆ</strong>
+            </div>
+            <div class="menu-card" onclick="openScreen('englishScreen')">
+                <div class="menu-icon">🔤</div>
+                <strong>English A-Z</strong>
+            </div>
+            <div class="menu-card" onclick="openScreen('hindiScreen')">
+                <div class="menu-icon">अ</div>
+                <strong>हिंदी (ಹಿಂದಿ)</strong>
+            </div>
+            <div class="menu-card" onclick="openScreen('mathsScreen')">
+                <div class="menu-icon">➕</div>
+                <strong>ಗಣಿತ / ಲೆಕ್ಕಗಳು</strong>
+            </div>
+            <div class="menu-card" onclick="openScreen('uploadScreen')">
+                <div class="menu-icon">📸</div>
+                <strong>ನೋಟ್‌ಬುಕ್ ಪರಿಶೀಲನೆ</strong>
+            </div>
+            <div class="menu-card" onclick="openScreen('aiScreen')">
+                <div class="menu-icon">💡</div>
+                <strong>AI ಮಾಸ್ಟರ್ ಪ್ರಶ್ನೆಗಳು</strong>
             </div>
         </div>
     </div>
 
-    <!-- Activity Viewer -->
-    <div id="learningScreen" class="screen">
-        <button onclick="showScreen('dashboardScreen')" style="width: auto; padding: 6px 14px; margin-bottom: 12px; font-size: 0.85rem; background:#616161;">← ಹಿಂತಿರುಗಿ</button>
-        <div id="activityContent"></div>
+    <!-- Kannada Screen -->
+    <div id="kannadaScreen" class="screen">
+        <button class="btn-back" onclick="openScreen('homeScreen')">← ಹಿಂತಿರುಗಿ</button>
+        <h4>ಕನ್ನಡ ಸ್ವರಗಳು ಮತ್ತು ಪದಗಳು</h4>
+        
+        <div class="word-box" id="kannadaDisplay">
+            <h3>ಅ - ಅರಸ 👑</h3>
+            <p style="font-size:0.85rem; color:#555;">ಅಕ್ಷರದ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿ, ರೋಬೋಟ್ ಓದುತ್ತದೆ!</p>
+        </div>
+
+        <div class="letters-grid">
+            <div class="letter-btn" onclick="speakLetter('ಅ', 'ಅ ರ ಸ - ಅರಸ')">ಅ</div>
+            <div class="letter-btn" onclick="speakLetter('ಆ', 'ಆ ನೆ - ಆನೆ')">ಆ</div>
+            <div class="letter-btn" onclick="speakLetter('ಇ', 'ಇ ಲಿ - ಇಲಿ')">ಇ</div>
+            <div class="letter-btn" onclick="speakLetter('ಈ', 'ಈ ಶ - ಈಶ')">ಈ</div>
+            <div class="letter-btn" onclick="speakLetter('ಉ', 'ಉ ರು ಟು - ಉರುಟು')">ಉ</div>
+            <div class="letter-btn" onclick="speakLetter('ಊ', 'ಊ ಟ - ಊಟ')">ಊ</div>
+            <div class="letter-btn" onclick="speakLetter('ಋ', 'ಋ ಷಿ - ಋಷಿ')">ಋ</div>
+            <div class="letter-btn" onclick="speakLetter('ಎ', 'ಎ လိ - ಎಲಿ')">ಎ</div>
+            <div class="letter-btn" onclick="speakLetter('ಏ', 'ಏ ಣಿ - ಏಣಿ')">ಏ</div>
+            <div class="letter-btn" onclick="speakLetter('ಐ', 'ಐ ನು - ಐನು')">ಐ</div>
+            <div class="letter-btn" onclick="speakLetter('ಒ', 'ಒ ಂಟಿ - ಒಂಟಿ')">ಒ</div>
+            <div class="letter-btn" onclick="speakLetter('ಓ', 'ಓ ದು - ಓದು')">ಓ</div>
+        </div>
+        <button class="btn-main" onclick="robotSpeak('ಮಕ್ಕಳೇ, ಈಗ ನಾವು ಕ ಗ ಙ ಕಲಿಯೋಣ! ಕ ಕಮಲ, ಖ ಖಡ್ಗ, ಗ ಗಜ')">ಕಕ್ಕ ಗುಣಿತಾಕ್ಷರ ಓದು 🔊</button>
     </div>
 
-    <!-- Parent Dashboard -->
-    <div id="parentScreen" class="screen">
-        <div class="section-title">ಪೋಷಕರ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್</div>
-        <p style="font-size:0.85rem; color:#666; margin-bottom:15px;">ಮಕ್ಕಳ ಕಲಿಕಾ ಪ್ರಗತಿಯ ವಿವರಣೆ</p>
+    <!-- English Screen -->
+    <div id="englishScreen" class="screen">
+        <button class="btn-back" onclick="openScreen('homeScreen')">← ಹಿಂತಿರುಗಿ</button>
+        <h4>English Alphabets (A to Z)</h4>
 
-        <div style="background: #e3f2fd; padding: 12px; border-radius: 8px; margin-bottom: 10px;">
-            <strong>⏱️ ವೀಕ್ಷಣೆ ಸಮಯ:</strong> <span id="parentWatchTime">35 ನಿಮಿಷಗಳು</span>
-        </div>
-        <div style="background: #e8f5e9; padding: 12px; border-radius: 8px; margin-bottom: 10px;">
-            <strong>📝 ಕ್ವಿಜ್ ಅಂಕಗಳು:</strong> <span id="parentQuizScore">10 ರಲ್ಲಿ 8</span>
-        </div>
-        <div style="background: #fff3e0; padding: 12px; border-radius: 8px; margin-bottom: 15px;">
-            <strong>🎯 ಪ್ರಸ್ತುತ ತರಗತಿ:</strong> <span id="parentGradeDisplay">-</span>
+        <div class="word-box" id="englishDisplay">
+            <h3>A a - Apple 🍎</h3>
         </div>
 
-        <div class="section-title">ಶಿಕ್ಷಕರಿಂದ ಸೂಚನೆಗಳು</div>
-        <ul style="font-size: 0.85rem; padding-left: 18px; color: #444; line-height: 1.6;">
-            <li>ನಾಳೆ ಗಣಿತ ವಿಷಯದ ಅಭ್ಯಾಸ ಪರೀಕ್ಷೆ ಇರುತ್ತದೆ.</li>
-            <li>ದಿನವೂ 20 ನಿಮಿಷ ಅಕ್ಷರ ಅಭ್ಯಾಸ ಮಾಡಲು ಸೂಚಿಸಿ.</li>
-        </ul>
+        <div class="letters-grid">
+            <div class="letter-btn" onclick="speakEnglish('A a', 'A for Apple')">A a</div>
+            <div class="letter-btn" onclick="speakEnglish('B b', 'B for Ball')">B b</div>
+            <div class="letter-btn" onclick="speakEnglish('C c', 'C for Cat')">C c</div>
+            <div class="letter-btn" onclick="speakEnglish('D d', 'D for Dog')">D d</div>
+            <div class="letter-btn" onclick="speakEnglish('E e', 'E for Elephant')">E e</div>
+            <div class="letter-btn" onclick="speakEnglish('F f', 'F for Fish')">F f</div>
+            <div class="letter-btn" onclick="speakEnglish('G g', 'G for Grapes')">G g</div>
+            <div class="letter-btn" onclick="speakEnglish('H h', 'H for House')">H h</div>
+        </div>
     </div>
 
-    <!-- Bottom Navigation -->
-    <div class="bottom-nav" id="bottomNav" style="display:none;">
-        <div class="nav-item active" onclick="switchTab('dashboardScreen', this)">
-            <span class="nav-icon">📖</span>ಪಾಠಗಳು
+    <!-- Hindi Screen -->
+    <div id="hindiScreen" class="screen">
+        <button class="btn-back" onclick="openScreen('homeScreen')">← ಹಿಂತಿರುಗಿ</button>
+        <h4>हिंदी वर्णमाला (ಹಿಂದಿ ಅಕ್ಷರಗಳು)</h4>
+        <div class="letters-grid">
+            <div class="letter-btn" onclick="robotSpeak('अ से अनार')">अ</div>
+            <div class="letter-btn" onclick="robotSpeak('आ से आम')">आ</div>
+            <div class="letter-btn" onclick="robotSpeak('इ से इमली')">इ</div>
+            <div class="letter-btn" onclick="robotSpeak('ई से ईख')">ई</div>
+            <div class="letter-btn" onclick="robotSpeak('क से कमल')">क</div>
+            <div class="letter-btn" onclick="robotSpeak('ख से खरगोश')">ख</div>
+            <div class="letter-btn" onclick="robotSpeak('ग से गमला')">ग</div>
+            <div class="letter-btn" onclick="robotSpeak('घ से घर')">घ</div>
         </div>
-        <div class="nav-item" onclick="switchTab('parentScreen', this)">
-            <span class="nav-icon">👨‍👩‍👧</span>ಪೋಷಕರು
+    </div>
+
+    <!-- Maths Screen -->
+    <div id="mathsScreen" class="screen">
+        <button class="btn-back" onclick="openScreen('homeScreen')">← ಹಿಂತಿರುಗಿ</button>
+        <h4>ಗಣಿತ ಕಲಿಕೆ (Maths Practice)</h4>
+        
+        <div style="background:#fff3e0; padding:15px; border-radius:12px; margin-bottom:15px; text-align:center;">
+            <h3 id="mathQuestion">5 + 3 = ?</h3>
+            <input type="number" id="mathAnswer" placeholder="ನಿಮ್ಮ ಉತ್ತರ ಬರೆಯಿರಿ" style="width:80%; padding:8px; margin-top:8px;">
+            <button class="btn-main" onclick="checkMath()">ಉತ್ತರ ಪರಿಶೀಲಿಸಿ</button>
         </div>
+        <div id="mathResult" style="font-weight:bold; text-align:center;"></div>
+    </div>
+
+    <!-- Notebook Camera / Photo Upload Screen -->
+    <div id="uploadScreen" class="screen">
+        <button class="btn-back" onclick="openScreen('homeScreen')">← ಹಿಂತಿರುಗಿ</button>
+        <h4>📸 ನೋಟ್‌ಬುಕ್ ಫೋಟೋ ಆಪ್ಲೋಡ್</h4>
+        <p style="font-size:0.85rem; color:#555; margin-bottom:12px;">ಮಕ್ಕಳು ಬರೆದಿರುವ ಪುಸ್ತಕದ ಫೋಟೋವನ್ನು ಆಪ್ಲೋಡ್ ಮಾಡಿ, ರೋಬೋಟ್ ತಪ್ಪುಗಳನ್ನು ತಿದ್ದುತ್ತದೆ!</p>
+
+        <input type="file" id="notebookPhoto" accept="image/*" style="margin-bottom:12px;">
+        <button class="btn-main" onclick="analyzeNotebook()">ಫೋಟೋ ಪರಿಶೀಲಿಸು 🔍</button>
+
+        <div id="analysisResult" style="margin-top:15px; display:none; background:#e8f5e9; padding:12px; border-radius:10px;">
+            <h5 style="color:#2e7d32;">🤖 ರೋಬೋಟ್ ಮೌಲ್ಯಮಾಪನ:</h5>
+            <p><strong>ಅಂಕಗಳು (Marks):</strong> 9 / 10 🌟</p>
+            <p><strong>ಕಾಮೆಂಟ್:</strong> ಅಕ್ಷರಗಳು ತುಂಬಾ ಸುಂದರವಾಗಿವೆ! 2ನೇ ಸಾಲಿನಲ್ಲಿ 'ಕ' ಅಕ್ಷರ ಸ್ವಲ್ಪ ಸರಿಪಡಿಸಬೇಕು.</p>
+        </div>
+    </div>
+
+    <!-- AI Instant Answer Screen (Gemini Style) -->
+    <div id="aiScreen" class="screen">
+        <button class="btn-back" onclick="openScreen('homeScreen')">← ಹಿಂತಿರುಗಿ</button>
+        <h4>🤖 AI ರೋಬೋಟ್ ಜೊತೆ ಮಾತನಾಡಿ</h4>
+
+        <div class="chat-box" id="chatBox">
+            <div class="chat-msg bot-msg">🤖 ನಮಸ್ಕಾರ! ನಾನು ನಿಮ್ಮ ರೋಬೋಟ್ ಮಾಸ್ಟರ್. ನಿಮಗೆ ಏನು ತಿಳಿದುಕೊಳ್ಳಬೇಕೋ ಕೇಳಿ!</div>
+        </div>
+
+        <input type="text" id="userQuestion" placeholder="ನಿಮ್ಮ ಪ್ರಶ್ನೆಯನ್ನು ಇಲ್ಲಿ ಟೈಪ್ ಮಾಡಿ..." style="width:100%; padding:10px; border-radius:8px; border:1px solid #ccc;">
+        <button class="btn-main" onclick="askRobot()">ಪ್ರಶ್ನೆ ಕೇಳಿ (Ask) 🚀</button>
+    </div>
+
+    <!-- Bottom Nav -->
+    <div class="bottom-bar">
+        <div class="bar-item active" onclick="openScreen('homeScreen')">🏠 ಮುಖಪುಟ</div>
+        <div class="bar-item" onclick="openScreen('aiScreen')">💬 AI ಮಾಸ್ಟರ್</div>
+        <div class="bar-item" onclick="openScreen('uploadScreen')">📸 ಫೋಟೋ ಚೆಕ್</div>
     </div>
 </div>
 
 <script>
-    let userData = { name: '', grade: '', medium: '', score: 0 };
-
-    function showScreen(screenId) {
+    // Screen Navigation Logic
+    function openScreen(screenId) {
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
         document.getElementById(screenId).classList.add('active');
     }
 
-    function switchTab(screenId, el) {
-        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-        el.classList.add('active');
-        showScreen(screenId);
+    // Text-To-Speech (Robot Voice Function)
+    function robotSpeak(text, lang = 'kn-IN') {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel(); // Stop ongoing speech
+            const msg = new SpeechSynthesisUtterance();
+            msg.text = text;
+            msg.lang = lang;
+            msg.rate = 0.85; // Natural speaking rate
+            window.speechSynthesis.speak(msg);
+        } else {
+            alert("ನಿಮ್ಮ ಮೊಬೈಲ್ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಶಬ್ದ ಸೌಲಭ್ಯ ಬೆಂಬಲಿಸುತ್ತಿಲ್ಲ.");
+        }
     }
 
-    function startApp() {
-        const name = document.getElementById('studentName').value;
-        if (!name) {
-            alert('ದಯವಿಟ್ಟು ವಿದ್ಯಾರ್ಥಿಯ ಹೆಸರನ್ನು ನಮೂದಿಸಿ');
+    function speakLetter(letter, word) {
+        document.getElementById('kannadaDisplay').innerHTML = `<h3>${letter} - ${word}</h3>`;
+        robotSpeak(`${letter}... ${word}`);
+    }
+
+    function speakEnglish(letter, word) {
+        document.getElementById('englishDisplay').innerHTML = `<h3>${letter} - ${word}</h3>`;
+        robotSpeak(`${letter}... ${word}`, 'en-US');
+    }
+
+    // Maths Practice Logic
+    function checkMath() {
+        const ans = document.getElementById('mathAnswer').value;
+        const res = document.getElementById('mathResult');
+        if (ans == "8") {
+            res.innerHTML = "<span style='color:green;'>🎉 ಶಭಾಷ್! ಸರಿ ಉತ್ತರ.</span>";
+            robotSpeak("ಶಭಾಷ್! ಉತ್ತರ ಸರಿಯಾಗಿದೆ.");
+        } else {
+            res.innerHTML = "<span style='color:red;'>❌ ತಪ್ಪು ಉತ್ತರ, ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.</span>";
+            robotSpeak("ಉತ್ತರ ತಪ್ಪಾಗಿದೆ, ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.");
+        }
+    }
+
+    // Notebook Photo Analysis Simulation
+    function analyzeNotebook() {
+        const file = document.getElementById('notebookPhoto').files[0];
+        if (!file) {
+            alert('ದಯವಿಟ್ಟು ಮೊದಲು ಫೋಟೋ ಆಯ್ಕೆ ಮಾಡಿ!');
             return;
         }
-        userData.name = name;
-        userData.grade = document.getElementById('gradeSelect').value;
-        userData.medium = document.getElementById('mediumSelect').value;
-
-        document.getElementById('headerUser').innerText = userData.name + ' (' + userData.grade + ')';
-        document.getElementById('parentGradeDisplay').innerText = userData.grade;
-        document.getElementById('bottomNav').style.display = 'flex';
-
-        loadDashboardModules();
-        showScreen('dashboardScreen');
+        document.getElementById('analysisResult').style.display = 'block';
+        robotSpeak("ನಿಮ್ಮ ನೋಟ್‌ಬುಕ್ ಫೋಟೋ ಪರಿಶೀಲಿಸಲಾಗಿದೆ. ನಿಮ್ಮ ಅಂಕಗಳು ಹತ್ತಕ್ಕೆ ಒಂಬತ್ತು!");
     }
 
-    function loadDashboardModules() {
-        const grid = document.getElementById('moduleGrid');
-        grid.innerHTML = '';
+    // Instant Gemini-style AI Question Answer Logic
+    function askRobot() {
+        const q = document.getElementById('userQuestion').value;
+        if (!q) return;
 
-        if (userData.grade === 'LKG-UKG') {
-            grid.innerHTML = `
-                <div class="card" onclick="openActivity('tracing')"><div class="card-icon">✏️</div><div>ಅಕ್ಷರ ಅಭ್ಯಾಸ</div></div>
-                <div class="card" onclick="openActivity('rhymes')"><div class="card-icon">🎵</div><div>ಹಾಡುಗಳು</div></div>
-                <div class="card" onclick="openActivity('quiz')"><div class="card-icon">🧩</div><div>ಆಟದ ಕ್ವಿಜ್</div></div>
-                <div class="card" onclick="openActivity('notes')"><div class="card-icon">📚</div><div>ಚಿತ್ರಗಳ ಪುಸ್ತಕ</div></div>
-            `;
-        } else if (userData.grade === '1-5') {
-            grid.innerHTML = `
-                <div class="card" onclick="openActivity('videoLesson')"><div class="card-icon">🎥</div><div>ವೀಡಿಯೊ ಪಾಠ</div></div>
-                <div class="card" onclick="openActivity('notes')"><div class="card-icon">📚</div><div>ಪಾಠದ ನೋಟ್ಸ್</div></div>
-                <div class="card" onclick="openActivity('quiz')"><div class="card-icon">📝</div><div>ಅಭ್ಯಾಸ ಪರೀಕ್ಷೆ</div></div>
-                <div class="card" onclick="openActivity('doubts')"><div class="card-icon">❓</div><div>ಪ್ರಶ್ನೆ ಕೇಳಿ</div></div>
-            `;
-        } else {
-            grid.innerHTML = `
-                <div class="card" onclick="openActivity('videoLesson')"><div class="card-icon">📐</div><div>ವಿಜ್ಞಾನ & ಗಣಿತ</div></div>
-                <div class="card" onclick="openActivity('notes')"><div class="card-icon">📑</div><div>ಪ್ರಶ್ನೋತ್ತರ ನೋಟ್ಸ್</div></div>
-                <div class="card" onclick="openActivity('quiz')"><div class="card-icon">⏱️</div><div>ಆನ್‌ಲೈನ್ ಟೆಸ್ಟ್</div></div>
-                <div class="card" onclick="openActivity('doubts')"><div class="card-icon">💬</div><div>ಸಂಶಯ ನಿವಾರಣೆ</div></div>
-            `;
-        }
-    }
+        const chatBox = document.getElementById('chatBox');
+        chatBox.innerHTML += `<div class="chat-msg user-msg">${q}</div>`;
 
-    function openActivity(type) {
-        const container = document.getElementById('activityContent');
-        container.innerHTML = '';
-
-        if (type === 'tracing') {
-            container.innerHTML = `
-                <div class="section-title">ಅಕ್ಷರ ಅಭ್ಯಾಸ (Tracing)</div>
-                <p style="font-size:0.85rem; margin-bottom:10px;">ಕೆಳಗಿನ 'ಅ' ಅಕ್ಷರದ ಮೇಲೆ ಬೆರಳಿನಿಂದ ಬರೆಯಿರಿ:</p>
-                <div style="text-align:center;">
-                    <canvas id="traceCanvas" width="280" height="260"></canvas>
-                </div>
-                <button onclick="clearCanvas()" style="margin-top:10px; background:#d32f2f;">ಅಳಿಸು (Clear)</button>
-            `;
-            showScreen('learningScreen');
-            initCanvas();
-        } 
-        else if (type === 'videoLesson' || type === 'rhymes') {
-            container.innerHTML = `
-                <div class="section-title">ವೀಡಿಯೊ ಪಾಠ</div>
-                <div class="video-container">
-                    <iframe src="https://www.youtube.com/embed/g2f4mSFLpE0" allowfullscreen></iframe>
-                </div>
-                <h3>ಕನ್ನಡ ಅಕ್ಷರಮಾಲೆ ಮತ್ತು ಪಾಠಗಳು</h3>
-                <p style="font-size:0.85rem; color:#555; margin-top:6px;">ಈ ವೀಡಿಯೊದಲ್ಲಿ ಸುಲಭವಾಗಿ ಕಲಿಯುವ ವಿಧಾನವನ್ನು ವಿವರಿಸಲಾಗಿದೆ.</p>
-            `;
-            showScreen('learningScreen');
-        } 
-        else if (type === 'notes') {
-            container.innerHTML = `
-                <div class="section-title">ಅಧ್ಯಾಯದ ನೋಟ್ಸ್ (Notes)</div>
-                <div class="notes-box">
-                    <strong>ಅಧ್ಯಾಯ ೧: ಪರಿಸರ ಅಧ್ಯಯನ</strong><br><br>
-                    <strong>ಪ್ರಶ್ನೆ ೧:</strong> ಪರಿಸರ ಎಂದರೆ ಏನು?<br>
-                    <strong>ಉತ್ತರ:</strong> ನಮ್ಮ ಸುತ್ತಮುತ್ತಲಿನ ಗಾಳಿ, ನೀರು, ಗಿಡಮರ ಹಾಗೂ ಪ್ರಾಣಿಗಳ ಸಮೂಹವೇ ಪರಿಸರ.<br><br>
-                    <strong>ಪ್ರಶ್ನೆ ೨:</strong> ಗಿಡಗಳು ನಮಗೆ ಏನು ನೀಡುತ್ತವೆ?<br>
-                    <strong>ಉತ್ತರ:</strong> ಆಮ್ಲಜನಕ, ಹಣ್ಣು, ಮತ್ತು ನೆರಳು ನೀಡುತ್ತವೆ.
-                </div>
-                <button onclick="alert('ನೋಟ್ಸ್ ಪ್ರಿಂಟ್/ಡೌನ್‌ಲೋಡ್ ಮಾಡಲು ಸಿದ್ಧವಾಗಿದೆ!')" style="background:#388e3c;">PDF ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ</button>
-            `;
-            showScreen('learningScreen');
-        } 
-        else if (type === 'quiz') {
-            container.innerHTML = `
-                <div class="section-title">ಪ್ರಶ್ನೋತ್ತರ ಕ್ವಿಜ್</div>
-                <p style="margin-bottom:12px; font-weight:600;">ಪ್ರಶ್ನೆ: ಕರ್ನಾಟಕದ ರಾಜ್ಯ ಭಾಷೆ ಯಾವುದು?</p>
-                <div class="quiz-option" onclick="checkAnswer(true, this)">A) ಕನ್ನಡ</div>
-                <div class="quiz-option" onclick="checkAnswer(false, this)">B) ಹಿಂದಿ</div>
-                <div class="quiz-option" onclick="checkAnswer(false, this)">C) ಇಂಗ್ಲಿಷ್</div>
-                <div id="quizResult" style="margin-top:10px; font-weight:bold;"></div>
-            `;
-            showScreen('learningScreen');
-        } 
-        else if (type === 'doubts') {
-            container.innerHTML = `
-                <div class="section-title">ಸಂಶಯ ನಿವಾರಣೆ (Ask Doubts)</div>
-                <div class="form-group">
-                    <label>ನಿಮ್ಮ ಪ್ರಶ್ನೆಯನ್ನು ಇಲ್ಲಿ ಟೈಪ್ ಮಾಡಿ:</label>
-                    <textarea id="doubtInput" rows="4" placeholder="ಉದಾಹರಣೆಗೆ: ಗಣಿತದ ಈ ಸೂತ್ರ ಹೇಗೆ ಬಂತು?"></textarea>
-                </div>
-                <button onclick="sendDoubt()">ಪ್ರಶ್ನೆ ಕಳುಹಿಸಿ</button>
-                <div id="doubtResponse" style="margin-top:15px;"></div>
-            `;
-            showScreen('learningScreen');
-        }
-    }
-
-    /* Canvas Tracing Script */
-    let canvas, ctx, isDrawing = false;
-    function initCanvas() {
-        canvas = document.getElementById('traceCanvas');
-        if (!canvas) return;
-        ctx = canvas.getContext('2d');
+        let reply = "ನಿಮ್ಮ ಪ್ರಶ್ನೆಗೆ ಉತ್ತರವನ್ನು ಹುಡುಕಲಾಗುತ್ತಿದೆ...";
         
-        ctx.font = "bold 130px 'Segoe UI'";
-        ctx.fillStyle = "#e0e0e0";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillText("ಅ", canvas.width / 2, canvas.height / 2);
-
-        canvas.addEventListener('mousedown', () => isDrawing = true);
-        canvas.addEventListener('mouseup', () => { isDrawing = false; ctx.beginPath(); });
-        canvas.addEventListener('mousemove', draw);
-
-        canvas.addEventListener('touchstart', () => isDrawing = true);
-        canvas.addEventListener('touchend', () => { isDrawing = false; ctx.beginPath(); });
-        canvas.addEventListener('touchmove', draw);
-    }
-
-    function draw(e) {
-        if (!isDrawing) return;
-        e.preventDefault();
-        const rect = canvas.getBoundingClientRect();
-        const x = (e.clientX || e.touches[0].clientX) - rect.left;
-        const y = (e.clientY || e.touches[0].clientY) - rect.top;
-
-        ctx.lineWidth = 10;
-        ctx.lineCap = 'round';
-        ctx.strokeStyle = '#1e88e5';
-
-        ctx.lineTo(x, y);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(x, y);
-    }
-
-    function clearCanvas() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillText("ಅ", canvas.width / 2, canvas.height / 2);
-    }
-
-    function checkAnswer(isCorrect, el) {
-        const res = document.getElementById('quizResult');
-        if (isCorrect) {
-            el.style.background = '#c8e6c9';
-            res.innerHTML = "<span style='color:#2e7d32;'>🎉 ಸರಿ ಉತ್ತರ! +10 ಅಂಕಗಳು.</span>";
-            userData.score += 10;
-            document.getElementById('parentQuizScore').innerText = "10 ರಲ್ಲಿ 10";
+        // Intelligent Quick Answers
+        if (q.includes("ಹೆಸರು") || q.includes("ಯಾರು")) {
+            reply = "ನಾನು ನಿಮ್ಮ ರೋಬೋಟ್ ಮಾಸ್ಟರ್! ಮಕ್ಕಳಿಗೆ ಪಾಠ ಕಲಿಸುವುದು ನನ್ನ ಕೆಲಸ.";
+        } else if (q.includes("ಸೂರ್ಯ") || q.includes("ಉದಯ")) {
+            reply = "ಸೂರ್ಯನು ಪೂರ್ವ ದಿಕ್ಕಿನಲ್ಲಿ ಉದಯಿಸುತ್ತಾನೆ.";
+        } else if (q.includes("ರಾಜಧಾನಿ")) {
+            reply = "ಕರ್ನಾಟಕದ ರಾಜಧಾನಿ ಬೆಂಗಳೂರು.";
         } else {
-            el.style.background = '#ffcdd2';
-            res.innerHTML = "<span style='color:#c62828;'>❌ ತಪ್ಪು ಉತ್ತರ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.</span>";
+            reply = "ಅದ್ಭುತ ಪ್ರಶ್ನೆ! ಇದರ ಬಗ್ಗೆ ಸಂಪೂರ್ಣ ವಿವರ ಶೀಘ್ರದಲ್ಲೇ ನಿಮ್ಮ ಪರದೆಯ ಮೇಲೆ ಲಭ್ಯವಾಗಲಿದೆ.";
         }
-    }
 
-    function sendDoubt() {
-        const val = document.getElementById('doubtInput').value;
-        if (!val) {
-            alert('ದಯವಿಟ್ಟು ಪ್ರಶ್ನೆ ನಮೂದಿಸಿ');
-            return;
-        }
-        document.getElementById('doubtResponse').innerHTML = `
-            <div style="background:#e8f5e9; padding:10px; border-radius:6px; color:#2e7d32; font-size:0.85rem;">
-                ✔ ನಿಮ್ಮ ಪ್ರಶ್ನೆಯನ್ನು ಶಿಕ್ಷಕರಿಗೆ ಕಳುಹಿಸಲಾಗಿದೆ. ಶೀಘ್ರದಲ್ಲೇ ಉತ್ತರ ದೊರೆಯಲಿದೆ!
-            </div>
-        `;
-        document.getElementById('doubtInput').value = '';
+        setTimeout(() => {
+            chatBox.innerHTML += `<div class="chat-msg bot-msg">🤖 ${reply}</div>`;
+            chatBox.scrollTop = chatBox.scrollHeight;
+            robotSpeak(reply);
+        }, 500);
+
+        document.getElementById('userQuestion').value = '';
     }
 </script>
 
