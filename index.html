@@ -267,10 +267,17 @@
     <script>
         let studentName = 'ಮಗು';
 
+        // Helper function to remove asterisks, symbols, and formatting marks
+        function cleanText(text) {
+            if (!text) return '';
+            return text.replace(/[*#_~`{}]/g, '').trim();
+        }
+
         function speak(text, lang = 'kn-IN') {
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
-                const ut = new SpeechSynthesisUtterance(text);
+                const cleanedText = cleanText(text);
+                const ut = new SpeechSynthesisUtterance(cleanedText);
                 ut.lang = lang;
                 ut.rate = 0.85;
                 window.speechSynthesis.speak(ut);
@@ -392,7 +399,6 @@
                 speak("ಚಿತ್ರವನ್ನು ಪರಿಶೀಲಿಸುತ್ತಿದ್ದೇನೆ, ಒಂದು ನಿಮಿಷ ಇರಿ.");
 
                 try {
-                    // Extract text using Tesseract.js (Supports English/Kannada)
                     const result = await Tesseract.recognize(file, 'kan+eng');
                     const extractedText = result.data.text.trim();
 
@@ -404,15 +410,15 @@
 
                     status.innerText = '✅ ಫೋಟೋ ಓದುವುದು ಪೂರ್ಣಗೊಂಡಿದೆ!';
 
-                    chatBox.innerHTML += `<div class="msg user-msg">📷 [ಅಪ್‌ಲೋಡ್ ಮಾಡಿದ ಫೋಟೋದ ಪಠ್ಯ]:<br>${extractedText}</div>`;
+                    chatBox.innerHTML += `<div class="msg user-msg">📷 [ಅಪ್‌ಲೋಡ್ ಮಾಡಿದ ಫೋಟೋದ ಪಠ್ಯ]:<br>${cleanText(extractedText)}</div>`;
                     chatBox.scrollTop = chatBox.scrollHeight;
 
-                    // AI Visual explanation
-                    const prompt = `Student ${studentName} uploaded an image/notebook page with this text: "${extractedText}". Explain what this is about in simple, easy Kannada for primary school kids, and read it for them.`;
+                    const prompt = `Student ${studentName} uploaded an image with text: "${extractedText}". Explain what this is about in plain Kannada without using any asterisks, symbols or formatting tags. Do not use asterisks or markdown.`;
                     
                     status.innerText = '🤖 AI ವಿವರಣೆ ಸಿದ್ಧಪಡಿಸುತ್ತಿದೆ...';
                     const response = await fetch(`https://text.pollinations.ai/${encodeURIComponent(prompt)}`);
-                    const aiExplanation = await response.text();
+                    let aiExplanation = await response.text();
+                    aiExplanation = cleanText(aiExplanation);
 
                     chatBox.innerHTML += `<div class="msg bot-msg"><b>🤖 ಫೋಟೋ ವಿವರಣೆ:</b><br>${aiExplanation}</div>`;
                     chatBox.scrollTop = chatBox.scrollHeight;
@@ -442,10 +448,11 @@
             chatBox.innerHTML += `<div class="msg bot-msg" id="${loadingId}">ಆಲೋಚಿಸುತ್ತಿದ್ದೇನೆ... 🤖</div>`;
 
             try {
-                const prompt = `You are an intelligent, friendly AI school teacher talking to student ${studentName}. Answer this question accurately in simple Kannada for kids: "${text}"`;
+                const prompt = `You are an intelligent, friendly AI school teacher talking to student ${studentName}. Answer accurately in simple Kannada for kids. Do NOT use any asterisks, bold stars, symbols or markdown formatting in your response. Just reply in plain simple text. Prompt: "${text}"`;
                 
                 const response = await fetch(`https://text.pollinations.ai/${encodeURIComponent(prompt)}`);
-                const reply = await response.text();
+                let reply = await response.text();
+                reply = cleanText(reply);
 
                 document.getElementById(loadingId).remove();
 
