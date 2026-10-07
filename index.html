@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Mobile School</title>
+    <!-- Tesseract OCR for text extraction -->
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
     <style>
         :root {
             --primary: #4A90E2;
@@ -133,6 +135,14 @@
             padding: 8px 12px;
             font-size: 14px;
         }
+
+        #imagePreview {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-top: 10px;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -144,7 +154,7 @@
 
     <div class="container">
 
-        <!-- 1️⃣ Registration Screen -->
+        <!-- Registration Screen -->
         <div id="welcomeScreen" class="page-section active card">
             <h2 style="color: var(--primary); text-align: center;">👶 ಮಗುವಿನ ವಿವರ ನಮೂದಿಸಿ</h2>
             
@@ -164,7 +174,7 @@
             <button onclick="startLearning()" style="margin-top: 20px; background: var(--success); font-size: 18px;">ಕಲಿಕೆ ಪ್ರಾರಂಬಿಸಿ 🚀</button>
         </div>
 
-        <!-- 2️⃣ Main Dashboard -->
+        <!-- Main Dashboard -->
         <div id="mainDashboard" class="page-section">
             <div class="card">
                 <h3 id="studentGreeting" style="margin:0 0 10px 0;">ಸ್ವಾಗತ!</h3>
@@ -176,11 +186,20 @@
                 </div>
             </div>
 
+            <!-- Smart Photo Reader Card -->
+            <div class="card" style="border: 2px dashed var(--primary); text-align: center;">
+                <h3>📸 ನೋಟ್‌ಬುಕ್ / ಫೋಟೋ ಓದುವ ರೋಬೋಟ್</h3>
+                <p style="font-size: 13px; color: #666; margin-top:-5px;">ನಿಮ್ಮ ಪುಸ್ತಕದ ಪುಟ ಅಥವಾ ಯಾವುದೇ ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ, AI ಅದನ್ನು ಓದಿ ಹೇಳುತ್ತದೆ!</p>
+                <input type="file" id="imageInput" accept="image/*" onchange="previewAndReadImage()">
+                <img id="imagePreview" alt="Uploaded Image">
+                <div id="imageStatus" style="margin-top: 8px; font-weight: bold; color: var(--primary);"></div>
+            </div>
+
             <!-- Smart AI Robot -->
             <div class="card">
                 <h3>🤖 AI ರೋಬೋಟ್ ಗುರು</h3>
                 <div class="chat-box" id="chatBox">
-                    <div class="msg bot-msg">ನಮಸ್ಕಾರ! ನಾನು ನಿನ್ನ AI ಗುರು. ನಿನಗೆ ಬೇಕಾದ ಪ್ರಶ್ನೆ ಕೇಳು, ನಾನು ಉತ್ತರಿಸುತ್ತೇನೆ!</div>
+                    <div class="msg bot-msg">ನಮಸ್ಕಾರ! ನಾನು ನಿನ್ನ AI ಗುರು. ನಿನಗೆ ಬೇಕಾದ ಯಾವುದೇ ಪ್ರಶ್ನೆ ಕೇಳು ಅಥವಾ ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಮಾಡು!</div>
                 </div>
                 <input type="text" id="chatInput" placeholder="ನಿಮ್ಮ ಪ್ರಶ್ನೆ ಬರೆಯಿರಿ...">
                 <div style="display: flex; gap: 8px; margin-top: 5px;">
@@ -198,7 +217,7 @@
             <button onclick="goBack('welcomeScreen')" style="background: #7f8c8d;">◀️ ಹೆಸರು ಬದಲಿಸಿ</button>
         </div>
 
-        <!-- 3️⃣ Kannada Module -->
+        <!-- Modules -->
         <div id="kannadaModule" class="page-section card">
             <h2>💛 ಕನ್ನಡ ಅಕ್ಷರ & ಶಬ್ದ ಕಲಿಕೆ</h2>
             <div class="nav-btn-group">
@@ -206,46 +225,38 @@
                 <button onclick="loadKannadaWords(2)">2 ಅಕ್ಷರ</button>
                 <button onclick="loadKannadaWords(3)">3 ಅಕ್ಷರ</button>
                 <button onclick="loadKannadaWords(4)">4 ಅಕ್ಷರ</button>
-                <button onclick="loadKannadaWords(5)">ವಾಕ್ಯಗಳು</button>
             </div>
             <div id="kannadaWordsContainer"></div>
             <button onclick="goBack('mainDashboard')" style="margin-top: 15px; background: #7f8c8d;">◀️ ಮುಖ್ಯ ಪುಟ</button>
         </div>
 
-        <!-- 4️⃣ English Module -->
         <div id="englishModule" class="page-section card">
-            <h2>🔤 English & ಕನ್ನಡ-ಇಂಗ್ಲಿಷ್ ಗುಣಿತಾಕ್ಷರ</h2>
+            <h2>🔤 English & ಗುಣಿತಾಕ್ಷರ</h2>
             <div class="nav-btn-group">
                 <button onclick="loadEnglishABC('CAPITAL')">A B C D</button>
                 <button onclick="loadEnglishABC('SMALL')">a b c d</button>
                 <button onclick="loadTransliteration('KAGINITHO')">ಕ-ಖ-ಗ (Ka-Kha)</button>
-                <button onclick="loadTransliteration('BARAKHADI')">ಕಾ-ಕಿ-ಕೀ (Kaa-Ki)</button>
             </div>
             <div id="englishContainer"></div>
             <button onclick="goBack('mainDashboard')" style="margin-top: 15px; background: #7f8c8d;">◀️ ಮುಖ್ಯ ಪುಟ</button>
         </div>
 
-        <!-- 5️⃣ Hindi Module -->
         <div id="hindiModule" class="page-section card">
-            <h2>🕉️ हिंदी संपूर्ण वर्णमाला</h2>
+            <h2>🕉️ हिंदी भाषा</h2>
             <div class="nav-btn-group">
-                <button onclick="loadHindi('SWAR')">स्वर (ಅ-ಅಃ)</button>
-                <button onclick="loadHindi('VYANJAN')">व्यंजन (ಕ-ಜ್ಞ)</button>
-                <button onclick="loadHindi('WORDS')">हिंदी शब्द</button>
+                <button onclick="loadHindi('SWAR')">स्वर</button>
+                <button onclick="loadHindi('VYANJAN')">व्यंजन</button>
             </div>
             <div id="hindiContainer"></div>
             <button onclick="goBack('mainDashboard')" style="margin-top: 15px; background: #7f8c8d;">◀️ ಮುಖ್ಯ ಪುಟ</button>
         </div>
 
-        <!-- 6️⃣ Maths Module -->
         <div id="mathsModule" class="page-section card">
             <h2>🔢 ಲೆಕ್ಕಗಳು & ಸಂಖ್ಯೆಗಳು (1 - 10,000)</h2>
             <div class="nav-btn-group">
                 <button onclick="loadNumbers(1, 100)">1 - 100</button>
-                <button onclick="loadNumbers(101, 500)">101 - 500</button>
-                <button onclick="loadNumbers(501, 1000)">501 - 1000</button>
-                <button onclick="loadNumbers(1001, 5000)">1001 - 5000</button>
-                <button onclick="loadNumbers(5001, 10000)">5001 - 10000</button>
+                <button onclick="loadNumbers(101, 1000)">101 - 1000</button>
+                <button onclick="loadNumbers(1001, 10000)">1001 - 10000</button>
             </div>
             <div id="mathsContainer"></div>
             <button onclick="goBack('mainDashboard')" style="margin-top: 15px; background: #7f8c8d;">◀️ ಮುಖ್ಯ ಪುಟ</button>
@@ -261,7 +272,7 @@
                 window.speechSynthesis.cancel();
                 const ut = new SpeechSynthesisUtterance(text);
                 ut.lang = lang;
-                ut.rate = 0.9;
+                ut.rate = 0.85;
                 window.speechSynthesis.speak(ut);
             }
         }
@@ -289,20 +300,17 @@
             if (moduleId === 'mathsModule') loadNumbers(1, 100);
         }
 
-        // Expanded Kannada Data
         const kannadaData = {
             1: ['ಅ', 'ಆ', 'ಇ', 'ಈ', 'ಉ', 'ಊ', 'ಋ', 'ಎ', 'ಏ', 'ಐ', 'ಒ', 'ಓ', 'ಔ', 'ಅಂ', 'ಅಃ'],
-            2: ['ಅಮ್ಮ', 'ಅಪ್ಪ', 'ಊರು', 'ಮನೆ', 'ಆನೆ', 'ಎಲೆ', 'ಏಣಿ', 'ಐದು', 'ಒಂಟೆ', 'ಓಟ', 'ಹೂವು', 'ಹಾಲು', 'ಗಿಡ', 'ಹಣ್ಣು', 'ಗುಡಿ', 'ಆಟ', 'ದಾರಿ', 'ನೀರು', 'ಬೆಕ್ಕು', 'ನಾಯಿ'],
-            3: ['ಆಕಾಶ', 'ಕಮಲ', 'ಗರುಡ', 'ಚಂದನ', 'ಟಮಟ', 'ಅರಸನ', 'ಇಲಿಗಳು', 'ಉಡುಪು', 'ಶಾಲೆ', 'ಪುಸ್ತಕ', 'ಪೆನ್ಸಿಲ್', 'ಶಿಕ್ಷಕ', 'ಸ್ನೇಹಿತ', 'ಬೆಟ್ಟ'],
-            4: ['ಅರಮನೆ', 'ಕಮಲನಾಭ', 'ಗಜರಾಜ', 'ಚಮತ್ಕಾರ', 'ಜಯಭೇರಿ', 'ಭಾರತದೇಶ', 'ಕರ್ನಾಟಕ', 'ಸೂರ್ಯಕಾಂತಿ'],
-            5: ['ನಮ್ಮ ಶಾಲೆ ಚಂದ', 'ನನ್ನ ದೇಶ ಭಾರತ', 'ಗುರು ಹಿರಿಯರಿಗೆ ಗೌರವ ನೀಡು', 'ಸತ್ಯವನ್ನೇ ಮಾತನಾಡು']
+            2: ['ಅಮ್ಮ', 'ಅಪ್ಪ', 'ಊರು', 'ಮನೆ', 'ಆನೆ', 'ಎಲೆ', 'ಏಣಿ', 'ಐದು', 'ಒಂಟೆ', 'ಓಟ', 'ಹೂವು', 'ಹಾಲು'],
+            3: ['ಆಕಾಶ', 'ಕಮಲ', 'ಗರುಡ', 'ಚಂದನ', 'ಶಾಲೆ', 'ಪುಸ್ತಕ', 'ಪೆನ್ಸಿಲ್', 'ಶಿಕ್ಷಕ'],
+            4: ['ಅರಮನೆ', 'ಕಮಲನಾಭ', 'ಗಜರಾಜ', 'ಭಾರತದೇಶ', 'ಕರ್ನಾಟಕ']
         };
 
         function loadKannadaWords(type) {
             const container = document.getElementById('kannadaWordsContainer');
             container.innerHTML = '<h3>ಕನ್ನಡ ಅಭ್ಯಾಸ:</h3>';
-            const list = kannadaData[type] || [];
-            list.forEach(w => {
+            (kannadaData[type] || []).forEach(w => {
                 const badge = document.createElement('span');
                 badge.className = 'word-badge';
                 badge.innerText = w;
@@ -311,7 +319,6 @@
             });
         }
 
-        // Expanded English & Kaginito Data
         function loadEnglishABC(type) {
             const container = document.getElementById('englishContainer');
             container.innerHTML = '';
@@ -329,37 +336,20 @@
         function loadTransliteration(mode) {
             const container = document.getElementById('englishContainer');
             container.innerHTML = '';
-            
-            if(mode === 'KAGINITHO') {
-                const kag = ['ಕ = Ka', 'ಖ = Kha', 'ಗ = Ga', 'ಘ = Gha', 'ಙ = Nga', 'ಚ = Cha', 'ಛ = Chha', 'ಜ = Ja', 'ಝ = Jha', 'ಞ = Nya', 'ಟ = Ta', 'ಠ = Tha', 'ಡ = Da', 'ಢ = Dha', 'ಣ = Na', 'ತ = Ta', 'ಥ = Tha', 'ದ = Da', 'ಧ = Dha', 'ನ = Na', 'ಪ = Pa', 'ಫ = Pha', 'ಬ = Ba', 'ಭ = Bha', 'ಮ = Ma', 'ಯ = Ya', 'ರ = Ra', 'ಲ = La', 'ವ = Va', 'ಶ = Sha', 'ಷ = Sha', 'ಸ = Sa', 'ಹ = Ha', 'ಳ = La'];
-                kag.forEach(t => {
-                    const badge = document.createElement('div');
-                    badge.className = 'word-badge';
-                    badge.innerText = t;
-                    badge.onclick = () => speak(t, 'en-US');
-                    container.appendChild(badge);
-                });
-            } else {
-                const bar = ['ಕ = Ka', 'ಕಾ = Kaa', 'ಕಿ = Ki', 'ಕೀ = Kee', 'ಕು = Ku', 'ಕೂ = Koo', 'ಕೃ = Kru', 'ಕೆ = Ke', 'ಕೇ = Kee', 'ಕೈ = Kai', 'ಕೊ = Ko', 'ಕೋ = Koo', 'ಕೌ = Kau', 'ಕಂ = Kam', 'ಕಃ = Kah'];
-                bar.forEach(b => {
-                    const badge = document.createElement('div');
-                    badge.className = 'word-badge';
-                    badge.innerText = b;
-                    badge.onclick = () => speak(b, 'en-US');
-                    container.appendChild(badge);
-                });
-            }
+            const kag = ['ಕ = Ka', 'ಖ = Kha', 'ಗ = Ga', 'ಘ = Gha', 'ಚ = Cha', 'ಜ = Ja', 'ಟ = Ta', 'ತ = Ta', 'ದ = Da', 'ನ = Na', 'ಪ = Pa', 'ಬ = Ba', 'ಮ = Ma', 'ಯ = Ya', 'ರ = Ra', 'ಲ = La', 'ವ = Va', 'ಸ = Sa', 'ಹ = Ha'];
+            kag.forEach(t => {
+                const badge = document.createElement('div');
+                badge.className = 'word-badge';
+                badge.innerText = t;
+                badge.onclick = () => speak(t, 'en-US');
+                container.appendChild(badge);
+            });
         }
 
-        // Expanded Hindi Data
         function loadHindi(mode) {
             const container = document.getElementById('hindiContainer');
             container.innerHTML = '';
-            let list = [];
-            if(mode === 'SWAR') list = ['अ', 'आ', 'इ', 'ई', 'उ', 'ऊ', 'ऋ', 'ए', 'ऐ', 'ओ', 'औ', 'अं', 'अः'];
-            else if(mode === 'VYANJAN') list = ['क', 'ख', 'ग', 'घ', 'ङ', 'च', 'छ', 'ज', 'झ', 'ञ', 'ट', 'ठ', 'ड', 'ढ', 'ण', 'त', 'थ', 'द', 'ध', 'न', 'प', 'फ', 'ब', 'भ', 'म', 'य', 'र', 'ल', 'व', 'श', 'ष', 'स', 'ह', 'क्ष', 'त्र', 'ज्ञ'];
-            else list = ['नमस्ते', 'घर', 'जल', 'फल', 'राजा', 'किताब', 'भारत', 'माता', 'पिता'];
-
+            let list = mode === 'SWAR' ? ['अ', 'आ', 'इ', 'ई', 'उ', 'ऊ', 'ऋ', 'ए', 'ऐ', 'ओ', 'औ', 'अं', 'अः'] : ['क', 'ख', 'ग', 'घ', 'च', 'छ', 'ज', 'झ', 'ट', 'ठ', 'ड', 'ढ', 'ण', 'त', 'थ', 'द', 'ध', 'न', 'प', 'फ', 'ब', 'भ', 'म'];
             list.forEach(h => {
                 const badge = document.createElement('span');
                 badge.className = 'word-badge';
@@ -369,19 +359,16 @@
             });
         }
 
-        // Expanded Numbers up to 10,000
         function loadNumbers(start, end) {
             const container = document.getElementById('mathsContainer');
             container.innerHTML = `<h3>ಸಂಖ್ಯೆಗಳು (${start} ರಿಂದ ${end}):</h3>`;
             let div = document.createElement('div');
             div.style.maxHeight = '260px';
             div.style.overflowY = 'auto';
-            
-            let step = (end - start > 1000) ? 50 : 1; 
+            let step = (end - start > 1000) ? 100 : 1; 
             for (let i = start; i <= end; i += step) {
                 const badge = document.createElement('span');
                 badge.className = 'word-badge';
-                badge.style.fontSize = '14px';
                 badge.innerText = i;
                 badge.onclick = () => speak(i.toString(), 'kn-IN');
                 div.appendChild(badge);
@@ -389,8 +376,59 @@
             container.appendChild(div);
         }
 
-        // Smart Dynamic AI Assistant Engine
-        function sendAIQuery() {
+        // Feature: Photo / Notebook OCR Reading
+        async function previewAndReadImage() {
+            const fileInput = document.getElementById('imageInput');
+            const preview = document.getElementById('imagePreview');
+            const status = document.getElementById('imageStatus');
+            const chatBox = document.getElementById('chatBox');
+
+            if (fileInput.files && fileInput.files[0]) {
+                const file = fileInput.files[0];
+                preview.src = URL.createObjectURL(file);
+                preview.style.display = 'block';
+
+                status.innerText = '🔍 ಫೋಟೋದಲ್ಲಿರುವ ಸಾಲುಗಳನ್ನು ಓದಲಾಗುತ್ತಿದೆ... (ದಯವಿಟ್ಟು ನಿರೀಕ್ಷಿಸಿ)';
+                speak("ಚಿತ್ರವನ್ನು ಪರಿಶೀಲಿಸುತ್ತಿದ್ದೇನೆ, ಒಂದು ನಿಮಿಷ ಇರಿ.");
+
+                try {
+                    // Extract text using Tesseract.js (Supports English/Kannada)
+                    const result = await Tesseract.recognize(file, 'kan+eng');
+                    const extractedText = result.data.text.trim();
+
+                    if (!extractedText) {
+                        status.innerText = '❌ ಫೋಟೋದಲ್ಲಿರುವ ಅಕ್ಷರಗಳು ಸರಿಯಾಗಿ ಕಾಣಿಸುತ್ತಿಲ್ಲ. ಸ್ಪಷ್ಟವಾದ ಫೋಟೋ ಹಾಕಿ.';
+                        speak("ಫೋಟೋದಲ್ಲಿರುವ ಅಕ್ಷರಗಳು ಸ್ಪಷ್ಟವಾಗಿಲ್ಲ, ದಯವಿಟ್ಟು ಇನ್ನೊಮ್ಮೆ ಸ್ಪಷ್ಟವಾದ ಫೋಟೋ ಹಾಕಿ.");
+                        return;
+                    }
+
+                    status.innerText = '✅ ಫೋಟೋ ಓದುವುದು ಪೂರ್ಣಗೊಂಡಿದೆ!';
+
+                    chatBox.innerHTML += `<div class="msg user-msg">📷 [ಅಪ್‌ಲೋಡ್ ಮಾಡಿದ ಫೋಟೋದ ಪಠ್ಯ]:<br>${extractedText}</div>`;
+                    chatBox.scrollTop = chatBox.scrollHeight;
+
+                    // AI Visual explanation
+                    const prompt = `Student ${studentName} uploaded an image/notebook page with this text: "${extractedText}". Explain what this is about in simple, easy Kannada for primary school kids, and read it for them.`;
+                    
+                    status.innerText = '🤖 AI ವಿವರಣೆ ಸಿದ್ಧಪಡಿಸುತ್ತಿದೆ...';
+                    const response = await fetch(`https://text.pollinations.ai/${encodeURIComponent(prompt)}`);
+                    const aiExplanation = await response.text();
+
+                    chatBox.innerHTML += `<div class="msg bot-msg"><b>🤖 ಫೋಟೋ ವಿವರಣೆ:</b><br>${aiExplanation}</div>`;
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                    status.innerText = '';
+
+                    speak(aiExplanation);
+
+                } catch (error) {
+                    status.innerText = '❌ ಓದಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ, ಇನ್ನೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ.';
+                    speak("ಚಿತ್ರವನ್ನು ಓದಲು ತೊಂದರೆಯಾಗಿದೆ, ದಯವಿಟ್ಟು ಇನ್ನೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ.");
+                }
+            }
+        }
+
+        // Smart AI Chat
+        async function sendAIQuery() {
             const text = document.getElementById('chatInput').value.trim();
             const chatBox = document.getElementById('chatBox');
 
@@ -398,29 +436,30 @@
 
             chatBox.innerHTML += `<div class="msg user-msg">${text}</div>`;
             document.getElementById('chatInput').value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
 
-            let reply = "";
-            const lowerText = text.toLowerCase();
+            const loadingId = 'loading-' + Date.now();
+            chatBox.innerHTML += `<div class="msg bot-msg" id="${loadingId}">ಆಲೋಚಿಸುತ್ತಿದ್ದೇನೆ... 🤖</div>`;
 
-            if (lowerText.includes("ಇಂಗ್ಲಿಷ್") || lowerText.includes("english")) {
-                reply = `${studentName}, ಇಂಗ್ಲಿಷ್ ಕಲಿಯಲು ಮೇಲಿರುವ 'English Learn' ಬಟನ್ ಒತ್ತಿ, ಅಲ್ಲಿ K, Kha ಗುಣಿತಾಕ್ಷರಗಳು ಇವೆ!`;
-            } else if (lowerText.includes("ಹೆಸರು") || lowerText.includes("name")) {
-                reply = `ನನ್ನ ಹೆಸರು AI ರೋಬೋಟ್ ಗುರು. ನಿನ್ನ ಹೆಸರು ${studentName}!`;
-            } else if (lowerText.includes("ನಮಸ್ಕಾರ") || lowerText.includes("hi") || lowerText.includes("hello")) {
-                reply = `ನಮಸ್ಕಾರ ${studentName}! ಇಂದು ನೀನು ಏನು ಕಲಿಯಲು ಬಯಸುತ್ತೀಯ?`;
-            } else if (lowerText.includes("+") || lowerText.includes("-") || lowerText.includes("ಲೆಕ್ಕ")) {
-                reply = `ಲೆಕ್ಕ ಕಲಿಯಲು ತುಂಬಾ ಸುಲಭ. ಲೆಕ್ಕಗಳ ವಿಭಾಗದಲ್ಲಿ 1 ರಿಂದ 10000 ಸಂಖ್ಯೆಗಳನ್ನು ಅಭ್ಯಾಸ ಮಾಡು!`;
-            } else if (lowerText.includes("ಹಾಡು") || lowerText.includes("song")) {
-                reply = `ಕೆಳಗೆ ಇರುವ 'ಮಕ್ಕಳ ಹಾಡುಗಳು' ಬಟನ್ ಒತ್ತಿ ಹಾಡು ಕೇಳು!`;
-            } else {
-                reply = `${studentName}, 'ಆಕಾಶ' ಎಂದರೆ ನಭ, 'ಶಾಲೆ' ಎಂದರೆ ವಿದ್ಯಾದೇಗುಲ. ಪ್ರತಿದಿನ ಹೊಸ ವಿಷಯ ಕಲಿಯುವುದು ಒಳ್ಳೆಯ ಅಭ್ಯಾಸ!`;
+            try {
+                const prompt = `You are an intelligent, friendly AI school teacher talking to student ${studentName}. Answer this question accurately in simple Kannada for kids: "${text}"`;
+                
+                const response = await fetch(`https://text.pollinations.ai/${encodeURIComponent(prompt)}`);
+                const reply = await response.text();
+
+                document.getElementById(loadingId).remove();
+
+                if (reply) {
+                    chatBox.innerHTML += `<div class="msg bot-msg">${reply}</div>`;
+                    speak(reply);
+                } else {
+                    chatBox.innerHTML += `<div class="msg bot-msg">ಕ್ಷಮಿಸಿ, ಇನ್ನೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ!</div>`;
+                }
+            } catch (err) {
+                document.getElementById(loadingId).remove();
+                chatBox.innerHTML += `<div class="msg bot-msg">ನೆಟ್‌ವರ್ಕ್ ತೊಂದರೆ ಇದೆ, ದಯವಿಟ್ಟು ಇನ್ನೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ.</div>`;
             }
-
-            setTimeout(() => {
-                chatBox.innerHTML += `<div class="msg bot-msg">${reply}</div>`;
-                chatBox.scrollTop = chatBox.scrollHeight;
-                speak(reply);
-            }, 400);
+            chatBox.scrollTop = chatBox.scrollHeight;
         }
 
         function startVoiceInput() {
@@ -438,9 +477,7 @@
             }
         }
 
-        function playAudioRhyme(text) {
-            speak(text, 'kn-IN');
-        }
+        function playAudioRhyme(text) { speak(text, 'kn-IN'); }
     </script>
 </body>
 </html>
