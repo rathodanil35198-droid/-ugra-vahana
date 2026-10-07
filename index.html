@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mobile School - AI ಕಲಿಕಾ ಕೇಂದ್ರ</title>
+    <title>AI Mobile School - ಮಕ್ಕಳ ಅಭ್ಯಾಸ ತಾಣ</title>
     <style>
         :root {
             --primary: #4A90E2;
             --secondary: #FF9F43;
+            --success: #2ECC71;
             --bg: #F4F7FE;
             --card-bg: #FFFFFF;
             --text: #2C3E50;
@@ -19,9 +20,6 @@
             color: var(--text);
             margin: 0;
             padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
         }
 
         header {
@@ -32,15 +30,13 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
-        header h1 { margin: 0; font-size: 24px; }
-        header p { margin: 5px 0 0; font-size: 14px; }
+        header h1 { margin: 0; font-size: 22px; }
+        header p { margin: 5px 0 0; font-size: 13px; }
 
         .container {
             padding: 15px;
             max-width: 600px;
             margin: 0 auto;
-            width: 100%;
-            box-sizing: border-box;
         }
 
         .card {
@@ -53,20 +49,20 @@
 
         .card h2 {
             margin-top: 0;
-            font-size: 18px;
+            font-size: 17px;
             color: var(--primary);
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        select, input, button, textarea {
+        input, select, button, textarea {
             width: 100%;
             padding: 12px;
             margin-top: 8px;
             border-radius: 8px;
             border: 1px solid #DDD;
-            font-size: 15px;
+            font-size: 14px;
             box-sizing: border-box;
         }
 
@@ -76,59 +72,6 @@
             font-weight: bold;
             border: none;
             cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        button:hover {
-            background-color: #357ABD;
-        }
-
-        .chat-box {
-            height: 200px;
-            overflow-y: auto;
-            border: 1px solid #EEE;
-            padding: 10px;
-            border-radius: 8px;
-            background: #FAFAFA;
-            margin-bottom: 10px;
-        }
-
-        .message {
-            margin-bottom: 10px;
-            padding: 8px 12px;
-            border-radius: 8px;
-            max-width: 80%;
-            font-size: 14px;
-        }
-
-        .user-msg {
-            background: #E3F2FD;
-            margin-left: auto;
-            text-align: right;
-        }
-
-        .robot-msg {
-            background: #FFF3E0;
-            margin-right: auto;
-        }
-
-        #canvas-container {
-            text-align: center;
-        }
-
-        canvas {
-            border: 2px dashed var(--primary);
-            border-radius: 10px;
-            background: #FFF;
-            touch-action: none;
-            cursor: crosshair;
-        }
-
-        .preview-img {
-            max-width: 100%;
-            border-radius: 8px;
-            margin-top: 10px;
-            display: none;
         }
 
         .nav-tabs {
@@ -141,7 +84,7 @@
         .nav-tabs button {
             flex: 1;
             padding: 10px;
-            font-size: 13px;
+            font-size: 12px;
             white-space: nowrap;
             background: #E0E0E0;
             color: #333;
@@ -154,28 +97,74 @@
 
         .tab-content { display: none; }
         .tab-content.active { display: block; }
+
+        .chat-box {
+            height: 180px;
+            overflow-y: auto;
+            border: 1px solid #EEE;
+            padding: 10px;
+            border-radius: 8px;
+            background: #FAFAFA;
+            margin-bottom: 10px;
+        }
+
+        .message {
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+
+        .user-msg { background: #E3F2FD; text-align: right; }
+        .robot-msg { background: #FFF3E0; }
+
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .game-btn {
+            background: #E8F5E9;
+            color: #2E7D32;
+            padding: 15px;
+            font-size: 18px;
+            border-radius: 10px;
+            border: 2px solid #A5D6A7;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        canvas {
+            border: 2px dashed var(--primary);
+            border-radius: 10px;
+            background: #FFF;
+            touch-action: none;
+        }
     </style>
 </head>
 <body>
 
     <header>
         <h1>🤖 AI Mobile School</h1>
-        <p>ನಿಮ್ಮ ಮನೆಯೇ ನಿಮ್ಮ ಶಾಲೆ!</p>
+        <p id="welcomeText">ನಿಮ್ಮ ಮನೆಯೇ ನಿಮ್ಮ ಶಾಲೆ!</p>
     </header>
 
     <div class="container">
-        <!-- API Key Entry Card -->
+
+        <!-- 🔑 Gemini API Key -->
         <div class="card" style="background: #E8F5E9;">
-            <h2>🔑 Gemini API Key</h2>
-            <input type="password" id="apiKey" placeholder="ಇಲ್ಲಿ ನಿಮ್ಮ Gemini API Key ಹಾಕಿ...">
-            <small style="color: #666;">ಬಳಸಲು ನಿಮ್ಮ ಸ್ವಂತ Gemini API key ಅಗತ್ಯವಿದೆ.</small>
+            <h2>🔑 Gemini API Key ಝೋನ್</h2>
+            <input type="password" id="apiKey" placeholder="ಇಲ್ಲಿ Gemini API Key ಹಾಕಿ...">
         </div>
 
-        <!-- Class Selection -->
+        <!-- 👧 1. ಮಗುವಿನ ವಿವರಗಳ ನೋಂದಣಿ (Registration) -->
         <div class="card">
-            <h2>🎓 ತರಗತಿ ಆಯ್ಕೆ ಮಾಡಿ</h2>
-            <select id="classSelect">
-                <option value="LKG">LKG / UKG (ಅಕ್ಷರ ಅಭ್ಯಾಸ)</option>
+            <h2>👦 ಮಗುವಿನ ನೋಂದಣಿ & ತರಗತಿ</h2>
+            <input type="text" id="studentName" placeholder="ಮಗುವಿನ ಹೆಸರು ಬರೆಯಿರಿ..." onchange="updateProfile()">
+            <select id="classSelect" onchange="updateProfile()">
+                <option value="LKG">LKG / UKG (ಅಕ್ಷರ ಪಯಣ)</option>
                 <option value="1">1ನೇ ತರಗತಿ</option>
                 <option value="2">2ನೇ ತರಗತಿ</option>
                 <option value="3">3ನೇ ತರಗತಿ</option>
@@ -183,58 +172,66 @@
                 <option value="5">5ನೇ ತರಗತಿ</option>
                 <option value="6">6ನೇ ತರಗತಿ</option>
                 <option value="7">7ನೇ ತರಗತಿ</option>
-                <option value="8">8ನೇ ತರಗತಿ (ಪರೀಕ್ಷಾ ಸಿದ್ಧತೆ)</option>
-                <option value="9">9ನೇ ತರಗತಿ (ಪರೀಕ್ಷಾ ಸಿದ್ಧತೆ)</option>
-                <option value="10" selected>10ನೇ ತರಗತಿ (SSLC ಪರೀಕ್ಷಾ ಸಿದ್ಧತೆ)</option>
+                <option value="8">8ನೇ ತರಗತಿ (ಪರೀಕ್ಷಾ ತರಬೇತಿ)</option>
+                <option value="9">9ನೇ ತರಗತಿ (ಪರೀಕ್ಷಾ ತರಬೇತಿ)</option>
+                <option value="10">10ನೇ ತರಗತಿ (SSLC ತಯಾರಿ)</option>
             </select>
         </div>
 
-        <!-- Navigation Tabs -->
+        <!-- 📌 Menu Navigation -->
         <div class="nav-tabs">
-            <button class="active" onclick="switchTab('tutor')">🤖 AI ರೋಬೋಟ್ ಪಾಠ</button>
-            <button onclick="switchTab('homework')">📝 ನೋಟ್‌ಬುಕ್ ತಪಾಸಣೆ</button>
-            <button onclick="switchTab('trace')">✍️ ಅಕ್ಷರ ತಿದ್ದುವುದು</button>
+            <button class="active" onclick="switchTab('tutor')">🤖 AI ಗುರೂಜಿ</button>
+            <button onclick="switchTab('games')">🎮 ಅಕ್ಷರ ಆಟಗಳು</button>
+            <button onclick="switchTab('homework')">📝 ನೋಟ್‌ಬುಕ್ ಪರಿಶೀಲನೆ</button>
+            <button onclick="switchTab('trace')">✍️ ಕೈಬರಹ</button>
         </div>
 
-        <!-- Tab 1: AI Tutor Voice/Chat -->
+        <!-- 🤖 2. AI Tutor & Audio System -->
         <div id="tutor" class="tab-content active card">
-            <h2>🎙️ AI ಗುರೂಜಿ ಜೊತೆ ಮಾತನಾಡಿ</h2>
+            <h2>🎙️ AI ಗುರೂಜಿ ಜೊತೆ ಮಾತುಕತೆ</h2>
             <div class="chat-box" id="chatBox">
-                <div class="message robot-msg">ನಮಸ್ಕಾರ ಮಗುವೇ! ನಾನು ನಿನ್ನ AI ಗುರೂಜಿ. ಇಂದು ಯಾವ ಪಾಠ ಕಲಿಯೋಣ? ಪ್ರಶ್ನೆ ಕೇಳು ಅಥವಾ ಧ್ವನಿ ಬಳಸಿ ಮಾತನಾಡು!</div>
+                <div class="message robot-msg">ನಮಸ್ಕಾರ ಮಗುವೇ! ಇಂದು ನಾವೇನು ಕಲಿಯೋಣ?</div>
             </div>
-            <textarea id="userInput" rows="2" placeholder="ನಿಮ್ಮ ಪ್ರಶ್ನೆಯನ್ನು ಇಲ್ಲಿ ಟೈಪ್ ಮಾಡಿ..."></textarea>
+            <textarea id="userInput" rows="2" placeholder="ನಿಮ್ಮ ಪ್ರಶ್ನೆಯನ್ನು ಕೇಳಿ..."></textarea>
             <div style="display: flex; gap: 8px;">
                 <button onclick="sendMessage()">ಕಳುಹಿಸಿ 🚀</button>
-                <button onclick="startVoice()" style="background: var(--secondary);">🎤 ಮಾತನಾಡಿ</button>
+                <button onclick="startVoice()" style="background: var(--secondary);">🎤 ಮಾತನಾಡಿ (Audio)</button>
             </div>
         </div>
 
-        <!-- Tab 2: Notebook Photo Evaluation -->
-        <div id="homework" class="tab-content card">
-            <h2>📸 ನೋಟ್‌ಬುಕ್ ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ</h2>
-            <p style="font-size: 13px; color: #666;">ನಿಮ್ಮ ನೋಟ್‌ಬುಕ್ ಬರವಣಿಗೆ ಅಥವಾ ಲೆಕ್ಕದ ಫೋಟೋ ಹಾಕಿ. AI ರೋಬೋಟ್ ಅದನ್ನು ಓದಿ ತಪ್ಪುಗಳನ್ನು ತಿದ್ದಿಕೊಡುತ್ತದೆ.</p>
-            <input type="file" id="imageInput" accept="image/*" onchange="previewImage(event)">
-            <img id="imagePreview" class="preview-img" alt="Notebook Preview">
-            <button onclick="evaluateHomework()" style="margin-top: 10px;">🔍 ತಪಾಸಣೆ ಮಾಡಿ (Check Homework)</button>
-            <div id="evalResult" style="margin-top: 15px; white-space: pre-line; font-size: 14px;"></div>
+        <!-- 🎮 3. Interactive Games (ಆಟಗಳು) -->
+        <div id="games" class="tab-content card">
+            <h2>🎮 ಶಬ್ದ ಮತ್ತು ಅಕ್ಷರ ಆಟಗಳು</h2>
+            <p style="font-size: 13px;">ಅಕ್ಷರಗಳನ್ನು ಕ್ಲಿಕ್ ಮಾಡಿ ಧ್ವನಿ ಆಲಿಸಿ ಕಲಿಯಿರಿ:</p>
+            <div class="game-grid" id="gameGrid">
+                <!-- Dynamically Populated Games -->
+            </div>
         </div>
 
-        <!-- Tab 3: Trace and Write -->
+        <!-- 📸 4. Homework Evaluation -->
+        <div id="homework" class="tab-content card">
+            <h2>📸 ನೋಟ್‌ಬುಕ್ ಪರಿಶೀಲನೆ</h2>
+            <input type="file" id="imageInput" accept="image/*">
+            <button onclick="evaluateHomework()" style="margin-top: 10px;">🔍 ತಪಾಸಣೆ ಮಾಡಿ</button>
+            <div id="evalResult" style="margin-top: 15px; font-size: 14px;"></div>
+        </div>
+
+        <!-- ✍️ 5. Trace Writing -->
         <div id="trace" class="tab-content card">
-            <h2>✏️ ಸ್ಕ್ರೀನ್ ಮೇಲೆ ಬರೆದು ಕಲಿಯಿರಿ</h2>
-            <p style="font-size: 13px; color: #666;">ಕೆಳಗಿನ ಖಾಲಿ ಜಾಗದಲ್ಲಿ ಬೆರಳಿನಿಂದ ಅಕ್ಷರಗಳನ್ನು ತಿದ್ದಿ ಬರೆಯಿರಿ.</p>
-            <div id="canvas-container">
-                <canvas id="paintCanvas" width="300" height="200"></canvas>
+            <h2>✏️ ಸ್ಕ್ರೀನ್ ಮೇಲೆ ಬರೆಯುವ ಅಭ್ಯಾಸ</h2>
+            <div style="text-align: center;">
+                <canvas id="paintCanvas" width="280" height="180"></canvas>
             </div>
             <div style="display: flex; gap: 8px; margin-top: 8px;">
-                <button onclick="clearCanvas()" style="background: #E74C3C;">ಅಳಿಸಿ (Clear)</button>
-                <button onclick="speakText('ತುಂಬಾ ಚೆನ್ನಾಗಿ ಬರೆದಿದ್ದೀಯಾ! ಶಭಾಷ್!')">ಸ್ಪೀಕರ್ 🔊</button>
+                <button onclick="clearCanvas()" style="background: #E74C3C;">ಅಳಿಸಿ</button>
+                <button onclick="speakText('ತುಂಬಾ ಚೆನ್ನಾಗಿ ಬರೆದಿದ್ದೀಯಾ, ಶಭಾಷ್!')">ಶಭಾಷ್ 🔊</button>
             </div>
         </div>
+
     </div>
 
     <script>
-        // Tab Switch Function
+        // Switch Tabs
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.nav-tabs button').forEach(btn => btn.classList.remove('active'));
@@ -242,183 +239,122 @@
             event.currentTarget.classList.add('active');
         }
 
-        // Voice Text-to-Speech (Google Speech)
+        // Voice/Audio Generator (Kannada Audio)
         function speakText(text) {
             if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
                 const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'kn-IN'; // Kannada Voice
+                utterance.lang = 'kn-IN';
                 window.speechSynthesis.speak(utterance);
             }
         }
 
-        // Speech Recognition (Speech to Text)
+        // Profile Update
+        function updateProfile() {
+            const name = document.getElementById('studentName').value || 'ಮಗುವೇ';
+            const grade = document.getElementById('classSelect').value;
+            document.getElementById('welcomeText').innerText = `ಸ್ವಾಗತ ${name}! (${grade} ತರಗತಿ)`;
+            loadGames(grade);
+            speakText(`ಸ್ವಾಗತ ${name}, ನಿನ್ನ ${grade} ತರಗತಿಯ ಅಭ್ಯಾಸ ಆರಂಭಿಸೋಣ.`);
+        }
+
+        // Dynamic Games based on Class
+        function loadGames(grade) {
+            const grid = document.getElementById('gameGrid');
+            grid.innerHTML = '';
+            let items = [];
+
+            if (grade === 'LKG' || grade === '1') {
+                items = ['ಅ', 'ಆ', 'ಇ', 'ಈ', 'ಉ', 'ಊ', 'A', 'B', 'C'];
+            } else {
+                items = ['ಗಣಿತ', 'ವಿಜ್ಞಾನ', 'ಕನ್ನಡ', 'ಇಂಗ್ಲಿಷ್', 'ಸಮಾಜ', 'ರಸಪ್ರಶ್ನೆ'];
+            }
+
+            items.forEach(item => {
+                const btn = document.createElement('div');
+                btn.className = 'game-btn';
+                btn.innerText = item;
+                btn.onclick = () => {
+                    speakText(`${item}`);
+                    alert(`${item} ಅಭ್ಯಾಸ ಆಯ್ಕೆಯಾಗಿದೆ!`);
+                };
+                grid.appendChild(btn);
+            });
+        }
+
+        // Voice Recognition
         function startVoice() {
             if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
                 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
                 const recognition = new SpeechRecognition();
                 recognition.lang = 'kn-IN';
-                
-                recognition.onstart = function() {
-                    alert("ಮಾತನಾಡಿ... AI ಆಲಿಸುತ್ತಿದೆ 🎙️");
-                };
-
                 recognition.onresult = function(event) {
                     const text = event.results[0][0].transcript;
                     document.getElementById('userInput').value = text;
                     sendMessage();
                 };
-
                 recognition.start();
             } else {
-                alert("ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಧ್ವನಿ ಗ್ರಹಿಕೆ (Voice Input) ಬೆಂಬಲಿಸುತ್ತಿಲ್ಲ.");
+                alert("ನಿಮ್ಮ ಮೊಬೈಲ್‌ನಲ್ಲಿ ಮೈಕ್ ಸಪೋರ್ಟ್ ಸಿಗುತ್ತಿಲ್ಲ.");
             }
         }
 
-        // Send Message to Gemini AI API
+        // Send to Gemini AI
         async function sendMessage() {
             const apiKey = document.getElementById('apiKey').value;
             const userText = document.getElementById('userInput').value;
-            const selectedClass = document.getElementById('classSelect').value;
+            const name = document.getElementById('studentName').value || 'ಮಗು';
+            const grade = document.getElementById('classSelect').value;
             const chatBox = document.getElementById('chatBox');
 
-            if (!userText) return;
-            if (!apiKey) {
-                alert("ದಯವಿಟ್ಟು ಮೇಲ್ಭಾಗದಲ್ಲಿ ನಿಮ್ಮ Gemini API Key ನಮೂದಿಸಿ!");
+            if (!userText || !apiKey) {
+                alert("API Key ಮತ್ತು ನಿಮ್ಮ ಪ್ರಶ್ನೆ ನಮೂದಿಸಿ!");
                 return;
             }
 
-            // Append User Message
             chatBox.innerHTML += `<div class="message user-msg">${userText}</div>`;
             document.getElementById('userInput').value = '';
-            chatBox.scrollTop = chatBox.scrollHeight;
 
-            const systemPrompt = `ನೀನು ಒಬ್ಬ ಶಾಲಾ ಶಿಕ್ಷಕ (AI Tutor Robot). ${selectedClass} ತರಗತಿಯ ಮಗುವಿಗೆ ಪ್ರೀತಿಯಿಂದ, ತಾಳ್ಮೆಯಿಂದ ಕನ್ನಡದಲ್ಲಿ ಸರಳವಾಗಿ ಪಾಠ ಹೇಳಿಕೊಡಬೇಕು. ಮಗು ಪರೀಕ್ಷೆಯಲ್ಲಿ ಹೆಚ್ಚು ಅಂಕ ಪಡೆಯಲು ಸೂಕ್ತ ಮಾರ್ಗದರ್ಶನ ನೀಡು. ಪ್ರಸ್ತುತ ದಿನಾಂಕ 2026.`;
+            const systemPrompt = `ನೀನು ${name} ಎಂಬ ${grade} ತರಗತಿಯ ಮಗುವಿಗೆ ಪ್ರೀತಿಯಿಂದ ಪಾಠ ಹೇಳಿಕೊಡುವ ಶಿಕ್ಷಕ. ಸರಳ ಕನ್ನಡದಲ್ಲಿ ಚಿಕ್ಕದಾಗಿ ಉತ್ತರಿಸು.`;
 
             try {
                 const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        contents: [{
-                            parts: [{ text: `${systemPrompt}\n\nಪ್ರಶ್ನೆ: ${userText}` }]
-                        }]
+                        contents: [{ parts: [{ text: `${systemPrompt}\n\n${userText}` }] }]
                     })
                 });
 
                 const data = await response.json();
-                const aiReply = data.candidates[0].content.parts[0].text;
+                const reply = data.candidates[0].content.parts[0].text;
 
-                // Append Robot Message
-                chatBox.innerHTML += `<div class="message robot-msg">${aiReply}</div>`;
+                chatBox.innerHTML += `<div class="message robot-msg">${reply}</div>`;
                 chatBox.scrollTop = chatBox.scrollHeight;
+                speakText(reply);
 
-                // Speak AI Response
-                speakText(aiReply);
-
-            } catch (error) {
-                chatBox.innerHTML += `<div class="message robot-msg" style="color:red;">ಕ್ಷಮಿಸಿ, ಸಂಪರ್ಕಿಸಲು ಸಾಧ್ಯವಾಗುತ್ತಿಲ್ಲ. API Key ಸರಿಯಾಗಿದೆಯೇ ಪರೀಕ್ಷಿಸಿ.</div>`;
+            } catch (err) {
+                chatBox.innerHTML += `<div class="message robot-msg" style="color:red;">API ದೋಷವಾಗಿದೆ, ಸರಿಯಾದ Key ಹಾಕಿ.</div>`;
             }
         }
 
-        // Image Preview
-        function previewImage(event) {
-            const reader = new FileReader();
-            reader.onload = function() {
-                const output = document.getElementById('imagePreview');
-                output.src = reader.result;
-                output.style.display = 'block';
-            };
-            reader.readAsDataURL(event.target.files[0]);
-        }
-
-        // Notebook Evaluation via Gemini Vision API
-        async function evaluateHomework() {
-            const apiKey = document.getElementById('apiKey').value;
-            const fileInput = document.getElementById('imageInput');
-            const resultDiv = document.getElementById('evalResult');
-
-            if (!apiKey) {
-                alert("ದಯವಿಟ್ಟು ಮೇಲ್ಭಾಗದಲ್ಲಿ Gemini API Key ಹಾಕಿ!");
-                return;
-            }
-            if (fileInput.files.length === 0) {
-                alert("ದಯವಿಟ್ಟು ನೋಟ್‌ಬುಕ್ ಫೋಟೋ ಆಯ್ಕೆ ಮಾಡಿ!");
-                return;
-            }
-
-            resultDiv.innerHTML = "⏳ AI ನೋಟ್‌ಬುಕ್ ಅನ್ನು ಪರಿಶೀಲಿಸುತ್ತಿದೆ...";
-
-            const file = fileInput.files[0];
-            const reader = new FileReader();
-
-            reader.onloadend = async function() {
-                const base64Image = reader.result.split(',')[1];
-
-                const promptText = "ಈ ನೋಟ್‌ಬುಕ್ ಫೋಟೋದಲ್ಲಿರುವ ಕೈಬರಹವನ್ನು ಓದಿ. ಅಕ್ಷರ ದೋಷಗಳು ಅಥವಾ ಲೆಕ್ಕದ ತಪ್ಪುಗಳಿದ್ದರೆ ಸೌಮ್ಯವಾಗಿ ತಿದ್ದಿ ವಿವರಿಸಿ. ಸರಿಯಾದ ಉತ್ತರವನ್ನು ಹೇಗೆ ಬರೆಯಬೇಕು ಮತ್ತು ಪರೀಕ್ಷೆಯಲ್ಲಿ ಪೂರ್ಣ ಅಂಕ ಪಡೆಯಲು ಏನು ಮಾಡಬೇಕು ಎಂದು ಕನ್ನಡದಲ್ಲಿ ಸ್ಪಷ್ಟವಾಗಿ ಮಾರ್ಗದರ್ಶನ ನೀಡಿ.";
-
-                try {
-                    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            contents: [{
-                                parts: [
-                                    { text: promptText },
-                                    { inline_data: { mime_type: file.type, data: base64Image } }
-                                ]
-                            }]
-                        })
-                    });
-
-                    const data = await response.json();
-                    const evalText = data.candidates[0].content.parts[0].text;
-
-                    resultDiv.innerHTML = `<strong>📋 ಪರಿಶೀಲನಾ ವರದಿ:</strong><br>${evalText}`;
-                    speakText(evalText);
-
-                } catch (err) {
-                    resultDiv.innerHTML = "<span style='color:red;'>ಫೋಟೋ ತಪಾಸಣೆ ಮಾಡುವಲ್ಲಿ ದೋಷವಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.</span>";
-                }
-            };
-
-            reader.readAsDataURL(file);
-        }
-
-        // Canvas Drawing Setup
+        // Canvas Setup
         const canvas = document.getElementById('paintCanvas');
         const ctx = canvas.getContext('2d');
         let isDrawing = false;
-
         ctx.lineWidth = 4;
-        ctx.lineCap = 'round';
         ctx.strokeStyle = '#4A90E2';
 
-        canvas.addEventListener('mousedown', startDrawing);
-        canvas.addEventListener('mouseup', stopDrawing);
-        canvas.addEventListener('mousemove', draw);
-
-        canvas.addEventListener('touchstart', startDrawing);
-        canvas.addEventListener('touchend', stopDrawing);
+        canvas.addEventListener('touchstart', () => isDrawing = true);
+        canvas.addEventListener('touchend', () => { isDrawing = false; ctx.beginPath(); });
         canvas.addEventListener('touchmove', draw);
-
-        function startDrawing(e) {
-            isDrawing = true;
-            draw(e);
-        }
-
-        function stopDrawing() {
-            isDrawing = false;
-            ctx.beginPath();
-        }
 
         function draw(e) {
             if (!isDrawing) return;
             e.preventDefault();
-
             let rect = canvas.getBoundingClientRect();
-            let x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
-            let y = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
-
+            let x = e.touches[0].clientX - rect.left;
+            let y = e.touches[0].clientY - rect.top;
             ctx.lineTo(x, y);
             ctx.stroke();
             ctx.beginPath();
@@ -428,6 +364,9 @@
         function clearCanvas() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
         }
+
+        // Default Load
+        loadGames('LKG');
     </script>
 </body>
 </html>
