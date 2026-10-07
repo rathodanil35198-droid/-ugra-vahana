@@ -3,224 +3,517 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI ರೋಬೋಟ್ ಡಿಜಿಟಲ್ ಕೋಚಿಂಗ್ ಕ್ಲಾಸ್</title>
+    <title>ಮೊಬೈಲ್ ಶಾಲೆ - Mobile School App</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Segoe UI', Arial, sans-serif; background-color: #fdfbf7; }
-        
-        .app-container { display: flex; flex-direction: column; height: 100vh; }
-        
-        /* ಮೇಲಿನ ಹೆಡರ್ */
-        header { background-color: #00D2FF; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; color: white; flex-shrink: 0; }
-        
-        /* ಮುಖ್ಯ ವಿಷಯ ಸ್ಕ್ರೋಲಿಂಗ್ ಏರಿಯಾ */
-        .main-content { flex: 1; overflow-y: auto; padding: 15px; -webkit-overflow-scrolling: touch; }
-        
-        /* ಲೈವ್ ಕ್ಯಾಮೆರಾ ಮತ್ತು ರೋಬೋಟ್ ಬಾಕ್ಸ್ */
-        .ai-monitor-box { display: flex; gap: 10px; background: #e0f7fa; border: 2px solid #00acc1; padding: 10px; border-radius: 12px; margin-bottom: 15px; align-items: center; }
-        .camera-view { width: 110px; height: 90px; background: #000; border-radius: 8px; position: relative; overflow: hidden; }
-        video { width: 100%; height: 100%; object-fit: cover; }
-        .robot-avatar { text-align: center; flex: 1; }
-        
-        /* ಕಾರ್ಡ್ ಸೆಕ್ಷನ್ */
-        .nav-tabs { display: flex; gap: 8px; overflow-x: auto; margin-bottom: 15px; padding-bottom: 5px; }
-        .tab-btn { background: #FFD54F; border: none; padding: 8px 15px; border-radius: 20px; font-weight: bold; cursor: pointer; white-space: nowrap; }
-        .tab-btn.active { background: #FF5722; color: white; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+        }
 
-        .section { display: none; }
-        .section.active { display: block; }
+        body {
+            background-color: #f4f7f6;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
 
-        .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; margin-top: 10px; }
-        .card { background: #fff; border-radius: 12px; padding: 15px; text-align: center; border: 2px solid #e0e0e0; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        .card:hover { background: #f5f5f5; }
+        /* Mobile Frame Container */
+        .app-container {
+            width: 100%;
+            max-width: 420px;
+            height: 90vh;
+            max-height: 850px;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid #e0e0e0;
+            position: relative;
+        }
 
-        /* ಫುಟರ್ AI ಚಾಟ್ ಹಾಗೂ ಸ್ಪೀಚ್ ಬಾಕ್ಸ್ */
-        footer { background-color: #FFFDE7; border-top: 2px solid #FFE082; padding: 10px; flex-shrink: 0; position: sticky; bottom: 0; width: 100%; }
-        .chat-input-container { display: flex; gap: 8px; margin-top: 5px; }
-        .chat-input-container input { flex: 1; padding: 10px; border: 2px solid #ddd; border-radius: 20px; outline: none; }
-        .btn-action { background: #2ECC71; border: none; color: white; padding: 10px 15px; border-radius: 20px; font-weight: bold; cursor: pointer; }
+        /* App Header */
+        .app-header {
+            background: linear-gradient(135deg, #4A90E2, #50E3C2);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .user-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+
+        /* Screens Container */
+        .screen {
+            display: none;
+            padding: 20px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        /* Form Controls */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        button {
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background-color: #357ABD;
+        }
+
+        /* Dashboard Modules */
+        .section-title {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: #4A90E2;
+            border-bottom: 2px solid #4A90E2;
+            padding-bottom: 5px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            border-color: #4A90E2;
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        /* Tracing Canvas for LKG-UKG */
+        #traceCanvas {
+            border: 2px dashed #4A90E2;
+            border-radius: 10px;
+            background: #fff;
+            touch-action: none;
+            cursor: crosshair;
+        }
+
+        /* Quiz Box */
+        .quiz-option {
+            background: #eef5fc;
+            border: 1px solid #4A90E2;
+            margin: 8px 0;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .quiz-option:hover {
+            background: #d4e6f9;
+        }
+
+        /* Bottom Navigation Bar */
+        .bottom-nav {
+            display: flex;
+            background: #ffffff;
+            border-top: 1px solid #eee;
+            padding: 8px 0;
+        }
+
+        .nav-item {
+            flex: 1;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #777;
+            cursor: pointer;
+        }
+
+        .nav-item.active {
+            color: #4A90E2;
+            font-weight: bold;
+        }
+
+        .nav-icon {
+            font-size: 1.2rem;
+            display: block;
+        }
+
+        /* Progress Bar */
+        .progress-bar-bg {
+            background: #e0e0e0;
+            border-radius: 10px;
+            height: 12px;
+            width: 100%;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+
+        .progress-bar-fill {
+            background: #50E3C2;
+            height: 100%;
+            width: 65%;
+        }
     </style>
 </head>
 <body>
 
 <div class="app-container">
-
     <!-- Header -->
-    <header>
-        <div>
-            <strong>🤖 AI ರೋಬೋಟ್ ಟೀಚರ್</strong><br>
-            <small id="student-name">ಮಗು: ಅರ್ಜುನ್</small>
-        </div>
-        <div>
-            <button class="tab-btn" onclick="speakText('ಕೋಚಿಂಗ್ ಕ್ಲಾಸ್‌ಗೆ ಸುಸ್ವಾಗತ!')">🔊 ಸ್ಪೀಕರ್ ಶಕ್ತಿ</button>
-        </div>
-    </header>
-
-    <!-- Main Scrollable Content -->
-    <div class="main-content">
-
-        <!-- AI Camera & Robot Box -->
-        <div class="ai-monitor-box">
-            <div class="camera-view">
-                <video id="webcam" autoplay playsinline muted></video>
-            </div>
-            <div class="robot-avatar">
-                <h2 style="font-size: 30px;">🤖</h2>
-                <p id="robot-status" style="font-size: 12px; color: #00796B;"><b>ರೋಬೋಟ್ ನೋಟ:</b> ಮಗು ಕಲಿಕೆಯಲ್ಲಿ ತೊಡಗಿದೆ!</p>
-            </div>
-        </div>
-
-        <!-- Navigation Tabs -->
-        <div class="nav-tabs">
-            <button class="tab-btn active" onclick="switchTab('kannada', this)">ಕನ್ನಡ ಪಾಠಗಳು</button>
-            <button class="tab-btn" onclick="switchTab('jodakshara', this)">ಜೋಡಣೆ ಅಕ್ಷರಗಳು</button>
-            <button class="tab-btn" onclick="switchTab('english', this)">ಇಂಗ್ಲಿಷ್ (ABC & Kagunita)</button>
-            <button class="tab-btn" onclick="switchTab('hindi', this)">ಹಿಂದಿ (हिंदी)</button>
-            <button class="tab-btn" onclick="switchTab('maths', this)">16 ಲೆಕ್ಕಗಳ ಗೇಮ್</button>
-            <button class="tab-btn" onclick="switchTab('upload', this)">📷 ಫೋಟೋ ಅಪ್ಲೋಡ್</button>
-        </div>
-
-        <!-- 1. ಕನ್ನಡ ಪಾಠಗಳು -->
-        <div id="kannada" class="section active">
-            <h3>ಕನ್ನಡ ಅಕ್ಷರಮಾಲೆ (ಅ ನಿಂದ ಳ) & ಕಾಗುಣಿತ</h3>
-            <div class="cards-grid" id="kannada-grid"></div>
-        </div>
-
-        <!-- 2. ಜೋಡಣೆ ಅಕ್ಷರಗಳು -->
-        <div id="jodakshara" class="section">
-            <h3>ಜೋಡಣೆ ಅಕ್ಷರಗಳು (2 ರಿಂದ 10 ಅಕ್ಷರಗಳ ಪದಗಳು)</h3>
-            <p>20 ಪಾಠಗಳ ಸರಣಿ:</p>
-            <div class="cards-grid" id="jod-grid"></div>
-        </div>
-
-        <!-- 3. English Section -->
-        <div id="english" class="section">
-            <h3>English Capital, Small & Barakhadi (ಕಕ್ಕ)</h3>
-            <div class="cards-grid" id="english-grid"></div>
-        </div>
-
-        <!-- 4. Hindi Section -->
-        <div id="hindi" class="section">
-            <h3>हिंदी वर्णमाला एवं मात्राएं</h3>
-            <div class="cards-grid" id="hindi-grid"></div>
-        </div>
-
-        <!-- 5. Maths Quiz -->
-        <div id="maths" class="section">
-            <h3>🎮 16 ಲೆಕ್ಕಗಳ ಗೇಮ್</h3>
-            <div style="background: #fff; padding: 15px; border-radius: 10px; text-align: center; margin-top: 10px;">
-                <h2 id="math-question">5 + 3 = ಎಷ್ಟು?</h2>
-                <div style="margin-top: 15px;" id="math-options">
-                    <button class="tab-btn" onclick="checkMath(8)">8</button>
-                    <button class="tab-btn" onclick="checkMath(6)">6</button>
-                    <button class="tab-btn" onclick="checkMath(10)">10</button>
-                </div>
-                <p id="math-feedback" style="margin-top: 10px; font-weight: bold;"></p>
-            </div>
-        </div>
-
-        <!-- 6. Photo Upload Page -->
-        <div id="upload" class="section">
-            <h3>📷 ಪುಸ್ತಕದ ಪೇಜ್ ಫೋಟೋ ಅಪ್ಲೋಡ್ ಮಾಡಿ</h3>
-            <p style="margin-bottom: 10px;">ಪುಸ್ತಕದ ಫೋಟೋ ಹಾಕಿ, ರೋಬೋಟ್ ಆ ಪಾಠವನ್ನು ಓದಿ ಹೇಳುತ್ತದೆ!</p>
-            <input type="file" accept="image/*" onchange="handleBookUpload(event)" style="margin-bottom: 10px;">
-            <div id="uploaded-preview"></div>
-        </div>
-
+    <div class="app-header">
+        <span>🏫 ಮೊಬೈಲ್ ಶಾಲೆ</span>
+        <span class="user-badge" id="headerUser">ಅತಿಥಿ</span>
     </div>
 
-    <!-- Bottom AI Chat Footer -->
-    <footer>
-        <p id="ai-speech-text" style="font-size: 13px; color: #444;">🤖 <b>ರೋಬೋಟ್:</b> ನಮಸ್ಕಾರ! ಕಲಿಯಲು ಸಿದ್ಧರಿದ್ದೀರಾ?</p>
-        <div class="chat-input-container">
-            <input type="text" id="user-input" placeholder="ಇಲ್ಲಿ ಪ್ರಶ್ನೆ ಬರೆಯಿರಿ ಅಥವಾ ಮಾತನಾಡಿ...">
-            <button class="btn-action" onclick="askRobot()">GO ➔</button>
+    <!-- Screen 1: Login & Onboarding -->
+    <div id="loginScreen" class="screen active">
+        <h2 style="margin-bottom: 15px; text-align:center;">ಸ್ವಾಗತ!</h2>
+        <p style="margin-bottom: 20px; color: #666; font-size: 0.9rem; text-align:center;">ನಿಮ್ಮ ಶೈಕ್ಷಣಿಕ ಪ್ರಯಾಣವನ್ನು ಪ್ರಾರಂಭಿಸಲು ಲಾಗಿನ್ ಆಗಿ</p>
+        
+        <div class="form-group">
+            <label for="studentName">ವಿದ್ಯಾರ್ಥಿಯ ಹೆಸರು</label>
+            <input type="text" id="studentName" placeholder="ಹೆಸರನ್ನು ನಮೂದಿಸಿ">
         </div>
-    </footer>
 
+        <div class="form-group">
+            <label for="gradeSelect">ತರಗತಿಯನ್ನು ಆಯ್ಕೆ ಮಾಡಿ</label>
+            <select id="gradeSelect">
+                <option value="LKG-UKG">LKG - UKG (ಪೂರ್ವ ಪ್ರಾಥಮಿಕ)</option>
+                <option value="1-5">1 ರಿಂದ 5ನೇ ತರಗತಿ (ಪ್ರಾಥಮಿಕ)</option>
+                <option value="6-10">6 ರಿಂದ 10ನೇ ತರಗತಿ (ಪ್ರೌಢಶಾಲೆ)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="mediumSelect">ಮಾಧ್ಯಮ</label>
+            <select id="mediumSelect">
+                <option value="kn">ಕನ್ನಡ ಮಾಧ್ಯಮ</option>
+                <option value="en">English Medium</option>
+            </select>
+        </div>
+
+        <button onclick="startApp()">ಆರಂಭಿಸಿ (Start Learning)</button>
+    </div>
+
+    <!-- Screen 2: Dashboard (Home) -->
+    <div id="dashboardScreen" class="screen">
+        <div class="section-title">ಕಲಿಕಾ ವಿಭಾಗಗಳು</div>
+        
+        <div class="grid-container" id="moduleGrid">
+            <!-- Dynamic Content Loaded via JS -->
+        </div>
+
+        <div class="section-title">ದೈನಂದಿನ ಪ್ರಗತಿ</div>
+        <div style="background:#f8f9fa; padding:12px; border-radius:8px;">
+            <span style="font-size:0.85rem;">ಇಂದಿನ ಪೂರ್ಣಗೊಂಡ ಪಾಠಗಳು: 65%</span>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Screen 3: Learning Activity / Content Viewer -->
+    <div id="learningScreen" class="screen">
+        <button onclick="showScreen('dashboardScreen')" style="width: auto; padding: 5px 12px; margin-bottom: 10px; font-size: 0.8rem;">← ಹಿಂತಿರುಗಿ</button>
+        <div id="activityContent">
+            <!-- Active Lesson / Activity loads here -->
+        </div>
+    </div>
+
+    <!-- Screen 4: Parent & Teacher Dashboard -->
+    <div id="parentScreen" class="screen">
+        <div class="section-title">ಪೋಷಕರ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್</div>
+        <p style="font-size:0.85rem; color:#666; margin-bottom:15px;">ಮಕ್ಕಳ ಕಲಿಕಾ ವರದಿ ಮತ್ತು ಸಮಯದ ವಿವರಣೆ</p>
+
+        <div style="background: #eef5fc; padding: 12px; border-radius: 8px; margin-bottom: 10px;">
+            <strong>⏱️ ವೀಕ್ಷಣೆ ಸಮಯ (Screen Time):</strong> 45 ನಿಮಿಷಗಳು / ದಿನ
+        </div>
+        <div style="background: #eef5fc; padding: 12px; border-radius: 8px; margin-bottom: 10px;">
+            <strong>📝 ಕ್ವಿಜ್ ಫಲಿತಾಂಶ:</strong> 8/10 ಅಂಕಗಳು
+        </div>
+        <div style="background: #eef5fc; padding: 12px; border-radius: 8px; margin-bottom: 15px;">
+            <strong>🎯 ಕಲಿಕಾ ಸ್ಥಿತಿ:</strong> ಉತ್ತಮ ಪ್ರಗತಿಯಲ್ಲಿದೆ
+        </div>
+
+        <div class="section-title">ಅಧಿಸೂಚನೆಗಳು (Notifications)</div>
+        <ul style="font-size: 0.85rem; padding-left: 20px; color: #444;">
+            <li>ಗಣಿತ ಅಭ್ಯಾಸ ಪರೀಕ್ಷೆ ರವಿವಾರ ನಿಗದಿಯಾಗಿದೆ.</li>
+            <li>ಕನ್ನಡ ಪಾಠ ೩ ನೋಟ್ಸ್ ಡೌನ್‌ಲೋಡ್‌ಗೆ ಲಭ್ಯವಿದೆ.</li>
+        </ul>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav" id="bottomNav" style="display:none;">
+        <div class="nav-item active" onclick="switchTab('dashboardScreen', this)">
+            <span class="nav-icon">📖</span>
+            ಪಾಠಗಳು
+        </div>
+        <div class="nav-item" onclick="switchTab('parentScreen', this)">
+            <span class="nav-icon">👨‍👩‍👧</span>
+            ಪೋಷಕರು
+        </div>
+    </div>
 </div>
 
 <script>
-    // 1. Voice Output (Text-To-Speech)
-    function speakText(text) {
-        if ('speechSynthesis' in window) {
-            window.speechSynthesis.cancel();
-            const msg = new SpeechSynthesisUtterance(text);
-            msg.lang = 'kn-IN'; // Kannada Voice
-            msg.rate = 0.9;
-            window.speechSynthesis.speak(msg);
+    let userData = {
+        name: '',
+        grade: '',
+        medium: ''
+    };
+
+    function showScreen(screenId) {
+        document.querySelectorAll('.screen').forEach(screen => {
+            screen.classList.remove('active');
+        });
+        document.getElementById(screenId).classList.add('active');
+    }
+
+    function switchTab(screenId, element) {
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.classList.remove('active');
+        });
+        element.classList.add('active');
+        showScreen(screenId);
+    }
+
+    function startApp() {
+        const nameInput = document.getElementById('studentName').value;
+        if (!nameInput) {
+            alert('ದಯವಿಟ್ಟು ವಿದ್ಯಾರ್ಥಿಯ ಹೆಸರನ್ನು ನಮೂದಿಸಿ');
+            return;
         }
-        document.getElementById('ai-speech-text').innerHTML = `🤖 <b>ರೋಬೋಟ್:</b> ${text}`;
+
+        userData.name = nameInput;
+        userData.grade = document.getElementById('gradeSelect').value;
+        userData.medium = document.getElementById('mediumSelect').value;
+
+        document.getElementById('headerUser').innerText = userData.name + ' (' + userData.grade + ')';
+        document.getElementById('bottomNav').style.display = 'flex';
+
+        loadDashboardModules();
+        showScreen('dashboardScreen');
     }
 
-    // 2. Camera Access Init
-    async function initCamera() {
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-            document.getElementById('webcam').srcObject = stream;
-        } catch (err) {
-            console.log("Camera permissions denied or not supported.");
+    function loadDashboardModules() {
+        const grid = document.getElementById('moduleGrid');
+        grid.innerHTML = '';
+
+        if (userData.grade === 'LKG-UKG') {
+            grid.innerHTML = `
+                <div class="card" onclick="openActivity('tracing')">
+                    <div class="card-icon">✏️</div>
+                    <div>ಅಕ್ಷರ ಬರೆಯಿರಿ (Tracing)</div>
+                </div>
+                <div class="card" onclick="openActivity('rhymes')">
+                    <div class="card-icon">🎵</div>
+                    <div>ಹಾಡುಗಳು (Rhymes)</div>
+                </div>
+                <div class="card" onclick="openActivity('numbers')">
+                    <div class="card-icon">🔢</div>
+                    <div>ಸಂಖ್ಯೆಗಳು (1-10)</div>
+                </div>
+                <div class="card" onclick="openActivity('quiz')">
+                    <div class="card-icon">🧩</div>
+                    <div>ಆಟದ ಕ್ವಿಜ್</div>
+                </div>
+            `;
+        } else if (userData.grade === '1-5') {
+            grid.innerHTML = `
+                <div class="card" onclick="openActivity('videoLesson')">
+                    <div class="card-icon">🎥</div>
+                    <div>ವೀಡಿಯೊ ಪಾಠಗಳು</div>
+                </div>
+                <div class="card" onclick="openActivity('drawing')">
+                    <div class="card-icon">🎨</div>
+                    <div>ಚಿತ್ರಕಲೆ & ವಿಜ್ಞಾನ</div>
+                </div>
+                <div class="card" onclick="openActivity('quiz')">
+                    <div class="card-icon">📝</div>
+                    <div>ಅಭ್ಯಾಸ ಪರೀಕ್ಷೆ</div>
+                </div>
+                <div class="card" onclick="openActivity('notes')">
+                    <div class="card-icon">📚</div>
+                    <div>PDF ನೋಟ್ಸ್</div>
+                </div>
+            `;
+        } else { // 6-10 Class
+            grid.innerHTML = `
+                <div class="card" onclick="openActivity('videoLesson')">
+                    <div class="card-icon">📐</div>
+                    <div>ಗಣಿತ ಮತ್ತು ವಿಜ್ಞಾನ</div>
+                </div>
+                <div class="card" onclick="openActivity('notes')">
+                    <div class="card-icon">📑</div>
+                    <div>ಮಾದರಿ ಪ್ರಶ್ನೆಪತ್ರಿಕೆಗಳು</div>
+                </div>
+                <div class="card" onclick="openActivity('quiz')">
+                    <div class="card-icon">⏱️</div>
+                    <div>ಆನ್‌ಲೈನ್ ಪರೀಕ್ಷೆ</div>
+                </div>
+                <div class="card" onclick="openActivity('doubts')">
+                    <div class="card-icon">❓</div>
+                    <div>ಸಂಶಯ ನಿವಾರಣೆ</div>
+                </div>
+            `;
         }
     }
-    initCamera();
 
-    // 3. Navigation Tabs
-    function switchTab(tabId, btn) {
-        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById(tabId).classList.add('active');
-        btn.classList.add('active');
-    }
+    function openActivity(type) {
+        const container = document.getElementById('activityContent');
+        container.innerHTML = '';
 
-    // 4. Data Loading
-    const knLetters = ["ಅ", "ಆ", "ಇ", "ಈ", "ಉ", "ಊ", "ಋ", "ಎ", "ಏ", "ಐ", "ಒ", "ಓ", "ಔ", "ಅಂ", "ಅಃ", "ಕ", "ಖ", "ಗ", "ಘ", "ಙ", "ಚ", "ಛ", "ಜ", "ಝ", "ಞ"];
-    document.getElementById('kannada-grid').innerHTML = knLetters.map(l => 
-        `<div class="card" onclick="speakText('${l}')"><h1>${l}</h1></div>`
-    ).join("");
-
-    const jodData = ["ಅಕ್ಕ (2 ಅಕ್ಷರ)", "ಅಮ್ಮ (2 ಅಕ್ಷರ)", "ಪುಸ್ತಕ (3 ಅಕ್ಷರ)", "ಅರಮನೆ (4 ಅಕ್ಷರ)", "ವಿದ್ಯಾರ್ಥಿನಿ (5 ಅಕ್ಷರ)"];
-    document.getElementById('jod-grid').innerHTML = jodData.map(w => 
-        `<div class="card" onclick="speakText('${w}')"><p><b>${w}</b></p></div>`
-    ).join("");
-
-    const engData = ["A (Capital)", "a (Small)", "Ka (ಕ)", "Kaa (ಕಾ)", "Ki (ಕಿ)", "Kee (ಕೀ)"];
-    document.getElementById('english-grid').innerHTML = engData.map(e => 
-        `<div class="card" onclick="speakText('${e}')"><p><b>${e}</b></p></div>`
-    ).join("");
-
-    const hinData = ["अ", "आ", "इ", "ई", "क", "ख", "ग", "घ"];
-    document.getElementById('hindi-grid').innerHTML = hinData.map(h => 
-        `<div class="card" onclick="speakText('${h}')"><h1>${h}</h1></div>`
-    ).join("");
-
-    // 5. Math Logic
-    function checkMath(ans) {
-        if(ans === 8) {
-            speakText("ಶಬ್ಬಾಶ್! ಸರಿಯಾದ ಉತ್ತರ!");
-            document.getElementById('math-feedback').innerText = "✅ ಸರಿ ಉತ್ತರ!";
-            document.getElementById('math-feedback').style.color = "green";
+        if (type === 'tracing') {
+            container.innerHTML = `
+                <div class="section-title">ಅಕ್ಷರ ಅಭ್ಯಾಸ (Tracing)</div>
+                <p style="font-size:0.85rem; margin-bottom:10px;">ಕೆಳಗಿನ 'ಅ' ಅಕ್ಷರದ ಮೇಲೆ ಬೆರಳಿನಿಂದ ಬರೆಯಿರಿ:</p>
+                <div style="text-align:center; position:relative;">
+                    <canvas id="traceCanvas" width="280" height="280"></canvas>
+                </div>
+                <button onclick="clearCanvas()" style="margin-top:10px; background:#e74c3c;">ಕ್ಲಿಯರ್ ಮಾಡಿ (Clear)</button>
+            `;
+            showScreen('learningScreen');
+            initCanvas();
+        } else if (type === 'quiz') {
+            container.innerHTML = `
+                <div class="section-title">ಪ್ರಶ್ನೋತ್ತರ ಪರೀಕ್ಷೆ</div>
+                <p style="margin-bottom:15px; font-weight:600;">ಪ್ರಶ್ನೆ: ಕರ್ನಾಟಕದ ರಾಜಧಾನಿ ಯಾವುದು?</p>
+                <div class="quiz-option" onclick="checkAnswer(true)">A) ಬೆಂಗಳೂರು</div>
+                <div class="quiz-option" onclick="checkAnswer(false)">B) ಮೈಸೂರು</div>
+                <div class="quiz-option" onclick="checkAnswer(false)">C) ಹುಬ್ಬಳ್ಳಿ</div>
+            `;
+            showScreen('learningScreen');
+        } else if (type === 'videoLesson') {
+            container.innerHTML = `
+                <div class="section-title">ವೀಡಿಯೊ ಪಾಠ</div>
+                <div style="background:#000; height:180px; color:#fff; display:flex; justify-content:center; align-items:center; border-radius:8px; margin-bottom:15px;">
+                    ▶️ [ಪಾಠದ ವೀಡಿಯೊ ಪ್ಲೇಯರ್]
+                </div>
+                <h3>ಅಧ್ಯಾಯ ೧: ಪರಿಸರ ಮತ್ತು ಜೀವ ಜಾಲ</h3>
+                <p style="font-size:0.85rem; color:#555; margin-top:5px;">ಈ ಅಧ್ಯಾಯದಲ್ಲಿ ಜೀವಿಗಳು ಮತ್ತು ಅವುಗಳ ವಾತಾವರಣದ ನಡುವಿನ ಸಂಬಂಧವನ್ನು ವಿವರಿಸಲಾಗಿದೆ.</p>
+            `;
+            showScreen('learningScreen');
         } else {
-            speakText("ತಪ್ಪಾದ ಉತ್ತರ, ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ!");
-            document.getElementById('math-feedback').innerText = "❌ ತಪ್ಪು ಉತ್ತರ!";
-            document.getElementById('math-feedback').style.color = "red";
+            container.innerHTML = `
+                <div class="section-title">ಪಠ್ಯ ಸಾಮಗ್ರಿ</div>
+                <p style="font-size:0.9rem;">ಈ ವಿಭಾಗದ ವಿಷಯಗಳು ಆಫ್‌ಲೈನ್‌ನಲ್ಲಿ ಡೌನ್‌ಲೋಡ್ ಮಾಡಲು ಶೀಘ್ರದಲ್ಲೇ ಲಭ್ಯವಾಗಲಿವೆ.</p>
+            `;
+            showScreen('learningScreen');
         }
     }
 
-    // 6. Book Photo Upload Simulation
-    function handleBookUpload(event) {
-        const file = event.target.files[0];
-        if(file) {
-            document.getElementById('uploaded-preview').innerHTML = `<p style="color:green; margin-top:10px;">ಫೋಟೋ ಅಪ್ಲೋಡ್ ಆಗಿದೆ! ರೋಬೋಟ್ ಪಾಠವನ್ನು ಓದುತ್ತಿದೆ...</p>`;
-            speakText("ಪುಸ್ತಕದ ಪೇಜ್ ಸ್ವೀಕರಿಸಲಾಗಿದೆ. ಈಗ ನಾನು ಈ ಪಾಠವನ್ನು ಓದಿ ಹೇಳುತ್ತೇನೆ.");
-        }
+    /* Interactive Tracing Canvas Logic */
+    let canvas, ctx, isDrawing = false;
+
+    function initCanvas() {
+        canvas = document.getElementById('traceCanvas');
+        if (!canvas) return;
+        ctx = canvas.getContext('2d');
+
+        // Draw Reference Letter
+        ctx.font = "bold 140px 'Segoe UI'";
+        ctx.fillStyle = "#e0e0e0";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText("ಅ", canvas.width / 2, canvas.height / 2);
+
+        // Canvas Events
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+
+        canvas.addEventListener('touchstart', startDrawing);
+        canvas.addEventListener('touchmove', draw);
+        canvas.addEventListener('touchend', stopDrawing);
     }
 
-    // 7. Interactive Robot Query
-    function askRobot() {
-        const input = document.getElementById('user-input').value;
-        if(input) {
-            speakText(`ನೀವು ಕೇಳಿದ್ದು: ${input}. ನಾನು ಇದನ್ನು ಕಲಿಯಲು ಸಹಾಯ ಮಾಡುತ್ತೇನೆ!`);
-            document.getElementById('user-input').value = "";
+    function startDrawing(e) {
+        isDrawing = true;
+        draw(e);
+    }
+
+    function draw(e) {
+        if (!isDrawing) return;
+        e.preventDefault();
+
+        const rect = canvas.getBoundingClientRect();
+        const x = (e.clientX || e.touches[0].clientX) - rect.left;
+        const y = (e.clientY || e.touches[0].clientY) - rect.top;
+
+        ctx.lineWidth = 12;
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = '#4A90E2';
+
+        ctx.lineTo(x, y);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+    }
+
+    function stopDrawing() {
+        isDrawing = false;
+        ctx.beginPath();
+    }
+
+    function clearCanvas() {
+        if (!ctx) return;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillText("ಅ", canvas.width / 2, canvas.height / 2);
+    }
+
+    function checkAnswer(isCorrect) {
+        if (isCorrect) {
+            alert('🎉 ಸರಿ ಉತ್ತರ! ಅದ್ಭುತ.');
+        } else {
+            alert('❌ ತಪ್ಪು ಉತ್ತರ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ!');
         }
     }
 </script>
