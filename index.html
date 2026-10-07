@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Mobile School</title>
-    <!-- Tesseract OCR for text extraction -->
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
     <style>
         :root {
@@ -143,6 +142,11 @@
             margin-top: 10px;
             display: none;
         }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
     </style>
 </head>
 <body>
@@ -176,6 +180,17 @@
 
         <!-- Main Dashboard -->
         <div id="mainDashboard" class="page-section">
+
+            <!-- Language Setting Card -->
+            <div class="card" style="background: #EBF5FB;">
+                <label><b>🌐 ರೋಬೋಟ್ ಭಾಷೆ ಆಯ್ಕೆ ಮಾಡಿ / Choose Language:</b></label>
+                <select id="selectedLanguage" onchange="changeLanguage()">
+                    <option value="kn-IN" selected>ಕನ್ನಡ (Kannada)</option>
+                    <option value="en-US">English</option>
+                    <option value="hi-IN">हिंदी (Hindi)</option>
+                </select>
+            </div>
+
             <div class="card">
                 <h3 id="studentGreeting" style="margin:0 0 10px 0;">ಸ್ವಾಗತ!</h3>
                 <div class="module-grid">
@@ -186,11 +201,19 @@
                 </div>
             </div>
 
-            <!-- Smart Photo Reader Card -->
+            <!-- Smart Photo Reader Card (Camera + Gallery) -->
             <div class="card" style="border: 2px dashed var(--primary); text-align: center;">
-                <h3>📸 ನೋಟ್‌ಬುಕ್ / ಫೋಟೋ ಓದುವ ರೋಬೋಟ್</h3>
-                <p style="font-size: 13px; color: #666; margin-top:-5px;">ನಿಮ್ಮ ಪುಸ್ತಕದ ಪುಟ ಅಥವಾ ಯಾವುದೇ ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ, AI ಅದನ್ನು ಓದಿ ಹೇಳುತ್ತದೆ!</p>
-                <input type="file" id="imageInput" accept="image/*" onchange="previewAndReadImage()">
+                <h3>📸 ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ</h3>
+                <p style="font-size: 13px; color: #666; margin-top:-5px;">ಕ್ಯಾಮರಾ ಬಳಸಿ ಅಥವಾ ಗ್ಯಾಲರಿಯಿಂದ ಫೋಟೋ ಆಯ್ಕೆ ಮಾಡಿ</p>
+                
+                <div class="btn-group">
+                    <button onclick="document.getElementById('cameraInput').click()" style="background: #27AE60;">📷 ಕ್ಯಾಮರಾ</button>
+                    <button onclick="document.getElementById('galleryInput').click()" style="background: #2980B9;">🖼️ ಗ್ಯಾಲರಿ</button>
+                </div>
+
+                <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display:none;" onchange="previewAndReadImage(this)">
+                <input type="file" id="galleryInput" accept="image/*" style="display:none;" onchange="previewAndReadImage(this)">
+
                 <img id="imagePreview" alt="Uploaded Image">
                 <div id="imageStatus" style="margin-top: 8px; font-weight: bold; color: var(--primary);"></div>
             </div>
@@ -199,12 +222,12 @@
             <div class="card">
                 <h3>🤖 AI ರೋಬೋಟ್ ಗುರು</h3>
                 <div class="chat-box" id="chatBox">
-                    <div class="msg bot-msg">ನಮಸ್ಕಾರ! ನಾನು ನಿನ್ನ AI ಗುರು. ನಿನಗೆ ಬೇಕಾದ ಯಾವುದೇ ಪ್ರಶ್ನೆ ಕೇಳು ಅಥವಾ ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಮಾಡು!</div>
+                    <div class="msg bot-msg" id="welcomeMsg">ನಮಸ್ಕಾರ! ನಾನು ನಿನ್ನ AI ಗುರು. ನಿನಗೆ ಬೇಕಾದ ಯಾವುದೇ ಪ್ರಶ್ನೆ ಕೇಳು!</div>
                 </div>
                 <input type="text" id="chatInput" placeholder="ನಿಮ್ಮ ಪ್ರಶ್ನೆ ಬರೆಯಿರಿ...">
                 <div style="display: flex; gap: 8px; margin-top: 5px;">
                     <button onclick="sendAIQuery()">ಕಳುಹಿಸಿ 🚀</button>
-                    <button onclick="startVoiceInput()" style="background: var(--secondary);">🎤 ಮಾತನಾಡಿ</button>
+                    <button id="micBtn" onclick="startVoiceInput()" style="background: var(--secondary);">🎤 ಮಾತನಾಡಿ</button>
                 </div>
             </div>
 
@@ -267,21 +290,32 @@
     <script>
         let studentName = 'ಮಗು';
 
-        // Helper function to remove asterisks, symbols, and formatting marks
+        // Filter Function to Remove Asterisks and Formatting Symbols
         function cleanText(text) {
             if (!text) return '';
             return text.replace(/[*#_~`{}]/g, '').trim();
         }
 
-        function speak(text, lang = 'kn-IN') {
+        function speak(text, overrideLang = null) {
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
                 const cleanedText = cleanText(text);
+                const currentLang = overrideLang || document.getElementById('selectedLanguage').value;
                 const ut = new SpeechSynthesisUtterance(cleanedText);
-                ut.lang = lang;
+                ut.lang = currentLang;
                 ut.rate = 0.85;
                 window.speechSynthesis.speak(ut);
             }
+        }
+
+        function changeLanguage() {
+            const lang = document.getElementById('selectedLanguage').value;
+            let msg = "ಕನ್ನಡ ಭಾಷೆಯನ್ನು ಆಯ್ಕೆ ಮಾಡಲಾಗಿದೆ.";
+            if (lang === 'en-US') msg = "English language selected.";
+            if (lang === 'hi-IN') msg = "हिंदी भाषा चुनी गई है।";
+            
+            document.getElementById('welcomeMsg').innerText = msg;
+            speak(msg, lang);
         }
 
         function showPage(pageId) {
@@ -321,7 +355,7 @@
                 const badge = document.createElement('span');
                 badge.className = 'word-badge';
                 badge.innerText = w;
-                badge.onclick = () => speak(w);
+                badge.onclick = () => speak(w, 'kn-IN');
                 container.appendChild(badge);
             });
         }
@@ -383,44 +417,44 @@
             container.appendChild(div);
         }
 
-        // Feature: Photo / Notebook OCR Reading
-        async function previewAndReadImage() {
-            const fileInput = document.getElementById('imageInput');
+        // Camera and Gallery Image Processing
+        async function previewAndReadImage(inputElement) {
             const preview = document.getElementById('imagePreview');
             const status = document.getElementById('imageStatus');
             const chatBox = document.getElementById('chatBox');
+            const selectedLang = document.getElementById('selectedLanguage').value;
 
-            if (fileInput.files && fileInput.files[0]) {
-                const file = fileInput.files[0];
+            if (inputElement.files && inputElement.files[0]) {
+                const file = inputElement.files[0];
                 preview.src = URL.createObjectURL(file);
                 preview.style.display = 'block';
 
-                status.innerText = '🔍 ಫೋಟೋದಲ್ಲಿರುವ ಸಾಲುಗಳನ್ನು ಓದಲಾಗುತ್ತಿದೆ... (ದಯವಿಟ್ಟು ನಿರೀಕ್ಷಿಸಿ)';
-                speak("ಚಿತ್ರವನ್ನು ಪರಿಶೀಲಿಸುತ್ತಿದ್ದೇನೆ, ಒಂದು ನಿಮಿಷ ಇರಿ.");
+                status.innerText = '🔍 ಫೋಟೋದಲ್ಲಿರುವ ಪಠ್ಯವನ್ನು ಓದಲಾಗುತ್ತಿದೆ...';
+                speak("ಚಿತ್ರವನ್ನು ಪರಿಶೀಲಿಸುತ್ತಿದ್ದೇನೆ.");
 
                 try {
                     const result = await Tesseract.recognize(file, 'kan+eng');
                     const extractedText = result.data.text.trim();
 
                     if (!extractedText) {
-                        status.innerText = '❌ ಫೋಟೋದಲ್ಲಿರುವ ಅಕ್ಷರಗಳು ಸರಿಯಾಗಿ ಕಾಣಿಸುತ್ತಿಲ್ಲ. ಸ್ಪಷ್ಟವಾದ ಫೋಟೋ ಹಾಕಿ.';
-                        speak("ಫೋಟೋದಲ್ಲಿರುವ ಅಕ್ಷರಗಳು ಸ್ಪಷ್ಟವಾಗಿಲ್ಲ, ದಯವಿಟ್ಟು ಇನ್ನೊಮ್ಮೆ ಸ್ಪಷ್ಟವಾದ ಫೋಟೋ ಹಾಕಿ.");
+                        status.innerText = '❌ ಪಠ್ಯ ಸ್ಪಷ್ಟವಾಗಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೊಮ್ಮೆ ಫೋಟೋ ಹಾಕಿ.';
+                        speak("ಪಠ್ಯ ಸ್ಪಷ್ಟವಾಗಿಲ್ಲ.");
                         return;
                     }
 
-                    status.innerText = '✅ ಫೋಟೋ ಓದುವುದು ಪೂರ್ಣಗೊಂಡಿದೆ!';
+                    status.innerText = '✅ ಪೂರ್ಣಗೊಂಡಿದೆ!';
 
-                    chatBox.innerHTML += `<div class="msg user-msg">📷 [ಅಪ್‌ಲೋಡ್ ಮಾಡಿದ ಫೋಟೋದ ಪಠ್ಯ]:<br>${cleanText(extractedText)}</div>`;
+                    chatBox.innerHTML += `<div class="msg user-msg">📷 [ಫೋಟೋ ಪಠ್ಯ]:<br>${cleanText(extractedText)}</div>`;
                     chatBox.scrollTop = chatBox.scrollHeight;
 
-                    const prompt = `Student ${studentName} uploaded an image with text: "${extractedText}". Explain what this is about in plain Kannada without using any asterisks, symbols or formatting tags. Do not use asterisks or markdown.`;
+                    const prompt = `Student ${studentName} uploaded text: "${extractedText}". Explain it briefly in plain simple text without using any asterisks, bold characters, or markdown formatting. Answer in language code: ${selectedLang}.`;
                     
                     status.innerText = '🤖 AI ವಿವರಣೆ ಸಿದ್ಧಪಡಿಸುತ್ತಿದೆ...';
                     const response = await fetch(`https://text.pollinations.ai/${encodeURIComponent(prompt)}`);
                     let aiExplanation = await response.text();
                     aiExplanation = cleanText(aiExplanation);
 
-                    chatBox.innerHTML += `<div class="msg bot-msg"><b>🤖 ಫೋಟೋ ವಿವರಣೆ:</b><br>${aiExplanation}</div>`;
+                    chatBox.innerHTML += `<div class="msg bot-msg"><b>🤖 ವಿವರಣೆ:</b><br>${aiExplanation}</div>`;
                     chatBox.scrollTop = chatBox.scrollHeight;
                     status.innerText = '';
 
@@ -428,15 +462,15 @@
 
                 } catch (error) {
                     status.innerText = '❌ ಓದಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ, ಇನ್ನೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ.';
-                    speak("ಚಿತ್ರವನ್ನು ಓದಲು ತೊಂದರೆಯಾಗಿದೆ, ದಯವಿಟ್ಟು ಇನ್ನೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ.");
                 }
             }
         }
 
-        // Smart AI Chat
+        // Smart AI Query Execution
         async function sendAIQuery() {
             const text = document.getElementById('chatInput').value.trim();
             const chatBox = document.getElementById('chatBox');
+            const selectedLang = document.getElementById('selectedLanguage').value;
 
             if (!text) return;
 
@@ -448,7 +482,7 @@
             chatBox.innerHTML += `<div class="msg bot-msg" id="${loadingId}">ಆಲೋಚಿಸುತ್ತಿದ್ದೇನೆ... 🤖</div>`;
 
             try {
-                const prompt = `You are an intelligent, friendly AI school teacher talking to student ${studentName}. Answer accurately in simple Kannada for kids. Do NOT use any asterisks, bold stars, symbols or markdown formatting in your response. Just reply in plain simple text. Prompt: "${text}"`;
+                const prompt = `You are a friendly AI teacher for student ${studentName}. Answer the following query accurately in plain text using language: ${selectedLang}. Crucial instruction: Absolutely DO NOT use any asterisks, stars (*), markdown formatting, or symbols. Keep it simple plain text. Query: "${text}"`;
                 
                 const response = await fetch(`https://text.pollinations.ai/${encodeURIComponent(prompt)}`);
                 let reply = await response.text();
@@ -469,22 +503,43 @@
             chatBox.scrollTop = chatBox.scrollHeight;
         }
 
+        // Voice Input Functionality
         function startVoiceInput() {
+            const micBtn = document.getElementById('micBtn');
+            const selectedLang = document.getElementById('selectedLanguage').value;
+
             if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
                 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
                 const rec = new SpeechRecognition();
-                rec.lang = 'kn-IN';
+                rec.lang = selectedLang;
+
+                rec.onstart = () => {
+                    micBtn.style.background = '#E74C3C';
+                    micBtn.innerText = '🎙️ ಆಲಿಸಲಾಗುತ್ತಿದೆ...';
+                };
+
                 rec.onresult = (e) => {
-                    document.getElementById('chatInput').value = e.results[0][0].transcript;
+                    const spokenText = e.results[0][0].transcript;
+                    document.getElementById('chatInput').value = spokenText;
                     sendAIQuery();
                 };
+
+                rec.onerror = () => {
+                    alert("ಧ್ವನಿ ಗ್ರಹಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಇನ್ನೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ.");
+                };
+
+                rec.onend = () => {
+                    micBtn.style.background = 'var(--secondary)';
+                    micBtn.innerText = '🎤 ಮಾತನಾಡಿ';
+                };
+
                 rec.start();
             } else {
-                alert("ಮೈಕ್ ಬೆಂಬಲಿಸುತ್ತಿಲ್ಲ.");
+                alert("ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಮೈಕ್ ಬೆಂಬಲಿಸುತ್ತಿಲ್ಲ.");
             }
         }
 
-        function playAudioRhyme(text) { speak(text, 'kn-IN'); }
+        function playAudioRhyme(text) { speak(text); }
     </script>
 </body>
 </html>
