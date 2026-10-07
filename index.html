@@ -2,639 +2,405 @@
 <html lang="kn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ಮಕ್ಕಳ ಡಿಜಿಟಲ್ ಶಾಲೆ</title>
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+Tamma+2:wght@500;700;800&family=Nunito:wght@600;800&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ಮಕ್ಕಳ ಕಲಿಕಾ ಅಪ್ಲಿಕೇಶನ್ (Kids Learning App)</title>
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Baloo Tamma 2', 'Nunito', sans-serif;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
         }
 
+        /* ಸ್ಕ್ರೋಲಿಂಗ್ ಸಮಸ್ಯೆಯನ್ನು ಸರಿಪಡಿಸಲು overflow ನಿಯಂತ್ರಣ */
         html, body {
             width: 100%;
             height: 100%;
-            overflow: hidden;
-            background: #F4F7F6;
-        }
-
-        /* App Container Layout Fix */
-        #app-container {
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            background: #ffffff;
-        }
-
-        /* Fixed Top Header */
-        .app-header {
-            background: linear-gradient(180deg, #4FACFE 0%, #00F2FE 100%);
-            padding: 8px 12px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            color: white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-            flex-shrink: 0;
-            z-index: 10;
-        }
-
-        .user-info { display: flex; align-items: center; gap: 8px; }
-        .user-avatar { width: 35px; height: 35px; background: #FFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; border: 2px solid #FFD700; }
-        .user-details h3 { font-size: 0.9rem; line-height: 1.1; }
-        .user-details p { font-size: 0.7rem; opacity: 0.9; }
-
-        .lang-select-box {
-            display: flex;
-            gap: 4px;
-            background: rgba(255, 255, 255, 0.25);
-            padding: 3px;
-            border-radius: 18px;
-        }
-
-        .lang-btn {
-            border: none;
-            background: transparent;
-            color: white;
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-weight: bold;
-            font-size: 0.8rem;
-            cursor: pointer;
-        }
-
-        .lang-btn.active {
-            background: #FFD700;
-            color: #333;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-
-        /* Scrollable Content Area */
-        .screen-container {
-            flex: 1;
+            overflow-x: hidden;
             overflow-y: auto;
-            padding: 12px;
-            display: flex;
-            flex-direction: column;
-            padding-bottom: 120px; /* Space for bottom assistant */
-        }
-
-        /* Welcome Screen */
-        #welcome-screen { 
-            justify-content: center; 
-            align-items: center; 
-            text-align: center; 
-            gap: 12px; 
-            min-height: 100%;
-            background: linear-gradient(135deg, #FF9A9E 0%, #FECFEF 100%);
-            padding: 20px;
-        }
-        
-        .robot-box { cursor: pointer; animation: bounce 2s infinite alternate ease-in-out; }
-        @keyframes bounce { 0% { transform: translateY(0); } 100% { transform: translateY(-8px); } }
-        .robot-svg { width: 100px; height: 100px; filter: drop-shadow(0 6px 10px rgba(0,0,0,0.15)); }
-
-        .speech-bubble {
-            background: #FFF9C4;
-            border: 3px solid #FBC02D;
-            border-radius: 18px;
-            padding: 10px 15px;
-            font-size: 0.95rem;
-            font-weight: bold;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
             color: #333;
-            box-shadow: 0 3px 0 #FBC02D;
-            max-width: 90%;
+            -webkit-overflow-scrolling: touch; /* ಮೊಬೈಲ್ ಸ್ಕ್ರೋಲಿಂಗ್ ನಯಗೊಳಿಸಲು */
         }
 
-        .input-group { width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 8px; }
-        .custom-input, .custom-select {
-            width: 100%;
-            padding: 10px 14px;
-            border: 2px solid #4FACFE;
-            border-radius: 14px;
-            font-size: 0.95rem;
-            outline: none;
-            text-align: center;
-            font-weight: bold;
-            color: #2C3E50;
-            background: #F4F9FF;
-        }
-
-        .btn-start {
-            background: linear-gradient(180deg, #11998e 0%, #38ef7d 100%);
+        header {
+            background-color: #4A90E2;
             color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 16px;
-            font-size: 1.1rem;
-            font-weight: 800;
-            cursor: pointer;
-            box-shadow: 0 4px 0 #1b7a54;
-        }
-
-        /* Dashboard Area */
-        .dashboard-title { text-align: center; color: #FF4081; font-size: 1rem; margin-bottom: 8px; font-weight: 800; }
-        
-        .writing-display-box {
-            background: #E0F7FA;
-            border: 2px dashed #00ACC1;
-            border-radius: 14px;
-            padding: 8px;
-            margin-bottom: 10px;
+            padding: 15px;
             text-align: center;
-        }
-        .writing-title { font-size: 0.8rem; color: #00838F; font-weight: bold; }
-        .writing-text { font-size: 1.5rem; font-weight: 800; color: #D81B60; letter-spacing: 1px; }
-        .writing-breakdown { font-size: 0.85rem; color: #2E7D32; font-weight: bold; }
-
-        .category-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-        .category-card {
-            background: #FFF;
-            border-radius: 16px;
-            padding: 10px 6px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 4px;
-            text-align: center;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.05);
-            border: 2px solid #EEE;
-            cursor: pointer;
-            min-height: 95px;
-        }
-        .card-kn { border-color: #FF9F43; background: #FFF9F0; }
-        .card-jodi { border-color: #9b59b6; background: #F3E5F5; }
-        .card-en { border-color: #54a0ff; background: #F0F7FF; }
-        .card-hi { border-color: #ff6b6b; background: #FFF0F0; }
-        .card-math { border-color: #10ac84; background: #EBFBF7; }
-        .card-icon { font-size: 1.6rem; }
-        .card-title { font-size: 0.85rem; font-weight: 800; color: #2D3436; }
-
-        /* Lesson Screen View */
-        .lesson-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-        .btn-back { background: #FF6B6B; color: white; border: none; padding: 5px 12px; border-radius: 10px; font-weight: bold; cursor: pointer; box-shadow: 0 2px 0 #c0392b; font-size: 0.85rem; }
-        .cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 8px; }
-        .item-card {
-            aspect-ratio: 1;
-            background: white;
-            border: 2px solid #74b9ff;
-            border-radius: 12px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 2px 0 #0984e3;
-            padding: 2px;
-            text-align: center;
-        }
-        .item-char { font-size: 1.2rem; font-weight: 800; color: #2c3e50; word-break: break-all; }
-        .item-sub { font-size: 0.65rem; color: #7f8c8d; font-weight: bold; }
-
-        /* Pagination Bar */
-        .pagination-bar { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; }
-        .btn-page { background: #2196F3; color: white; border: none; padding: 6px 10px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.8rem; }
-        .btn-page:disabled { background: #BDC3C7; cursor: not-allowed; }
-        .page-info { font-weight: bold; color: #2C3E50; font-size: 0.85rem; }
-
-        /* Fixed Bottom Assistant Bar */
-        .assistant-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: #FFF8E1;
-            border-top: 2px solid #FFE082;
-            padding: 6px 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
             z-index: 100;
-        }
-        .chat-top { display: flex; align-items: center; gap: 6px; }
-        .mini-robot { width: 24px; height: 24px; flex-shrink: 0; }
-        .robot-msg { font-size: 0.8rem; font-weight: bold; color: #5D4037; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        
-        .chat-input-box { display: flex; gap: 5px; width: 100%; align-items: center; }
-        .chat-input { flex: 1; padding: 8px 10px; border: 2px solid #FFB74D; border-radius: 10px; font-size: 0.85rem; outline: none; background: #FFF; }
-        
-        .btn-mic { 
-            background: #E91E63; 
-            color: white; 
-            border: none; 
-            padding: 8px 10px; 
-            border-radius: 10px; 
-            font-size: 1rem; 
-            cursor: pointer; 
-            box-shadow: 0 2px 0 #C2185B;
-            flex-shrink: 0;
-        }
-        .btn-mic.listening { background: #4CAF50; animation: pulse 1s infinite alternate; }
-        @keyframes pulse { 0% { transform: scale(1); } 100% { transform: scale(1.08); } }
-
-        .btn-go { 
-            background: #4CAF50; 
-            color: white; 
-            border: none; 
-            padding: 8px 12px; 
-            border-radius: 10px; 
-            font-size: 0.85rem; 
-            font-weight: 800; 
-            cursor: pointer; 
-            box-shadow: 0 2px 0 #2E7D32; 
-            flex-shrink: 0; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
-        .hidden { display: none !important; }
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            background-color: #357ABD;
+            padding: 10px;
+            gap: 10px;
+        }
+
+        nav button {
+            background-color: #ffffff;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #357ABD;
+            transition: 0.3s;
+        }
+
+        nav button:hover, nav button.active {
+            background-color: #FFD166;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            min-height: 70vh;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .card {
+            background: #eef2f5;
+            padding: 15px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            background: #dce6f1;
+        }
+
+        /* ಲೆಕ್ಕದ ಗೇಮ್ ಶೈಲಿ */
+        .quiz-box {
+            text-align: center;
+            padding: 20px;
+            background: #fff3cd;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .quiz-option {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            background: #0D6EFD;
+            color: white;
+            border-radius: 5px;
+        }
+
+        /* AI ರೋಬೋಟ್ ಶೈಲಿ */
+        .robot-box {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #20B2AA;
+            color: white;
+            padding: 15px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .chat-popup {
+            display: none;
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 300px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            padding: 15px;
+            z-index: 1000;
+        }
+
+        .chat-messages {
+            height: 150px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 5px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .pagination button {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
 
-<div id="app-container">
+    <header>
+        <h1>🤖 ಮಕ್ಕಳ ಕಲಿ-ನಲಿ ಅಪ್ಲಿಕೇಶನ್</h1>
+    </header>
 
-    <!-- Fixed Header -->
-    <div id="app-header" class="app-header hidden">
-        <div class="user-info">
-            <div class="user-avatar">🤖</div>
-            <div class="user-details">
-                <h3 id="display-name">ಅರ್ಜುನ್</h3>
-                <p id="display-class">ತರಗತಿ: ೧</p>
-            </div>
-        </div>
+    <nav>
+        <button onclick="showSection('english')" class="active">English</button>
+        <button onclick="showSection('kannada')">ಕನ್ನಡ & ಕಾಗುಣಿತ</button>
+        <button onclick="showSection('hindi')">हिंदी</button>
+        <button onclick="showSection('numbers')">ಸಂಖ್ಯೆಗಳು & ಮಗ್ಗಿ</button>
+        <button onclick="showSection('jodakshara')">ಜೋಡಕ್ಷರಗಳು</button>
+        <button onclick="showSection('math-game')">🎮 16 ಲೆಕ್ಕಗಳ ಗೇಮ್</button>
+    </nav>
+
+    <div class="container">
         
-        <div class="lang-select-box">
-            <button class="lang-btn active" id="lang-kn" onclick="setLanguage('kn-IN', 'kn')">ಕನ್ನಡ</button>
-            <button class="lang-btn" id="lang-en" onclick="setLanguage('en-US', 'en')">EN</button>
-            <button class="lang-btn" id="lang-hi" onclick="setLanguage('hi-IN', 'hi')">हिंदी</button>
+        <!-- 1. English Section -->
+        <div id="english" class="section active">
+            <h2>English Lessons</h2>
+            <h3>1. Capital Letters (A-Z)</h3>
+            <div class="grid-container" id="english-caps"></div>
+            <h3 style="margin-top:20px;">2. Small Letters (a-z)</h3>
+            <div class="grid-container" id="english-small"></div>
+            <h3 style="margin-top:20px;">3. Three Letter Words</h3>
+            <div class="grid-container" id="english-words"></div>
         </div>
+
+        <!-- 2. Kannada Section -->
+        <div id="kannada" class="section">
+            <h2>ಕನ್ನಡ ಹಾಗೂ ಕಾಗುಣಿತ ಪಾಠಗಳು</h2>
+            <h3>ಸ್ವರಗಳು (ಅ - ಅಃ)</h3>
+            <div class="grid-container" id="kannada-swara"></div>
+            <h3 style="margin-top:20px;">ವ್ಯಂಜನಗಳು (ಕ - ಞ)</h3>
+            <div class="grid-container" id="kannada-vyanjana"></div>
+            <h3 style="margin-top:20px;">ಕಾಗುಣಿತ (ಉದಾಹರಣೆಗೆ: 'ಕ' ಸಾಲು)</h3>
+            <div class="grid-container" id="kannada-kagunita"></div>
+        </div>
+
+        <!-- 3. Hindi Section -->
+        <div id="hindi" class="section">
+            <h2>हिंदी वर्णमाला</h2>
+            <h3>स्वर (अ - अः)</h3>
+            <div class="grid-container" id="hindi-swar"></div>
+            <h3 style="margin-top:20px;">व्यंजन (क - ज्ञ)</h3>
+            <div class="grid-container" id="hindi-vyanjan"></div>
+        </div>
+
+        <!-- 4. Numbers Section -->
+        <div id="numbers" class="section">
+            <h2>ಸಂಖ್ಯೆಗಳು ಹಾಗೂ ಮಗ್ಗಿಗಳು</h2>
+            <h3>ಸಂಖ್ಯೆಗಳು (1 ರಿಂದ 100)</h3>
+            <div class="grid-container" id="numbers-grid"></div>
+            <h3 style="margin-top:20px;">ಮಗ್ಗಿಗಳು (1 ರಿಂದ 10)</h3>
+            <div id="tables-container" style="margin-top:10px; line-height: 1.8;"></div>
+        </div>
+
+        <!-- 5. Jodakshara Section -->
+        <div id="jodakshara" class="section">
+            <h2>ಜೋಡಣೆ ಅಕ್ಷರಗಳು (Jodakshara Words)</h2>
+            <div class="grid-container" id="jodakshara-words"></div>
+            <div class="pagination">
+                <button onclick="changePage(-1)">ಹಿಂದಿನ ಪುಟ</button>
+                <span id="page-num">ಪುಟ 1</span>
+                <button onclick="changePage(1)">ಮುಂದಿನ ಪುಟ</button>
+            </div>
+        </div>
+
+        <!-- 6. Math Quiz Section -->
+        <div id="math-game" class="section">
+            <h2>🎮 16 ಲೆಕ್ಕಗಳ ಗೇಮ್ (Math Quiz)</h2>
+            <div class="quiz-box">
+                <h3 id="quiz-question">ಪ್ರಶ್ನೆ ಇಲ್ಲಿ ಬರುತ್ತದೆ...</h3>
+                <div id="quiz-options" style="margin-top: 15px;"></div>
+                <h4 id="quiz-feedback" style="margin-top: 15px; color: green;"></h4>
+            </div>
+        </div>
+
     </div>
 
-    <!-- Scrollable Screen Area -->
-    <div class="screen-container">
+    <!-- Smart AI Robot Component -->
+    <div class="robot-box" onclick="toggleChat()">
+        <span>🤖</span>
+        <span>AI ರೋಬೋಟ್</span>
+    </div>
+
+    <div class="chat-popup" id="chat-popup">
+        <h3>🤖 ಸ್ಮಾರ್ಟ್ ರೋಬೋಟ್</h3>
+        <div class="chat-messages" id="chat-messages">
+            <p><strong>ರೋಬೋಟ್:</strong> ನಮಸ್ಕಾರ! ನಾನು ನಿನ್ನ ಸಹಾಯಕ ರೋಬೋಟ್. ಏನಾದರೂ ಕೇಳು!</p>
+        </div>
+        <input type="text" id="user-input" placeholder="ಇಲ್ಲಿ ಟೈಪ್ ಮಾಡಿ..." style="width:70%; padding:5px;">
+        <button onclick="sendMessage()" style="padding:5px 10px;">ಕಳುಹಿಸು</button>
+    </div>
+
+    <script>
+        // Section Navigation
+        function showSection(id) {
+            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+            document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Load Data Dynamics
+        // 1. English
+        const caps = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+        const small = "abcdefghijklmnopqrstuvwxyz".split("");
+        const words3 = ["CAT", "DOG", "BAT", "SUN", "BOY", "PEN", "FAN", "BUS", "MAP", "TOY"];
         
-        <!-- WELCOME SCREEN -->
-        <div id="welcome-screen" class="screen">
-            <div class="speech-bubble" id="welcome-bubble">
-                ನಮಸ್ಕಾರ! 👋 ನಿಮ್ಮ ಹೆಸರನ್ನು ಬರೆದು ಕಲಿಕೆ ಆರಂಭಿಸಿ!
-            </div>
-            
-            <div class="robot-box" onclick="playWelcomeAudio()">
-                <svg class="robot-svg" viewBox="0 0 200 200">
-                    <rect x="50" y="60" width="100" height="90" rx="20" fill="#4FACFE" stroke="#00C6FF" stroke-width="5"/>
-                    <circle cx="80" cy="95" r="15" fill="#FFF"/><circle cx="120" cy="95" r="15" fill="#FFF"/>
-                    <circle cx="80" cy="95" r="7" fill="#2C3E50"/><circle cx="120" cy="95" r="7" fill="#2C3E50"/>
-                    <path d="M 80 125 Q 100 145 120 125" stroke="#FFF" stroke-width="6" fill="none" stroke-linecap="round"/>
-                    <rect x="90" y="25" width="20" height="35" fill="#FFD700"/>
-                    <circle cx="100" cy="20" r="12" fill="#FF4757"/>
-                </svg>
-            </div>
+        document.getElementById('english-caps').innerHTML = caps.map(l => `<div class="card">${l}</div>`).join("");
+        document.getElementById('english-small').innerHTML = small.map(l => `<div class="card">${l}</div>`).join("");
+        document.getElementById('english-words').innerHTML = words3.map(w => `<div class="card" style="width:auto">${w}</div>`).join("");
 
-            <div class="input-group">
-                <input type="text" id="student-name" class="custom-input" placeholder="ನಿಮ್ಮ ಹೆಸರು ಬರೆಯಿರಿ..." value="ಅರ್ಜುನ್">
-                
-                <select id="student-class" class="custom-select">
-                    <option value="1">೧ ನೇ ತರಗತಿ (Class 1)</option>
-                    <option value="2">೨ ನೇ ತರಗತಿ (Class 2)</option>
-                    <option value="3">೩ ನೇ ತರಗತಿ (Class 3)</option>
-                    <option value="4">೪ ನೇ ತರಗತಿ (Class 4)</option>
-                    <option value="5">೫ ನೇ ತರಗತಿ (Class 5)</option>
-                </select>
-                
-                <button class="btn-start" onclick="startApp()">ಕಲಿಕೆ ಆರಂಭಿಸಿ 🚀</button>
-            </div>
-        </div>
+        // 2. Kannada
+        const swara = ["ಅ", "ಆ", "ಇ", "ಈ", "ಉ", "ಊ", "ಋ", "ಎ", "ಏ", "ಐ", "ಒ", "ಓ", "ಔ", "ಅಂ", "ಅಃ"];
+        const vyanjana = ["ಕ", "ಖ", "ಗ", "ಘ", "ಙ", "ಚ", "ಛ", "ಜ", "ಝ", "ಞ", "ಟ", "ಠ", "ಡ", "ಢ", "ಣ", "ತ", "ಥ", "ದ", "ಧ", "ನ", "ಪ", "ಫ", "ಬ", "ಭ", "ಮ", "ಯ", "ರ", "ಲ", "ವ", "ಶ", "ಷ", "ಸ", "ಹ", "ಳ", "ಕ್ಷ", "ಜ್ಞ"];
+        const kagunitaK = ["ಕ", "ಕಾ", "ಕಿ", "ಕೀ", "ಕು", "ಕೂ", "ಕೃ", "ಕೆ", "ಕೇ", "ಕೈ", "ಕೊ", "ಕೋ", "ಕೌ", "ಕಂ", "ಕಃ"];
 
-        <!-- DASHBOARD SCREEN -->
-        <div id="dashboard-screen" class="screen hidden">
-            <div class="dashboard-title">ಏನು ಕಲಿಯಲು ಬಯಸುತ್ತೀಯಾ? 👇</div>
-            
-            <div id="writing-board" class="writing-display-box">
-                <div class="writing-title" id="write-title">💡 ಪ್ರದರ್ಶನ ಬೋರ್ಡ್:</div>
-                <div class="writing-text" id="write-word">ಅನಿಲ್</div>
-                <div class="writing-breakdown" id="write-breakdown">ಅ + ನಿ + ಲ್ = ಅನಿಲ್</div>
-            </div>
+        document.getElementById('kannada-swara').innerHTML = swara.map(l => `<div class="card">${l}</div>`).join("");
+        document.getElementById('kannada-vyanjana').innerHTML = vyanjana.map(l => `<div class="card">${l}</div>`).join("");
+        document.getElementById('kannada-kagunita').innerHTML = kagunitaK.map(l => `<div class="card">${l}</div>`).join("");
 
-            <div class="category-grid">
-                <div class="category-card card-kn" onclick="openModule('kannada')">
-                    <div class="card-icon">ಅ</div>
-                    <div class="card-title">ಕನ್ನಡ ಅಕ್ಷರಗಳು & ಶಬ್ದಗಳು</div>
-                </div>
+        // 3. Hindi
+        const hSwar = ["अ", "आ", "इ", "ई", "उ", "ऊ", "ऋ", "ए", "ऐ", "ओ", "औ", "अं", "अः"];
+        const hVyanjan = ["क", "ख", "ग", "घ", "ङ", "च", "छ", "ज", "झ", "ञ", "ट", "ठ", "ड", "ढ", "ण", "त", "थ", "द", "ध", "न", "प", "फ", "ब", "भ", "म", "य", "र", "ल", "व", "श", "ष", "स", "ह", "क्ष", "त्र", "ज्ञ"];
 
-                <div class="category-card card-jodi" onclick="openModule('jodakshara')">
-                    <div class="card-icon">🧩</div>
-                    <div class="card-title">ಅಕ್ಷರ ಜೋಡಣೆ (1-20)</div>
-                </div>
+        document.getElementById('hindi-swar').innerHTML = hSwar.map(l => `<div class="card">${l}</div>`).join("");
+        document.getElementById('hindi-vyanjan').innerHTML = hVyanjan.map(l => `<div class="card">${l}</div>`).join("");
 
-                <div class="category-card card-en" onclick="openModule('english')">
-                    <div class="card-icon">A</div>
-                    <div class="card-title">English ABC & Words</div>
-                </div>
+        // 4. Numbers & Tables
+        let numHTML = "";
+        for(let i=1; i<=100; i++) numHTML += `<div class="card">${i}</div>`;
+        document.getElementById('numbers-grid').innerHTML = numHTML;
 
-                <div class="category-card card-hi" onclick="openModule('hindi')">
-                    <div class="card-icon">अ</div>
-                    <div class="card-title">हिंदी वर्णमाला व शब्द</div>
-                </div>
-
-                <div class="category-card card-math" onclick="openModule('maths')">
-                    <div class="card-icon">🔢</div>
-                    <div class="card-title">ಸಂಖ್ಯೆಗಳು (Numbers)</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- LEARNING SCREEN -->
-        <div id="learning-screen" class="screen hidden">
-            <div class="lesson-header">
-                <button class="btn-back" onclick="goDashboard()">⬅️ ಹಿಂದೆ</button>
-                <h3 id="module-title" style="color:#2C3E50; font-size: 0.95rem;">ಕಲಿಕೆ</h3>
-            </div>
-            
-            <div id="cards-container" class="cards-grid"></div>
-
-            <div class="pagination-bar">
-                <button id="btn-prev" class="btn-page" onclick="changePage(-1)">⬅️ ಹಿಂದಿನ</button>
-                <span id="page-number" class="page-info">ಪುಟ ೧</span>
-                <button id="btn-next" class="btn-page" onclick="changePage(1)">ಮುಂದಿನ ➡</button>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- Fixed Assistant Bar -->
-    <div id="assistant-bar" class="assistant-bar hidden">
-        <div class="chat-top">
-            <svg class="mini-robot" viewBox="0 0 200 200">
-                <rect x="50" y="60" width="100" height="90" rx="20" fill="#4FACFE"/>
-                <circle cx="80" cy="95" r="10" fill="#FFF"/><circle cx="120" cy="95" r="10" fill="#FFF"/>
-                <path d="M 85 125 Q 100 135 115 125" stroke="#FFF" stroke-width="5" fill="none"/>
-            </svg>
-            <div class="robot-msg" id="robot-speech">ಪ್ರಶ್ನೆ ಕೇಳು ಮಗು!</div>
-        </div>
-        <div class="chat-input-box">
-            <input type="text" id="chat-text" class="chat-input" placeholder="ಇಲ್ಲಿ ಪ್ರಶ್ನೆ ಬರೆಯಿರಿ..." onkeypress="handleKeyPress(event)">
-            <button id="mic-btn" class="btn-mic" onclick="startVoiceRecognition()">🎤</button>
-            <button class="btn-go" onclick="sendChat()">GO ➔</button>
-        </div>
-    </div>
-
-</div>
-
-<script>
-    let studentName = "";
-    let studentClass = "";
-    let currentLang = "kn-IN"; 
-    let langCode = "kn";
-
-    let currentModule = "";
-    let currentPage = 1;
-    const itemsPerPage = 12;
-
-    const kannadaData = [
-        { char: 'ಅ', name: 'ಅರಸ' }, { char: 'ಆ', name: 'ಆನೆ' }, { char: 'ಇ', name: 'ಇಲಿ' }, { char: 'ಈ', name: 'ಈಶ' },
-        { char: 'ಉ', name: 'ಉಟ' }, { char: 'ಊ', name: 'ಊಟ' }, { char: 'ಋ', name: 'ಋಷಿ' }, { char: 'ಎ', name: 'ಎಲೆ' },
-        { char: 'ಏ', name: 'ಏಣಿ' }, { char: 'ಐ', name: 'ಐದನೇ' }, { char: 'ಒ', name: 'ಒಂಟೆ' }, { char: 'ಓ', name: 'ಓಡು' },
-        { char: 'ಔ', name: 'ಔಷಧ' }, { char: 'ಅಂ', name: 'ಅಂಬಾರಿ' }, { char: 'ಅಃ', name: 'ಅಃ' },
-        { char: 'ಕ', name: 'ಕಮಲ' }, { char: 'ಖ', name: 'ಖಡ್ಗ' }, { char: 'ಗ', name: 'ಗಜ' }, { char: 'ಘ', name: 'ಘಟ' },
-        { char: 'ಚ', name: 'ಚಮಚ' }, { char: 'ಛ', name: 'ಛತ್ರಿ' }, { char: 'ಜ', name: 'ಜನ' }, { char: 'ಝ', name: 'ಝರಿ' },
-        { char: 'ಟ', name: 'ಟಪಾಲು' }, { char: 'ಠ', name: 'ಠಾಣೆ' }, { char: 'ಡ', name: 'ಡಬ್ಬಿ' }, { char: 'ಢ', name: 'ಢಿಕ್ಕಿ' },
-        { char: 'ತ', name: 'ತಬಲ' }, { char: 'ಥ', name: 'ಥರ' }, { char: 'ದ', name: 'ದಸರಾ' }, { char: 'ಧ', name: 'ಧನ' },
-        { char: 'ನ', name: 'ನವಿಲು' }, { char: 'ಪ', name: 'ಪಟ' }, { char: 'ಫ', name: 'ಫಲ' }, { char: 'ಬ', name: 'ಬಸ್ಸು' },
-        { char: 'ಭ', name: 'ಭಾರತ' }, { char: 'ಮ', name: 'ಮನೆ' }, { char: 'ಯ', name: 'ಯಂತ್ರ' }, { char: 'ರ', name: 'ರಥ' }
-    ];
-
-    const jodaksharaData = [
-        { char: 'ಅನಿಲ್', breakdown: 'ಅ + ನಿ + ಲ್ = ಅನಿಲ್' },
-        { char: 'ಮರ', breakdown: 'ಮ + ರ = ಮರ' },
-        { char: 'ಮನೆ', breakdown: 'ಮ + ನೆ = ಮನೆ' },
-        { char: 'ಶಾಲೆ', breakdown: 'ಶಾ + ലെ = ಶಾಲೆ' },
-        { char: 'ಪಾಠ', breakdown: 'ಪಾ + ಠ = ಪಾಠ' },
-        { char: 'ಪುಸ್ತಕ', breakdown: 'ಪು + ಸ್ತ + ಕ = ಪುಸ್ತಕ' },
-        { char: 'ಅರಮನೆ', breakdown: 'ಅ + ರ + ಮ + ನೆ = ಅರಮನೆ' },
-        { char: 'ಅಕ್ಕ', breakdown: 'ಅ + ಕ್ಕ = ಅಕ್ಕ' },
-        { char: 'ಅಮ್ಮ', breakdown: 'ಅ + ಮ್ಮ = ಅಮ್ಮ' },
-        { char: 'ಬುಕ್', breakdown: 'ಬು + ಕ್ = ಬುಕ್' }
-    ];
-
-    const englishData = [
-        { char: 'A', name: 'Apple' }, { char: 'B', name: 'Ball' }, { char: 'C', name: 'Cat' }, { char: 'D', name: 'Dog' },
-        { char: 'a', name: 'apple' }, { char: 'b', name: 'ball' }, { char: 'c', name: 'cat' }, { char: 'd', name: 'dog' },
-        { char: 'CAT', name: 'Cat' }, { char: 'BOY', name: 'Boy' }, { char: 'PEN', name: 'Pen' }, { char: 'BOOK', name: 'Book' }
-    ];
-
-    const hindiData = [
-        { char: 'अ', name: 'अनार' }, { char: 'आ', name: 'आम' }, { char: 'इ', name: 'इमली' }, { char: 'ई', name: 'ईख' },
-        { char: 'उ', name: 'उल्लू' }, { char: 'ऊ', name: 'ऊन' }, { char: 'ऋ', name: 'ऋषि' }, { char: 'ए', name: 'एड़ी' },
-        { char: 'क', name: 'कमल' }, { char: 'ख', name: 'खरगोश' }, { char: 'ग', name: 'गमला' }, { char: 'घ', name: 'घर' }
-    ];
-
-    const mathData = [
-        { char: '1', name: 'One / ಒಂದು' }, { char: '2', name: 'Two / ಎರಡು' }, { char: '3', name: 'Three / ಮೂರು' },
-        { char: '4', name: 'Four / ನಾಲ್ಕು' }, { char: '5', name: 'Five / ಐದು' }, { char: '6', name: 'Six / ಆರು' }
-    ];
-
-    function setLanguage(lang, code) {
-        currentLang = lang;
-        langCode = code;
-
-        document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById(`lang-${code}`).classList.add('active');
-
-        if(code === 'kn') setRobotMessage("ಕನ್ನಡ ಭಾಷೆ ಆಯ್ಕೆಯಾಗಿದೆ!");
-        else if(code === 'en') setRobotMessage("English language selected!");
-        else if(code === 'hi') setRobotMessage("हिंदी भाषा चुनी गई है!");
-    }
-
-    function playWelcomeAudio() {
-        speakText("ನಮಸ್ಕಾರ! ನಿಮ್ಮ ಹೆಸರನ್ನು ಬರೆದು ಕಲಿಕೆ ಆರಂಭಿಸಿ!");
-    }
-
-    function speakText(text) {
-        try {
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = currentLang;
-                utterance.rate = 0.85;
-                window.speechSynthesis.speak(utterance);
+        let tableHTML = "";
+        for(let i=1; i<=10; i++) {
+            tableHTML += `<strong>${i} ರ ಮಗ್ಗಿ:</strong> `;
+            for(let j=1; j<=10; j++) {
+                tableHTML += `${i} × ${j} = ${i*j} | `;
             }
-        } catch (e) { console.log(e); }
-    }
-
-    function setRobotMessage(msg) {
-        document.getElementById('robot-speech').innerText = msg;
-        speakText(msg);
-    }
-
-    function startApp() {
-        const nameInput = document.getElementById('student-name').value.trim();
-        studentClass = document.getElementById('student-class').value;
-        studentName = nameInput ? nameInput : "ಅರ್ಜುನ್";
-
-        document.getElementById('display-name').innerText = studentName;
-        document.getElementById('display-class').innerText = "ತರಗತಿ: " + studentClass;
-
-        document.getElementById('welcome-screen').classList.add('hidden');
-        document.getElementById('app-header').classList.remove('hidden');
-        document.getElementById('dashboard-screen').classList.remove('hidden');
-        document.getElementById('assistant-bar').classList.remove('hidden');
-
-        setRobotMessage(`ಸ್ವಾಗತ ${studentName}! ಕಲಿಯಲು ಸಿದ್ಧರಿದ್ದೀರಾ?`);
-    }
-
-    function goDashboard() {
-        document.getElementById('learning-screen').classList.add('hidden');
-        document.getElementById('dashboard-screen').classList.remove('hidden');
-    }
-
-    function openModule(moduleType) {
-        currentModule = moduleType;
-        currentPage = 1;
-        document.getElementById('dashboard-screen').classList.add('hidden');
-        document.getElementById('learning-screen').classList.remove('hidden');
-        renderPaginatedContent();
-    }
-
-    function renderPaginatedContent() {
-        const container = document.getElementById('cards-container');
-        container.innerHTML = '';
-        document.getElementById('page-number').innerText = `ಪುಟ ${currentPage}`;
-        document.getElementById('btn-prev').disabled = (currentPage === 1);
-
-        let data = [];
-        if (currentModule === 'kannada') data = kannadaData;
-        else if (currentModule === 'jodakshara') data = jodaksharaData;
-        else if (currentModule === 'english') data = englishData;
-        else if (currentModule === 'hindi') data = hindiData;
-        else if (currentModule === 'maths') data = mathData;
-
-        let startIndex = (currentPage - 1) * itemsPerPage;
-        let pageData = data.slice(startIndex, startIndex + itemsPerPage);
-
-        document.getElementById('btn-next').disabled = (startIndex + itemsPerPage >= data.length);
-
-        pageData.forEach(item => {
-            const card = document.createElement('div');
-            card.className = 'item-card';
-            card.innerHTML = `<div class="item-char">${item.char}</div><div class="item-sub">${item.name || ''}</div>`;
-            card.onclick = () => {
-                showInWritingBoard(item.char, item.breakdown || item.name || item.char);
-                setRobotMessage(`${item.char}`);
-            };
-            container.appendChild(card);
-        });
-    }
-
-    function changePage(dir) {
-        currentPage += dir;
-        renderPaginatedContent();
-    }
-
-    function showInWritingBoard(title, breakdown) {
-        document.getElementById('write-word').innerText = title;
-        document.getElementById('write-breakdown').innerText = breakdown || title;
-    }
-
-    function handleKeyPress(e) { if (e.key === 'Enter') sendChat(); }
-
-    function sendChat() {
-        const input = document.getElementById('chat-text');
-        const text = input.value.trim();
-        if (!text) return;
-
-        input.value = '';
-        processSmartAIResponse(text);
-    }
-
-    /* ಬುದ್ಧಿವಂತ AI ಉತ್ತರ ವ್ಯವಸ್ಥೆ (Smart Interactive Response System) */
-    function processSmartAIResponse(query) {
-        let text = query.toLowerCase();
-        let reply = "";
-
-        // ಪ್ರದರ್ಶನ ಬೋರ್ಡ್‌ಗೆ ತೋರಿಸುವುದು
-        showInWritingBoard(query, query.split('').join(' + '));
-
-        // 1. ರೋಬೋಟ್ ಹೆಸರು ಮತ್ತು ಅಸ್ತಿತ್ವ
-        if (text.includes("ನಿನ್ನ ಹೆಸರು") || text.includes("ನಿನ್ನ ಹೆಸರೇನು") || text.includes("who are you") || text.includes("your name")) {
-            reply = `ನನ್ನ ಹೆಸರು ಕಲಿ ರೋಬೋಟ್! ನಾನು ನಿಮ್ಮ ಪ್ರೀತಿಯ ಗೆಳೆಯ ಮತ್ತು ಡಿಜಿಟಲ್ ಶಿಕ್ಷಕ.`;
+            tableHTML += "<br>";
         }
-        // 2. ರೋಬೋಟ್ ಕೆಲಸ
-        else if (text.includes("ಕೆಲಸ") || text.includes("ಏನು ಮಾಡ್ತೀಯಾ") || text.includes("what is your work")) {
-            reply = `ನಿಮಗೆ ಪಾಠಗಳನ್ನು, ಅಕ್ಷರಗಳನ್ನು ಮತ್ತು ನಲ್ಲಾಚಾರಗಳನ್ನು ಪ್ರೀತಿಯಿಂದ ಕಲಿಸುವುದೇ ನನ್ನ ಕೆಲಸ ${studentName}!`;
+        document.getElementById('tables-container').innerHTML = tableHTML;
+
+        // 5. Jodakshara Pagination
+        const jodWords = ["ಅಕ್ಕ", "ಅಮ್ಮ", "ಅಣ್ಣ", "ಅಪ್ಪ", "ಪುಸ್ತಕ", "ಶಾಲೆ", "ಅರಮನೆ", "ನಕ್ಷತ್ರ", "ವಿದ್ಯಾರ್ಥಿ", "ಸ್ನೇಹಿತ", "ಸೂರ್ಯ", "ಚಂದ್ರ", "ರಾಜ್ಯ", "ಸತ್ಯ", "ಧರ್ಮ"];
+        let currentPage = 1;
+
+        function renderJodakshara() {
+            document.getElementById('jodakshara-words').innerHTML = jodWords.map(w => `<div class="card" style="width:auto">${w}</div>`).join("");
+            document.getElementById('page-num').innerText = `ಪುಟ ${currentPage}`;
         }
-        // 3. ಮಗುವಿನ ಹೆಸರು / ಪರಿಚಯ
-        else if (text.includes("ನನ್ನ ಹೆಸರು") || text.includes("ನನ್ನ ಹೆಸರೇನು")) {
-            reply = `ನಿನ್ನ ಮುದ್ದಾದ ಹೆಸರು ${studentName}! ನೀನು ತುಂಬಾ ಒಳ್ಳೆಯ ಮಗು!`;
+        function changePage(dir) {
+            currentPage += dir;
+            if(currentPage < 1) currentPage = 1;
+            renderJodakshara();
         }
-        // 4. ಶಿಕ್ಷಕರು ಹಾಗೂ ಶಾಲೆಯ ಬಗ್ಗೆ ಗೌರವ
-        else if (text.includes("ಟೀಚರ್") || text.includes("ಗುರು") || text.includes("ಶಾಲೆ") || text.includes("ಗುರುಗಳು") || text.includes("teacher")) {
-            reply = `ಗುರುಗಳು ನಮಗೆ ವಿದ್ಯೆ ನೀಡುವ ದೇವರಿಗೆ ಸಮಾನ. ಶಾಲೆಯಲ್ಲಿ ಶಿಕ್ಷಕರಿಗೆ ನಮಸ್ಕರಿಸಿ ಗೌರವ ಕೊಡಬೇಕು ಮಗು!`;
-        }
-        // 5. ಅಭ್ಯಾಸ / ಅಧ್ಯಯನದ ಸಲಹೆ
-        else if (text.includes("ಓದು") || text.includes("ಕಲಿ") || text.includes("ಪಾಠ")) {
-            reply = `ದಿನವೂ ಗಮನವಿಟ್ಟು ಓದಿದರೆ ನೀವು ಶಾಲೆಯಲ್ಲಿ ಪ್ರಥಮ ಸ್ಥಾನ ಪಡೆಯಬಹುದು. ಪ್ರತಿದಿನ ಅಭ್ಯಾಸ ಮಾಡಿ!`;
-        }
-        // 6. ಶುಭಾಶಯಗಳು
-        else if (text.includes("ನಮಸ್ಕಾರ") || text.includes("ಹಲೋ") || text.includes("hello") || text.includes("hi")) {
-            reply = `ನಮಸ್ಕಾರ ${studentName}! ಇಂದು ನಾವು ಯಾವ ಪಾಠ ಕಲಿಯೋಣ?`;
-        }
-        // 7. ಸಾಮಾನ್ಯ ಶಬ್ದಗಳ ಅರ್ಥ ಹಾಗೂ ಕಲಿಕೆ
-        else if (text.includes("ಕಮಲ")) {
-            reply = "ಕಮಲ ಎಂದರೆ ನೀರಿನಲ್ಲಿ ಅರಳುವ ಸುಂದರವಾದ ಹೂವು (Lotus).";
-        } else if (text.includes("ಆನೆ")) {
-            reply = "ಆನೆ ಎಂದರೆ ಕಾಡಿನಲ್ಲಿರುವ ದೊಡ್ಡ ಪ್ರಾಣಿ (Elephant).";
-        } else if (text.includes("ಮನೆ")) {
-            reply = "ಮನೆ ಎಂದರೆ ನಾವೆಲ್ಲರೂ ಪ್ರೀತಿಯಿಂದ ವಾಸಿಸುವ ಸ್ಥಳ (Home).";
-        }
-        // 8. ಇತರ ಯಾವುದೇ ಸಾಮಾನ್ಯ ಪ್ರಶ್ನೆಗಳಿಗೆ ಉತ್ತರಿಸುವುದು
-        else {
-            reply = `'${query}' ಎನ್ನುವುದು ತುಂಬಾ ಒಳ್ಳೆಯ ವಿಷಯ! ಇದರ ಬಗ್ಗೆ ಇನ್ನಷ್ಟು ಕಲಿಯೋಣ.`;
+        renderJodakshara();
+
+        // 6. Math Quiz (16 Questions)
+        const quizData = [
+            { q: "5 + 3 = ?", options: [7, 8, 9], ans: 8 },
+            { q: "10 - 4 = ?", options: [6, 5, 4], ans: 6 },
+            { q: "3 × 3 = ?", options: [6, 9, 12], ans: 9 },
+            { q: "8 ÷ 2 = ?", options: [2, 4, 6], ans: 4 },
+            { q: "9 ಮತ್ತು 4 ರಲ್ಲಿ ಯಾವುದು ದೊಡ್ಡದು?", options: [9, 4], ans: 9 },
+            { q: "2 + 7 = ?", options: [8, 9, 10], ans: 9 },
+            { q: "15 - 5 = ?", options: [10, 5, 20], ans: 10 },
+            { q: "4 × 2 = ?", options: [6, 8, 10], ans: 8 },
+            { q: "12 ÷ 3 = ?", options: [3, 4, 5], ans: 4 },
+            { q: "1 ಮತ್ತು 5 ರಲ್ಲಿ ಯಾವುದು ಚಿಕ್ಕದು?", options: [1, 5], ans: 1 },
+            { q: "6 + 6 = ?", options: [11, 12, 13], ans: 12 },
+            { q: "20 - 10 = ?", options: [10, 5, 15], ans: 10 },
+            { q: "5 × 5 = ?", options: [20, 25, 30], ans: 25 },
+            { q: "10 ÷ 2 = ?", options: [4, 5, 6], ans: 5 },
+            { q: "15 ಮತ್ತು 20 ರಲ್ಲಿ ಯಾವುದು ದೊಡ್ಡದು?", options: [15, 20], ans: 20 },
+            { q: "7 - 3 = ?", options: [3, 4, 5], ans: 4 }
+        ];
+
+        let currentQuiz = 0;
+        function loadQuiz() {
+            if(currentQuiz >= quizData.length) currentQuiz = 0;
+            const q = quizData[currentQuiz];
+            document.getElementById('quiz-question').innerText = `ಪ್ರಶ್ನೆ ${currentQuiz + 1}: ${q.q}`;
+            document.getElementById('quiz-options').innerHTML = q.options.map(opt => 
+                `<button class="quiz-option" onclick="checkAnswer(${opt})">${opt}</button>`
+            ).join("");
+            document.getElementById('quiz-feedback').innerText = "";
         }
 
-        setRobotMessage(reply);
-    }
+        function checkAnswer(selected) {
+            if(selected === quizData[currentQuiz].ans) {
+                document.getElementById('quiz-feedback').innerText = "🤖 ರೋಬೋಟ್ ಮೆಚ್ಚುಗೆ: ಶಬ್ಬಾಶ್! ಸರಿಯಾದ ಉತ್ತರ! 🎉";
+                setTimeout(() => {
+                    currentQuiz++;
+                    loadQuiz();
+                }, 1500);
+            } else {
+                document.getElementById('quiz-feedback').innerText = "❌ ತಪ್ಪಾದ ಉತ್ತರ, ಇನ್ನೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ!";
+            }
+        }
+        loadQuiz();
 
-    /* ಧ್ವನಿ ಗ್ರಹಿಕೆ (Voice Recognition) */
-    function startVoiceRecognition() {
-        const micBtn = document.getElementById('mic-btn');
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-
-        if (!SpeechRecognition) {
-            setRobotMessage("ಮೈಕ್ ಲಭ್ಯವಿಲ್ಲ. ಪಠ್ಯ ಬರೆದು GO ಒತ್ತಿ.");
-            return;
+        // 7. AI Robot Chat
+        function toggleChat() {
+            const popup = document.getElementById('chat-popup');
+            popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
         }
 
-        const recognition = new SpeechRecognition();
-        recognition.lang = currentLang;
+        function sendMessage() {
+            const input = document.getElementById('user-input');
+            const text = input.value.trim();
+            if(!text) return;
 
-        micBtn.classList.add('listening');
-        setRobotMessage("ಮಾತನಾಡಿ, ಕೇಳುತ್ತಿದ್ದೇನೆ...");
+            const msgDiv = document.getElementById('chat-messages');
+            msgDiv.innerHTML += `<p><strong>ನೀವು:</strong> ${text}</p>`;
+            
+            let reply = "ನನಗೆ ಅರ್ಥವಾಗಲಿಲ್ಲ, ಮತ್ತೊಮ್ಮೆ ಕೇಳಿ.";
+            if(text.includes("ಹೆಸರು")) reply = "ನನ್ನ ಹೆಸರು ಸ್ಮಾರ್ಟ್ ಕಲಿ-ರೋಬೋಟ್! 🤖";
+            else if(text.includes("ಓದುವುದು ಹೇಗೆ")) reply = "ದಿನವೂ ಅಕ್ಷರಗಳನ್ನು ನೋಡಿ ಉಚ್ಚರಿಸುತ್ತಾ ಅಭ್ಯಾಸ ಮಾಡಿ!";
+            else if(text.includes("ನನ್ನ ಹೆಸರು")) reply = `ಖುಷಿಯಾಯಿತು! ಚೆನ್ನಾಗಿ ಅಭ್ಯಾಸ ಮಾಡಿ. ✨`;
 
-        recognition.start();
+            setTimeout(() => {
+                msgDiv.innerHTML += `<p><strong>ರೋಬೋಟ್:</strong> ${reply}</p>`;
+                msgDiv.scrollTop = msgDiv.scrollHeight;
+            }, 500);
 
-        recognition.onresult = function(event) {
-            micBtn.classList.remove('listening');
-            const transcript = event.results[0][0].transcript;
-            document.getElementById('chat-text').value = transcript;
-            processSmartAIResponse(transcript);
-        };
-
-        recognition.onerror = function() {
-            micBtn.classList.remove('listening');
-            setRobotMessage("ಧ್ವನಿ ಕೇಳಿಸಲಿಲ್ಲ. ಮತ್ತೊಮ್ಮೆ ಯತ್ನಿಸಿ.");
-        };
-
-        recognition.onend = function() {
-            micBtn.classList.remove('listening');
-        };
-    }
-</script>
+            input.value = "";
+        }
+    </script>
 </body>
 </html>
