@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ನಮ್ಮ ತಾಲೂಕು - ಲೈವ್ ಸರ್ಕಾರಿ ಸೇವೆಗಳು ಹಾಗೂ ಆಟೋ ಅಪ್‌ಡೇಟ್ ಉದ್ಯೋಗ ಮಾಹಿತಿ</title>
+    <title>ನಮ್ಮ ತಾಲೂಕು - ಲೈವ್ ಕರ್ನಾಟಕ ಸೇವೆಗಳು ಹಾಗೂ ಉದ್ಯೋಗ ಮಾಹಿತಿ</title>
     <style>
         * {
             box-sizing: border-box;
@@ -181,49 +181,58 @@
     <header>
         <h2>🏛️ ಸ್ಥಳೀಯ ಸೇವೆಗಳು ಹಾಗೂ ಲೈವ್ ಅಪ್‌ಡೇಟ್ಸ್</h2>
         <div style="text-align:center;">
-            <span class="auto-badge">⚡ ಆಟೋಮ್ಯಾಟಿಕ್ ಲೈವ್ ಅಪ್‌ಡೇಟ್ ಆಗುತ್ತಿದೆ</span>
+            <span class="auto-badge">⚡ ಕೇವಲ ಕರ್ನಾಟಕ ಲೈವ್ ಸುದ್ದಿಗಳು ಮಾತ್ರ</span>
         </div>
     </header>
 
     <div class="location-container">
         <!-- ಜಿಲ್ಲೆಗಳ ಆಯ್ಕೆ -->
-        <select id="districtSelect">
+        <select id="districtSelect" onchange="filterNews()">
             <option value="">-- ಕರ್ನಾಟಕದ ಎಲ್ಲಾ 31 ಜಿಲ್ಲೆಗಳು --</option>
-            <option value="yadgir">ಯಾದಗಿರಿ (Yadgir)</option>
-            <option value="kalaburagi">ಕಲಬುರಗಿ (Kalaburagi)</option>
-            <option value="raichur">ರಾಯಚೂರು (Raichur)</option>
-            <option value="bidar">ಬೀದರ್ (Bidar)</option>
-            <option value="belagavi">ಬೆಳಗಾವಿ (Belagavi)</option>
-            <option value="bengaluru">ಬೆಂಗಳೂರು (Bengaluru)</option>
-            <option value="mysuru">ಮೈಸೂರು (Mysuru)</option>
-            <option value="ballari">ಬಳ್ಳಾರಿ (Ballari)</option>
-            <option value="vijayapura">ವಿಜಯಪುರ (Vijayapura)</option>
+            <option value="ಯಾದಗಿರಿ">ಯಾದಗಿರಿ (Yadgir)</option>
+            <option value="ಕಲಬುರಗಿ">ಕಲಬುರಗಿ (Kalaburagi)</option>
+            <option value="ರಾಯಚೂರು">ರಾಯಚೂರು (Raichur)</option>
+            <option value="ಬೀದರ್">ಬೀದರ್ (Bidar)</option>
+            <option value="ಬೆಳಗಾವಿ">ಬೆಳಗಾವಿ (Belagavi)</option>
+            <option value="ಬೆಂಗಳೂರು">ಬೆಂಗಳೂರು (Bengaluru)</option>
+            <option value="ಮೈಸೂರು">ಮೈಸೂರು (Mysuru)</option>
+            <option value="ಬಳ್ಳಾರಿ">ಬಳ್ಳಾರಿ (Ballari)</option>
+            <option value="ವಿಜಯಪುರ">ವಿಜಯಪುರ (Vijayapura)</option>
         </select>
 
         <input type="text" id="searchInput" class="search-box" placeholder="ಯೋಜನೆ ಅಥವಾ ವಿಷಯ ಹುಡುಕಿ..." onkeyup="filterNews()">
     </div>
 
     <div class="container" id="newsContainer">
-        <div class="loading-box">🔄 ಇತ್ತೀಚಿನ ಹೊಸ ಸರ್ಕಾರಿ ಉದ್ಯೋಗ ಹಾಗೂ ಯೋಜನೆ ಮಾಹಿತಿ ಲೋಡ್ ಆಗುತ್ತಿದೆ...</div>
+        <div class="loading-box">🔄 ಇತ್ತೀಚಿನ ಹೊಸ ಕರ್ನಾಟಕ ಸರ್ಕಾರಿ ಉದ್ಯೋಗ ಹಾಗೂ ಯೋಜನೆ ಮಾಹಿತಿ ಲೋಡ್ ಆಗುತ್ತಿದೆ...</div>
     </div>
 
     <script>
         const MY_CONTACT_NUMBER = "+919876543210";
         
-        // ಲೈವ್ ಆರ್.ಎಸ್.ಎಸ್. ಫೀಡ್ (ಸರಕಾರ ಹಾಗೂ ಉದ್ಯೋಗ ಲೈವ್ ಅಪ್‌ಡೇಟ್ಸ್ ಫೆಚ್ ಮಾಡಲು)
-        const RSS_URL = 'https://news.google.com/rss/search?q=Karnataka+Government+Schemes+Jobs&hl=kn&gl=IN&ceid=IN:kn';
+        // ಕೇವಲ ಕರ್ನಾಟಕದ ಉದ್ಯೋಗ ಮತ್ತು ಯೋಜನೆ ಸುದ್ದಿಗಳನ್ನು ಮಾತ್ರ ಫೆಚ್ ಮಾಡುವ ಯುಆರ್‌ಎಲ್
+        const RSS_URL = 'https://news.google.com/rss/search?q=ಕರ್ನಾಟಕ+ಸರ್ಕಾರ+ಉದ್ಯೋಗ+ಯೋಜನೆ&hl=kn&gl=IN&ceid=IN:kn';
         const API_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_URL)}`;
 
         let allArticles = [];
 
-        // ಆಟೋಮ್ಯಾಟಿಕ್ ಆಗಿ ಹೊಸ ಸುದ್ದಿಗಳನ್ನು ಫೆಚ್ ಮಾಡುವ ಫಂಕ್ಷನ್
+        // ಆಟೋಮ್ಯಾಟಿಕ್ ಆಗಿ ಹೊಸ ಕರ್ನಾಟಕ ಸುದ್ದಿಗಳನ್ನು ಫೆಚ್ ಮಾಡುವ ಫಂಕ್ಷನ್
         async function fetchLiveNews() {
             try {
                 const response = await fetch(API_URL);
                 const data = await response.json();
 
                 if (data.status === 'ok' && data.items.length > 0) {
-                    allArticles = data.items;
+                    // ಕೇವಲ ಕರ್ನಾಟಕ ಹಾಗೂ ಸಂಬಂಧಿತ ಸುದ್ದಿಗಳನ್ನು ಮಾತ್ರ ಫಿಲ್ಟರ್ ಮಾಡುವುದು
+                    allArticles = data.items.filter(item => {
+                        const title = item.title.toLowerCase();
+                        const desc = item.description.toLowerCase();
+                        
+                        // ಹೊರರಾಜ್ಯದ ಪದಗಳಿದ್ದರೆ ತೆಗೆದುಹಾಕುವುದು (Filter out other states)
+                        const isOtherState = title.includes('up police') || title.includes('bihar') || title.includes('cg mandi') || title.includes('उत्तर प्रदेश');
+                        return !isOtherState;
+                    });
+
                     renderArticles(allArticles);
                 } else {
                     document.getElementById('newsContainer').innerHTML = '<div style="text-align:center; padding:20px;">ಲಭ್ಯವಿರುವ ಲೈವ್ ಮಾಹಿತಿಗಳು ಲೋಡ್ ಆಗಿಲ್ಲ. ದಯವಿಟ್ಟು ನಂತರ ಪ್ರಯತ್ನಿಸಿ.</div>';
@@ -253,6 +262,11 @@
             const container = document.getElementById('newsContainer');
             container.innerHTML = '';
 
+            if (articles.length === 0) {
+                container.innerHTML = '<div style="text-align:center; padding:20px; color:#666;">ಯಾವುದೇ ಸೂಕ್ತ ಮಾಹಿತಿ ಕಂಡುಬಂದಿಲ್ಲ.</div>';
+                return;
+            }
+
             articles.forEach(item => {
                 const card = document.createElement('div');
                 card.className = 'scheme-card';
@@ -263,7 +277,7 @@
 
                 card.innerHTML = `
                     <div class="card-header-flex">
-                        <span class="card-tag">📢 ಹೊಸ ಅಪ್‌ಡೇಟ್ (${pubDate})</span>
+                        <span class="card-tag">📢 ಕರ್ನಾಟಕ ಅಪ್‌ಡೇಟ್ (${pubDate})</span>
                         <button class="btn-audio" onclick="speakText('${cleanTitle.replace(/'/g, "\\'")}')">🔊 ಆಡಿಯೋ</button>
                     </div>
                     <h3>${cleanTitle}</h3>
@@ -282,11 +296,17 @@
 
         function filterNews() {
             const searchVal = document.getElementById('searchInput').value.toLowerCase();
-            const filtered = allArticles.filter(item => item.title.toLowerCase().includes(searchVal));
+            const districtVal = document.getElementById('districtSelect').value.toLowerCase();
+
+            const filtered = allArticles.filter(item => {
+                const titleMatch = item.title.toLowerCase().includes(searchVal) || item.description.toLowerCase().includes(searchVal);
+                const districtMatch = districtVal === "" || item.title.toLowerCase().includes(districtVal) || item.description.toLowerCase().includes(districtVal);
+                return titleMatch && districtMatch;
+            });
+
             renderArticles(filtered);
         }
 
-        // ವೆಬ್‌ಸೈಟ್ ಓಪನ್ ಆದ ತಕ್ಷಣ ಆಟೋಮ್ಯಾಟಿಕ್ ಲೈವ್ ಲೋಡ್ ಆಗುತ್ತದೆ
         window.onload = fetchLiveNews;
     </script>
 </body>
