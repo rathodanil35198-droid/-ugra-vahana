@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ಕರ್ನಾಟಕ ಸರ್ಕಾರಿ ಸೇವೆಗಳು ಹಾಗೂ ಲೈವ್ ಅಪ್‌ಡೇಟ್ಸ್</title>
+    
     <!-- Push Notifications (OneSignal SDK) -->
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
     <script>
       window.OneSignalDeferred = window.OneSignalDeferred || [];
       OneSignalDeferred.push(async function(OneSignal) {
         await OneSignal.init({
-          appId: "YOUR_ONESIGNAL_APP_ID_HERE", // ನಿಮ್ಮ OneSignal App ID ಹಾಕಿ
+          appId: "YOUR_ONESIGNAL_APP_ID_HERE",
         });
       });
     </script>
@@ -29,14 +30,14 @@
             padding-bottom: 30px;
         }
 
-        /* ----- 1. LOGIN SCREEN STYLES ----- */
+        /* 1. LOGIN OVERLAY */
         #loginOverlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(13, 110, 253, 0.95);
+            background: rgba(13, 110, 253, 0.96);
             z-index: 1000;
             display: flex;
             justify-content: center;
@@ -61,9 +62,9 @@
         }
 
         .login-card p {
-            color: #666;
+            color: #555;
             font-size: 0.9rem;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
         .input-group {
@@ -88,19 +89,18 @@
             outline: none;
         }
 
-        /* 4 Digit OTP Boxes */
         .otp-container {
             display: flex;
-            justify-content: space-between;
-            gap: 8px;
-            margin: 15px 0;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
         }
 
         .otp-box {
             width: 50px;
             height: 50px;
             text-align: center;
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             font-weight: bold;
             border: 2px solid #0d6efd;
             border-radius: 8px;
@@ -117,10 +117,9 @@
             font-size: 1rem;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 10px;
         }
 
-        /* ----- MAIN DASHBOARD STYLES ----- */
+        /* 2. HEADER & MAIN DASHBOARD */
         header {
             background: linear-gradient(135deg, #0d6efd, #0b5ed7);
             color: white;
@@ -157,7 +156,6 @@
             gap: 6px;
         }
 
-        /* 10 Scheme Grid Buttons */
         .grid-categories {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -169,7 +167,7 @@
             background: white;
             border: 1px solid #e0e0e0;
             border-radius: 12px;
-            padding: 12px;
+            padding: 14px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -177,16 +175,17 @@
             text-align: center;
             cursor: pointer;
             box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-            transition: transform 0.2s, border-color 0.2s;
+            transition: transform 0.15s, border-color 0.15s;
         }
 
         .cat-btn:active {
-            transform: scale(0.97);
+            transform: scale(0.96);
             border-color: #0d6efd;
+            background-color: #e7f1ff;
         }
 
         .cat-icon {
-            font-size: 2rem;
+            font-size: 2.2rem;
             margin-bottom: 6px;
         }
 
@@ -196,7 +195,7 @@
             color: #1c1e21;
         }
 
-        /* Scheme Live Cards */
+        /* CARD & AUDIO STYLES */
         .scheme-card {
             background: white;
             border-radius: 12px;
@@ -210,7 +209,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
 
         .card-tag {
@@ -222,16 +221,35 @@
             font-weight: bold;
         }
 
+        .btn-audio {
+            background: #ff9800;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        }
+
+        .btn-audio:active {
+            background: #e68a00;
+        }
+
         .scheme-card h3 {
-            font-size: 1rem;
+            font-size: 1.05rem;
             color: #050505;
             margin-bottom: 8px;
             line-height: 1.4;
         }
 
         .info-row {
-            font-size: 0.85rem;
-            margin-bottom: 10px;
+            font-size: 0.88rem;
+            margin-bottom: 12px;
             color: #4b4f56;
             line-height: 1.4;
         }
@@ -249,7 +267,7 @@
             background-color: #0d6efd;
             color: white;
             text-decoration: none;
-            padding: 9px;
+            padding: 10px;
             border-radius: 6px;
             font-weight: bold;
             font-size: 0.85rem;
@@ -262,7 +280,7 @@
             background-color: #25d366;
             color: white;
             text-decoration: none;
-            padding: 9px;
+            padding: 10px;
             border-radius: 6px;
             font-weight: bold;
             font-size: 0.85rem;
@@ -278,33 +296,31 @@
 </head>
 <body>
 
-    <!-- 1. LOGIN & OTP SCREEN OVERLAY -->
+    <!-- 1. LOGIN SCREEN -->
     <div id="loginOverlay">
-        <!-- Step 1: Mobile Input -->
         <div class="login-card" id="stepMobile">
             <h2>🏛️ ನಮ್ಮ ಸೇವೆಗಳು</h2>
             <p>ಕರ್ನಾಟಕ ಸರ್ಕಾರದ ಎಲ್ಲಾ ಸೌಲಭ್ಯ ಪಡೆಯಲು ಲಾಗಿನ್ ಆಗಿ</p>
             
             <div class="input-group">
-                <label>ನಿಮ್ಮ ಹೆಸರು (Full Name)</label>
-                <input type="text" id="userName" placeholder="ಉದಾ: ಅನಿಲ್ ಕುಮಾರ್">
+                <label>ನಿಮ್ಮ ಹೆಸರು</label>
+                <input type="text" id="userName" placeholder="ನಿಮ್ಮ ಹೆಸರು ನಮೂದಿಸಿ">
             </div>
 
             <div class="input-group">
-                <label>ಮೊಬೈಲ್ ಸಂಖ್ಯೆ (Mobile Number)</label>
-                <input type="tel" id="userPhone" maxlength="10" placeholder="10 ಅಂಕಿಯ ಸಂಖ್ಯೆ ಹಾಕಿ">
+                <label>ಮೊಬೈಲ್ ಸಂಖ್ಯೆ</label>
+                <input type="tel" id="userPhone" maxlength="10" placeholder="10 ಅಂಕಿಯ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ">
             </div>
 
             <button class="btn-submit" onclick="sendOTP()">OTP ಪಡೆಯಿರಿ ➔</button>
         </div>
 
-        <!-- Step 2: 4-Digit OTP Input -->
         <div class="login-card" id="stepOTP" style="display: none;">
             <h2>🔐 OTP ಪರಿಶೀಲನೆ</h2>
-            <p>ನಿಮ್ಮ ಮೊಬೈಲ್‌ಗೆ ಕಳುಹಿಸಲಾದ 4 ಅಂಕಿಯ ಡಿಜಿಟಲ್ OTP ಹಾಕಿ</p>
+            <p id="otpNotice">ನಿಮ್ಮ OTP ಕೋಡ್ ಅನ್ನು ಕೆಳಗೆ ಹಾಕಿ</p>
 
             <div class="otp-container">
-                <input type="text" class="otp-box" maxlength="1" onkeyup="moveNext(this, 'otp2')">
+                <input type="text" class="otp-box" id="otp1" maxlength="1" onkeyup="moveNext(this, 'otp2')">
                 <input type="text" class="otp-box" id="otp2" maxlength="1" onkeyup="moveNext(this, 'otp3')">
                 <input type="text" class="otp-box" id="otp3" maxlength="1" onkeyup="moveNext(this, 'otp4')">
                 <input type="text" class="otp-box" id="otp4" maxlength="1" onkeyup="moveNext(this, '')">
@@ -314,21 +330,19 @@
         </div>
     </div>
 
-    <!-- 2. MAIN APP DASHBOARD -->
+    <!-- 2. MAIN APP -->
     <header>
         <h2>🏛️ ಕರ್ನಾಟಕ ಸರ್ಕಾರಿ ಸೌಲಭ್ಯಗಳು</h2>
         <div class="user-welcome" id="welcomeText">👤 ಸ್ವಾಗತ!</div>
     </header>
 
     <div class="container">
-        
-        <div class="section-title">📌 ಸರ್ಕಾರಿ ಸೌಲಭ್ಯಗಳು ಹಾಗೂ ವಿಭಾಗಗಳು</div>
+        <div class="section-title">📌 ಯೋಜನೆ ವಿಭಾಗಗಳು (ವಿವರಗಳಿಗೆ ಕ್ಲಿಕ್ ಮಾಡಿ)</div>
 
-        <!-- 10 Interactive Category Buttons -->
         <div class="grid-categories">
-            <div class="cat-btn" onclick="fetchNewsByCategory('ರೇಷನ್ ಕಾರ್ಡ್ अन्न ಭಾಭಾಗ್ಯ')">
+            <div class="cat-btn" onclick="fetchNewsByCategory('ರೇಷನ್ ಕಾರ್ಡ್ ಅಕ್ಕಿ ಸೌಲಭ್ಯ')">
                 <span class="cat-icon">🌾</span>
-                <span class="cat-title">ರೇಷನ್ ಕಾರ್ಡ್ / ಉಚಿತ ಅಕ್ಕಿ</span>
+                <span class="cat-title">ರೇಷನ್ ಕಾರ್ಡ್ / ಅಕ್ಕಿ</span>
             </div>
 
             <div class="cat-btn" onclick="fetchNewsByCategory('ಕರ್ನಾಟಕ ಸರ್ಕಾರಿ ಉದ್ಯೋಗ ನೇಮಕಾತಿ')">
@@ -346,19 +360,19 @@
                 <span class="cat-title">ಗೃಹಜ್ಯೋತಿ (ವಿದ್ಯುತ್)</span>
             </div>
 
-            <div class="cat-btn" onclick="fetchNewsByCategory('ಯುವನಿಧಿ ಸಾಲ ಯೋಜನೆ')">
+            <div class="cat-btn" onclick="fetchNewsByCategory('ಯುವನಿಧಿ ವಿದ್ಯಾರ್ಥಿವೇತನ')">
                 <span class="cat-icon">🎓</span>
-                <span class="cat-title">ಯುವನಿಧಿ / ವಿದ್ಯಾರ್ಥಿವೇತನ</span>
+                <span class="cat-title">ಯುವನಿಧಿ / ಸ್ಕಾಲರ್‌ಶಿಪ್</span>
             </div>
 
             <div class="cat-btn" onclick="fetchNewsByCategory('ಆಶ್ರಯ ಮನೆ ಯೋಜನೆ ವಸತಿ')">
                 <span class="cat-icon">🏠</span>
-                <span class="cat-title">ಸರ್ಕಾರಿ ಮನೆಗಳು / ವಸತಿ</span>
+                <span class="cat-title">ಸರ್ಕಾರಿ ಮನೆಗಳು</span>
             </div>
 
             <div class="cat-btn" onclick="fetchNewsByCategory('ರೈತರ ಸಾಲ ಮನ್ನಾ ಸಬ್ಸಿಡಿ')">
                 <span class="cat-icon">🚜</span>
-                <span class="cat-title">ರೈತರ ಸೌಲಭ್ಯ / ಸಾಲ</span>
+                <span class="cat-title">ರೈತರ ಯೋಜನೆಗಳು</span>
             </div>
 
             <div class="cat-btn" onclick="fetchNewsByCategory('ಶಕ್ತಿ ಯೋಜನೆ ಉಚಿತ ಬಸ್')">
@@ -379,17 +393,26 @@
 
         <div class="section-title" id="selectedCategoryTitle">⚡ ಇತ್ತೀಚಿನ ಲೈವ್ ಮಾಹಿತಿಗಳು</div>
 
-        <!-- Dynamic Content Box -->
         <div id="newsContainer">
             <div class="loading-box">🔄 ಇತ್ತೀಚಿನ ಲೈವ್ ಮಾಹಿತಿಗಳು ಲೋಡ್ ಆಗುತ್ತಿವೆ...</div>
         </div>
-
     </div>
 
     <script>
-        const MY_CONTACT_NUMBER = "+919876543210"; // ನಿಮ್ಮ ವಾಟ್ಸಾಪ್ ಸಂಖ್ಯೆ ಹಾಕಿ
+        const MY_CONTACT_NUMBER = "+919876543210";
+        let generatedOTP = "";
 
-        // Login Script
+        // Auto Check Login Status
+        window.onload = function() {
+            const savedUser = localStorage.getItem('app_user_name');
+            if (savedUser) {
+                document.getElementById('loginOverlay').style.display = 'none';
+                document.getElementById('welcomeText').innerText = `👤 ಸ್ವಾಗತ, ${savedUser}!`;
+                fetchNewsByCategory('ಕರ್ನಾಟಕ ಸರ್ಕಾರದ ಯೋಜನೆಗಳು');
+            }
+        };
+
+        // Random 4 Digit OTP Generator
         function sendOTP() {
             const name = document.getElementById('userName').value.trim();
             const phone = document.getElementById('userPhone').value.trim();
@@ -399,9 +422,14 @@
                 return;
             }
 
+            // Generate Random 4 Digit OTP
+            generatedOTP = Math.floor(1000 + Math.random() * 9000).toString();
+
             document.getElementById('stepMobile').style.display = 'none';
             document.getElementById('stepOTP').style.display = 'block';
-            alert("ಡೆಮೊ OTP: 1 2 3 4 ಟೈಪ್ ಮಾಡಿ ಓಕೆ ಒತ್ತಿ.");
+            
+            alert(`ನಿಮ್ಮ ಭದ್ರತಾ OTP ಕೋಡ್: ${generatedOTP}`);
+            document.getElementById('otpNotice').innerText = `ನಿಮ್ಮ OTP ಕೋಡ್: ${generatedOTP}`;
         }
 
         function moveNext(current, nextId) {
@@ -411,34 +439,92 @@
         }
 
         function verifyOTP() {
-            const name = document.getElementById('userName').value;
-            document.getElementById('loginOverlay').style.display = 'none';
-            document.getElementById('welcomeText').innerText = `👤 ಸ್ವಾಗತ, ${name}!`;
-            
-            // ಲಾಗಿನ್ ಆದ ತಕ್ಷಣ ಎಲ್ಲಾ ಉದ್ಯೋಗ/ಯೋಜನೆಗಳ ಆಟೋ-ಲೋಡ್
-            fetchNewsByCategory('ಕರ್ನಾಟಕ ಸರ್ಕಾರ ಯೋಜನೆ ಉದ್ಯೋಗ');
+            const enteredOTP = document.getElementById('otp1').value + 
+                               document.getElementById('otp2').value + 
+                               document.getElementById('otp3').value + 
+                               document.getElementById('otp4').value;
+
+            if (enteredOTP === generatedOTP) {
+                const name = document.getElementById('userName').value;
+                localStorage.setItem('app_user_name', name);
+                
+                document.getElementById('loginOverlay').style.display = 'none';
+                document.getElementById('welcomeText').innerText = `👤 ಸ್ವಾಗತ, ${name}!`;
+                fetchNewsByCategory('ಕರ್ನಾಟಕ ಸರ್ಕಾರದ ಯೋಜನೆಗಳು');
+            } else {
+                alert("ತಪ್ಪು OTP ನಮೂದಿಸಲಾಗಿದೆ! ದಯವಿಟ್ಟು ಸರಿಯಾದ OTP ಹಾಕಿ.");
+            }
         }
 
-        // Auto Fetching Category Wise Data
+        // TEXT TO SPEECH (ಜೋರಾದ ಆಡಿಯೋ)
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel(); // ಬಂದ್ ಮಾಡಿ ಹೊಸ ಧ್ವನಿ ನೀಡುವುದು
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'kn-IN';
+                utterance.rate = 0.85; // ಸ್ಪಷ್ಟತೆಗಾಗಿ ಸಾಧಾರಣ ವೇಗ
+                utterance.pitch = 1.1; // ಗಟ್ಟಿಯಾದ ಸ್ಪಷ್ಟ ಧ್ವನಿ
+                utterance.volume = 1.0; // ಗರಿಷ್ಠ ಸೌಂಡ್ Volume
+                window.speechSynthesis.speak(utterance);
+            } else {
+                alert("ನಿಮ್ಮ ಮೊಬೈಲ್‌ನಲ್ಲಿ ಆಡಿಯೋ ಸೌಲಭ್ಯ ಬೆಂಬಲಿಸುತ್ತಿಲ್ಲ.");
+            }
+        }
+
+        // FETCH LIVE DATA WITH BACKUP API
         async function fetchNewsByCategory(query) {
             const container = document.getElementById('newsContainer');
             document.getElementById('selectedCategoryTitle').innerText = `⚡ ಪ್ರಸ್ತುತ ಮಾಹಿತಿ: ${query}`;
-            container.innerHTML = '<div class="loading-box">🔄 ಹೊಸ ಮಾಹಿತಿಯನ್ನು ಶೋಧಿಸಲಾಗುತ್ತಿದೆ...</div>';
+            container.innerHTML = '<div class="loading-box">🔄 ಇತ್ತೀಚಿನ ಲೈವ್ ಮಾಹಿತಿಯನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ...</div>';
 
-            const RSS_URL = `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=kn&gl=IN&ceid=IN:kn`;
-            const API_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_URL)}`;
+            const rssUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=kn&gl=IN&ceid=IN:kn`;
+            const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
 
             try {
-                const response = await fetch(API_URL);
+                const response = await fetch(apiUrl);
                 const data = await response.json();
 
                 if (data.status === 'ok' && data.items.length > 0) {
                     renderArticles(data.items);
                 } else {
-                    container.innerHTML = '<div style="text-align:center; padding:20px; color:#666;">ಈ ವರ್ಗದಲ್ಲಿ ಸದ್ಯಕ್ಕೆ ಯಾವುದೇ ಹೊಸ ಮಾಹಿತಿ ಲಭ್ಯವಿಲ್ಲ.</div>';
+                    fetchBackupNews(query);
                 }
             } catch (error) {
-                container.innerHTML = '<div style="text-align:center; padding:20px; color:red;">ಮಾಹಿತಿ ಲೋಡ್ ಮಾಡುವಲ್ಲಿ ದೋಷವಾಗಿದೆ. ಇಂಟರ್ನೆಟ್ ಪರಿಶೀಲಿಸಿ.</div>';
+                fetchBackupNews(query);
+            }
+        }
+
+        // Backup Data Fetcher
+        async function fetchBackupNews(query) {
+            const container = document.getElementById('newsContainer');
+            const backupUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(`https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=kn&gl=IN&ceid=IN:kn`)}`;
+
+            try {
+                const response = await fetch(backupUrl);
+                const data = await response.json();
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(data.contents, "text/xml");
+                const items = xmlDoc.querySelectorAll("item");
+
+                let parsedArticles = [];
+                items.forEach((item, index) => {
+                    if(index < 8) {
+                        parsedArticles.push({
+                            title: item.querySelector("title") ? item.querySelector("title").textContent : query,
+                            description: item.querySelector("description") ? item.querySelector("description").textContent : "ಪೂರ್ಣ ಮಾಹಿತಿ ಓದಲು ಕೆಳಗಿನ ಲಿಂಕ್ ಬಳಸಿ.",
+                            link: item.querySelector("link") ? item.querySelector("link").textContent : "#",
+                            pubDate: item.querySelector("pubDate") ? item.querySelector("pubDate").textContent : new Date().toLocaleDateString()
+                        });
+                    }
+                });
+
+                if (parsedArticles.length > 0) {
+                    renderArticles(parsedArticles);
+                } else {
+                    container.innerHTML = '<div style="text-align:center; padding:20px; color:#666;">ಈ ವಿಷಯದಲ್ಲಿ ಸದ್ಯಕ್ಕೆ ಯಾವುದೇ ಹೊಸ ಮಾಹಿತಿ ಲಭ್ಯವಿಲ್ಲ.</div>';
+                }
+            } catch (err) {
+                container.innerHTML = '<div style="text-align:center; padding:20px; color:red;">ಮಾಹಿತಿ ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಾಗುತ್ತಿಲ್ಲ. ಇಂಟರ್ನೆಟ್ ಪರಿಶೀಲಿಸಿ.</div>';
             }
         }
 
@@ -450,16 +536,21 @@
                 const card = document.createElement('div');
                 card.className = 'scheme-card';
 
-                const pubDate = new Date(item.pubDate).toLocaleDateString('kn-IN');
+                const pubDate = item.pubDate ? new Date(item.pubDate).toLocaleDateString('kn-IN') : 'ಇತ್ತೀಚಿನದ್ದು';
                 const cleanTitle = item.title.replace(/<\/?[^>]+(>|$)/g, "");
+                const cleanDesc = item.description.replace(/<\/?[^>]+(>|$)/g, "").substring(0, 150);
+                const textToSpeak = `${cleanTitle}. ${cleanDesc}`;
                 const waMessage = encodeURIComponent(`ಈ ಸೌಲಭ್ಯದ ಬಗ್ಗೆ ಮಾಹಿತಿ ಹಾಗೂ ಅರ್ಜಿ ಸಲ್ಲಿಸಲು ಸಹಾಯ ಬೇಕು: ${cleanTitle}`);
 
                 card.innerHTML = `
                     <div class="card-header-flex">
                         <span class="card-tag">📢 ಲೈವ್ ಅಪ್‌ಡೇಟ್ (${pubDate})</span>
+                        <button class="btn-audio" onclick="speakText('${cleanTitle.replace(/'/g, "\\'")}')">
+                            🔊 ಜೋರಾಗಿ ಓದಿ
+                        </button>
                     </div>
                     <h3>${cleanTitle}</h3>
-                    <div class="info-row">${item.description.replace(/<\/?[^>]+(>|$)/g, "").substring(0, 140)}...</div>
+                    <div class="info-row">${cleanDesc}...</div>
                     
                     <div class="action-box">
                         <a href="${item.link}" target="_blank" class="btn-link">🔗 ಪೂರ್ಣ ವಿವರ ಓದಿ</a>
