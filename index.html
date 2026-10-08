@@ -3,204 +3,313 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ನಮ್ಮ ತಾಲೂಕು - ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು</title>
+    <title>ನಮ್ಮ ತಾಲೂಕು - ಸರ್ಕಾರಿ ಯೋಜನೆಗಳ ಪೋರ್ಟಲ್</title>
     <style>
         * {
             box-sizing: border-box;
-            font-family: 'Segoe UI', Arial, sans-serif;
+            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
             margin: 0;
             padding: 0;
         }
 
         body {
-            background-color: #f4f7f6;
-            color: #333;
-            padding: 15px;
+            background-color: #f0f2f5;
+            color: #1c1e21;
+            padding-bottom: 30px;
         }
 
+        /* Top Bar & Search Header */
         header {
-            background-color: #0d6efd;
+            background: linear-gradient(135deg, #0d6efd, #0b5ed7);
             color: white;
             padding: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+        }
+
+        header h2 {
+            font-size: 1.3rem;
             text-align: center;
-            border-radius: 8px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
-        .notification-btn {
-            background-color: #ffc107;
-            border: none;
-            padding: 10px 15px;
-            font-weight: bold;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 10px;
+        .search-box {
             width: 100%;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            outline: none;
         }
 
-        .category-title {
-            margin: 15px 0 10px 0;
-            font-size: 1.2rem;
-            color: #0d6efd;
+        /* Category Filter Tabs */
+        .category-scroll {
+            display: flex;
+            overflow-x: auto;
+            white-space: nowrap;
+            background: white;
+            padding: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .category-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab-btn {
+            background: #e4e6eb;
+            border: none;
+            padding: 8px 16px;
+            margin-right: 8px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #4b4f56;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .tab-btn.active {
+            background: #0d6efd;
+            color: white;
+        }
+
+        /* Main Cards Container */
+        .container {
+            padding: 15px;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         .scheme-card {
             background: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            padding: 16px;
             margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             border-left: 5px solid #0d6efd;
         }
 
-        .scheme-card h3 {
-            color: #2c3e50;
+        .card-tag {
+            display: inline-block;
+            background: #e7f1ff;
+            color: #0d6efd;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
             margin-bottom: 8px;
         }
 
-        .badge {
-            background: #28a745;
-            color: white;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            display: inline-block;
+        .scheme-card h3 {
+            font-size: 1.1rem;
+            color: #050505;
             margin-bottom: 10px;
+            line-height: 1.4;
         }
 
-        .details p {
+        .info-row {
+            font-size: 0.9rem;
             margin-bottom: 6px;
-            font-size: 0.95rem;
+            line-height: 1.4;
         }
 
-        .contact-box {
-            background-color: #e9ecef;
-            padding: 10px;
-            border-radius: 6px;
-            margin-top: 10px;
+        .info-row strong {
+            color: #4b4f56;
         }
 
-        .btn-call {
-            display: inline-block;
+        .last-date {
+            color: #d9534f;
+            font-weight: bold;
+        }
+
+        /* Action Buttons Box */
+        .action-box {
+            background: #f7f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .btn-wa {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             background-color: #25d366;
             color: white;
             text-decoration: none;
-            padding: 8px 12px;
-            border-radius: 5px;
+            padding: 10px;
+            border-radius: 6px;
             font-weight: bold;
             font-size: 0.9rem;
-            margin-top: 5px;
         }
 
-        .loading {
+        .btn-helpline {
+            display: inline-block;
             text-align: center;
-            color: #666;
-            font-style: italic;
+            color: #0d6efd;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 30px 10px;
+            color: #65676b;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h2>ನಮ್ಮ ತಾಲೂಕು - ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು</h2>
-        <p>ಸ್ವಯಂಚಾಲಿತ ಯೋಜನೆಗಳ ಮಾಹಿತಿ</p>
-        <button class="notification-btn" onclick="requestNotification()">🔔 ನೋಟಿಫಿಕೇಶನ್ ಆನ್ ಮಾಡಿ</button>
+        <h2>🏛️ ಸ್ಥಳೀಯ ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು</h2>
+        <input type="text" id="searchInput" class="search-box" placeholder="ಯೋಜನೆ ಅಥವಾ ವಿಷಯ ಹುಡುಕಿ (Search)..." onkeyup="filterSchemes()">
     </header>
 
-    <h3 class="category-title">📌 ಇಂದಿನ ಪ್ರಮುಖ ಸೌಲಭ್ಯಗಳು</h3>
-    <div id="schemes-container">
-        <p class="loading">ಮಾಹಿತಿ ಲೋಡ್ ಆಗುತ್ತಿದೆ...</p>
+    <!-- ವಿಭಾಗಗಳ ಟ್ಯಾಬ್ (Categories) -->
+    <div class="category-scroll">
+        <button class="tab-btn active" onclick="filterCategory('ಎಲ್ಲವೂ', this)">ಎಲ್ಲವೂ</button>
+        <button class="tab-btn" onclick="filterCategory('ರೈತರಿಗೆ', this)">🌾 ರೈತರಿಗೆ</button>
+        <button class="tab-btn" onclick="filterCategory('ಮಹಿಳೆಯರಿಗೆ', this)">👩 ಮಹಿಳೆಯರಿಗೆ</button>
+        <button class="tab-btn" onclick="filterCategory('ವಿದ್ಯಾರ್ಥಿಗಳಿಗೆ', this)">🎓 ವಿದ್ಯಾರ್ಥಿಗಳಿಗೆ</button>
+        <button class="tab-btn" onclick="filterCategory('ಉದ್ಯೋಗ/ಸಾಲ', this)">💼 ಉದ್ಯೋಗ/ಸಾಲ</button>
+    </div>
+
+    <!-- ಯೋಜನೆಗಳ ಲಿಸ್ಟ್ ಡಿಸ್ಪ್ಲೇ ಮಾಡುವ ಜಾಗ -->
+    <div class="container" id="schemesContainer">
+        <!-- ಜಾವಾಸ್ಕ್ರಿಪ್ಟ್ ಮೂಲಕ ಯೋಜನೆಗಳು ಇಲ್ಲಿ ಲೋಡ್ ಆಗುತ್ತವೆ -->
     </div>
 
     <script>
-        // ಯೋಜನೆಗಳ ಡೇಟಾ (API ಅಥವಾ ವೆಬ್ ಸ್ಕ್ರಾಪಿಂಗ್ ಮೂಲಕ ಬರುವ ಮಾದರಿ ಡೇಟಾ)
-        const sampleFetchedData = [
+        // ಸ್ಥಳೀಯ ಸಂಪರ್ಕ ಫೋನ್ ನಂಬರ್ (ನಿಮ್ಮ ನಂಬರ್ ಹಾಕಿ)
+        const MY_CONTACT_NUMBER = "+919876543210";
+
+        // ಯೋಜನೆಗಳ ಮಾದರಿ ಡೇಟಾಬೇಸ್ (ಸರ್ವರ್ ಅಥವಾ API ನಿಂದ ಬರುವ ಡೇಟಾ ಮಾದರಿ)
+        const schemesData = [
             {
-                id: 1,
                 title: "ಉಚಿತ ಬೋರ್‌ವೆಲ್ ಸಬ್ಸಿಡಿ (ಗಂಗಾ ಕಲ್ಯಾಣ ಯೋಜನೆ)",
                 category: "ರೈತರಿಗೆ",
                 benefit: "ಬೋರ್‌ವೆಲ್ ಕೊರೆಸಲು ₹1.50 ಲಕ್ಷ ಸಬ್ಸಿಡಿ ಸಹಾಯಧನ",
                 eligibility: "ಸಣ್ಣ ಮತ್ತು ಅತಿ ಸಣ್ಣ ರೈತರು (SC/ST ಹಾಗೂ ಹಿಂದುಳಿದ ವರ್ಗದವರು)",
-                documents: "ಆಧಾರ್ ಕಾರ್ಡ್, ಪಹಣಿ (RTC), ಜಾತಿ ಮತ್ತು ಆದಾಯ ಪ್ರಮಾಣಪತ್ರ",
+                documents: "ಆಧಾರ್, ಪಹಣಿ (RTC), ಜಾತಿ & ಆದಾಯ ಪ್ರಮಾಣಪತ್ರ",
                 lastDate: "2026-11-15",
-                gramaOneContact: "+919876543210",
                 helpline: "1800-425-3553"
             },
             {
-                id: 2,
                 title: "ಪಿಎಂ ಕಿಸಾನ್ ಸಮ್ಮಾನ್ ನಿಧಿ - 19ನೇ ಕಂತು",
                 category: "ರೈತರಿಗೆ",
                 benefit: "ವಾರ್ಷಿಕ ₹6,000 ನೇರ ಬ್ಯಾಂಕ್ ಖಾತೆಗೆ",
                 eligibility: "ಸ್ವಂತ ಜಮೀನು ಹೊಂದಿರುವ ಎಲ್ಲಾ ರೈತ ಕುಟುಂಬಗಳು",
-                documents: "ಆಧಾರ್, e-KYC ಪೂರ್ಣಗೊಂಡ ಬ್ಯಾಂಕ್ ಪಾಸ್‌ಬುಕ್",
+                documents: "ಆಧಾರ್, e-KYC ಲಿಂಕ್ ಆದ ಬ್ಯಾಂಕ್ ಪಾಸ್‌ಬುಕ್",
                 lastDate: "ಸದಾ ಚಾಲ್ತಿಯಲ್ಲಿರುತ್ತದೆ",
-                gramaOneContact: "+919876543210",
                 helpline: "155261"
+            },
+            {
+                title: "ಉದ್ಯೋಗಿನಿ ಯೋಜನೆ (ಮಹಿಳಾ ಉದ್ಯಮ ಶಕ್ತಿ)",
+                category: "ಮಹಿಳೆಯರಿಗೆ",
+                benefit: "ಸ್ವಯಂ ಉದ್ಯೋಗಕ್ಕಾಗಿ ₹3 ಲಕ್ಷದವರೆಗೆ ಶೇ.30 ಸಬ್ಸಿಡಿ ಸಾಲ",
+                eligibility: "18 ರಿಂದ 55 ವರ್ಷದೊಳಗಿನ ಮಹಿಳೆಯರು",
+                documents: "ಆಧಾರ್, ರೇಷನ್ ಕಾರ್ಡ್, ಯೋಜನಾ ವರದಿ (Project Report)",
+                lastDate: "2026-12-01",
+                helpline: "080-22253842"
+            },
+            {
+                title: "ರಾಜ್ಯ ಪೋಸ್ಟ್-ಮೆಟ್ರಿಕ್ ಸ್ಕಾಲರ್‌ಶಿಪ್ (SSP)",
+                category: "ವಿದ್ಯಾರ್ಥಿಗಳಿಗೆ",
+                benefit: "ಕಾಲೇಜು ಉನ್ನತ ಶಿಕ್ಷಣಕ್ಕೆ ಶೈಕ್ಷಣಿಕ ಧನಸಹಾಯ",
+                eligibility: "ಪಿಯುಸಿ, ಡಿಪ್ಲೋಮಾ, ಐಟಿಐ, ಪದವಿ ವಿದ್ಯಾರ್ಥಿಗಳು",
+                documents: "SSLC ಅಂಕಪಟ್ಟಿ, ಜಾತಿ/ಆದಾಯ, ಕಾಲೇಜು ರಸೀದಿ",
+                lastDate: "2026-10-31",
+                helpline: "1902"
+            },
+            {
+                title: "ಪಿಎಂ ಮುದ್ರಾ ಸಾಲ ಯೋಜನೆ (Mudra Loan)",
+                category: "ಉದ್ಯೋಗ/ಸಾಲ",
+                benefit: "ಯಾವುದೇ ಭದ್ರತೆ ಇಲ್ಲದೆ ₹50,000 ದಿಂದ ₹10 ಲಕ್ಷದವರೆಗೆ ವ್ಯಾಪಾರ ಸಾಲ",
+                eligibility: "ಸಣ್ಣ ಅಂಗಡಿ, ವ್ಯಾಪಾರ, ಉತ್ಪಾದನೆ ನಡೆಸುವವರು",
+                documents: "ಆಧಾರ್, ಪಾನ್‌ ಕಾರ್ಡ್, ಬ್ಯಾಂಕ್ ಸ್ಟೇಟ್‌ಮೆಂಟ್",
+                lastDate: "ಸದಾ ಚಾಲ್ತಿಯಲ್ಲಿರುತ್ತದೆ",
+                helpline: "1800-180-1111"
             }
         ];
 
-        // ಆಟೋಮ್ಯಾಟಿಕ್ ಆಗಿ ಆ್ಯಪ್/ವೆಬ್‌ನಲ್ಲಿ ಪ್ರದರ್ಶಿಸುವ ಫಂಕ್ಷನ್
-        function displaySchemes() {
-            const container = document.getElementById('schemes-container');
+        let selectedCategory = "ಎಲ್ಲವೂ";
+
+        // ಯೋಜನೆಗಳನ್ನು ಡಿಸ್ಪ್ಲೇ ಮಾಡುವ ಫಂಕ್ಷನ್
+        function renderSchemes(data) {
+            const container = document.getElementById('schemesContainer');
             container.innerHTML = '';
 
-            sampleFetchedData.forEach(scheme => {
+            if (data.length === 0) {
+                container.innerHTML = '<div class="no-results">ಯಾವುದೇ ಯೋಜನೆಗಳು ಕಂಡುಬಂದಿಲ್ಲ.</div>';
+                return;
+            }
+
+            data.forEach(scheme => {
                 const card = document.createElement('div');
                 card.className = 'scheme-card';
 
+                const waMessage = encodeURIComponent(`${scheme.title} ಯೋಜನೆಗೆ ಅರ್ಜಿ ಸಲ್ಲಿಸಲು ಸಹಾಯ ಬೇಕು.`);
+
                 card.innerHTML = `
-                    <span class="badge">${scheme.category}</span>
+                    <span class="card-tag">${scheme.category}</span>
                     <h3>${scheme.title}</h3>
-                    <div class="details">
-                        <p><strong>ನೇರ ಲಾಭ:</strong> ${scheme.benefit}</p>
-                        <p><strong>ಅರ್ಹತೆ:</strong> ${scheme.eligibility}</p>
-                        <p><strong>ಬೇಕಾಗುವ ದಾಖಲೆಗಳು:</strong> ${scheme.documents}</p>
-                        <p style="color: #d9534f;"><strong>ಕೊನೆಯ ದಿನಾಂಕ:</strong> ${scheme.lastDate}</p>
-                    </div>
-                    <div class="contact-box">
-                        <p><strong>ಅರ್ಜಿ ಸಲ್ಲಿಸಲು ಸಂಪರ್ಕಿಸಿ:</strong></p>
-                        <p>📍 ಸ್ಥಳೀಯ ಗ್ರಾಮ ಒನ್ / ಸಿಎಸ್‌ಸಿ ಕೇಂದ್ರ</p>
-                        <a href="https://wa.me/${scheme.gramaOneContact}?text=${encodeURIComponent(scheme.title + ' ಬಗ್ಗೆ ಮಾಹಿತಿ ಬೇಕು')}" class="btn-call" target="_blank">
-                            💬 WhatsApp ನಲ್ಲಿ ಸಂಪರ್ಕಿಸಿ
+                    <div class="info-row"><strong>ನೇರ ಲಾಭ:</strong> ${scheme.benefit}</div>
+                    <div class="info-row"><strong>ಅರ್ಹತೆ:</strong> ${scheme.eligibility}</div>
+                    <div class="info-row"><strong>ದಾಖಲೆಗಳು:</strong> ${scheme.documents}</div>
+                    <div class="info-row last-date"><strong>ಕೊನೆಯ ದಿನಾಂಕ:</strong> ${scheme.lastDate}</div>
+                    
+                    <div class="action-box">
+                        <a href="https://wa.me/${MY_CONTACT_NUMBER}?text=${waMessage}" target="_blank" class="btn-wa">
+                            💬 ಅರ್ಜಿ ಹಾಕಲು WhatsApp ಮಾಡಿ
                         </a>
-                        <p style="margin-top: 5px; font-size: 0.85rem; color: #555;">
-                            ಸರ್ಕಾರಿ ಹೆಲ್ಪ್‌ಲೈನ್: <a href="tel:${scheme.helpline}">${scheme.helpline}</a>
-                        </p>
+                        <a href="tel:${scheme.helpline}" class="btn-helpline">📞 ಸರ್ಕಾರಿ ಹೆಲ್ಪ್‌ಲೈನ್: ${scheme.helpline}</a>
                     </div>
                 `;
                 container.appendChild(card);
             });
         }
 
-        // ಪುಶ್ ನೋಟಿಫಿಕೇಶನ್ ಅನುಮತಿ ಪಡೆಯುವುದು
-        function requestNotification() {
-            if ("Notification" in window) {
-                Notification.requestPermission().then(permission => {
-                    if (permission === "granted") {
-                        alert("ನೋಟಿಫಿಕೇಶನ್ ಆನ್ ಆಗಿದೆ! ಹೊಸ ಯೋಜನೆ ಬಂದ ತಕ್ಷಣ ಮಾಹಿತಿ ಸಿಗುತ್ತದೆ.");
-                        showDummyNotification();
-                    } else {
-                        alert("ನೋಟಿಫಿಕೇಶನ್ ಅನುಮತಿ ನೀಡಲಾಗಿಲ್ಲ.");
-                    }
-                });
-            } else {
-                alert("ನಿಮ್ಮ ಬ್ರೌಸರ್ ನೋಟಿಫಿಕೇಶನ್ ಬೆಂಬಲಿಸುವುದಿಲ್ಲ.");
-            }
+        // ವಿಭಾಗಗಳ ಆಧಾರದ ಮೇಲೆ ಫಿಲ್ಟರ್ ಮಾಡುವ ಫಂಕ್ಷನ್
+        function filterCategory(category, element) {
+            selectedCategory = category;
+            
+            // ಬಟನ್ ಸ್ಟೈಲ್ ಅಪ್‌ಡೇಟ್
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+
+            applyFilters();
         }
 
-        // ಮಾದರಿ ನೋಟಿಫಿಕೇಶನ್ ಕಳುಹಿಸುವುದು
-        function showDummyNotification() {
-            if (Notification.permission === "granted") {
-                new Notification("ನಮ್ಮ ತಾಲೂಕು - ಹೊಸ ಯೋಜನೆ!", {
-                    body: "ಇಂದು ಹೊಸ ಯೋಜನೆ ಬಿಡುಗಡೆ: ಬೋರ್‌ವೆಲ್ ಸಬ್ಸಿಡಿಗೆ ಅರ್ಜಿ ಆಹ್ವಾನಿಸಲಾಗಿದೆ!",
-                    icon: "https://via.placeholder.com/128"
-                });
-            }
+        // ಸರ್ಚ್ ಬಾಕ್ಸ್ ಫಿಲ್ಟರ್
+        function filterSchemes() {
+            applyFilters();
         }
 
-        // ಪೇಜ್ ಲೋಡ್ ಆದ ತಕ್ಷಣ ರನ್ ಆಗುತ್ತದೆ
+        // ಸರ್ಚ್ ಮತ್ತು ಕ್ಯಾಟಗರಿ ಎರಡನ್ನೂ ಒಟ್ಟಿಗೆ ಅನ್ವಯಿಸುವ ಫಂಕ್ಷನ್
+        function applyFilters() {
+            const searchVal = document.getElementById('searchInput').value.toLowerCase();
+
+            const filtered = schemesData.filter(scheme => {
+                const matchesCategory = (selectedCategory === "ಎಲ್ಲವೂ") || (scheme.category === selectedCategory);
+                const matchesSearch = scheme.title.toLowerCase().includes(searchVal) || 
+                                      scheme.benefit.toLowerCase().includes(searchVal) ||
+                                      scheme.category.toLowerCase().includes(searchVal);
+                return matchesCategory && matchesSearch;
+            });
+
+            renderSchemes(filtered);
+        }
+
+        // ಪೇಜ್ ಓಪನ್ ಆದಾಗ ರನ್ ಆಗುತ್ತದೆ
         window.onload = () => {
-            displaySchemes();
+            renderSchemes(schemesData);
         };
     </script>
 </body>
