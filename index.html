@@ -4,333 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ಕರ್ನಾಟಕ ಸರ್ಕಾರಿ ಸೇವೆಗಳು ಹಾಗೂ ಲೈವ್ ಅಪ್‌ಡೇಟ್ಸ್</title>
-    
-    <!-- Push Notifications (OneSignal SDK) -->
-    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-    <script>
-      window.OneSignalDeferred = window.OneSignalDeferred || [];
-      OneSignalDeferred.push(async function(OneSignal) {
-        await OneSignal.init({
-          appId: "YOUR_ONESIGNAL_APP_ID_HERE",
-        });
-      });
-    </script>
-
     <style>
-        * {
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; font-family: 'Segoe UI', Roboto, Arial, sans-serif; margin: 0; padding: 0; }
+        body { background-color: #f0f2f5; color: #1c1e21; padding-bottom: 30px; }
 
-        body {
-            background-color: #f0f2f5;
-            color: #1c1e21;
-            padding-bottom: 30px;
-        }
+        header { background: linear-gradient(135deg, #0d6efd, #0b5ed7); color: white; padding: 15px; position: sticky; top: 0; z-index: 100; text-align: center; }
+        .user-welcome { font-size: 0.85rem; background: rgba(255, 255, 255, 0.2); padding: 4px 12px; border-radius: 12px; display: inline-block; margin-top: 5px; }
 
-        /* 1. LOGIN OVERLAY */
-        #loginOverlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(13, 110, 253, 0.96);
-            z-index: 1000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
+        .container { padding: 15px; max-width: 600px; margin: 0 auto; }
+        .section-title { font-size: 1rem; font-weight: bold; margin: 15px 0 10px 0; color: #333; }
 
-        .login-card {
-            background: white;
-            padding: 25px 20px;
-            border-radius: 16px;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            text-align: center;
-        }
+        .grid-categories { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
+        .cat-btn { background: white; border: 1px solid #e0e0e0; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+        .cat-btn:active { transform: scale(0.96); border-color: #0d6efd; background-color: #e7f1ff; }
+        .cat-icon { font-size: 2.2rem; margin-bottom: 6px; }
+        .cat-title { font-size: 0.85rem; font-weight: bold; color: #1c1e21; }
 
-        .login-card h2 {
-            color: #0d6efd;
-            margin-bottom: 10px;
-            font-size: 1.4rem;
-        }
-
-        .login-card p {
-            color: #555;
-            font-size: 0.9rem;
-            margin-bottom: 18px;
-        }
-
-        .input-group {
-            margin-bottom: 15px;
-            text-align: left;
-        }
-
-        .input-group label {
-            font-size: 0.85rem;
-            font-weight: bold;
-            color: #333;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 1rem;
-            outline: none;
-        }
-
-        .otp-container {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin: 20px 0;
-        }
-
-        .otp-box {
-            width: 50px;
-            height: 50px;
-            text-align: center;
-            font-size: 1.4rem;
-            font-weight: bold;
-            border: 2px solid #0d6efd;
-            border-radius: 8px;
-            outline: none;
-        }
-
-        .btn-submit {
-            width: 100%;
-            background: #28a745;
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        /* 2. HEADER & MAIN DASHBOARD */
-        header {
-            background: linear-gradient(135deg, #0d6efd, #0b5ed7);
-            color: white;
-            padding: 15px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
-            text-align: center;
-        }
-
-        .user-welcome {
-            font-size: 0.85rem;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 4px 12px;
-            border-radius: 12px;
-            display: inline-block;
-            margin-top: 5px;
-        }
-
-        .container {
-            padding: 15px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            font-size: 1rem;
-            font-weight: bold;
-            margin: 15px 0 10px 0;
-            color: #333;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .grid-categories {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .cat-btn {
-            background: white;
-            border: 1px solid #e0e0e0;
-            border-radius: 12px;
-            padding: 14px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            cursor: pointer;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-            transition: transform 0.15s, border-color 0.15s;
-        }
-
-        .cat-btn:active {
-            transform: scale(0.96);
-            border-color: #0d6efd;
-            background-color: #e7f1ff;
-        }
-
-        .cat-icon {
-            font-size: 2.2rem;
-            margin-bottom: 6px;
-        }
-
-        .cat-title {
-            font-size: 0.85rem;
-            font-weight: bold;
-            color: #1c1e21;
-        }
-
-        /* CARD & AUDIO STYLES */
-        .scheme-card {
-            background: white;
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            border-left: 5px solid #0d6efd;
-        }
-
-        .card-header-flex {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .card-tag {
-            background: #e7f1ff;
-            color: #0d6efd;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            font-weight: bold;
-        }
-
-        .btn-audio {
-            background: #ff9800;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-        }
-
-        .btn-audio:active {
-            background: #e68a00;
-        }
-
-        .scheme-card h3 {
-            font-size: 1.05rem;
-            color: #050505;
-            margin-bottom: 8px;
-            line-height: 1.4;
-        }
-
-        .info-row {
-            font-size: 0.88rem;
-            margin-bottom: 12px;
-            color: #4b4f56;
-            line-height: 1.4;
-        }
-
-        .action-box {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .btn-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #0d6efd;
-            color: white;
-            text-decoration: none;
-            padding: 10px;
-            border-radius: 6px;
-            font-weight: bold;
-            font-size: 0.85rem;
-        }
-
-        .btn-wa {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #25d366;
-            color: white;
-            text-decoration: none;
-            padding: 10px;
-            border-radius: 6px;
-            font-weight: bold;
-            font-size: 0.85rem;
-        }
-
-        .loading-box {
-            text-align: center;
-            padding: 30px 10px;
-            color: #0d6efd;
-            font-weight: bold;
-        }
+        .scheme-card { background: white; border-radius: 12px; padding: 16px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-left: 5px solid #0d6efd; }
+        .card-header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .card-tag { background: #e7f1ff; color: #0d6efd; padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; }
+        .btn-audio { background: #ff9800; color: white; border: none; padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; cursor: pointer; }
+        .scheme-card h3 { font-size: 1.05rem; color: #050505; margin-bottom: 8px; line-height: 1.4; }
+        .info-row { font-size: 0.88rem; margin-bottom: 12px; color: #4b4f56; line-height: 1.4; }
+        .action-box { display: flex; flex-direction: column; gap: 8px; }
+        .btn-link { display: flex; align-items: center; justify-content: center; background-color: #0d6efd; color: white; text-decoration: none; padding: 10px; border-radius: 6px; font-weight: bold; font-size: 0.85rem; }
+        .btn-wa { display: flex; align-items: center; justify-content: center; background-color: #25d366; color: white; text-decoration: none; padding: 10px; border-radius: 6px; font-weight: bold; font-size: 0.85rem; }
+        .loading-box { text-align: center; padding: 30px 10px; color: #0d6efd; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <!-- 1. LOGIN SCREEN -->
-    <div id="loginOverlay">
-        <div class="login-card" id="stepMobile">
-            <h2>🏛️ ನಮ್ಮ ಸೇವೆಗಳು</h2>
-            <p>ಕರ್ನಾಟಕ ಸರ್ಕಾರದ ಎಲ್ಲಾ ಸೌಲಭ್ಯ ಪಡೆಯಲು ಲಾಗಿನ್ ಆಗಿ</p>
-            
-            <div class="input-group">
-                <label>ನಿಮ್ಮ ಹೆಸರು</label>
-                <input type="text" id="userName" placeholder="ನಿಮ್ಮ ಹೆಸರು ನಮೂದಿಸಿ">
-            </div>
-
-            <div class="input-group">
-                <label>ಮೊಬೈಲ್ ಸಂಖ್ಯೆ</label>
-                <input type="tel" id="userPhone" maxlength="10" placeholder="10 ಅಂಕಿಯ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ">
-            </div>
-
-            <button class="btn-submit" onclick="sendOTP()">OTP ಪಡೆಯಿರಿ ➔</button>
-        </div>
-
-        <div class="login-card" id="stepOTP" style="display: none;">
-            <h2>🔐 OTP ಪರಿಶೀಲನೆ</h2>
-            <p id="otpNotice">ನಿಮ್ಮ OTP ಕೋಡ್ ಅನ್ನು ಕೆಳಗೆ ಹಾಕಿ</p>
-
-            <div class="otp-container">
-                <input type="text" class="otp-box" id="otp1" maxlength="1" onkeyup="moveNext(this, 'otp2')">
-                <input type="text" class="otp-box" id="otp2" maxlength="1" onkeyup="moveNext(this, 'otp3')">
-                <input type="text" class="otp-box" id="otp3" maxlength="1" onkeyup="moveNext(this, 'otp4')">
-                <input type="text" class="otp-box" id="otp4" maxlength="1" onkeyup="moveNext(this, '')">
-            </div>
-
-            <button class="btn-submit" onclick="verifyOTP()">ಲಾಗಿನ್ ಮಾಡಿ (OK) ✓</button>
-        </div>
-    </div>
-
-    <!-- 2. MAIN APP -->
     <header>
         <h2>🏛️ ಕರ್ನಾಟಕ ಸರ್ಕಾರಿ ಸೌಲಭ್ಯಗಳು</h2>
         <div class="user-welcome" id="welcomeText">👤 ಸ್ವಾಗತ!</div>
@@ -340,167 +43,81 @@
         <div class="section-title">📌 ಯೋಜನೆ ವಿಭಾಗಗಳು (ವಿವರಗಳಿಗೆ ಕ್ಲಿಕ್ ಮಾಡಿ)</div>
 
         <div class="grid-categories">
-            <div class="cat-btn" onclick="fetchNewsByCategory('ರೇಷನ್ ಕಾರ್ಡ್ ಅಕ್ಕಿ ಸೌಲಭ್ಯ')">
+            <div class="cat-btn" onclick="fetchNewsByCategory('ರೇಷನ್ ಕಾರ್ಡ್', 'https://ahara.kar.nic.in/')">
                 <span class="cat-icon">🌾</span>
                 <span class="cat-title">ರೇಷನ್ ಕಾರ್ಡ್ / ಅಕ್ಕಿ</span>
             </div>
 
-            <div class="cat-btn" onclick="fetchNewsByCategory('ಕರ್ನಾಟಕ ಸರ್ಕಾರಿ ಉದ್ಯೋಗ ನೇಮಕಾತಿ')">
+            <div class="cat-btn" onclick="fetchNewsByCategory('ಸರ್ಕಾರಿ ಉದ್ಯೋಗ', 'https://kpsc.kar.nic.in/')">
                 <span class="cat-icon">💼</span>
                 <span class="cat-title">ಸರ್ಕಾರಿ ಉದ್ಯೋಗಗಳು</span>
             </div>
 
-            <div class="cat-btn" onclick="fetchNewsByCategory('ಗೃಹಲಕ್ಷ್ಮಿ ಯೋಜನೆ 2000')">
+            <div class="cat-btn" onclick="fetchNewsByCategory('ಗೃಹಲಕ್ಷ್ಮಿ ಯೋಜನೆ', 'https://sevasindhuservices.karnataka.gov.in/')">
                 <span class="cat-icon">👩</span>
                 <span class="cat-title">ಗೃಹಲಕ್ಷ್ಮಿ (₹2000)</span>
             </div>
 
-            <div class="cat-btn" onclick="fetchNewsByCategory('ಗೃಹಜ್ಯೋತಿ ಉಚಿತ ವಿದ್ಯುತ್')">
+            <div class="cat-btn" onclick="fetchNewsByCategory('ಗೃಹಜ್ಯೋತಿ ಯೋಜನೆ', 'https://sevasindhuservices.karnataka.gov.in/')">
                 <span class="cat-icon">💡</span>
                 <span class="cat-title">ಗೃಹಜ್ಯೋತಿ (ವಿದ್ಯುತ್)</span>
             </div>
 
-            <div class="cat-btn" onclick="fetchNewsByCategory('ಯುವನಿಧಿ ವಿದ್ಯಾರ್ಥಿವೇತನ')">
+            <div class="cat-btn" onclick="fetchNewsByCategory('ಯುವನಿಧಿ ಸ್ಕಾಲರ್‌ಶಿಪ್', 'https://ssp.postmatric.karnataka.gov.in/')">
                 <span class="cat-icon">🎓</span>
                 <span class="cat-title">ಯುವನಿಧಿ / ಸ್ಕಾಲರ್‌ಶಿಪ್</span>
             </div>
 
-            <div class="cat-btn" onclick="fetchNewsByCategory('ಆಶ್ರಯ ಮನೆ ಯೋಜನೆ ವಸತಿ')">
+            <div class="cat-btn" onclick="fetchNewsByCategory('ಆಶ್ರಯ ಮನೆ ಯೋಜನೆ', 'https://ashraya.karnataka.gov.in/')">
                 <span class="cat-icon">🏠</span>
                 <span class="cat-title">ಸರ್ಕಾರಿ ಮನೆಗಳು</span>
             </div>
 
-            <div class="cat-btn" onclick="fetchNewsByCategory('ರೈತರ ಸಾಲ ಮನ್ನಾ ಸಬ್ಸಿಡಿ')">
+            <div class="cat-btn" onclick="fetchNewsByCategory('ರೈತರ ಯೋಜನೆಗಳು', 'https://fruitspmk.karnataka.gov.in/')">
                 <span class="cat-icon">🚜</span>
                 <span class="cat-title">ರೈತರ ಯೋಜನೆಗಳು</span>
             </div>
 
-            <div class="cat-btn" onclick="fetchNewsByCategory('ಶಕ್ತಿ ಯೋಜನೆ ಉಚಿತ ಬಸ್')">
+            <div class="cat-btn" onclick="fetchNewsByCategory('ಶಕ್ತಿ ಉಚಿತ ಬಸ್ ಯೋಜನೆ', 'https://sevasindhuservices.karnataka.gov.in/')">
                 <span class="cat-icon">🚌</span>
                 <span class="cat-title">ಉಚಿತ ಪ್ರಯಾಣ (ಶಕ್ತಿ)</span>
-            </div>
-
-            <div class="cat-btn" onclick="fetchNewsByCategory('ಆಯುಷ್ಮಾನ್ ಭಾರತ್ ಆರೋಗ್ಯ ಕಾರ್ಡ್')">
-                <span class="cat-icon">🏥</span>
-                <span class="cat-title">ಆರೋಗ್ಯ ಯೋಜನೆಗಳು</span>
-            </div>
-
-            <div class="cat-btn" onclick="fetchNewsByCategory('ಕರ್ನಾಟಕ ಸರ್ಕಾರದ ಯೋಜನೆಗಳು')">
-                <span class="cat-icon">📢</span>
-                <span class="cat-title">ಎಲ್ಲಾ ಲೈವ್ ಅಪ್‌ಡೇಟ್ಸ್</span>
             </div>
         </div>
 
         <div class="section-title" id="selectedCategoryTitle">⚡ ಇತ್ತೀಚಿನ ಲೈವ್ ಮಾಹಿತಿಗಳು</div>
 
         <div id="newsContainer">
-            <div class="loading-box">🔄 ಇತ್ತೀಚಿನ ಲೈವ್ ಮಾಹಿತಿಗಳು ಲೋಡ್ ಆಗುತ್ತಿವೆ...</div>
+            <div class="loading-box">ಮಾಹಿತಿ ಆಯ್ಕೆ ಮಾಡಲು ಮೇಲಿನ ಬಟನ್‌ಗಳನ್ನು ಕ್ಲಿಕ್ ಮಾಡಿ.</div>
         </div>
     </div>
 
     <script>
         const MY_CONTACT_NUMBER = "+919876543210";
-        let generatedOTP = "";
 
-        // Auto Check Login Status
-        window.onload = function() {
-            const savedUser = localStorage.getItem('app_user_name');
-            if (savedUser) {
-                document.getElementById('loginOverlay').style.display = 'none';
-                document.getElementById('welcomeText').innerText = `👤 ಸ್ವಾಗತ, ${savedUser}!`;
-                fetchNewsByCategory('ಕರ್ನಾಟಕ ಸರ್ಕಾರದ ಯೋಜನೆಗಳು');
-            }
-        };
-
-        // Random 4 Digit OTP Generator
-        function sendOTP() {
-            const name = document.getElementById('userName').value.trim();
-            const phone = document.getElementById('userPhone').value.trim();
-
-            if (name === "" || phone.length < 10) {
-                alert("ದಯವಿಟ್ಟು ನಿಮ್ಮ ಹೆಸರು ಮತ್ತು ಸರಿಯಾದ 10 ಅಂಕಿಯ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ನಮೂದಿಸಿ.");
-                return;
-            }
-
-            // Generate Random 4 Digit OTP
-            generatedOTP = Math.floor(1000 + Math.random() * 9000).toString();
-
-            document.getElementById('stepMobile').style.display = 'none';
-            document.getElementById('stepOTP').style.display = 'block';
-            
-            alert(`ನಿಮ್ಮ ಭದ್ರತಾ OTP ಕೋಡ್: ${generatedOTP}`);
-            document.getElementById('otpNotice').innerText = `ನಿಮ್ಮ OTP ಕೋಡ್: ${generatedOTP}`;
-        }
-
-        function moveNext(current, nextId) {
-            if (current.value.length >= 1 && nextId !== '') {
-                document.getElementById(nextId).focus();
-            }
-        }
-
-        function verifyOTP() {
-            const enteredOTP = document.getElementById('otp1').value + 
-                               document.getElementById('otp2').value + 
-                               document.getElementById('otp3').value + 
-                               document.getElementById('otp4').value;
-
-            if (enteredOTP === generatedOTP) {
-                const name = document.getElementById('userName').value;
-                localStorage.setItem('app_user_name', name);
-                
-                document.getElementById('loginOverlay').style.display = 'none';
-                document.getElementById('welcomeText').innerText = `👤 ಸ್ವಾಗತ, ${name}!`;
-                fetchNewsByCategory('ಕರ್ನಾಟಕ ಸರ್ಕಾರದ ಯೋಜನೆಗಳು');
-            } else {
-                alert("ತಪ್ಪು OTP ನಮೂದಿಸಲಾಗಿದೆ! ದಯವಿಟ್ಟು ಸರಿಯಾದ OTP ಹಾಕಿ.");
-            }
-        }
-
-        // TEXT TO SPEECH (ಜೋರಾದ ಆಡಿಯೋ)
+        // Text-to-Speech (ಧ್ವನಿ ಓದುವಿಕೆ)
         function speakText(text) {
             if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel(); // ಬಂದ್ ಮಾಡಿ ಹೊಸ ಧ್ವನಿ ನೀಡುವುದು
+                window.speechSynthesis.cancel();
                 const utterance = new SpeechSynthesisUtterance(text);
                 utterance.lang = 'kn-IN';
-                utterance.rate = 0.85; // ಸ್ಪಷ್ಟತೆಗಾಗಿ ಸಾಧಾರಣ ವೇಗ
-                utterance.pitch = 1.1; // ಗಟ್ಟಿಯಾದ ಸ್ಪಷ್ಟ ಧ್ವನಿ
-                utterance.volume = 1.0; // ಗರಿಷ್ಠ ಸೌಂಡ್ Volume
+                utterance.rate = 0.85;
                 window.speechSynthesis.speak(utterance);
-            } else {
-                alert("ನಿಮ್ಮ ಮೊಬೈಲ್‌ನಲ್ಲಿ ಆಡಿಯೋ ಸೌಲಭ್ಯ ಬೆಂಬಲಿಸುತ್ತಿಲ್ಲ.");
             }
         }
 
-        // FETCH LIVE DATA WITH BACKUP API
-        async function fetchNewsByCategory(query) {
+        // Fetch Live News with Fallback Guarantee
+        async function fetchNewsByCategory(categoryName, defaultOfficialUrl) {
             const container = document.getElementById('newsContainer');
-            document.getElementById('selectedCategoryTitle').innerText = `⚡ ಪ್ರಸ್ತುತ ಮಾಹಿತಿ: ${query}`;
+            document.getElementById('selectedCategoryTitle').innerText = `⚡ ಪ್ರಸ್ತುತ ಮಾಹಿತಿ: ${categoryName}`;
             container.innerHTML = '<div class="loading-box">🔄 ಇತ್ತೀಚಿನ ಲೈವ್ ಮಾಹಿತಿಯನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ...</div>';
 
-            const rssUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=kn&gl=IN&ceid=IN:kn`;
-            const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+            const rssUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(categoryName + ' ಕರ್ನಾಟಕ')}&hl=kn&gl=IN&ceid=IN:kn`;
+            const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`;
 
             try {
-                const response = await fetch(apiUrl);
-                const data = await response.json();
-
-                if (data.status === 'ok' && data.items.length > 0) {
-                    renderArticles(data.items);
-                } else {
-                    fetchBackupNews(query);
-                }
-            } catch (error) {
-                fetchBackupNews(query);
-            }
-        }
-
-        // Backup Data Fetcher
-        async function fetchBackupNews(query) {
-            const container = document.getElementById('newsContainer');
-            const backupUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(`https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=kn&gl=IN&ceid=IN:kn`)}`;
-
-            try {
-                const response = await fetch(backupUrl);
+                const response = await fetch(proxyUrl);
+                if (!response.ok) throw new Error("API Network Error");
+                
                 const data = await response.json();
                 const parser = new DOMParser();
                 const xmlDoc = parser.parseFromString(data.contents, "text/xml");
@@ -508,27 +125,27 @@
 
                 let parsedArticles = [];
                 items.forEach((item, index) => {
-                    if(index < 8) {
-                        parsedArticles.push({
-                            title: item.querySelector("title") ? item.querySelector("title").textContent : query,
-                            description: item.querySelector("description") ? item.querySelector("description").textContent : "ಪೂರ್ಣ ಮಾಹಿತಿ ಓದಲು ಕೆಳಗಿನ ಲಿಂಕ್ ಬಳಸಿ.",
-                            link: item.querySelector("link") ? item.querySelector("link").textContent : "#",
-                            pubDate: item.querySelector("pubDate") ? item.querySelector("pubDate").textContent : new Date().toLocaleDateString()
-                        });
+                    if (index < 5) {
+                        const title = item.querySelector("title") ? item.querySelector("title").textContent : categoryName;
+                        const link = item.querySelector("link") ? item.querySelector("link").textContent : defaultOfficialUrl;
+                        const pubDate = item.querySelector("pubDate") ? new Date(item.querySelector("pubDate").textContent).toLocaleDateString('kn-IN') : 'ಇತ್ತೀಚಿನದ್ದು';
+                        
+                        parsedArticles.push({ title, link, pubDate });
                     }
                 });
 
                 if (parsedArticles.length > 0) {
-                    renderArticles(parsedArticles);
+                    renderArticles(parsedArticles, categoryName);
                 } else {
-                    container.innerHTML = '<div style="text-align:center; padding:20px; color:#666;">ಈ ವಿಷಯದಲ್ಲಿ ಸದ್ಯಕ್ಕೆ ಯಾವುದೇ ಹೊಸ ಮಾಹಿತಿ ಲಭ್ಯವಿಲ್ಲ.</div>';
+                    showDefaultInfoCard(categoryName, defaultOfficialUrl);
                 }
-            } catch (err) {
-                container.innerHTML = '<div style="text-align:center; padding:20px; color:red;">ಮಾಹಿತಿ ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಾಗುತ್ತಿಲ್ಲ. ಇಂಟರ್ನೆಟ್ ಪರಿಶೀಲಿಸಿ.</div>';
+            } catch (error) {
+                // API ಫೇಲ್ ಆದರೂ ಸಹ ಖಾಲಿ ಬಿಡದೆ ಸಂಬಂಧಪಟ್ಟ ಸರಿಯಾದ ಮಾಹಿತಿಯನ್ನು ತೋರಿಸುತ್ತದೆ
+                showDefaultInfoCard(categoryName, defaultOfficialUrl);
             }
         }
 
-        function renderArticles(articles) {
+        function renderArticles(articles, categoryName) {
             const container = document.getElementById('newsContainer');
             container.innerHTML = '';
 
@@ -536,32 +153,52 @@
                 const card = document.createElement('div');
                 card.className = 'scheme-card';
 
-                const pubDate = item.pubDate ? new Date(item.pubDate).toLocaleDateString('kn-IN') : 'ಇತ್ತೀಚಿನದ್ದು';
                 const cleanTitle = item.title.replace(/<\/?[^>]+(>|$)/g, "");
-                const cleanDesc = item.description.replace(/<\/?[^>]+(>|$)/g, "").substring(0, 150);
-                const textToSpeak = `${cleanTitle}. ${cleanDesc}`;
-                const waMessage = encodeURIComponent(`ಈ ಸೌಲಭ್ಯದ ಬಗ್ಗೆ ಮಾಹಿತಿ ಹಾಗೂ ಅರ್ಜಿ ಸಲ್ಲಿಸಲು ಸಹಾಯ ಬೇಕು: ${cleanTitle}`);
+                const waMessage = encodeURIComponent(`ನನಗೆ ಈ ಸೌಲಭ್ಯದ ಬಗ್ಗೆ ಮಾಹಿತಿ ಬೇಕು: ${cleanTitle}`);
 
                 card.innerHTML = `
                     <div class="card-header-flex">
-                        <span class="card-tag">📢 ಲೈವ್ ಅಪ್‌ಡೇಟ್ (${pubDate})</span>
-                        <button class="btn-audio" onclick="speakText('${cleanTitle.replace(/'/g, "\\'")}')">
-                            🔊 ಜೋರಾಗಿ ಓದಿ
-                        </button>
+                        <span class="card-tag">📢 ಲೈವ್ ಸುದ್ದಿ (${item.pubDate})</span>
+                        <button class="btn-audio" onclick="speakText('${cleanTitle.replace(/'/g, "\\'")}')">🔊 ಓದಿ</button>
                     </div>
                     <h3>${cleanTitle}</h3>
-                    <div class="info-row">${cleanDesc}...</div>
+                    <div class="info-row">ಹೆಚ್ಚಿನ ವಿವರಗಳಿಗೆ ಕೆಳಗಿನ ಅಧಿಕೃತ ಲಿಂಕ್ ಅನ್ನು ಬಳಸಿ ಅರ್ಜಿ ಸಲ್ಲಿಸಬಹುದು.</div>
                     
                     <div class="action-box">
-                        <a href="${item.link}" target="_blank" class="btn-link">🔗 ಪೂರ್ಣ ವಿವರ ಓದಿ</a>
-                        <a href="https://wa.me/${MY_CONTACT_NUMBER}?text=${waMessage}" target="_blank" class="btn-wa">
-                            💬 ಅರ್ಜಿ ಹಾಕಲು WhatsApp ಮಾಡಿ
-                        </a>
+                        <a href="${item.link}" target="_blank" class="btn-link">🔗 ಪೂರ್ಣ ವಿವರ ಓದಿ / ಅರ್ಜಿ ಹಾಕಿ</a>
+                        <a href="https://wa.me/${MY_CONTACT_NUMBER}?text=${waMessage}" target="_blank" class="btn-wa">💬 WhatsApp ನಲ್ಲಿ ಸಹಾಯ ಪಡೆಯಿರಿ</a>
                     </div>
                 `;
                 container.appendChild(card);
             });
         }
+
+        // ಬ್ಯಾಕಪ್ ಕಾರ್ಡ್ (Error ಬರದಂತೆ ತಡೆಯುತ್ತದೆ)
+        function showDefaultInfoCard(categoryName, officialUrl) {
+            const container = document.getElementById('newsContainer');
+            const waMessage = encodeURIComponent(`ನನಗೆ ${categoryName} ಬಗ್ಗೆ ಮಾಹಿತಿ ಹಾಗೂ ಸಹಾಯ ಬೇಕು.`);
+
+            container.innerHTML = `
+                <div class="scheme-card">
+                    <div class="card-header-flex">
+                        <span class="card-tag">🏛️ ಸರ್ಕಾರಿ ಸೇವೆ</span>
+                        <button class="btn-audio" onclick="speakText('${categoryName} ಸೌಲಭ್ಯದ ವಿವರಗಳು')">🔊 ಓದಿ</button>
+                    </div>
+                    <h3>${categoryName} - ಅಧಿಕೃತ ಮಾಹಿತಿ ಮತ್ತು ಸೇವೆಗಳು</h3>
+                    <div class="info-row">ಕರ್ನಾಟಕ ಸರ್ಕಾರದ ${categoryName} ಗೆ ಸಂಬಂಧಿಸಿದಂತೆ ಅರ್ಜಿ ಸಲ್ಲಿಸಲು ಮತ್ತು ಹೊಸ ಮಾಹಿತಿಗಾಗಿ ಅಧಿಕೃತ ಪೋರ್ಟಲ್ ಭೇಟಿ ನೀಡಿ.</div>
+                    
+                    <div class="action-box">
+                        <a href="${officialUrl}" target="_blank" class="btn-link">🔗 ಅಧಿಕೃತ ಪೋರ್ಟಲ್‌ಗೆ ಭೇಟಿ ನೀಡಿ</a>
+                        <a href="https://wa.me/${MY_CONTACT_NUMBER}?text=${waMessage}" target="_blank" class="btn-wa">💬 WhatsApp ನಲ್ಲಿ ವಿಚಾರಿಸಿ</a>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Default Load
+        window.onload = function() {
+            fetchNewsByCategory('ಕರ್ನಾಟಕ ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು', 'https://sevasindhuservices.karnataka.gov.in/');
+        };
     </script>
 </body>
 </html>
