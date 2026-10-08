@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ನಮ್ಮ ತಾಲೂಕು - ಸರ್ಕಾರಿ ಸೇವೆಗಳು ಹಾಗೂ ಉದ್ಯೋಗ ಮಾಹಿತಿ</title>
+    <title>ನಮ್ಮ ತಾಲೂಕು - ಲೈವ್ ಸರ್ಕಾರಿ ಸೇವೆಗಳು ಹಾಗೂ ಆಟೋ ಅಪ್‌ಡೇಟ್ ಉದ್ಯೋಗ ಮಾಹಿತಿ</title>
     <style>
         * {
             box-sizing: border-box;
@@ -31,7 +31,17 @@
         header h2 {
             font-size: 1.2rem;
             text-align: center;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
+        }
+
+        .auto-badge {
+            background: #28a745;
+            color: white;
+            font-size: 0.75rem;
+            padding: 3px 8px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-top: 4px;
         }
 
         .location-container {
@@ -63,37 +73,6 @@
             font-size: 0.95rem;
             outline: none;
             margin-top: 5px;
-        }
-
-        .category-scroll {
-            display: flex;
-            overflow-x: auto;
-            white-space: nowrap;
-            background: white;
-            padding: 10px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-
-        .category-scroll::-webkit-scrollbar {
-            display: none;
-        }
-
-        .tab-btn {
-            background: #e4e6eb;
-            border: none;
-            padding: 8px 16px;
-            margin-right: 8px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #4b4f56;
-            cursor: pointer;
-            flex-shrink: 0;
-        }
-
-        .tab-btn.active {
-            background: #0d6efd;
-            color: white;
         }
 
         .container {
@@ -137,41 +116,43 @@
             font-size: 0.8rem;
             font-weight: bold;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 4px;
         }
 
         .scheme-card h3 {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             color: #050505;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             line-height: 1.4;
         }
 
         .info-row {
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             margin-bottom: 6px;
-            line-height: 1.4;
-        }
-
-        .info-row strong {
             color: #4b4f56;
-        }
-
-        .last-date {
-            color: #d9534f;
-            font-weight: bold;
+            line-height: 1.4;
         }
 
         .action-box {
             background: #f7f9fa;
-            padding: 12px;
+            padding: 10px;
             border-radius: 8px;
-            margin-top: 12px;
+            margin-top: 10px;
             display: flex;
             flex-direction: column;
             gap: 8px;
+        }
+
+        .btn-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #0d6efd;
+            color: white;
+            text-decoration: none;
+            padding: 9px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.85rem;
         }
 
         .btn-wa {
@@ -181,284 +162,79 @@
             background-color: #25d366;
             color: white;
             text-decoration: none;
-            padding: 10px;
+            padding: 9px;
             border-radius: 6px;
             font-weight: bold;
-            font-size: 0.9rem;
-        }
-
-        .btn-helpline {
-            display: inline-block;
-            text-align: center;
-            color: #0d6efd;
-            text-decoration: none;
             font-size: 0.85rem;
-            font-weight: 600;
         }
 
-        .no-results {
+        .loading-box {
             text-align: center;
-            padding: 30px 10px;
-            color: #65676b;
+            padding: 40px 10px;
+            color: #0d6efd;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h2>🏛️ ಸ್ಥಳೀಯ ಸೇವೆಗಳು ಹಾಗೂ ಉದ್ಯೋಗ ಮಾಹಿತಿ</h2>
+        <h2>🏛️ ಸ್ಥಳೀಯ ಸೇವೆಗಳು ಹಾಗೂ ಲೈವ್ ಅಪ್‌ಡೇಟ್ಸ್</h2>
+        <div style="text-align:center;">
+            <span class="auto-badge">⚡ ಆಟೋಮ್ಯಾಟಿಕ್ ಲೈವ್ ಅಪ್‌ಡೇಟ್ ಆಗುತ್ತಿದೆ</span>
+        </div>
     </header>
 
     <div class="location-container">
-        <!-- ಕರ್ನಾಟಕದ ಎಲ್ಲಾ 31 ಜಿಲ್ಲೆಗಳ ಪಟ್ಟಿ -->
-        <select id="districtSelect" onchange="updateTaluks()">
-            <option value="">-- ಜಿಲ್ಲೆ ಆಯ್ಕೆ ಮಾಡಿ --</option>
+        <!-- ಜಿಲ್ಲೆಗಳ ಆಯ್ಕೆ -->
+        <select id="districtSelect">
+            <option value="">-- ಕರ್ನಾಟಕದ ಎಲ್ಲಾ 31 ಜಿಲ್ಲೆಗಳು --</option>
             <option value="yadgir">ಯಾದಗಿರಿ (Yadgir)</option>
             <option value="kalaburagi">ಕಲಬುರಗಿ (Kalaburagi)</option>
             <option value="raichur">ರಾಯಚೂರು (Raichur)</option>
             <option value="bidar">ಬೀದರ್ (Bidar)</option>
-            <option value="koppal">ಕೊಪ್ಪಳ (Koppal)</option>
-            <option value="ballari">ಬಳ್ಳಾರಿ (Ballari)</option>
-            <option value="vijayanagara">ವಿಜಯನಗರ (Vijayanagara)</option>
             <option value="belagavi">ಬೆಳಗಾವಿ (Belagavi)</option>
-            <option value="dharwad">ಧಾರವಾಡ (Dharwad)</option>
-            <option value="gadag">ಗದಗ (Gadag)</option>
-            <option value="haveri">ಹಾವೇರಿ (Haveri)</option>
-            <option value="uttara_kannada">ಉತ್ತರ ಕನ್ನಡ (Uttara Kannada)</option>
-            <option value="bagalkote">ಬಾಗಲಕೋಟೆ (Bagalkote)</option>
-            <option value="vijayapura">ವಿಜಯಪುರ (Vijayapura)</option>
-            <option value="shivamogga">ಶಿವಮೊಗ್ಗ (Shivamogga)</option>
-            <option value="chikkamagaluru">ಚಿಕ್ಕಮಗಳೂರು (Chikkamagaluru)</option>
-            <option value="dakshina_kannada">ದಕ್ಷಿಣ ಕನ್ನಡ (Dakshina Kannada)</option>
-            <option value="udupi">ಉಡುಪಿ (Udupi)</option>
-            <option value="davangere">ದಾವಣಗೆರೆ (Davanagere)</option>
-            <option value="chitradurga">ಚಿತ್ರದುರ್ಗ (Chitradurga)</option>
-            <option value="tumakuru">ತುಮಕೂರು (Tumakuru)</option>
-            <option value="hassan">ಹಾಸನ (Hassan)</option>
-            <option value="kodagu">ಕೊಡಗು (Kodagu)</option>
-            <option value="mandya">ಮಂಡ್ಯ (Mandya)</option>
+            <option value="bengaluru">ಬೆಂಗಳೂರು (Bengaluru)</option>
             <option value="mysuru">ಮೈಸೂರು (Mysuru)</option>
-            <option value="chamarajanagara">ಚಾಮರಾಜನಗರ (Chamarajanagara)</option>
-            <option value="bengaluru_urban">ಬೆಂಗಳೂರು ನಗರ (Bengaluru Urban)</option>
-            <option value="bengaluru_rural">ಬೆಂಗಳೂರು ಗ್ರಾಮಾಂತರ (Bengaluru Rural)</option>
-            <option value="ramanagara">ರಾಮನಗರ (Ramanagara)</option>
-            <option value="kolar">ಕೋಲಾರ (Kolar)</option>
-            <option value="chikkaballapura">ಚಿಕ್ಕಬಳ್ಳಾಪುರ (Chikkaballapura)</option>
+            <option value="ballari">ಬಳ್ಳಾರಿ (Ballari)</option>
+            <option value="vijayapura">ವಿಜಯಪುರ (Vijayapura)</option>
         </select>
 
-        <select id="talukSelect" onchange="updateVillages()">
-            <option value="">-- ತಾಲೂಕು ಆಯ್ಕೆ ಮಾಡಿ --</option>
-        </select>
-
-        <select id="villageSelect">
-            <option value="">-- ಗ್ರಾಮ ಪಂಚಾಯತಿ / ಗ್ರಾಮ ಆಯ್ಕೆ ಮಾಡಿ --</option>
-        </select>
-
-        <input type="text" id="searchInput" class="search-box" placeholder="ಯೋಜನೆ ಅಥವಾ ವಿಷಯ ಹುಡುಕಿ..." onkeyup="applyFilters()">
+        <input type="text" id="searchInput" class="search-box" placeholder="ಯೋಜನೆ ಅಥವಾ ವಿಷಯ ಹುಡುಕಿ..." onkeyup="filterNews()">
     </div>
 
-    <div class="category-scroll">
-        <button class="tab-btn active" onclick="filterCategory('ಎಲ್ಲವೂ', this)">ಎಲ್ಲವೂ</button>
-        <button class="tab-btn" onclick="filterCategory('ಪರೀಕ್ಷೆಗಳು/ಮಕ್ಕಳಿಗೆ', this)">🎓 ಪರೀಕ್ಷೆಗಳು/ಶಾಲೆ</button>
-        <button class="tab-btn" onclick="filterCategory('ಸರ್ಕಾರಿ ಉದ್ಯೋಗ', this)">👮 ಪೊಲೀಸ್/ಆರ್ಮಿ/ಉದ್ಯೋಗ</button>
-        <button class="tab-btn" onclick="filterCategory('ರೈತರಿಗೆ', this)">🌾 ರೈತರಿಗೆ</button>
-        <button class="tab-btn" onclick="filterCategory('ಮಹಿಳೆಯರಿಗೆ', this)">👩 ಮಹಿಳೆಯರಿಗೆ</button>
-        <button class="tab-btn" onclick="filterCategory('ಉದ್ಯೋಗ/ಸಾಲ', this)">💼 ವ್ಯಾಪಾರ ಸಾಲ</button>
+    <div class="container" id="newsContainer">
+        <div class="loading-box">🔄 ಇತ್ತೀಚಿನ ಹೊಸ ಸರ್ಕಾರಿ ಉದ್ಯೋಗ ಹಾಗೂ ಯೋಜನೆ ಮಾಹಿತಿ ಲೋಡ್ ಆಗುತ್ತಿದೆ...</div>
     </div>
-
-    <div class="container" id="schemesContainer"></div>
 
     <script>
         const MY_CONTACT_NUMBER = "+919876543210";
+        
+        // ಲೈವ್ ಆರ್.ಎಸ್.ಎಸ್. ಫೀಡ್ (ಸರಕಾರ ಹಾಗೂ ಉದ್ಯೋಗ ಲೈವ್ ಅಪ್‌ಡೇಟ್ಸ್ ಫೆಚ್ ಮಾಡಲು)
+        const RSS_URL = 'https://news.google.com/rss/search?q=Karnataka+Government+Schemes+Jobs&hl=kn&gl=IN&ceid=IN:kn';
+        const API_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_URL)}`;
 
-        // ಜಿಲ್ಲೆ, ತಾಲೂಕು ಮತ್ತು ಗ್ರಾಮ ಪಂಚಾಯತಿಗಳ ಸಂಪೂರ್ಣ ಮಾಹಿತಿ
-        const locationData = {
-            yadgir: {
-                name: "ಯಾದಗಿರಿ",
-                taluks: {
-                    shahapur: { name: "ಶಹಾಪುರ", villages: ["ಭೀಮರಾಯನಗುಡಿ", "ವಡಗೇರಾ", "ದೊಡ್ಡತಂಡಾ", "ಸಾಗರ", "ಕೊಳ್ಳೂರ", "ಗೋಗಿ", "ಹಯ್ಯಾಳ (ಬಿ)"] },
-                    shorapur: { name: "ಸುರಪುರ", villages: ["ಹುಣಸಗಿ", "ಕೆಂಭಾವಿ", "ಕೊಡೆಕಲ್", "ರಂಗಂಪೇಟೆ", "ದೇವರಹುನ್ನಸಿ"] },
-                    yadgir_t: { name: "ಯಾದಗಿರಿ", villages: ["ಸೈದಾಪುರ", "ಬಳಗಾನೂರ", "ಮುದ್ನಾಳ", "ಹಟೀಕುಣಿ", "ಕಂದಕೂರ"] },
-                    gurmitkal: { name: "ಗುರುಮಿಠಕಲ್", villages: ["ಕಾಖಂಡಕಿ", "ಚಂಡ್ರಿಕಿ", "ಬೋರಬಂಡ"] },
-                    hunasagi: { name: "ಹುಣಸಗಿ", villages: ["ರಾಜನಕೋಳೂರ", "ವಜ್ರಜಲ", "ಯಡಹಳ್ಳಿ"] },
-                    vadagera: { name: "ವಡಗೇರಾ", villages: ["ಜೋಳದಡಗಿ", "ಬಂಡಳ್ಳಿ", "ಗೌಡಗೇರಾ"] }
-                }
-            },
-            kalaburagi: {
-                name: "ಕಲಬುರಗಿ",
-                taluks: {
-                    kalaburagi_t: { name: "ಕಲಬುರಗಿ", villages: ["ಫರಹತಾಬಾದ್", "ಕುಸನೂರ", "ಖಜೂರಿ"] },
-                    sedam: { name: "ಸೇಡಂ", villages: ["ಕುಡಹಳ್ಳಿ", "ಮಳಖೇಡ", "ಕುರುಕುಂಟಾ"] },
-                    jewargi: { name: "ಜೇವರ್ಗಿ", villages: ["ನೆಲೋಗಿ", "ಅಂದೋಲಾ", "ಆಳಂದ"] },
-                    afzalpur: { name: "ಅಫಜಲಪುರ", villages: ["ಚೌಡಾಪುರ", "ಕರಜಗಿ"] },
-                    aland: { name: "ಆಳಂದ", villages: ["ಖಜುರಿ", "ನಿಂಬರ್ಗಾ"] },
-                    chittapur: { name: "ಚಿತ್ತಾಪುರ", villages: ["ವಾಡಿ", "ನಾಲವಾರ"] }
-                }
-            },
-            raichur: {
-                name: "ರಾಯಚೂರು",
-                taluks: {
-                    raichur_t: { name: "ರಾಯಚೂರು", villages: ["ಯರಗೇರಾ", "ಜಿಲೇವಾರ"] },
-                    devadurga: { name: "ದೇವದುರ್ಗ", villages: ["ಅರಕೇರಾ", "ಗಬ್ಬೂರು"] },
-                    lingasugur: { name: "ಲಿಂಗಸಗೂರು", villages: ["ಮುದಗಲ್", "ಗುರುಗುಂಟಾ"] },
-                    manvi: { name: "ಮಾನ್ವಿ", villages: ["ಸಿಂಧನೂರು", "ಸಿರ್ಮಾವರ"] },
-                    sindhanur: { name: "ಸಿಂಧನೂರು", villages: ["ಬಳಗಾನೂರು", "ತುರ್ವಿಹಾಳ"] }
-                }
-            },
-            bidar: {
-                name: "ಬೀದರ್",
-                taluks: {
-                    bidar_t: { name: "ಬೀದರ್", villages: ["ಜನವಾಡ", "ಬಾಗದಳ"] },
-                    basavakalyan: { name: "ಬಸವಕಲ್ಯಾಣ", villages: ["ಹುಲಸೂರು", "ರಾಜೇಶ್ವರ"] },
-                    bhalki: { name: "ಭಾಲ್ಕಿ", villages: ["ಖಟಕ್ ಚಿಂಚೋಳಿ", "ಮೆಹಕರ್"] },
-                    humnabad: { name: "ಹುಮ್ನಾಬಾದ್", villages: ["ಚಟನಳ್ಳಿ", "ದುಬಲಗುಂಡಿ"] }
-                }
-            },
-            vijayapura: {
-                name: "ವಿಜಯಪುರ",
-                taluks: {
-                    vijayapura_t: { name: "ವಿಜಯಪುರ", villages: ["ಹಿಟ್ನಳ್ಳಿ", "ತೊರವಿ"] },
-                    indi: { name: "ಇಂಡಿ", villages: ["ಝಳಕಿ", "ಲಚ್ಚಾಣ"] },
-                    muddebihal: { name: "ಮುದ್ದೇಬಿಹಾಳ", villages: ["ತಾಳಿಕೋಟೆ", "ನಾಲ್ತವಾಡ"] },
-                    sindgi: { name: "ಸಿಂಧಗಿ", villages: ["ಆಲಮೇಲ", "ಕಲಕೇರಿ"] }
-                }
-            },
-            belagavi: {
-                name: "ಬೆಳಗಾವಿ",
-                taluks: {
-                    belagavi_t: { name: "ಬೆಳಗಾವಿ", villages: ["ಹಿರೇಬಾಗೇವಾಡಿ", "ಉಚಗಾಂವ್"] },
-                    gokak: { name: "ಗೋಕಾಕ್", villages: ["ಅರಭಾವಿ", "ಘಟಪ್ರಭಾ"] },
-                    chikkodi: { name: "ಚಿಕ್ಕೋಡಿ", villages: ["ನಿಪ್ಪಾಣಿ", "ಸದಲಗಾ"] },
-                    bailhongal: { name: "ಬೈಲಹೊಂಗಲ", villages: ["ನೇಸರಗಿ", "ಸಂಪಗಾಂವ್"] }
-                }
-            },
-            bengaluru_urban: {
-                name: "ಬೆಂಗಳೂರು ನಗರ",
-                taluks: {
-                    north: { name: "ಬೆಂಗಳೂರು ಉತ್ತರ", villages: ["ಯಲಹಂಕ", "ದಾಸರಹಳ್ಳಿ"] },
-                    south: { name: "ಬೆಂಗಳೂರು ದಕ್ಷಿಣ", villages: ["ಬೇಗೂರು", "ಕೆಂಗೇರಿ"] },
-                    east: { name: "ಬೆಂಗಳೂರು ಪೂರ್ವ", villages: ["ವರ್ತೂರು", "ಕೆ.ಆರ್.ಪುರಂ"] },
-                    anekal: { name: "ಆನೇಕಲ್", villages: ["ಅತ್ತಿಬೆಲೆ", "ಚಂದಾಪುರ"] }
-                }
-            },
-            mysuru: {
-                name: "ಮೈಸೂರು",
-                taluks: {
-                    mysuru_t: { name: "ಮೈಸೂರು", villages: ["ವರಕೋಡು", "ಜಯಪುರ"] },
-                    nanjangud: { name: "ನಂಜನಗೂಡು", villages: ["ಹುಲ್ಲಹಳ್ಳಿ", "ಕೌಲ್ಯಾಂದೆ"] },
-                    hunsur: { name: "ಹುಣಸೂರು", villages: ["ಬಿಳಿಗೆರೆ", "ಗಾವಡಗೆರೆ"] },
-                    piriyapatna: { name: "ಪಿರಿಯಾಪಟ್ಟಣ", villages: ["ಬೆಟ್ಟದಪುರ", "ಆ Bylakuppe"] }
-                }
-            }
-        };
+        let allArticles = [];
 
-        // ಪರೀಕ್ಷೆಗಳು, ಉದ್ಯೋಗಗಳು ಹಾಗೂ ಯೋಜನೆಗಳು
-        const schemesData = [
-            {
-                title: "ಕರ್ನಾಟಕ ಪೊಲೀಸ್ ಕಾನ್‌ಸ್ಟೇಬಲ್ (KSP) ನೇಮಕಾತಿ",
-                category: "ಸರ್ಕಾರಿ ಉದ್ಯೋಗ",
-                benefit: "ಪೋಲಿಸ್ ಇಲಾಖೆಯಲ್ಲಿ ಖಾಲಿ ಇರುವ ಹುದ್ದೆಗಳಿಗೆ ಅರ್ಜಿ ಆಹ್ವಾನ",
-                eligibility: "12ನೇ ತರಗತಿ / ಪಿಯುಸಿ ಪಾಸಾಗಿರಬೇಕು. ವಯಸ್ಸು 18-25 ವರ್ಷ.",
-                documents: "SSLC/PUC ಅಂಕಪಟ್ಟಿ, ಆಧಾರ್ ಕಾರ್ಡ್, ಜಾತಿ/ಆದಾಯ",
-                lastDate: "2026-11-30",
-                helpline: "080-22943346"
-            },
-            {
-                title: "ಭಾರತೀಯ ಸೇನೆ (Indian Army) ಅಗ್ನಿವೀರ ನೇಮಕಾತಿ ರ್‍ಯಾಲಿ",
-                category: "ಸರ್ಕಾರಿ ಉದ್ಯೋಗ",
-                benefit: "ಸೇನೆಯಲ್ಲಿ ಸೈನಿಕ ಹುದ್ದೆಗೆ ನೇರ ಆಯ್ಕೆ ಪ್ರಕ್ರಿಯೆ",
-                eligibility: "10ನೇ ತರಗತಿ ಪಾಸಾಗಿರಬೇಕು (ಶೇ.45 ಅಂಕಗಳೊಂದಿಗೆ)",
-                documents: "ಆಧಾರ್, SSLC ಮಾಸ್ ಕಾರ್ಡ್, ಎನ್‌ಸಿಸಿ ಸರ್ಟಿಫಿಕೇಟ್ (ಇದ್ದರೆ)",
-                lastDate: "2026-12-15",
-                helpline: "1800-11-5155"
-            },
-            {
-                title: "ಮೊರಾರ್ಜಿ ದೇಸಾಯಿ / ನವೋದಯ 6ನೇ ತರಗತಿ ಪ್ರವೇಶ ಪರೀಕ್ಷೆ",
-                category: "ಪರೀಕ್ಷೆಗಳು/ಮಕ್ಕಳಿಗೆ",
-                benefit: "ಉಚಿತ ವಸತಿ ಶಾಲೆಯಲ್ಲಿ ಉಚಿತ ಶಿಕ್ಷಣ ಮತ್ತು ಊಟದ ವ್ಯವಸ್ಥೆ",
-                eligibility: "ಪ್ರಸ್ತುತ 5ನೇ ತರಗತಿಯಲ್ಲಿ ಓದುತ್ತಿರುವ ವಿದ್ಯಾರ್ಥಿಗಳು",
-                documents: "ವಿದ್ಯಾರ್ಥಿ ಆಧಾರ್, ಸ್ಟಡಿ ಸರ್ಟಿಫಿಕೇಟ್, ಜಾತಿ/ಆದಾಯ",
-                lastDate: "2026-11-10",
-                helpline: "080-22860400"
-            },
-            {
-                title: "ರಾಜ್ಯ ಪೋಸ್ಟ್-ಮೆಟ್ರಿಕ್ ಸ್ಕಾಲರ್‌ಶಿಪ್ (SSP)",
-                category: "ಪರೀಕ್ಷೆಗಳು/ಮಕ್ಕಳಿಗೆ",
-                benefit: "ಪಿಯುಸಿ, ಪದವಿ ವಿದ್ಯಾರ್ಥಿಗಳಿಗೆ ಶೈಕ್ಷಣಿಕ ಧನಸಹಾಯ",
-                eligibility: "ಕಾಲೇಜಿನಲ್ಲಿ ವ್ಯಾಸಂಗ ಮಾಡುತ್ತಿರುವ ವಿದ್ಯಾರ್ಥಿಗಳು",
-                documents: "SSLC ಮಾಸ್ ಕಾರ್ಡ್, ಕಾಲೇಜು ರಸೀದಿ, ಬ್ಯಾಂಕ್ ಖಾತೆ",
-                lastDate: "2026-10-31",
-                helpline: "1902"
-            },
-            {
-                title: "ಉಚಿತ ಬೋರ್‌ವೆಲ್ ಸಬ್ಸಿಡಿ (ಗಂಗಾ ಕಲ್ಯಾಣ ಯೋಜನೆ)",
-                category: "ರೈತರಿಗೆ",
-                benefit: "ಬೋರ್‌ವೆಲ್ ಕೊರೆಸಲು ₹1.50 ಲಕ್ಷ ಸಬ್ಸಿಡಿ",
-                eligibility: "ಸಣ್ಣ ಮತ್ತು ಅತಿ ಸಣ್ಣ ರೈತರು (SC/ST/OBC)",
-                documents: "ಆಧಾರ್, RTC, ಜಾತಿ/ಆದಾಯ ಪ್ರಮಾಣಪತ್ರ",
-                lastDate: "2026-11-15",
-                helpline: "1800-425-3553"
-            },
-            {
-                title: "ಉದ್ಯೋಗಿನಿ ಯೋಜನೆ (ಮಹಿಳಾ ಉದ್ಯಮ ಶಕ್ತಿ)",
-                category: "ಮಹಿಳೆಯರಿಗೆ",
-                benefit: "ವ್ಯಾಪಾರಕ್ಕೆ ₹3 ಲಕ್ಷದವರೆಗೆ ಶೇ.30 ಸಬ್ಸಿಡಿ ಸಾಲ",
-                eligibility: "18 ರಿಂದ 55 ವರ್ಷದ ಮಹಿಳೆಯರು",
-                documents: "ಆಧಾರ್, ರೇಷನ್ ಕಾರ್ಡ್, ಪ್ರಾಜೆಕ್ಟ್ ರಿಪೋರ್ಟ್",
-                lastDate: "2026-12-01",
-                helpline: "080-22253842"
-            }
-        ];
+        // ಆಟೋಮ್ಯಾಟಿಕ್ ಆಗಿ ಹೊಸ ಸುದ್ದಿಗಳನ್ನು ಫೆಚ್ ಮಾಡುವ ಫಂಕ್ಷನ್
+        async function fetchLiveNews() {
+            try {
+                const response = await fetch(API_URL);
+                const data = await response.json();
 
-        let selectedCategory = "ಎಲ್ಲವೂ";
-
-        function updateTaluks() {
-            const distSelect = document.getElementById('districtSelect').value;
-            const talukSelect = document.getElementById('talukSelect');
-            const villageSelect = document.getElementById('villageSelect');
-            
-            talukSelect.innerHTML = '<option value="">-- ತಾಲೂಕು ಆಯ್ಕೆ ಮಾಡಿ --</option>';
-            villageSelect.innerHTML = '<option value="">-- ಗ್ರಾಮ ಪಂಚಾಯತಿ / ಗ್ರಾಮ ಆಯ್ಕೆ ಮಾಡಿ --</option>';
-
-            if (distSelect && locationData[distSelect]) {
-                const taluks = locationData[distSelect].taluks;
-                for (let key in taluks) {
-                    let opt = document.createElement('option');
-                    opt.value = key;
-                    opt.innerText = taluks[key].name;
-                    talukSelect.appendChild(opt);
+                if (data.status === 'ok' && data.items.length > 0) {
+                    allArticles = data.items;
+                    renderArticles(allArticles);
+                } else {
+                    document.getElementById('newsContainer').innerHTML = '<div style="text-align:center; padding:20px;">ಲಭ್ಯವಿರುವ ಲೈವ್ ಮಾಹಿತಿಗಳು ಲೋಡ್ ಆಗಿಲ್ಲ. ದಯವಿಟ್ಟು ನಂತರ ಪ್ರಯತ್ನಿಸಿ.</div>';
                 }
-            } else if (distSelect) {
-                let opt = document.createElement('option');
-                opt.value = "general_taluk";
-                opt.innerText = "ಮುಖ್ಯ ತಾಲೂಕು (ಸಾಮಾನ್ಯ)";
-                talukSelect.appendChild(opt);
+            } catch (error) {
+                console.error("Error fetching live updates:", error);
+                document.getElementById('newsContainer').innerHTML = '<div style="text-align:center; padding:20px;">ಇಂಟರ್ನೆಟ್ ಸಂಪರ್ಕ ಪರೀಕ್ಷಿಸಿ.</div>';
             }
         }
 
-        function updateVillages() {
-            const distSelect = document.getElementById('districtSelect').value;
-            const talukSelect = document.getElementById('talukSelect').value;
-            const villageSelect = document.getElementById('villageSelect');
-
-            villageSelect.innerHTML = '<option value="">-- ಗ್ರಾಮ ಪಂಚಾಯತಿ / ಗ್ರಾಮ ಆಯ್ಕೆ ಮಾಡಿ --</option>';
-
-            if (distSelect && talukSelect && locationData[distSelect] && locationData[distSelect].taluks[talukSelect]) {
-                const villages = locationData[distSelect].taluks[talukSelect].villages;
-                villages.forEach(v => {
-                    let opt = document.createElement('option');
-                    opt.value = v;
-                    opt.innerText = v;
-                    villageSelect.appendChild(opt);
-                });
-            } else {
-                let opt = document.createElement('option');
-                opt.value = "general_village";
-                opt.innerText = "ಎಲ್ಲಾ ಗ್ರಾಮ ಪಂಚಾಯತಿಗಳು";
-                villageSelect.appendChild(opt);
-            }
-        }
-
+        // ಪಠ್ಯವನ್ನು ಆಡಿಯೋ ಮೂಲಕ ಓದುವುದು
         function speakText(text) {
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
@@ -472,68 +248,46 @@
             }
         }
 
-        function renderSchemes(data) {
-            const container = document.getElementById('schemesContainer');
+        // ಸುದ್ದಿ ಕಾರ್ಡ್‌ಗಳನ್ನು ಡಿಸ್ಪ್ಲೇ ಮಾಡುವುದು
+        function renderArticles(articles) {
+            const container = document.getElementById('newsContainer');
             container.innerHTML = '';
 
-            if (data.length === 0) {
-                container.innerHTML = '<div class="no-results">ಯಾವುದೇ ಮಾಹಿತಿ ಕಂಡುಬಂದಿಲ್ಲ.</div>';
-                return;
-            }
-
-            data.forEach(scheme => {
+            articles.forEach(item => {
                 const card = document.createElement('div');
                 card.className = 'scheme-card';
 
-                const waMessage = encodeURIComponent(`${scheme.title} ಯೋಜನೆಗೆ ಅರ್ಜಿ ಸಲ್ಲಿಸಲು ಸಹಾಯ ಬೇಕು.`);
-                const readContent = `${scheme.title}. ಲಾಭ: ${scheme.benefit}. ಅರ್ಹತೆ: ${scheme.eligibility}. ಕೊನೆಯ ದಿನಾಂಕ: ${scheme.lastDate}`;
+                const pubDate = new Date(item.pubDate).toLocaleDateString('kn-IN');
+                const cleanTitle = item.title.replace(/<\/?[^>]+(>|$)/g, "");
+                const waMessage = encodeURIComponent(`ಈ ಸೌಲಭ್ಯ/ಉದ್ಯೋಗದ ಬಗ್ಗೆ ಮಾಹಿತಿ ಹಾಗೂ ಅರ್ಜಿ ಸಲ್ಲಿಸಲು ಸಹಾಯ ಬೇಕು: ${cleanTitle}`);
 
                 card.innerHTML = `
                     <div class="card-header-flex">
-                        <span class="card-tag">${scheme.category}</span>
-                        <button class="btn-audio" onclick="speakText('${readContent.replace(/'/g, "\\'")}')">🔊 ಆಡಿಯೋ ಪ್ಲೇ</button>
+                        <span class="card-tag">📢 ಹೊಸ ಅಪ್‌ಡೇಟ್ (${pubDate})</span>
+                        <button class="btn-audio" onclick="speakText('${cleanTitle.replace(/'/g, "\\'")}')">🔊 ಆಡಿಯೋ</button>
                     </div>
-                    <h3>${scheme.title}</h3>
-                    <div class="info-row"><strong>ವಿವರ/ಲಾಭ:</strong> ${scheme.benefit}</div>
-                    <div class="info-row"><strong>ಅರ್ಹತೆ:</strong> ${scheme.eligibility}</div>
-                    <div class="info-row"><strong>ದಾಖಲೆಗಳು:</strong> ${scheme.documents}</div>
-                    <div class="info-row last-date"><strong>ಕೊನೆಯ ದಿನಾಂಕ:</strong> ${scheme.lastDate}</div>
+                    <h3>${cleanTitle}</h3>
+                    <div class="info-row">${item.description.replace(/<\/?[^>]+(>|$)/g, "").substring(0, 150)}...</div>
                     
                     <div class="action-box">
+                        <a href="${item.link}" target="_blank" class="btn-link">🔗 ಪೂರ್ಣ ವಿವರ ಓದಿ</a>
                         <a href="https://wa.me/${MY_CONTACT_NUMBER}?text=${waMessage}" target="_blank" class="btn-wa">
                             💬 ಅರ್ಜಿ ಹಾಕಲು WhatsApp ಮಾಡಿ
                         </a>
-                        <a href="tel:${scheme.helpline}" class="btn-helpline">📞 ಹೆಲ್ಪ್‌ಲೈನ್: ${scheme.helpline}</a>
                     </div>
                 `;
                 container.appendChild(card);
             });
         }
 
-        function filterCategory(category, element) {
-            selectedCategory = category;
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            element.classList.add('active');
-            applyFilters();
-        }
-
-        function applyFilters() {
+        function filterNews() {
             const searchVal = document.getElementById('searchInput').value.toLowerCase();
-
-            const filtered = schemesData.filter(scheme => {
-                const matchesCategory = (selectedCategory === "ಎಲ್ಲವೂ") || (scheme.category === selectedCategory);
-                const matchesSearch = scheme.title.toLowerCase().includes(searchVal) || 
-                                      scheme.benefit.toLowerCase().includes(searchVal) ||
-                                      scheme.category.toLowerCase().includes(searchVal);
-                return matchesCategory && matchesSearch;
-            });
-
-            renderSchemes(filtered);
+            const filtered = allArticles.filter(item => item.title.toLowerCase().includes(searchVal));
+            renderArticles(filtered);
         }
 
-        window.onload = () => {
-            renderSchemes(schemesData);
-        };
+        // ವೆಬ್‌ಸೈಟ್ ಓಪನ್ ಆದ ತಕ್ಷಣ ಆಟೋಮ್ಯಾಟಿಕ್ ಲೈವ್ ಲೋಡ್ ಆಗುತ್ತದೆ
+        window.onload = fetchLiveNews;
     </script>
 </body>
 </html>
