@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ನಮ್ಮ ತಾಲೂಕು - ಸರ್ಕಾರಿ ಯೋಜನೆಗಳ ಪೋರ್ಟಲ್</title>
+    <title>ನಮ್ಮ ತಾಲೂಕು - ಸರ್ಕಾರಿ ಸೇವೆಗಳು ಹಾಗೂ ಉದ್ಯೋಗ ಮಾಹಿತಿ</title>
     <style>
         * {
             box-sizing: border-box;
@@ -18,7 +18,6 @@
             padding-bottom: 30px;
         }
 
-        /* Top Bar & Search Header */
         header {
             background: linear-gradient(135deg, #0d6efd, #0b5ed7);
             color: white;
@@ -30,21 +29,44 @@
         }
 
         header h2 {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             text-align: center;
             margin-bottom: 10px;
+        }
+
+        /* Location Dropdowns Box */
+        .location-container {
+            background: #ffffff;
+            padding: 12px;
+            margin: 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .location-container select {
+            width: 100%;
+            padding: 9px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            outline: none;
+            background: #fff;
         }
 
         .search-box {
             width: 100%;
             padding: 10px 15px;
-            border: none;
+            border: 1px solid #ccc;
             border-radius: 20px;
             font-size: 0.95rem;
             outline: none;
+            margin-top: 5px;
         }
 
-        /* Category Filter Tabs */
+        /* Category Scroll Tabs */
         .category-scroll {
             display: flex;
             overflow-x: auto;
@@ -64,7 +86,7 @@
             padding: 8px 16px;
             margin-right: 8px;
             border-radius: 20px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 600;
             color: #4b4f56;
             cursor: pointer;
@@ -76,7 +98,6 @@
             color: white;
         }
 
-        /* Main Cards Container */
         .container {
             padding: 15px;
             max-width: 600px;
@@ -90,17 +111,38 @@
             margin-bottom: 15px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             border-left: 5px solid #0d6efd;
+            position: relative;
+        }
+
+        .card-header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
         }
 
         .card-tag {
-            display: inline-block;
             background: #e7f1ff;
             color: #0d6efd;
             padding: 4px 10px;
             border-radius: 12px;
             font-size: 0.8rem;
             font-weight: bold;
-            margin-bottom: 8px;
+        }
+
+        /* Audio Read Button */
+        .btn-audio {
+            background: #ff9800;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
 
         .scheme-card h3 {
@@ -125,7 +167,6 @@
             font-weight: bold;
         }
 
-        /* Action Buttons Box */
         .action-box {
             background: #f7f9fa;
             padding: 12px;
@@ -168,86 +209,192 @@
 <body>
 
     <header>
-        <h2>🏛️ ಸ್ಥಳೀಯ ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು</h2>
-        <input type="text" id="searchInput" class="search-box" placeholder="ಯೋಜನೆ ಅಥವಾ ವಿಷಯ ಹುಡುಕಿ (Search)..." onkeyup="filterSchemes()">
+        <h2>🏛️ ಸ್ಥಳೀಯ ಸೇವೆಗಳು ಹಾಗೂ ಉದ್ಯೋಗ ಮಾಹಿತಿ</h2>
     </header>
+
+    <!-- ಜಿಲ್ಲೆ, ತಾಲೂಕು ಮತ್ತು ಹಳ್ಳಿ ಆಯ್ಕೆ ಮಾಡುವ ಬಾಕ್ಸ್ -->
+    <div class="location-container">
+        <select id="districtSelect" onchange="updateTaluks()">
+            <option value="">-- ಜಿಲ್ಲೆ ಆಯ್ಕೆ ಮಾಡಿ --</option>
+            <option value="yadgir">ಯಾದಗಿರಿ (Yadgir)</option>
+            <option value="kalaburagi">ಕಲಬುರಗಿ (Kalaburagi)</option>
+            <option value="raichur">ರಾಯಚೂರು (Raichur)</option>
+        </select>
+
+        <select id="talukSelect" onchange="updateVillages()">
+            <option value="">-- ತಾಲೂಕು ಆಯ್ಕೆ ಮಾಡಿ --</option>
+        </select>
+
+        <select id="villageSelect">
+            <option value="">-- ಹಳ್ಳಿ/ಗ್ರಾಮ ಆಯ್ಕೆ ಮಾಡಿ --</option>
+        </select>
+
+        <input type="text" id="searchInput" class="search-box" placeholder="ಯೋಜನೆ ಅಥವಾ ವಿಷಯ ಹುಡುಕಿ..." onkeyup="applyFilters()">
+    </div>
 
     <!-- ವಿಭಾಗಗಳ ಟ್ಯಾಬ್ (Categories) -->
     <div class="category-scroll">
         <button class="tab-btn active" onclick="filterCategory('ಎಲ್ಲವೂ', this)">ಎಲ್ಲವೂ</button>
+        <button class="tab-btn" onclick="filterCategory('ಪರೀಕ್ಷೆಗಳು/ಮಕ್ಕಳಿಗೆ', this)">🎓 ಪರೀಕ್ಷೆಗಳು/ಶಾಲೆ</button>
+        <button class="tab-btn" onclick="filterCategory('ಸರ್ಕಾರಿ ಉದ್ಯೋಗ', this)">👮 ಪೊಲೀಸ್/ಆರ್ಮಿ/ಉದ್ಯೋಗ</button>
         <button class="tab-btn" onclick="filterCategory('ರೈತರಿಗೆ', this)">🌾 ರೈತರಿಗೆ</button>
         <button class="tab-btn" onclick="filterCategory('ಮಹಿಳೆಯರಿಗೆ', this)">👩 ಮಹಿಳೆಯರಿಗೆ</button>
-        <button class="tab-btn" onclick="filterCategory('ವಿದ್ಯಾರ್ಥಿಗಳಿಗೆ', this)">🎓 ವಿದ್ಯಾರ್ಥಿಗಳಿಗೆ</button>
-        <button class="tab-btn" onclick="filterCategory('ಉದ್ಯೋಗ/ಸಾಲ', this)">💼 ಉದ್ಯೋಗ/ಸಾಲ</button>
+        <button class="tab-btn" onclick="filterCategory('ಉದ್ಯೋಗ/ಸಾಲ', this)">💼 ವ್ಯಾಪಾರ ಸಾಲ</button>
     </div>
 
-    <!-- ಯೋಜನೆಗಳ ಲಿಸ್ಟ್ ಡಿಸ್ಪ್ಲೇ ಮಾಡುವ ಜಾಗ -->
-    <div class="container" id="schemesContainer">
-        <!-- ಜಾವಾಸ್ಕ್ರಿಪ್ಟ್ ಮೂಲಕ ಯೋಜನೆಗಳು ಇಲ್ಲಿ ಲೋಡ್ ಆಗುತ್ತವೆ -->
-    </div>
+    <div class="container" id="schemesContainer"></div>
 
     <script>
-        // ಸ್ಥಳೀಯ ಸಂಪರ್ಕ ಫೋನ್ ನಂಬರ್ (ನಿಮ್ಮ ನಂಬರ್ ಹಾಕಿ)
         const MY_CONTACT_NUMBER = "+919876543210";
 
-        // ಯೋಜನೆಗಳ ಮಾದರಿ ಡೇಟಾಬೇಸ್ (ಸರ್ವರ್ ಅಥವಾ API ನಿಂದ ಬರುವ ಡೇಟಾ ಮಾದರಿ)
+        // ಜಿಲ್ಲೆ, ತಾಲೂಕು ಮತ್ತು ಹಳ್ಳಿಗಳ ಡೇಟಾಬೇಸ್
+        const locationData = {
+            yadgir: {
+                name: "ಯಾದಗಿರಿ",
+                taluks: {
+                    shahapur: {
+                        name: "ಶಹಾಪುರ",
+                        villages: ["ಭೀಮರಾಯನಗುಡಿ", "ವಡಗೇರಾ", "ದೊಡ್ಡತಂಡಾ", "ಸಾಗರ", "ಕೊಳ್ಳೂರ", "ಗೋಗಿ"]
+                    },
+                    shorapur: {
+                        name: "ಸುರಪುರ",
+                        villages: ["ಹುಣಸಗಿ", "ಕೆಂಭಾವಿ", "ಕೊಡೆಕಲ್", "ರಂಗಂಪೇಟೆ"]
+                    },
+                    yadgir_t: {
+                        name: "ಯಾದಗಿರಿ",
+                        villages: ["ಸೈದಾಪುರ", "ಬಳಗಾನೂರ", "ಮುದ್ನಾಳ"]
+                    }
+                }
+            },
+            kalaburagi: {
+                name: "ಕಲಬುರಗಿ",
+                taluks: {
+                    sedam: { name: "ಸೇಡಂ", villages: ["ಕುಡಹಳ್ಳಿ", "ಮಳಖೇಡ"] },
+                    jewargi: { name: "ಜೇವರ್ಗಿ", villages: ["ನೆಲೋಗಿ", "ಅಂದೋಲಾ"] }
+                }
+            }
+        };
+
+        // ಪರೀಕ್ಷೆಗಳು, ಉದ್ಯೋಗಗಳು ಹಾಗೂ ಯೋಜನೆಗಳ ಪೂರ್ಣ ಡೇಟಾ
         const schemesData = [
             {
-                title: "ಉಚಿತ ಬೋರ್‌ವೆಲ್ ಸಬ್ಸಿಡಿ (ಗಂಗಾ ಕಲ್ಯಾಣ ಯೋಜನೆ)",
-                category: "ರೈತರಿಗೆ",
-                benefit: "ಬೋರ್‌ವೆಲ್ ಕೊರೆಸಲು ₹1.50 ಲಕ್ಷ ಸಬ್ಸಿಡಿ ಸಹಾಯಧನ",
-                eligibility: "ಸಣ್ಣ ಮತ್ತು ಅತಿ ಸಣ್ಣ ರೈತರು (SC/ST ಹಾಗೂ ಹಿಂದುಳಿದ ವರ್ಗದವರು)",
-                documents: "ಆಧಾರ್, ಪಹಣಿ (RTC), ಜಾತಿ & ಆದಾಯ ಪ್ರಮಾಣಪತ್ರ",
-                lastDate: "2026-11-15",
-                helpline: "1800-425-3553"
+                title: "ಕರ್ನಾಟಕ ಪೊಲೀಸ್ ಕಾನ್‌ಸ್ಟೇಬಲ್ (KSP) ನೇಮಕಾತಿ",
+                category: "ಸರ್ಕಾರಿ ಉದ್ಯೋಗ",
+                benefit: "ಪೋಲಿಸ್ ಇಲಾಖೆಯಲ್ಲಿ ಖಾಲಿ ಇರುವ 2500 ಹುದ್ದೆಗಳಿಗೆ ಅರ್ಜಿ ಆಹ್ವಾನ",
+                eligibility: "12ನೇ ತರಗತಿ / ಪಿಯುಸಿ ಪಾಸಾಗಿರಬೇಕು. ವಯಸ್ಸು 18-25 ವರ್ಷ.",
+                documents: "SSLC/PUC ಅಂಕಪಟ್ಟಿ, ಆಧಾರ್ ಕಾರ್ಡ್, ಜಾತಿ/ಆದಾಯ",
+                lastDate: "2026-11-30",
+                helpline: "080-22943346"
             },
             {
-                title: "ಪಿಎಂ ಕಿಸಾನ್ ಸಮ್ಮಾನ್ ನಿಧಿ - 19ನೇ ಕಂತು",
-                category: "ರೈತರಿಗೆ",
-                benefit: "ವಾರ್ಷಿಕ ₹6,000 ನೇರ ಬ್ಯಾಂಕ್ ಖಾತೆಗೆ",
-                eligibility: "ಸ್ವಂತ ಜಮೀನು ಹೊಂದಿರುವ ಎಲ್ಲಾ ರೈತ ಕುಟುಂಬಗಳು",
-                documents: "ಆಧಾರ್, e-KYC ಲಿಂಕ್ ಆದ ಬ್ಯಾಂಕ್ ಪಾಸ್‌ಬುಕ್",
-                lastDate: "ಸದಾ ಚಾಲ್ತಿಯಲ್ಲಿರುತ್ತದೆ",
-                helpline: "155261"
+                title: "ಭಾರತೀಯ ಸೇನೆ (Indian Army) ಅಗ್ನಿವೀರ ನೇಮಕಾತಿ ರ್‍ಯಾಲಿ",
+                category: "ಸರ್ಕಾರಿ ಉದ್ಯೋಗ",
+                benefit: "ಸೇನೆಯಲ್ಲಿ ಸೈನಿಕ ಹುದ್ದೆಗೆ ನೇರ ಆಯ್ಕೆ ಪ್ರಕ್ರಿಯೆ",
+                eligibility: "10ನೇ ತರಗತಿ ಪಾಸಾಗಿರಬೇಕು (ಶೇ.45 ಅಂಕಗಳೊಂದಿಗೆ)",
+                documents: "ಆಧಾರ್, SSLC ಮಾಸ್ ಕಾರ್ಡ್, ಎನ್‌ಸಿಸಿ ಸರ್ಟಿಫಿಕೇಟ್ (ಇದ್ದರೆ)",
+                lastDate: "2026-12-15",
+                helpline: "1800-11-5155"
             },
             {
-                title: "ಉದ್ಯೋಗಿನಿ ಯೋಜನೆ (ಮಹಿಳಾ ಉದ್ಯಮ ಶಕ್ತಿ)",
-                category: "ಮಹಿಳೆಯರಿಗೆ",
-                benefit: "ಸ್ವಯಂ ಉದ್ಯೋಗಕ್ಕಾಗಿ ₹3 ಲಕ್ಷದವರೆಗೆ ಶೇ.30 ಸಬ್ಸಿಡಿ ಸಾಲ",
-                eligibility: "18 ರಿಂದ 55 ವರ್ಷದೊಳಗಿನ ಮಹಿಳೆಯರು",
-                documents: "ಆಧಾರ್, ರೇಷನ್ ಕಾರ್ಡ್, ಯೋಜನಾ ವರದಿ (Project Report)",
-                lastDate: "2026-12-01",
-                helpline: "080-22253842"
+                title: "ಮೊರಾರ್ಜಿ ದೇಸಾಯಿ / ನವೋದಯ 6ನೇ ತರಗತಿ ಪ್ರವೇಶ ಪರೀಕ್ಷೆ",
+                category: "ಪರೀಕ್ಷೆಗಳು/ಮಕ್ಕಳಿಗೆ",
+                benefit: "ಉಚಿತ ವಸತಿ ಶಾಲೆಯಲ್ಲಿ ಉಚಿತ ಶಿಕ್ಷಣ ಮತ್ತು ಊಟದ ವ್ಯವಸ್ಥೆ",
+                eligibility: "ಪ್ರಸ್ತುತ 5ನೇ ತರಗತಿಯಲ್ಲಿ ಓದುತ್ತಿರುವ ವಿದ್ಯಾರ್ಥಿಗಳು",
+                documents: "ವಿದ್ಯಾರ್ಥಿ ಆಧಾರ್, ಸ್ಟಡಿ ಸರ್ಟಿಫಿಕೇಟ್, ಜಾತಿ/ಆದಾಯ",
+                lastDate: "2026-11-10",
+                helpline: "080-22860400"
             },
             {
                 title: "ರಾಜ್ಯ ಪೋಸ್ಟ್-ಮೆಟ್ರಿಕ್ ಸ್ಕಾಲರ್‌ಶಿಪ್ (SSP)",
-                category: "ವಿದ್ಯಾರ್ಥಿಗಳಿಗೆ",
-                benefit: "ಕಾಲೇಜು ಉನ್ನತ ಶಿಕ್ಷಣಕ್ಕೆ ಶೈಕ್ಷಣಿಕ ಧನಸಹಾಯ",
-                eligibility: "ಪಿಯುಸಿ, ಡಿಪ್ಲೋಮಾ, ಐಟಿಐ, ಪದವಿ ವಿದ್ಯಾರ್ಥಿಗಳು",
-                documents: "SSLC ಅಂಕಪಟ್ಟಿ, ಜಾತಿ/ಆದಾಯ, ಕಾಲೇಜು ರಸೀದಿ",
+                category: "ಪರೀಕ್ಷೆಗಳು/ಮಕ್ಕಳಿಗೆ",
+                benefit: "ಪಿಯುಸಿ, ಪದವಿ ವಿದ್ಯಾರ್ಥಿಗಳಿಗೆ ಶೈಕ್ಷಣಿಕ ಧನಸಹಾಯ",
+                eligibility: "ಕಾಲೇಜಿನಲ್ಲಿ ವ್ಯಾಸಂಗ ಮಾಡುತ್ತಿರುವ ವಿದ್ಯಾರ್ಥಿಗಳು",
+                documents: "SSLC ಮಾಸ್ ಕಾರ್ಡ್, ಕಾಲೇಜು ರಸೀದಿ, ಬ್ಯಾಂಕ್ ಖಾತೆ",
                 lastDate: "2026-10-31",
                 helpline: "1902"
             },
             {
-                title: "ಪಿಎಂ ಮುದ್ರಾ ಸಾಲ ಯೋಜನೆ (Mudra Loan)",
-                category: "ಉದ್ಯೋಗ/ಸಾಲ",
-                benefit: "ಯಾವುದೇ ಭದ್ರತೆ ಇಲ್ಲದೆ ₹50,000 ದಿಂದ ₹10 ಲಕ್ಷದವರೆಗೆ ವ್ಯಾಪಾರ ಸಾಲ",
-                eligibility: "ಸಣ್ಣ ಅಂಗಡಿ, ವ್ಯಾಪಾರ, ಉತ್ಪಾದನೆ ನಡೆಸುವವರು",
-                documents: "ಆಧಾರ್, ಪಾನ್‌ ಕಾರ್ಡ್, ಬ್ಯಾಂಕ್ ಸ್ಟೇಟ್‌ಮೆಂಟ್",
-                lastDate: "ಸದಾ ಚಾಲ್ತಿಯಲ್ಲಿರುತ್ತದೆ",
-                helpline: "1800-180-1111"
+                title: "ಉಚಿತ ಬೋರ್‌ವೆಲ್ ಸಬ್ಸಿಡಿ (ಗಂಗಾ ಕಲ್ಯಾಣ ಯೋಜನೆ)",
+                category: "ರೈತರಿಗೆ",
+                benefit: "ಬೋರ್‌ವೆಲ್ ಕೊರೆಸಲು ₹1.50 ಲಕ್ಷ ಸಬ್ಸಿಡಿ",
+                eligibility: "ಸಣ್ಣ ಮತ್ತು ಅತಿ ಸಣ್ಣ ರೈತರು (SC/ST/OBC)",
+                documents: "ಆಧಾರ್, RTC, ಜಾತಿ/ಆದಾಯ ಪ್ರಮಾಣಪತ್ರ",
+                lastDate: "2026-11-15",
+                helpline: "1800-425-3553"
+            },
+            {
+                title: "ಉದ್ಯೋಗಿನಿ ಯೋಜನೆ (ಮಹಿಳಾ ಉದ್ಯಮ ಶಕ್ತಿ)",
+                category: "ಮಹಿಳೆಯರಿಗೆ",
+                benefit: "ವ್ಯಾಪಾರಕ್ಕೆ ₹3 ಲಕ್ಷದವರೆಗೆ ಶೇ.30 ಸಬ್ಸಿಡಿ ಸಾಲ",
+                eligibility: "18 ರಿಂದ 55 ವರ್ಷದ ಮಹಿಳೆಯರು",
+                documents: "ಆಧಾರ್, ರೇಷನ್ ಕಾರ್ಡ್, ಪ್ರಾಜೆಕ್ಟ್ ರಿಪೋರ್ಟ್",
+                lastDate: "2026-12-01",
+                helpline: "080-22253842"
             }
         ];
 
         let selectedCategory = "ಎಲ್ಲವೂ";
 
-        // ಯೋಜನೆಗಳನ್ನು ಡಿಸ್ಪ್ಲೇ ಮಾಡುವ ಫಂಕ್ಷನ್
+        // ಜಿಲ್ಲೆ ಬದಲಾದಾಗ ತಾಲೂಕು ಅಪ್‌ಡೇಟ್ ಮಾಡುವುದು
+        function updateTaluks() {
+            const distSelect = document.getElementById('districtSelect').value;
+            const talukSelect = document.getElementById('talukSelect');
+            const villageSelect = document.getElementById('villageSelect');
+            
+            talukSelect.innerHTML = '<option value="">-- ತಾಲೂಕು ಆಯ್ಕೆ ಮಾಡಿ --</option>';
+            villageSelect.innerHTML = '<option value="">-- ಹಳ್ಳಿ/ಗ್ರಾಮ ಆಯ್ಕೆ ಮಾಡಿ --</option>';
+
+            if (distSelect && locationData[distSelect]) {
+                const taluks = locationData[distSelect].taluks;
+                for (let key in taluks) {
+                    let opt = document.createElement('option');
+                    opt.value = key;
+                    opt.innerText = taluks[key].name;
+                    talukSelect.appendChild(opt);
+                }
+            }
+        }
+
+        // ತಾಲೂಕು ಬದಲಾದಾಗ ಹಳ್ಳಿಗಳನ್ನು ಅಪ್‌ಡೇಟ್ ಮಾಡುವುದು
+        function updateVillages() {
+            const distSelect = document.getElementById('districtSelect').value;
+            const talukSelect = document.getElementById('talukSelect').value;
+            const villageSelect = document.getElementById('villageSelect');
+
+            villageSelect.innerHTML = '<option value="">-- ಹಳ್ಳಿ/ಗ್ರಾಮ ಆಯ್ಕೆ ಮಾಡಿ --</option>';
+
+            if (distSelect && talukSelect && locationData[distSelect].taluks[talukSelect]) {
+                const villages = locationData[distSelect].taluks[talukSelect].villages;
+                villages.forEach(v => {
+                    let opt = document.createElement('option');
+                    opt.value = v;
+                    opt.innerText = v;
+                    villageSelect.appendChild(opt);
+                });
+            }
+        }
+
+        // ಆಡಿಯೋ ಮೂಲಕ ಓದಿ ಹೇಳುವ ಫಂಕ್ಷನ್ (Text-To-Speech)
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel(); // ಹಳೆಯ ಧ್ವನಿಯನ್ನು ನಿಲ್ಲಿಸುವುದು
+                const msg = new SpeechSynthesisUtterance();
+                msg.text = text;
+                msg.lang = 'kn-IN'; // ಕನ್ನಡ ಧ್ವನಿ
+                msg.rate = 0.9;
+                window.speechSynthesis.speak(msg);
+            } else {
+                alert("ನಿಮ್ಮ ಮೊಬೈಲ್‌ನಲ್ಲಿ ಆಡಿಯೋ ಬೆಂಬಲವಿಲ್ಲ.");
+            }
+        }
+
+        // ಕಾರ್ಡ್‌ಗಳನ್ನು ಡಿಸ್ಪ್ಲೇ ಮಾಡುವುದು
         function renderSchemes(data) {
             const container = document.getElementById('schemesContainer');
             container.innerHTML = '';
 
             if (data.length === 0) {
-                container.innerHTML = '<div class="no-results">ಯಾವುದೇ ಯೋಜನೆಗಳು ಕಂಡುಬಂದಿಲ್ಲ.</div>';
+                container.innerHTML = '<div class="no-results">ಯಾವುದೇ ಮಾಹಿತಿ ಕಂಡುಬಂದಿಲ್ಲ.</div>';
                 return;
             }
 
@@ -256,11 +403,17 @@
                 card.className = 'scheme-card';
 
                 const waMessage = encodeURIComponent(`${scheme.title} ಯೋಜನೆಗೆ ಅರ್ಜಿ ಸಲ್ಲಿಸಲು ಸಹಾಯ ಬೇಕು.`);
+                
+                // ಆಡಿಯೋದಲ್ಲಿ ಓದಲು ಪಠ್ಯ ತಯಾರಿಕೆ
+                const readContent = `${scheme.title}. ಲಾಭ: ${scheme.benefit}. ಅರ್ಹತೆ: ${scheme.eligibility}. ಕೊನೆಯ ದಿನಾಂಕ: ${scheme.lastDate}`;
 
                 card.innerHTML = `
-                    <span class="card-tag">${scheme.category}</span>
+                    <div class="card-header-flex">
+                        <span class="card-tag">${scheme.category}</span>
+                        <button class="btn-audio" onclick="speakText('${readContent.replace(/'/g, "\\'")}')">🔊 ಆಡಿಯೋ ಪ್ಲೇ</button>
+                    </div>
                     <h3>${scheme.title}</h3>
-                    <div class="info-row"><strong>ನೇರ ಲಾಭ:</strong> ${scheme.benefit}</div>
+                    <div class="info-row"><strong>ವಿವರ/ಲಾಭ:</strong> ${scheme.benefit}</div>
                     <div class="info-row"><strong>ಅರ್ಹತೆ:</strong> ${scheme.eligibility}</div>
                     <div class="info-row"><strong>ದಾಖಲೆಗಳು:</strong> ${scheme.documents}</div>
                     <div class="info-row last-date"><strong>ಕೊನೆಯ ದಿನಾಂಕ:</strong> ${scheme.lastDate}</div>
@@ -269,30 +422,20 @@
                         <a href="https://wa.me/${MY_CONTACT_NUMBER}?text=${waMessage}" target="_blank" class="btn-wa">
                             💬 ಅರ್ಜಿ ಹಾಕಲು WhatsApp ಮಾಡಿ
                         </a>
-                        <a href="tel:${scheme.helpline}" class="btn-helpline">📞 ಸರ್ಕಾರಿ ಹೆಲ್ಪ್‌ಲೈನ್: ${scheme.helpline}</a>
+                        <a href="tel:${scheme.helpline}" class="btn-helpline">📞 ಹೆಲ್ಪ್‌ಲೈನ್: ${scheme.helpline}</a>
                     </div>
                 `;
                 container.appendChild(card);
             });
         }
 
-        // ವಿಭಾಗಗಳ ಆಧಾರದ ಮೇಲೆ ಫಿಲ್ಟರ್ ಮಾಡುವ ಫಂಕ್ಷನ್
         function filterCategory(category, element) {
             selectedCategory = category;
-            
-            // ಬಟನ್ ಸ್ಟೈಲ್ ಅಪ್‌ಡೇಟ್
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             element.classList.add('active');
-
             applyFilters();
         }
 
-        // ಸರ್ಚ್ ಬಾಕ್ಸ್ ಫಿಲ್ಟರ್
-        function filterSchemes() {
-            applyFilters();
-        }
-
-        // ಸರ್ಚ್ ಮತ್ತು ಕ್ಯಾಟಗರಿ ಎರಡನ್ನೂ ಒಟ್ಟಿಗೆ ಅನ್ವಯಿಸುವ ಫಂಕ್ಷನ್
         function applyFilters() {
             const searchVal = document.getElementById('searchInput').value.toLowerCase();
 
@@ -307,7 +450,6 @@
             renderSchemes(filtered);
         }
 
-        // ಪೇಜ್ ಓಪನ್ ಆದಾಗ ರನ್ ಆಗುತ್ತದೆ
         window.onload = () => {
             renderSchemes(schemesData);
         };
