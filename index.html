@@ -34,7 +34,6 @@
             margin-bottom: 10px;
         }
 
-        /* Location Dropdowns Box */
         .location-container {
             background: #ffffff;
             padding: 12px;
@@ -66,7 +65,6 @@
             margin-top: 5px;
         }
 
-        /* Category Scroll Tabs */
         .category-scroll {
             display: flex;
             overflow-x: auto;
@@ -130,7 +128,6 @@
             font-weight: bold;
         }
 
-        /* Audio Read Button */
         .btn-audio {
             background: #ff9800;
             color: white;
@@ -212,13 +209,41 @@
         <h2>🏛️ ಸ್ಥಳೀಯ ಸೇವೆಗಳು ಹಾಗೂ ಉದ್ಯೋಗ ಮಾಹಿತಿ</h2>
     </header>
 
-    <!-- ಜಿಲ್ಲೆ, ತಾಲೂಕು ಮತ್ತು ಹಳ್ಳಿ ಆಯ್ಕೆ ಮಾಡುವ ಬಾಕ್ಸ್ -->
     <div class="location-container">
+        <!-- ಕರ್ನಾಟಕದ ಎಲ್ಲಾ 31 ಜಿಲ್ಲೆಗಳ ಪಟ್ಟಿ -->
         <select id="districtSelect" onchange="updateTaluks()">
             <option value="">-- ಜಿಲ್ಲೆ ಆಯ್ಕೆ ಮಾಡಿ --</option>
             <option value="yadgir">ಯಾದಗಿರಿ (Yadgir)</option>
             <option value="kalaburagi">ಕಲಬುರಗಿ (Kalaburagi)</option>
             <option value="raichur">ರಾಯಚೂರು (Raichur)</option>
+            <option value="bidar">ಬೀದರ್ (Bidar)</option>
+            <option value="koppal">ಕೊಪ್ಪಳ (Koppal)</option>
+            <option value="ballari">ಬಳ್ಳಾರಿ (Ballari)</option>
+            <option value="vijayanagara">ವಿಜಯನಗರ (Vijayanagara)</option>
+            <option value="belagavi">ಬೆಳಗಾವಿ (Belagavi)</option>
+            <option value="dharwad">ಧಾರವಾಡ (Dharwad)</option>
+            <option value="gadag">ಗದಗ (Gadag)</option>
+            <option value="haveri">ಹಾವೇರಿ (Haveri)</option>
+            <option value="uttara_kannada">ಉತ್ತರ ಕನ್ನಡ (Uttara Kannada)</option>
+            <option value="bagalkote">ಬಾಗಲಕೋಟೆ (Bagalkote)</option>
+            <option value="vijayapura">ವಿಜಯಪುರ (Vijayapura)</option>
+            <option value="shivamogga">ಶಿವಮೊಗ್ಗ (Shivamogga)</option>
+            <option value="chikkamagaluru">ಚಿಕ್ಕಮಗಳೂರು (Chikkamagaluru)</option>
+            <option value="dakshina_kannada">ದಕ್ಷಿಣ ಕನ್ನಡ (Dakshina Kannada)</option>
+            <option value="udupi">ಉಡುಪಿ (Udupi)</option>
+            <option value="davangere">ದಾವಣಗೆರೆ (Davanagere)</option>
+            <option value="chitradurga">ಚಿತ್ರದುರ್ಗ (Chitradurga)</option>
+            <option value="tumakuru">ತುಮಕೂರು (Tumakuru)</option>
+            <option value="hassan">ಹಾಸನ (Hassan)</option>
+            <option value="kodagu">ಕೊಡಗು (Kodagu)</option>
+            <option value="mandya">ಮಂಡ್ಯ (Mandya)</option>
+            <option value="mysuru">ಮೈಸೂರು (Mysuru)</option>
+            <option value="chamarajanagara">ಚಾಮರಾಜನಗರ (Chamarajanagara)</option>
+            <option value="bengaluru_urban">ಬೆಂಗಳೂರು ನಗರ (Bengaluru Urban)</option>
+            <option value="bengaluru_rural">ಬೆಂಗಳೂರು ಗ್ರಾಮಾಂತರ (Bengaluru Rural)</option>
+            <option value="ramanagara">ರಾಮನಗರ (Ramanagara)</option>
+            <option value="kolar">ಕೋಲಾರ (Kolar)</option>
+            <option value="chikkaballapura">ಚಿಕ್ಕಬಳ್ಳಾಪುರ (Chikkaballapura)</option>
         </select>
 
         <select id="talukSelect" onchange="updateVillages()">
@@ -226,13 +251,12 @@
         </select>
 
         <select id="villageSelect">
-            <option value="">-- ಹಳ್ಳಿ/ಗ್ರಾಮ ಆಯ್ಕೆ ಮಾಡಿ --</option>
+            <option value="">-- ಗ್ರಾಮ ಪಂಚಾಯತಿ / ಗ್ರಾಮ ಆಯ್ಕೆ ಮಾಡಿ --</option>
         </select>
 
         <input type="text" id="searchInput" class="search-box" placeholder="ಯೋಜನೆ ಅಥವಾ ವಿಷಯ ಹುಡುಕಿ..." onkeyup="applyFilters()">
     </div>
 
-    <!-- ವಿಭಾಗಗಳ ಟ್ಯಾಬ್ (Categories) -->
     <div class="category-scroll">
         <button class="tab-btn active" onclick="filterCategory('ಎಲ್ಲವೂ', this)">ಎಲ್ಲವೂ</button>
         <button class="tab-btn" onclick="filterCategory('ಪರೀಕ್ಷೆಗಳು/ಮಕ್ಕಳಿಗೆ', this)">🎓 ಪರೀಕ್ಷೆಗಳು/ಶಾಲೆ</button>
@@ -247,40 +271,93 @@
     <script>
         const MY_CONTACT_NUMBER = "+919876543210";
 
-        // ಜಿಲ್ಲೆ, ತಾಲೂಕು ಮತ್ತು ಹಳ್ಳಿಗಳ ಡೇಟಾಬೇಸ್
+        // ಜಿಲ್ಲೆ, ತಾಲೂಕು ಮತ್ತು ಗ್ರಾಮ ಪಂಚಾಯತಿಗಳ ಸಂಪೂರ್ಣ ಮಾಹಿತಿ
         const locationData = {
             yadgir: {
                 name: "ಯಾದಗಿರಿ",
                 taluks: {
-                    shahapur: {
-                        name: "ಶಹಾಪುರ",
-                        villages: ["ಭೀಮರಾಯನಗುಡಿ", "ವಡಗೇರಾ", "ದೊಡ್ಡತಂಡಾ", "ಸಾಗರ", "ಕೊಳ್ಳೂರ", "ಗೋಗಿ"]
-                    },
-                    shorapur: {
-                        name: "ಸುರಪುರ",
-                        villages: ["ಹುಣಸಗಿ", "ಕೆಂಭಾವಿ", "ಕೊಡೆಕಲ್", "ರಂಗಂಪೇಟೆ"]
-                    },
-                    yadgir_t: {
-                        name: "ಯಾದಗಿರಿ",
-                        villages: ["ಸೈದಾಪುರ", "ಬಳಗಾನೂರ", "ಮುದ್ನಾಳ"]
-                    }
+                    shahapur: { name: "ಶಹಾಪುರ", villages: ["ಭೀಮರಾಯನಗುಡಿ", "ವಡಗೇರಾ", "ದೊಡ್ಡತಂಡಾ", "ಸಾಗರ", "ಕೊಳ್ಳೂರ", "ಗೋಗಿ", "ಹಯ್ಯಾಳ (ಬಿ)"] },
+                    shorapur: { name: "ಸುರಪುರ", villages: ["ಹುಣಸಗಿ", "ಕೆಂಭಾವಿ", "ಕೊಡೆಕಲ್", "ರಂಗಂಪೇಟೆ", "ದೇವರಹುನ್ನಸಿ"] },
+                    yadgir_t: { name: "ಯಾದಗಿರಿ", villages: ["ಸೈದಾಪುರ", "ಬಳಗಾನೂರ", "ಮುದ್ನಾಳ", "ಹಟೀಕುಣಿ", "ಕಂದಕೂರ"] },
+                    gurmitkal: { name: "ಗುರುಮಿಠಕಲ್", villages: ["ಕಾಖಂಡಕಿ", "ಚಂಡ್ರಿಕಿ", "ಬೋರಬಂಡ"] },
+                    hunasagi: { name: "ಹುಣಸಗಿ", villages: ["ರಾಜನಕೋಳೂರ", "ವಜ್ರಜಲ", "ಯಡಹಳ್ಳಿ"] },
+                    vadagera: { name: "ವಡಗೇರಾ", villages: ["ಜೋಳದಡಗಿ", "ಬಂಡಳ್ಳಿ", "ಗೌಡಗೇರಾ"] }
                 }
             },
             kalaburagi: {
                 name: "ಕಲಬುರಗಿ",
                 taluks: {
-                    sedam: { name: "ಸೇಡಂ", villages: ["ಕುಡಹಳ್ಳಿ", "ಮಳಖೇಡ"] },
-                    jewargi: { name: "ಜೇವರ್ಗಿ", villages: ["ನೆಲೋಗಿ", "ಅಂದೋಲಾ"] }
+                    kalaburagi_t: { name: "ಕಲಬುರಗಿ", villages: ["ಫರಹತಾಬಾದ್", "ಕುಸನೂರ", "ಖಜೂರಿ"] },
+                    sedam: { name: "ಸೇಡಂ", villages: ["ಕುಡಹಳ್ಳಿ", "ಮಳಖೇಡ", "ಕುರುಕುಂಟಾ"] },
+                    jewargi: { name: "ಜೇವರ್ಗಿ", villages: ["ನೆಲೋಗಿ", "ಅಂದೋಲಾ", "ಆಳಂದ"] },
+                    afzalpur: { name: "ಅಫಜಲಪುರ", villages: ["ಚೌಡಾಪುರ", "ಕರಜಗಿ"] },
+                    aland: { name: "ಆಳಂದ", villages: ["ಖಜುರಿ", "ನಿಂಬರ್ಗಾ"] },
+                    chittapur: { name: "ಚಿತ್ತಾಪುರ", villages: ["ವಾಡಿ", "ನಾಲವಾರ"] }
+                }
+            },
+            raichur: {
+                name: "ರಾಯಚೂರು",
+                taluks: {
+                    raichur_t: { name: "ರಾಯಚೂರು", villages: ["ಯರಗೇರಾ", "ಜಿಲೇವಾರ"] },
+                    devadurga: { name: "ದೇವದುರ್ಗ", villages: ["ಅರಕೇರಾ", "ಗಬ್ಬೂರು"] },
+                    lingasugur: { name: "ಲಿಂಗಸಗೂರು", villages: ["ಮುದಗಲ್", "ಗುರುಗುಂಟಾ"] },
+                    manvi: { name: "ಮಾನ್ವಿ", villages: ["ಸಿಂಧನೂರು", "ಸಿರ್ಮಾವರ"] },
+                    sindhanur: { name: "ಸಿಂಧನೂರು", villages: ["ಬಳಗಾನೂರು", "ತುರ್ವಿಹಾಳ"] }
+                }
+            },
+            bidar: {
+                name: "ಬೀದರ್",
+                taluks: {
+                    bidar_t: { name: "ಬೀದರ್", villages: ["ಜನವಾಡ", "ಬಾಗದಳ"] },
+                    basavakalyan: { name: "ಬಸವಕಲ್ಯಾಣ", villages: ["ಹುಲಸೂರು", "ರಾಜೇಶ್ವರ"] },
+                    bhalki: { name: "ಭಾಲ್ಕಿ", villages: ["ಖಟಕ್ ಚಿಂಚೋಳಿ", "ಮೆಹಕರ್"] },
+                    humnabad: { name: "ಹುಮ್ನಾಬಾದ್", villages: ["ಚಟನಳ್ಳಿ", "ದುಬಲಗುಂಡಿ"] }
+                }
+            },
+            vijayapura: {
+                name: "ವಿಜಯಪುರ",
+                taluks: {
+                    vijayapura_t: { name: "ವಿಜಯಪುರ", villages: ["ಹಿಟ್ನಳ್ಳಿ", "ತೊರವಿ"] },
+                    indi: { name: "ಇಂಡಿ", villages: ["ಝಳಕಿ", "ಲಚ್ಚಾಣ"] },
+                    muddebihal: { name: "ಮುದ್ದೇಬಿಹಾಳ", villages: ["ತಾಳಿಕೋಟೆ", "ನಾಲ್ತವಾಡ"] },
+                    sindgi: { name: "ಸಿಂಧಗಿ", villages: ["ಆಲಮೇಲ", "ಕಲಕೇರಿ"] }
+                }
+            },
+            belagavi: {
+                name: "ಬೆಳಗಾವಿ",
+                taluks: {
+                    belagavi_t: { name: "ಬೆಳಗಾವಿ", villages: ["ಹಿರೇಬಾಗೇವಾಡಿ", "ಉಚಗಾಂವ್"] },
+                    gokak: { name: "ಗೋಕಾಕ್", villages: ["ಅರಭಾವಿ", "ಘಟಪ್ರಭಾ"] },
+                    chikkodi: { name: "ಚಿಕ್ಕೋಡಿ", villages: ["ನಿಪ್ಪಾಣಿ", "ಸದಲಗಾ"] },
+                    bailhongal: { name: "ಬೈಲಹೊಂಗಲ", villages: ["ನೇಸರಗಿ", "ಸಂಪಗಾಂವ್"] }
+                }
+            },
+            bengaluru_urban: {
+                name: "ಬೆಂಗಳೂರು ನಗರ",
+                taluks: {
+                    north: { name: "ಬೆಂಗಳೂರು ಉತ್ತರ", villages: ["ಯಲಹಂಕ", "ದಾಸರಹಳ್ಳಿ"] },
+                    south: { name: "ಬೆಂಗಳೂರು ದಕ್ಷಿಣ", villages: ["ಬೇಗೂರು", "ಕೆಂಗೇರಿ"] },
+                    east: { name: "ಬೆಂಗಳೂರು ಪೂರ್ವ", villages: ["ವರ್ತೂರು", "ಕೆ.ಆರ್.ಪುರಂ"] },
+                    anekal: { name: "ಆನೇಕಲ್", villages: ["ಅತ್ತಿಬೆಲೆ", "ಚಂದಾಪುರ"] }
+                }
+            },
+            mysuru: {
+                name: "ಮೈಸೂರು",
+                taluks: {
+                    mysuru_t: { name: "ಮೈಸೂರು", villages: ["ವರಕೋಡು", "ಜಯಪುರ"] },
+                    nanjangud: { name: "ನಂಜನಗೂಡು", villages: ["ಹುಲ್ಲಹಳ್ಳಿ", "ಕೌಲ್ಯಾಂದೆ"] },
+                    hunsur: { name: "ಹುಣಸೂರು", villages: ["ಬಿಳಿಗೆರೆ", "ಗಾವಡಗೆರೆ"] },
+                    piriyapatna: { name: "ಪಿರಿಯಾಪಟ್ಟಣ", villages: ["ಬೆಟ್ಟದಪುರ", "ಆ Bylakuppe"] }
                 }
             }
         };
 
-        // ಪರೀಕ್ಷೆಗಳು, ಉದ್ಯೋಗಗಳು ಹಾಗೂ ಯೋಜನೆಗಳ ಪೂರ್ಣ ಡೇಟಾ
+        // ಪರೀಕ್ಷೆಗಳು, ಉದ್ಯೋಗಗಳು ಹಾಗೂ ಯೋಜನೆಗಳು
         const schemesData = [
             {
                 title: "ಕರ್ನಾಟಕ ಪೊಲೀಸ್ ಕಾನ್‌ಸ್ಟೇಬಲ್ (KSP) ನೇಮಕಾತಿ",
                 category: "ಸರ್ಕಾರಿ ಉದ್ಯೋಗ",
-                benefit: "ಪೋಲಿಸ್ ಇಲಾಖೆಯಲ್ಲಿ ಖಾಲಿ ಇರುವ 2500 ಹುದ್ದೆಗಳಿಗೆ ಅರ್ಜಿ ಆಹ್ವಾನ",
+                benefit: "ಪೋಲಿಸ್ ಇಲಾಖೆಯಲ್ಲಿ ಖಾಲಿ ಇರುವ ಹುದ್ದೆಗಳಿಗೆ ಅರ್ಜಿ ಆಹ್ವಾನ",
                 eligibility: "12ನೇ ತರಗತಿ / ಪಿಯುಸಿ ಪಾಸಾಗಿರಬೇಕು. ವಯಸ್ಸು 18-25 ವರ್ಷ.",
                 documents: "SSLC/PUC ಅಂಕಪಟ್ಟಿ, ಆಧಾರ್ ಕಾರ್ಡ್, ಜಾತಿ/ಆದಾಯ",
                 lastDate: "2026-11-30",
@@ -335,14 +412,13 @@
 
         let selectedCategory = "ಎಲ್ಲವೂ";
 
-        // ಜಿಲ್ಲೆ ಬದಲಾದಾಗ ತಾಲೂಕು ಅಪ್‌ಡೇಟ್ ಮಾಡುವುದು
         function updateTaluks() {
             const distSelect = document.getElementById('districtSelect').value;
             const talukSelect = document.getElementById('talukSelect');
             const villageSelect = document.getElementById('villageSelect');
             
             talukSelect.innerHTML = '<option value="">-- ತಾಲೂಕು ಆಯ್ಕೆ ಮಾಡಿ --</option>';
-            villageSelect.innerHTML = '<option value="">-- ಹಳ್ಳಿ/ಗ್ರಾಮ ಆಯ್ಕೆ ಮಾಡಿ --</option>';
+            villageSelect.innerHTML = '<option value="">-- ಗ್ರಾಮ ಪಂಚಾಯತಿ / ಗ್ರಾಮ ಆಯ್ಕೆ ಮಾಡಿ --</option>';
 
             if (distSelect && locationData[distSelect]) {
                 const taluks = locationData[distSelect].taluks;
@@ -352,18 +428,22 @@
                     opt.innerText = taluks[key].name;
                     talukSelect.appendChild(opt);
                 }
+            } else if (distSelect) {
+                let opt = document.createElement('option');
+                opt.value = "general_taluk";
+                opt.innerText = "ಮುಖ್ಯ ತಾಲೂಕು (ಸಾಮಾನ್ಯ)";
+                talukSelect.appendChild(opt);
             }
         }
 
-        // ತಾಲೂಕು ಬದಲಾದಾಗ ಹಳ್ಳಿಗಳನ್ನು ಅಪ್‌ಡೇಟ್ ಮಾಡುವುದು
         function updateVillages() {
             const distSelect = document.getElementById('districtSelect').value;
             const talukSelect = document.getElementById('talukSelect').value;
             const villageSelect = document.getElementById('villageSelect');
 
-            villageSelect.innerHTML = '<option value="">-- ಹಳ್ಳಿ/ಗ್ರಾಮ ಆಯ್ಕೆ ಮಾಡಿ --</option>';
+            villageSelect.innerHTML = '<option value="">-- ಗ್ರಾಮ ಪಂಚಾಯತಿ / ಗ್ರಾಮ ಆಯ್ಕೆ ಮಾಡಿ --</option>';
 
-            if (distSelect && talukSelect && locationData[distSelect].taluks[talukSelect]) {
+            if (distSelect && talukSelect && locationData[distSelect] && locationData[distSelect].taluks[talukSelect]) {
                 const villages = locationData[distSelect].taluks[talukSelect].villages;
                 villages.forEach(v => {
                     let opt = document.createElement('option');
@@ -371,16 +451,20 @@
                     opt.innerText = v;
                     villageSelect.appendChild(opt);
                 });
+            } else {
+                let opt = document.createElement('option');
+                opt.value = "general_village";
+                opt.innerText = "ಎಲ್ಲಾ ಗ್ರಾಮ ಪಂಚಾಯತಿಗಳು";
+                villageSelect.appendChild(opt);
             }
         }
 
-        // ಆಡಿಯೋ ಮೂಲಕ ಓದಿ ಹೇಳುವ ಫಂಕ್ಷನ್ (Text-To-Speech)
         function speakText(text) {
             if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel(); // ಹಳೆಯ ಧ್ವನಿಯನ್ನು ನಿಲ್ಲಿಸುವುದು
+                window.speechSynthesis.cancel();
                 const msg = new SpeechSynthesisUtterance();
                 msg.text = text;
-                msg.lang = 'kn-IN'; // ಕನ್ನಡ ಧ್ವನಿ
+                msg.lang = 'kn-IN';
                 msg.rate = 0.9;
                 window.speechSynthesis.speak(msg);
             } else {
@@ -388,7 +472,6 @@
             }
         }
 
-        // ಕಾರ್ಡ್‌ಗಳನ್ನು ಡಿಸ್ಪ್ಲೇ ಮಾಡುವುದು
         function renderSchemes(data) {
             const container = document.getElementById('schemesContainer');
             container.innerHTML = '';
@@ -403,8 +486,6 @@
                 card.className = 'scheme-card';
 
                 const waMessage = encodeURIComponent(`${scheme.title} ಯೋಜನೆಗೆ ಅರ್ಜಿ ಸಲ್ಲಿಸಲು ಸಹಾಯ ಬೇಕು.`);
-                
-                // ಆಡಿಯೋದಲ್ಲಿ ಓದಲು ಪಠ್ಯ ತಯಾರಿಕೆ
                 const readContent = `${scheme.title}. ಲಾಭ: ${scheme.benefit}. ಅರ್ಹತೆ: ${scheme.eligibility}. ಕೊನೆಯ ದಿನಾಂಕ: ${scheme.lastDate}`;
 
                 card.innerHTML = `
