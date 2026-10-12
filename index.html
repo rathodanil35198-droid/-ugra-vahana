@@ -3,235 +3,295 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ಕರ್ನಾಟಕ ಸರ್ಕಾರಿ ಅಧಿಕೃತ ಲೈವ್ ಮಾಹಿತಿ</title>
+    <title>Watch & Earn App Demo</title>
     <style>
-        * { box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; }
-        body { background-color: #f0f2f5; color: #1c1e21; padding-bottom: 30px; }
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
 
-        header { background: linear-gradient(135deg, #0056b3, #0d6efd); color: white; padding: 20px 15px; position: sticky; top: 0; z-index: 100; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
-        header h2 { font-size: 1.4rem; margin-bottom: 6px; }
-        .sub-header { font-size: 0.88rem; background: rgba(255, 255, 255, 0.2); padding: 5px 12px; border-radius: 20px; display: inline-block; font-weight: bold; }
+        body {
+            background-color: #f4f7f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
 
-        .container { padding: 15px; max-width: 650px; margin: 0 auto; }
-        
-        /* ಸೂಚನೆ ಬಾಕ್ಸ್ */
-        .info-alert-box { background: #e7f1ff; border: 2px solid #0d6efd; border-radius: 12px; padding: 14px; margin-bottom: 20px; text-align: center; font-size: 0.92rem; color: #004085; font-weight: 600; line-height: 1.5; }
+        .app-container {
+            width: 100%;
+            max-width: 400px;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 650px;
+        }
 
-        .section-title { font-size: 1.05rem; font-weight: bold; margin: 15px 0 12px 0; color: #222; display: flex; align-items: center; gap: 8px; }
+        .header {
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
 
-        /* ವಿಭಾಗದ ಬಟನ್‌ಗಳು */
-        .grid-categories { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
-        .cat-btn { background: white; border: 2px solid #e0e0e0; border-radius: 12px; padding: 14px 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; cursor: pointer; transition: all 0.2s; box-shadow: 0 3px 6px rgba(0,0,0,0.05); }
-        .cat-btn:active { transform: scale(0.96); background-color: #e7f1ff; border-color: #0d6efd; }
-        .cat-icon { font-size: 2.2rem; margin-bottom: 6px; }
-        .cat-title { font-size: 0.95rem; font-weight: bold; color: #222; }
+        .header h2 {
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
 
-        /* ಮಾಹಿತಿ ಕಾರ್ಡ್ */
-        .scheme-card { background: white; border-radius: 14px; padding: 16px; margin-bottom: 16px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); border-left: 6px solid #28a745; position: relative; }
-        
-        /* 100% ಸರ್ಕಾರಿ ಅಧಿಕೃತ ಮುದ್ರೆ */
-        .verified-badge { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; padding: 4px 10px; border-radius: 20px; font-size: 0.82rem; font-weight: bold; display: inline-flex; align-items: center; gap: 5px; margin-bottom: 10px; }
+        .wallet-card {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 18px;
+            font-weight: bold;
+        }
 
-        .date-tag { font-size: 0.82rem; color: #555; font-weight: bold; display: block; margin-bottom: 8px; background: #f8f9fa; padding: 4px 8px; border-radius: 6px; width: fit-content; border: 1px solid #e9ecef; }
-        
-        .scheme-card h3 { font-size: 1.05rem; color: #111; margin-bottom: 12px; line-height: 1.45; }
+        .content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
 
-        /* ಧ್ವನಿ ಬಟನ್ (ದೊಡ್ಡದಾಗಿ ಓದಲು) */
-        .btn-voice { background: #ff9800; color: white; border: none; padding: 10px 16px; border-radius: 25px; font-size: 0.92rem; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 8px; margin-bottom: 14px; width: 100%; justify-content: center; box-shadow: 0 2px 5px rgba(255, 152, 0, 0.4); }
-        .btn-voice:active { background: #e68a00; transform: scale(0.98); }
+        .screen {
+            display: none;
+        }
 
-        /* ಆಕ್ಷನ್ ಬಟನ್‌ಗಳು */
-        .action-box { display: flex; gap: 10px; flex-wrap: wrap; }
-        .btn-gov-link { flex: 1; min-width: 140px; text-align: center; background-color: #0d6efd; color: white; text-decoration: none; padding: 12px 8px; border-radius: 8px; font-weight: bold; font-size: 0.88rem; box-shadow: 0 2px 5px rgba(13, 110, 253, 0.3); }
-        .btn-wa { flex: 1; min-width: 140px; text-align: center; background-color: #25d366; color: white; text-decoration: none; padding: 12px 8px; border-radius: 8px; font-weight: bold; font-size: 0.88rem; box-shadow: 0 2px 5px rgba(37, 211, 102, 0.3); }
+        .screen.active {
+            display: block;
+        }
 
-        .loading-box { text-align: center; padding: 30px 10px; color: #0d6efd; font-weight: bold; font-size: 1rem; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .video-box {
+            width: 100%;
+            height: 200px;
+            background-color: #000;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .timer-overlay {
+            font-size: 32px;
+            font-weight: bold;
+            color: #FFD700;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+
+        .btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background-color: #2196F3;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .status-msg {
+            color: #d32f2f;
+            font-size: 14px;
+            margin-top: 8px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
 
-    <header>
-        <h2>🏛️ ಕರ್ನಾಟಕ ಸರ್ಕಾರಿ ಅಧಿಕೃತ ಮಾಹಿತಿ</h2>
-        <div class="sub-header">✓ 100% ಸತ್ಯ ಹಾಗೂ ನಂಬಿಕಸ್ಥ ಲೈವ್ ಸೇವೆಗಳು</div>
-    </header>
+<div class="app-container">
+    <!-- Header Section -->
+    <div class="header">
+        <h2> Watch & Earn App</h2>
+        <div class="wallet-card">
+            ಬ್ಯಾಲೆನ್ಸ್: <span id="balance-display">₹0.00</span>
+        </div>
+    </div>
 
-    <div class="container">
+    <!-- Main Content Screens -->
+    <div class="content">
 
-        <!-- ಜನರಿಗೆ ತಿಳಿಯಲು ಸರಳ ಸಂದೇಶ -->
-        <div class="info-alert-box">
-            💡 ಈ ಆ್ಯಪ್‌ನಲ್ಲಿ ಬರುವ ಎಲ್ಲಾ ಮಾಹಿತಿಗಳು ನೇರವಾಗಿ ಕರ್ನಾಟಕ ಸರ್ಕಾರದ ಅಧಿಕೃತ ವೆಬ್‌ಸೈಟ್‌ಗಳಿಂದಲೇ ಲೈವ್ ಆಗಿ ಬರುತ್ತವೆ. ಯಾವುದೇ ನಕಲಿ (Fake) ಸುದ್ದಿಗಳು ಇರುವುದಿಲ್ಲ. ಓದಲು ಬಾರದಿದ್ದರೆ ಬಟನ್ ಒತ್ತಿ ಧ್ವನಿ ಮೂಲಕ ಕೇಳಬಹುದು!
+        <!-- 1. Login Screen -->
+        <div id="login-screen" class="screen active">
+            <h3>ಲಾಗಿನ್ ಮಾಡಿ</h3>
+            <p style="color: #666; font-size: 13px; margin-bottom: 15px;">ವಿಡಿಯೋ ನೋಡಿ ಹಣ ಗಳಿಸಲು ಲಾಗಿನ್ ಆಗಿ</p>
+            <input type="text" id="username" placeholder="ನಿಮ್ಮ ಹೆಸರು">
+            <input type="tel" id="mobile" placeholder="ಮೊಬೈಲ್ ಸಂಖ್ಯೆ (10 Digit)">
+            <button class="btn" onclick="loginUser()">ಆ್ಯಪ್ ಪ್ರವೇಶಿಸಿ</button>
+            <div id="login-msg" class="status-msg"></div>
         </div>
 
-        <div class="section-title">📌 ಕೆಳಗಿನ ಬಟನ್ ಕ್ಲಿಕ್ ಮಾಡಿ (ಮಾಹಿತಿ ಪಡೆಯಿರಿ):</div>
+        <!-- 2. Home / Watch Video Screen -->
+        <div id="home-screen" class="screen">
+            <h3>30-ಸೆಕೆಂಡ್ ವಿಡಿಯೋ ವೀಕ್ಷಿಸಿ</h3>
+            <p style="color: #666; font-size: 13px; margin-bottom: 10px;">ಪ್ರತಿ ವಿಡಿಯೋಗೆ: ₹0.10 ಸಿಗುತ್ತದೆ</p>
 
-        <div class="grid-categories">
-            <div class="cat-btn" onclick="loadOfficialNews('ಕರ್ನಾಟಕ ಸರ್ಕಾರಿ ಉದ್ಯೋಗ నేಮಕಾತಿ', 'https://kpsc.kar.nic.in')">
-                <span class="cat-icon">💼</span>
-                <span class="cat-title">ಸರ್ಕಾರಿ ಉದ್ಯೋಗ (KPSC)</span>
+            <div class="video-box">
+                <div id="video-placeholder">🎬 ಜಾಹೀರಾತು ವಿಡಿಯೋ</div>
+                <div id="timer-display" class="timer-overlay" style="display:none;">30</div>
             </div>
 
-            <div class="cat-btn" onclick="loadOfficialNews('ರೈತರ ಯೋಜನೆಗಳು ಕರ್ನಾಟಕ', 'https://fruitspmk.karnataka.gov.in')">
-                <span class="cat-icon">🚜</span>
-                <span class="cat-title">ರೈತರ ಸೌಲಭ್ಯಗಳು (FRUITS)</span>
-            </div>
-
-            <div class="cat-btn" onclick="loadOfficialNews('ಗೃಹಲಕ್ಷ್ಮಿ ಗೃಹಜ್ಯೋತಿ ಯುವನಿಧಿ', 'https://sevasindhuservices.karnataka.gov.in')">
-                <span class="cat-icon">👩</span>
-                <span class="cat-title">ಗ್ಯಾರಂಟಿ ಯೋಜನೆಗಳು</span>
-            </div>
-
-            <div class="cat-btn" onclick="loadOfficialNews('ಕರ್ನಾಟಕ ಆರೋಗ್ಯ ಯೋಜನೆಗಳು', 'https://arogya.karnataka.gov.in')">
-                <span class="cat-icon">🏥</span>
-                <span class="cat-title">ಆರೋಗ್ಯ ಇಲಾಖೆ</span>
-            </div>
-
-            <div class="cat-btn" onclick="loadOfficialNews('ರೇಷನ್ ಕಾರ್ಡ್ ಕರ್ನಾಟಕ', 'https://ahara.kar.nic.in')">
-                <span class="cat-icon">🌾</span>
-                <span class="cat-title">ರೇಷನ್ ಕಾರ್ಡ್ / ಅಕ್ಕಿ</span>
-            </div>
-
-            <div class="cat-btn" onclick="loadOfficialNews('ವಸತಿ ಯೋಜನೆ ಆಶ್ರಯ ಮನೆ', 'https://ashraya.karnataka.gov.in')">
-                <span class="cat-icon">🏠</span>
-                <span class="cat-title">ಆಶ್ರಯ / ಮನೆಗಳು</span>
-            </div>
+            <button id="start-btn" class="btn" onclick="startVideo()">ವಿಡಿಯೋ ಪ್ಲೇ ಮಾಡಿ (Play)</button>
+            <button class="btn btn-secondary" onclick="showScreen('withdraw-screen')">ಹಣ ವಿಥ್‌ಡ್ರಾ ಮಾಡಿ (Withdraw)</button>
+            <div id="reward-msg" class="status-msg" style="color: #388E3C;"></div>
         </div>
 
-        <div class="section-title" id="selectedTitle">⚡ ಲೈವ್ ಮಾಹಿತಿಗಳು</div>
-
-        <div id="newsContainer">
-            <div class="loading-box">ಮಾಹಿತಿ ನೋಡಲು ಮೇಲಿನ ಯಾವುದಾದರೂ ಒಂದು ಬಟನ್ ಕ್ಲಿಕ್ ಮಾಡಿ.</div>
+        <!-- 3. Withdrawal Screen -->
+        <div id="withdraw-screen" class="screen">
+            <h3>ಹಣ ವರ್ಗಾವಣೆ (Withdraw)</h3>
+            <p style="color: #666; font-size: 13px; margin-bottom: 10px;">ಕನಿಷ್ಠ ವಿಥ್‌ಡ್ರಾ ಮೊತ್ತ: ₹5.00</p>
+            
+            <input type="text" id="upi-id" placeholder="ನಿಮ್ಮ UPI ID (eg: name@upi / phonepe)">
+            <input type="number" id="withdraw-amount" placeholder="ವಿಥ್‌ಡ್ರಾ ಮಾಡಬೇಕಾದ ಮೊತ್ತ (₹)">
+            
+            <button class="btn" onclick="processWithdrawal()">UPI ಗೆ ವರ್ಗಾಯಿಸಿ</button>
+            <button class="btn btn-secondary" onclick="showScreen('home-screen')">ಹಿಂತಿರುಗಿ (Back)</button>
+            <div id="withdraw-msg" class="status-msg"></div>
         </div>
 
     </div>
+</div>
 
-    <script>
-        const WHATSAPP_NUMBER = "+919876543210"; // ನಿಮ್ಮ ವಾಟ್ಸಾಪ್ ನಂಬರ್ ಹಾಕಿ
+<script>
+    // App State Management
+    let userBalance = 0.00;
+    let isWatching = false;
+    let countdown;
 
-        // 🔊 ಓದಲು ಬಾರದವರಿಗೆ ಧ್ವನಿ ಮೂಲಕ ಓದುವ ಫಂಕ್ಷನ್ (Text To Speech)
-        function speakText(text) {
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel(); // ಹಳೆಯ ಧ್ವನಿ ನಿಲ್ಲಿಸುವುದು
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'kn-IN'; // ಕನ್ನಡ ಭಾಷೆ
-                utterance.rate = 0.85;   // ನಿಧಾನವಾಗಿ ಹಾಗೂ ಸ್ಪಷ್ಟವಾಗಿ ಓದಲು
-                window.speechSynthesis.speak(utterance);
-            } else {
-                alert("ನಿಮ್ಮ ಮೊಬೈಲ್‌ನಲ್ಲಿ ಧ್ವನಿ ಸೌಲಭ್ಯ ಬೆಂಬಲಿಸುತ್ತಿಲ್ಲ.");
+    // Switch between screens
+    function showScreen(screenId) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(screenId).classList.add('active');
+        document.getElementById('reward-msg').innerText = "";
+        document.getElementById('withdraw-msg').innerText = "";
+    }
+
+    // Login validation
+    function loginUser() {
+        const name = document.getElementById('username').value.trim();
+        const mobile = document.getElementById('mobile').value.trim();
+        const msg = document.getElementById('login-msg');
+
+        if (name === "" || mobile.length !== 10) {
+            msg.innerText = "ದಯವಿಟ್ಟು ಸರಿಯಾದ ಹೆಸರು ಮತ್ತು 10 ಅಂಕಿಯ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ನಮೂದಿಸಿ.";
+            return;
+        }
+
+        showScreen('home-screen');
+    }
+
+    // Start 30-second Video Logic
+    function startVideo() {
+        if (isWatching) return;
+
+        isWatching = true;
+        let timeLeft = 30; // 30 seconds timer
+        
+        const startBtn = document.getElementById('start-btn');
+        const videoPlaceholder = document.getElementById('video-placeholder');
+        const timerDisplay = document.getElementById('timer-display');
+        const rewardMsg = document.getElementById('reward-msg');
+
+        startBtn.disabled = true;
+        videoPlaceholder.style.display = 'none';
+        timerDisplay.style.display = 'block';
+        timerDisplay.innerText = timeLeft;
+        rewardMsg.innerText = "";
+
+        countdown = setInterval(() => {
+            timeLeft--;
+            timerDisplay.innerText = timeLeft;
+
+            if (timeLeft <= 0) {
+                clearInterval(countdown);
+                
+                // Add Reward Money (e.g., ₹0.10 per view)
+                userBalance += 0.10;
+                updateBalanceDisplay();
+
+                // Reset UI
+                timerDisplay.style.display = 'none';
+                videoPlaceholder.style.display = 'block';
+                startBtn.disabled = false;
+                isWatching = false;
+
+                rewardMsg.innerText = "🎉 ಅಭಿನಂದನೆಗಳು! ₹0.10 ನಿಮ್ಮ ವಾಲೆಟ್‌ಗೆ ಜಮೆಯಾಗಿದೆ.";
             }
+        }, 1000);
+    }
+
+    // Balance Display Helper
+    function updateBalanceDisplay() {
+        document.getElementById('balance-display').innerText = "₹" + userBalance.toFixed(2);
+    }
+
+    // Handle Withdrawal
+    function processWithdrawal() {
+        const upiId = document.getElementById('upi-id').value.trim();
+        const amount = parseFloat(document.getElementById('withdraw-amount').value);
+        const msg = document.getElementById('withdraw-msg');
+
+        if (!upiId.includes('@')) {
+            msg.style.color = "#d32f2f";
+            msg.innerText = "ದಯವಿಟ್ಟು ಸರಿಯಾದ UPI ID ನಮೂದಿಸಿ.";
+            return;
         }
 
-        // 100% ರಿಯಲ್ ಲೈವ್ ಡೇಟಾ ತರುವ ಫಂಕ್ಷನ್
-        async function loadOfficialNews(queryKeyword, officialWebsite) {
-            const container = document.getElementById('newsContainer');
-            document.getElementById('selectedTitle').innerText = `⚡ ಲೈವ್ ಮಾಹಿತಿ: ${queryKeyword}`;
-            container.innerHTML = '<div class="loading-box">🔄 ಸರ್ಕಾರಿ ಸೈಟ್‌ಗಳಿಂದ ಲೈವ್ ಡೇಟಾ ಪರಿಶೀಲಿಸಲಾಗುತ್ತಿದೆ... ದಯವಿಟ್ಟು ಕಾಯಿರಿ.</div>';
-
-            const rssUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(queryKeyword + ' ಕರ್ನಾಟಕ')}&hl=kn&gl=IN&ceid=IN:kn`;
-            const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`;
-
-            try {
-                const response = await fetch(proxyUrl);
-                if (!response.ok) throw new Error("Network Error");
-
-                const data = await response.json();
-                const parser = new DOMParser();
-                const xmlDoc = parser.parseFromString(data.contents, "text/xml");
-                const items = xmlDoc.querySelectorAll("item");
-
-                let seenTitles = new Set();
-                let articlesList = [];
-
-                items.forEach((item) => {
-                    let title = item.querySelector("title") ? item.querySelector("title").textContent : "";
-                    let link = item.querySelector("link") ? item.querySelector("link").textContent : officialWebsite;
-                    let pubDateRaw = item.querySelector("pubDate") ? item.querySelector("pubDate").textContent : "";
-
-                    let cleanTitle = title.replace(/ - .*/, "").trim();
-
-                    if (cleanTitle && !seenTitles.has(cleanTitle.toLowerCase())) {
-                        seenTitles.add(cleanTitle.toLowerCase());
-
-                        let formattedDate = pubDateRaw ? new Date(pubDateRaw).toLocaleDateString('kn-IN', {
-                            day: 'numeric', month: 'long', year: 'numeric'
-                        }) : 'ಇತ್ತೀಚಿನ ದಿನಾಂಕ';
-
-                        articlesList.push({
-                            title: cleanTitle,
-                            link: link,
-                            date: formattedDate
-                        });
-                    }
-                });
-
-                if (articlesList.length > 0) {
-                    renderCards(articlesList.slice(0, 6), queryKeyword, officialWebsite);
-                } else {
-                    renderFallbackCard(queryKeyword, officialWebsite);
-                }
-
-            } catch (err) {
-                renderFallbackCard(queryKeyword, officialWebsite);
-            }
+        if (isNaN(amount) || amount < 5.00) {
+            msg.style.color = "#d32f2f";
+            msg.innerText = "ಕನಿಷ್ಠ ವಿಥ್‌ಡ್ರಾ ಮೊತ್ತ ₹5.00 ಆಗಿರಬೇಕು.";
+            return;
         }
 
-        // ಕಾರ್ಡ್‌ಗಳನ್ನು ಪ್ರದರ್ಶಿಸುವ ಫಂಕ್ಷನ್
-        function renderCards(articles, category, officialWebsite) {
-            const container = document.getElementById('newsContainer');
-            container.innerHTML = '';
-
-            articles.forEach(art => {
-                const card = document.createElement('div');
-                card.className = 'scheme-card';
-
-                const waMsg = encodeURIComponent(`ನನಗೆ ಈ ಸರ್ಕಾರಿ ಲೈವ್ ಮಾಹಿತಿಯ ಬಗ್ಗೆ ಸಹಾಯ ಬೇಕು: ${art.title}`);
-
-                card.innerHTML = `
-                    <div class="verified-badge">🟢 ✓ 100% ಸರ್ಕಾರಿ ಅಧಿಕೃತ ಮಾಹಿತಿ</div>
-                    <span class="date-tag">📅 ಪ್ರಕಟಿತ ದಿನಾಂಕ: ${art.date}</span>
-                    <h3>${art.title}</h3>
-                    
-                    <!-- ಧ್ವನಿ ಬಟನ್ -->
-                    <button class="btn-voice" onclick="speakText('${art.title.replace(/'/g, "\\'")}')">
-                        🔊 ಮಾಹಿತಿಯನ್ನು ಗಟ್ಟಿಯಾಗಿ ಕೇಳಿ (Voice)
-                    </button>
-                    
-                    <div class="action-box">
-                        <a href="${officialWebsite}" target="_blank" class="btn-gov-link">🔗 ಸರ್ಕಾರದ ಅಧಿಕೃತ ವೆಬ್‌ಸೈಟ್‌ಗೆ ಹೋಗಿ</a>
-                        <a href="https://wa.me/${WHATSAPP_NUMBER}?text=${waMsg}" target="_blank" class="btn-wa">💬 WhatsApp ಸಹಾಯ</a>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
+        if (amount > userBalance) {
+            msg.style.color = "#d32f2f";
+            msg.innerText = "ನಿಮ್ಮ ವಾಲೆಟ್‌ನಲ್ಲಿ ಕನಿಷ್ಠ ಹಣ ಲಭ್ಯವಿಲ್ಲ.";
+            return;
         }
 
-        // ಫಾಲ್‌ಬ್ಯಾಕ್ ಕಾರ್ಡ್ (ನೇರ ಸರ್ಕಾರಿ ವೆಬ್‌ಸೈಟ್ ಸಂಪರ್ಕ)
-        function renderFallbackCard(category, officialWebsite) {
-            const container = document.getElementById('newsContainer');
-            const todayDate = new Date().toLocaleDateString('kn-IN', { day: 'numeric', month: 'long', year: 'numeric' });
-            const waMsg = encodeURIComponent(`ನನಗೆ ${category} ಗೆ ಸಂಬಂಧಿಸಿದ ಪ್ರಸ್ತುತ ಸರ್ಕಾರದ ಮಾಹಿತಿಗೆ ಸಹಾಯ ಬೇಕು.`);
+        // Deduct Balance
+        userBalance -= amount;
+        updateBalanceDisplay();
 
-            container.innerHTML = `
-                <div class="scheme-card">
-                    <div class="verified-badge">🟢 ✓ 100% ಸರ್ಕಾರಿ ಅಧಿಕೃತ ಮಾಹಿತಿ</div>
-                    <span class="date-tag">📅 ಇಂದು: ${todayDate}</span>
-                    <h3>${category} - ತಕ್ಷಣದ ಲೈವ್ ಮಾಹಿತಿ ಪಡೆಯಿರಿ</h3>
-                    
-                    <button class="btn-voice" onclick="speakText('${category} ಗೆ ಸಂಬಂಧಿಸಿದ ಪ್ರಸ್ತುತ ಕರ್ನಾಟಕ ಸರ್ಕಾರದ ಲೈವ್ ವಿವರಗಳನ್ನು ಪಡೆಯಲು ಕೆಳಗಿನ ಲಿಂಕ್ ಬಳಸಿ.')">
-                        🔊 ಮಾಹಿತಿಯನ್ನು ಗಟ್ಟಿಯಾಗಿ ಕೇಳಿ (Voice)
-                    </button>
-                    
-                    <div class="action-box">
-                        <a href="${officialWebsite}" target="_blank" class="btn-gov-link">🔗 ಸರ್ಕಾರದ ಅಧಿಕೃತ ವೆಬ್‌ಸೈಟ್‌ಗೆ ಹೋಗಿ</a>
-                        <a href="https://wa.me/${WHATSAPP_NUMBER}?text=${waMsg}" target="_blank" class="btn-wa">💬 WhatsApp ಸಹಾಯ</a>
-                    </div>
-                </div>
-            `;
-        }
+        msg.style.color = "#388E3C";
+        msg.innerText = `✅ request ಯಶಸ್ವಿಯಾಗಿದೆ! ₹${amount.toFixed(2)} ಅನ್ನು ${upiId} ಗೆ ಶೀಘ್ರದಲ್ಲೇ ಕಳುಹಿಸಲಾಗುವುದು.`;
+        
+        document.getElementById('upi-id').value = "";
+        document.getElementById('withdraw-amount').value = "";
+    }
+</script>
 
-        // ಪೇಜ್ ಓಪನ್ ಆದಾಗ ಮೊದಲ ಬಾರಿಗೆ ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಲೋಡ್ ಮಾಡಲು
-        window.onload = function() {
-            loadOfficialNews('ಕರ್ನಾಟಕ ಸರ್ಕಾರಿ ಉದ್ಯೋಗ ನೇಮಕಾತಿ', 'https://kpsc.kar.nic.in');
-        };
-    </script>
 </body>
 </html>
