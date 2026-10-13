@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ಕರ್ನಾಟಕ ಬ್ರೈನ್ ಗೇಮ್ಸ್ ಹಬ್</title>
-    <!-- ಪಟಾಕಿ/ಕನ್ಫೆಟಿ ಎಫೆಕ್ಟ್‌ಗಾಗಿ ಲೈಬ್ರರಿ -->
+    <title>ಕರ್ನಾಟಕ ಅಲ್ಟಿಮೇಟ್ ಗೇಮ್ಸ್ ಹಬ್</title>
+    <!-- ಪಟಾಕಿ ಸಿಡಿಯುವ ಎಫೆಕ್ಟ್ ಸಾಫ್ಟ್‌ವೇರ್ -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         * { box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0b0f19, #111827, #1f2937);
+            background: #0d1117;
             color: #fff;
             margin: 0;
             padding: 0;
@@ -20,34 +20,35 @@
             min-height: 100vh;
         }
         .container {
-            background: #1e293b;
-            color: #f8fafc;
+            background: #161b22;
+            color: #f0f6fc;
             width: 100%;
             max-width: 420px;
             padding: 20px;
             border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-            border: 1px solid #334155;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.8);
+            border: 2px solid #30363d;
             text-align: center;
+            position: relative;
+            overflow: hidden;
         }
-        h2 { color: #38bdf8; margin-top: 0; margin-bottom: 5px; font-size: 22px; }
-        .subtitle { color: #94a3b8; font-size: 13px; margin-bottom: 20px; }
+        h2 { color: #58a6ff; margin-top: 0; margin-bottom: 5px; font-size: 22px; }
         
         .stats {
             display: flex;
             justify-content: space-between;
-            background: #0f172a;
+            background: #21262d;
             padding: 12px 16px;
             border-radius: 12px;
             margin-bottom: 15px;
             font-weight: bold;
-            color: #38bdf8;
-            border: 1px solid #1e293b;
+            color: #79c0ff;
+            border: 1px solid #30363d;
         }
-        
+
         .game-card {
-            background: #0f172a;
-            border: 2px solid #334155;
+            background: #21262d;
+            border: 2px solid #30363d;
             padding: 14px;
             margin: 12px 0;
             border-radius: 14px;
@@ -58,38 +59,58 @@
             transition: all 0.2s ease-in-out;
         }
         .game-card:hover {
-            background: #1e293b;
-            border-color: #38bdf8;
+            background: #30363d;
+            border-color: #58a6ff;
             transform: translateY(-2px);
         }
         .game-logo {
             font-size: 32px;
             margin-right: 15px;
-            background: #1e293b;
+            background: #161b22;
             width: 55px;
             height: 55px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 12px;
-            border: 1px solid #475569;
+            border: 1px solid #484f58;
         }
-        .game-card h3 { margin: 0 0 4px 0; color: #f1f5f9; font-size: 16px; }
-        .game-card p { margin: 0; color: #94a3b8; font-size: 12px; }
+        .game-card h3 { margin: 0 0 4px 0; color: #f0f6fc; font-size: 16px; }
+        .game-card p { margin: 0; color: #8b949e; font-size: 12px; }
 
+        /* 1. ಜಂಗಲ್ ಕ್ವಿಜ್ ಥೀಮ್ ಬ್ಯಾಗ್ರೌಂಡ್ */
+        .jungle-bg {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                        url('https://img.freepik.com/free-vector/jungle-landscape-with-trees-plants_107791-1433.jpg');
+            background-size: cover;
+            background-position: center;
+            border-radius: 14px;
+            padding: 15px;
+        }
         .question-box {
-            background: #0f172a;
-            border: 2px dashed #38bdf8;
+            background: rgba(22, 27, 34, 0.9);
+            border: 2px dashed #238636;
             padding: 16px;
             border-radius: 12px;
             margin-bottom: 15px;
         }
-        #question { font-weight: bold; font-size: 17px; margin: 0; color: #f8fafc; }
-        
+        #question { font-weight: bold; font-size: 17px; margin: 0; color: #f0f6fc; }
+
+        /* ಜಂಪ್ ಮಾಡುವ ರನ್ನರ್ ಕ್ಯಾರೆಕ್ಟರ್ */
+        .runner-char {
+            font-size: 35px;
+            margin: 10px 0;
+            display: inline-block;
+            transition: transform 0.4s ease;
+        }
+        .jump-anim {
+            transform: translateY(-40px) scale(1.2);
+        }
+
         .option-btn {
-            background: #334155;
-            color: #f8fafc;
-            border: 1px solid #475569;
+            background: #21262d;
+            color: #f0f6fc;
+            border: 1px solid #30363d;
             padding: 13px;
             margin: 8px 0;
             width: 100%;
@@ -101,12 +122,63 @@
             padding-left: 18px;
             transition: 0.2s;
         }
-        .option-btn:hover { background: #475569; }
-        .option-btn.correct { background: #16a34a !important; border-color: #22c55e; }
-        .option-btn.wrong { background: #dc2626 !important; border-color: #ef4444; }
+        .option-btn:hover { background: #30363d; }
+        .option-btn.correct { background: #238636 !important; border-color: #2ea043; }
+        .option-btn.wrong { background: #da3633 !important; border-color: #f85149; }
+
+        /* 2. ನಂಬರ್ ಸಮ್ ಪಜಲ್ ಗ್ರಿಡ್ */
+        .math-bg {
+            background: #0d1117;
+            border-radius: 14px;
+            padding: 15px;
+            border: 2px solid #1f6beb;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 15px 0;
+        }
+        .num-btn {
+            background: #21262d;
+            color: #79c0ff;
+            border: 2px solid #30363d;
+            padding: 18px 0;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            user-select: none;
+        }
+        .num-btn.selected { background: #1f6beb; color: #fff; border-color: #58a6ff; }
+
+        /* 3. A-Z ಫ್ಲೋಟಿಂಗ್/ಮೂವಿಂಗ್ ಬಟನ್ಸ್ ಬಾಕ್ಸ್ */
+        .float-box {
+            position: relative;
+            height: 250px;
+            background: #010409;
+            border: 2px solid #30363d;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+        .float-btn {
+            position: absolute;
+            background: #238636;
+            color: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            transition: all 0.5s linear;
+        }
 
         .btn {
-            background: #f59e0b;
+            background: #d29922;
             color: #fff;
             border: none;
             padding: 12px 20px;
@@ -117,32 +189,8 @@
             font-weight: bold;
             cursor: pointer;
         }
-        .btn-back { background: #475569; margin-top: 15px; }
+        .btn-back { background: #30363d; margin-top: 15px; }
         .hidden { display: none !important; }
-
-        /* ಪದ ಹುಡುಕುವ ಪಜಲ್ ಗೇಮ್ ಗ್ರಿಡ್ (Word/Number Search Grid) */
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin: 15px 0;
-            background: #0f172a;
-            padding: 15px;
-            border-radius: 12px;
-            border: 1px solid #334155;
-        }
-        .grid-cell {
-            background: #334155;
-            color: #38bdf8;
-            border: 2px solid #475569;
-            padding: 15px 0;
-            font-size: 20px;
-            font-weight: bold;
-            border-radius: 8px;
-            cursor: pointer;
-            user-select: none;
-        }
-        .grid-cell.selected { background: #16a34a; color: #fff; border-color: #22c55e; }
     </style>
 </head>
 <body>
@@ -151,93 +199,100 @@
         
         <!-- ಮುಖಪುಟ -->
         <div id="home-screen">
-            <h2>ಕರ್ನಾಟಕ ಮೈಂಡ್ ಗೇಮ್ಸ್</h2>
-            <div class="subtitle">ಮಕ್ಕಳು ಮತ್ತು ದೊಡ್ಡವರಿಗಾಗಿ ಬುದ್ಧಿಮತ್ತೆ ಗೇಮ್‌ಗಳು!</div>
+            <h2>ಕರ್ನಾಟಕ ಗೇಮ್ಸ್ ಹಬ್</h2>
+            <p style="color: #8b949e; font-size: 13px; margin-bottom: 20px;">ಮಕ್ಕಳು ಹಾಗೂ ದೊಡ್ಡವರಿಗಾಗಿ ಮನರಂಜನಾ ಆಟಗಳು!</p>
             
             <div class="game-card" onclick="startQuizGame()">
-                <div class="game-logo">🇮🇳</div>
+                <div class="game-logo">🌳</div>
                 <div>
-                    <h3>1. ಭಾರತ & ಕರ್ನಾಟಕ ರತ್ನ</h3>
-                    <p>1,000 ಲೆವೆಲ್‌ಗಳು (ಭಾರತದ ಜ್ಞಾನ ಪರೀಕ್ಷೆ)</p>
+                    <h3>1. ಜಂಗಲ್ ಜಂಪ್ ಕ್ವಿಜ್ (1000 ಲೆವೆಲ್)</h3>
+                    <p>ಪ್ರಶ್ನೆಗೆ ಉತ್ತರಿಸಿ, ಕ್ಯಾರೆಕ್ಟರ್ ಜಂಪ್ ಮಾಡಿ ಹಂತ ದಾಟಿಸಿ!</p>
                 </div>
             </div>
 
-            <div class="game-card" onclick="startWordSearchGame()">
-                <div class="game-logo">🧩</div>
+            <div class="game-card" onclick="startMathGame()">
+                <div class="game-logo">🔢</div>
                 <div>
-                    <h3>2. ವರ್ಡ್ & ನಂಬರ್ ಪಜಲ್ ಸರ್ಚ್</h3>
-                    <p>ಡಬ್ಬಿಯಲ್ಲಿ ಅಡಗಿರುವ ರಹಸ್ಯ ಸಂಖ್ಯೆಗಳನ್ನು ಹುಡುಕಿ!</p>
+                    <h3>2. 3-ನಂಬರ್ ಸಮ್ ಪಜಲ್</h3>
+                    <p>3 ಸಂಖ್ಯೆಗಳನ್ನು ಜೋಡಿಸಿ ನೀಡಿರುವ ಒಟ್ಟು ಮೊತ್ತ ಮಾಡಿ!</p>
                 </div>
             </div>
 
-            <div class="game-card" onclick="startAlphabetGame()">
+            <div class="game-card" onclick="startMovingAlphaGame()">
                 <div class="game-logo">🔤</div>
                 <div>
-                    <h3>3. A ಟು Z ಸ್ಪೀಡ್ ರನ್ನರ್</h3>
-                    <p>ಅಕ್ಷರಗಳನ್ನು ಸರಿಯಾದ ಕ್ರಮದಲ್ಲಿ ವೇಗವಾಗಿ ಸ್ಪರ್ಶಿಸಿ!</p>
+                    <h3>3. A ಟು Z ರನ್ನಿಂಗ್ ಲೆಟರ್ಸ್</h3>
+                    <p>ಓಡಾಡುತ್ತಿರುವ ಅಕ್ಷರಗಳಲ್ಲಿ A ನಿಂದ Z ವರೆಗೆ ಕ್ರಾಚ್ ಮಾಡಿ!</p>
                 </div>
             </div>
 
             <div class="game-card" onclick="startLuckySpin()">
                 <div class="game-logo">🎡</div>
                 <div>
-                    <h3>4. ಲಕ್ಕಿ ಸ್ಪಿನ್ & ರಿವಾರ್ಡ್ಸ್</h3>
-                    <p>ಉಚಿತ ಬೋನಸ್ ನಾಣ್ಯಗಳನ್ನು ಸ್ಪಿನ್ ಮಾಡಿ ಗೆಲ್ಲಿರಿ!</p>
+                    <h3>4. ಲಕ್ಕಿ ಸ್ಪಿನ್ ಕಾಯಿನ್</h3>
+                    <p>ಸ್ಪಿನ್ ಮಾಡಿ ಪ್ರತಿದಿನ ಉಚಿತ ಬೋನಸ್ ನಾಣ್ಯ ಗೆಲ್ಲಿರಿ!</p>
                 </div>
             </div>
         </div>
 
-        <!-- ಕ್ವಿಜ್ ಗೇಮ್ ಸ್ಕ್ರೀನ್ (1,000 Levels) -->
-        <div id="game-screen" class="hidden">
-            <h2>ಭಾರತ & ಕರ್ನಾಟಕ ರತ್ನ</h2>
-            
-            <div class="stats">
-                <div>ಕಾಯಿನ್ಸ್: <span id="score">100</span></div>
-                <div>ಲೆವೆಲ್: <span id="level">1</span></div>
-                <div>ಪ್ರಶ್ನೆ: <span id="q-count">1</span>/5</div>
-            </div>
+        <!-- 1. ಜಂಗಲ್ ಕ್ವಿಜ್ ಸ್ಕ್ರೀನ್ -->
+        <div id="quiz-screen" class="hidden">
+            <div class="jungle-bg">
+                <div class="stats">
+                    <div>ಕಾಯಿನ್ಸ್: <span id="score">100</span></div>
+                    <div>ಲೆವೆಲ್: <span id="level">1</span></div>
+                </div>
 
-            <div class="question-box">
-                <p id="question">ಪ್ರಶ್ನೆ ಲೋಡ್ ಆಗುತ್ತಿದೆ...</p>
-            </div>
+                <div class="runner-char" id="runner">🏃♂️</div>
 
-            <div id="options-container">
-                <!-- A, B, C, D ಬಟನ್‌ಗಳು -->
-            </div>
+                <div class="question-box">
+                    <p id="question">ಪ್ರಶ್ನೆ ಲೋಡ್ ಆಗುತ್ತಿದೆ...</p>
+                </div>
 
+                <div id="options-container"></div>
+            </div>
             <button class="btn btn-back" onclick="goHome()">⬅ ಮುಖಪುಟಕ್ಕೆ ಹಿಂತಿರುಗಿ</button>
         </div>
 
-        <!-- ನಂಬರ್ ಪಜಲ್ ಸರ್ಚ್ ಗೇಮ್ -->
-        <div id="puzzle-screen" class="hidden">
-            <h2>ನಂಬರ್ ಪಜಲ್ ಸರ್ಚ್</h2>
-            <p style="font-size: 14px; color: #94a3b8;">ಹುಡುಕಬೇಕಾದ ಸಂಖ್ಯೆ: <b id="target-number" style="color: #f59e0b; font-size: 22px;">12</b></p>
-            
-            <div class="grid-container" id="grid-box">
-                <!-- 16 ಬಾಕ್ಸ್‌ಗಳು ಇಲ್ಲಿ ಲೋಡ್ ಆಗುತ್ತವೆ -->
-            </div>
+        <!-- 2. ಮ್ಯಾಥ್ ಸಮ್ ಪಜಲ್ ಸ್ಕ್ರೀನ್ -->
+        <div id="math-screen" class="hidden">
+            <div class="math-bg">
+                <h2>3-ನಂಬರ್ ಸಮ್ ಪಜಲ್</h2>
+                <p style="font-size: 14px; color: #8b949e;">ಆಯ್ಕೆ ಮಾಡಿದ 3 ಸಂಖ್ಯೆಗಳ ಒಟ್ಟು ಮೊತ್ತ: <b id="target-sum" style="color: #58a6ff; font-size: 24px;">45</b> ಇರಬೇಕು!</p>
+                
+                <div class="stats" style="justify-content: center; background: #161b22;">
+                    <div>ನಿಮ್ಮ ಆಯ್ಕೆಯ ಮೊತ್ತ: <span id="current-sum" style="color:#e3b341;">0</span> (ಆಯ್ಕೆ: <span id="selected-count">0</span>/3)</div>
+                </div>
 
+                <div class="grid-container" id="math-grid">
+                    <!-- 9 ಬಟನ್‌ಗಳು ಲೋಡ್ ಆಗುತ್ತವೆ -->
+                </div>
+            </div>
             <button class="btn btn-back" onclick="goHome()">⬅ ಮುಖಪುಟಕ್ಕೆ ಹಿಂತಿರುಗಿ</button>
         </div>
 
-        <!-- A-Z ಗೇಮ್ ಸ್ಕ್ರೀನ್ -->
+        <!-- 3. ಓಡಾಡುವ A-Z ಅಕ್ಷರಗಳ ಗೇಮ್ ಸ್ಕ್ರೀನ್ -->
         <div id="alpha-screen" class="hidden">
-            <h2>A-Z ಅಕ್ಷರ ಹುಡುಕಾಟ</h2>
-            <p style="font-size: 14px; color: #94a3b8;">ಮುಂದಿನ ಅಕ್ಷರ: <b id="target-letter" style="color: #38bdf8; font-size: 22px;">A</b></p>
-            <div class="grid-container" id="alpha-grid"></div>
+            <h2>A-Z ರನ್ನಿಂಗ್ ಲೆಟರ್ಸ್</h2>
+            <p style="font-size: 14px; color: #8b949e;">ಮುಂದಿನ ಅಕ್ಷರವನ್ನು ಹುಡುಕಿ: <b id="target-letter" style="color: #238636; font-size: 24px;">A</b></p>
+            
+            <div class="float-box" id="float-container">
+                <!-- ಅಕ್ಷರಗಳು ಓಡಾಡುತ್ತವೆ -->
+            </div>
+
             <button class="btn btn-back" onclick="goHome()">⬅ ಮುಖಪುಟಕ್ಕೆ ಹಿಂತಿರುಗಿ</button>
         </div>
 
-        <!-- ಲಕ್ಕಿ ಸ್ಪಿನ್ ಸ್ಕ್ರೀನ್ -->
+        <!-- 4. ಲಕ್ಕಿ ಸ್ಪಿನ್ ಸ್ಕ್ರೀನ್ -->
         <div id="spin-screen" class="hidden">
             <h2>ಲಕ್ಕಿ ಸ್ಪಿನ್</h2>
             <div class="stats" style="justify-content: center;">
                 <div>ನಿಮ್ಮ ನಾಣ್ಯಗಳು: <span id="spin-score">100</span></div>
             </div>
-            <div style="padding: 25px 0; font-size: 18px; font-weight: bold; color: #f59e0b;" id="spin-result">
-                ಸ್ಪಿನ್ ಮಾಡಿ ನಾಣ್ಯ ಗೆಲ್ಲಿರಿ! 🎡
+            <div style="padding: 25px 0; font-size: 18px; font-weight: bold; color: #d29922;" id="spin-result">
+                ಚಕ್ರ ತಿರುಗಿಸಿ ನಾಣ್ಯ ಗೆಲ್ಲಿರಿ! 🎡
             </div>
-            <button class="btn" style="background:#16a34a;" onclick="spinWheel()">🎡 ಸ್ಪಿನ್ ಮಾಡಿ</button>
+            <button class="btn" style="background:#238636;" onclick="spinWheel()">🎡 ಈಗಲೇ ಸ್ಪಿನ್ ಮಾಡಿ</button>
             <button class="btn btn-back" onclick="goHome()">⬅ ಮುಖಪುಟಕ್ಕೆ ಹಿಂತಿರುಗಿ</button>
         </div>
 
@@ -246,20 +301,14 @@
     <script>
         let score = 100;
         let level = 1;
-        let questionInLevel = 1;
-        let currentQuestionIndex = 0;
+        let currentQIndex = 0;
         let canAnswer = true;
 
-        // ಭಾರತ ಹಾಗೂ ಕರ್ನಾಟಕದ ವಿಸ್ತಾರವಾದ ಪ್ರಶ್ನೋತ್ತರ ಕೋಶ
         const questionsDB = [
             { q: "ಭಾರತದ ಪ್ರಸ್ತುತ ರಾಜಧಾನಿ ಯಾವುದು?", options: ["ಮುಂಬೈ", "ನವದೆಹಲಿ", "ಕೋಲ್ಕತ್ತಾ", "ಚೆನ್ನೈ"], answer: 1 },
             { q: "ಕರ್ನಾಟಕದ ರಾಜ್ಯ ಮರ ಯಾವುದು?", options: ["ಆಲದ ಮರ", "ಶ್ರೀಗಂಧದ ಮರ", "ತೆಂಗಿನ ಮರ", "ಮಾಮರ"], answer: 1 },
-            { q: "ಭಾರತದ ರಾಷ್ಟ್ರೀಯ ಕ್ರೀಡೆ ಯಾವುದು?", options: ["ಕ್ರಿಕೆಟ್", "ಹಾಕಿ", "ಕಬಡ್ಡಿ", "ಫುಟ್‌ಬಾಲ್"], answer: 1 },
-            { q: "ವಿಶ್ವಪ್ರಸಿದ್ಧ ಕೆ.ಆರ್.ಎಸ್ (KRS) ಅಣೆಕಟ್ಟು ಯಾವ ಜಿಲ್ಲೆಯಲ್ಲಿದೆ?", options: ["ಮೈಸೂರು", "ಮಂಡ್ಯ", "ಹಾಸನ", "ಚಾಮರಾಜನಗರ"], answer: 1 },
-            { q: "ಭಾರತಕ್ಕೆ ಸ್ವಾತಂತ್ರ್ಯ ಸಿಕ್ಕ ವರ್ಷ ಯಾವುದು?", options: ["1942", "1947", "1950", "1956"], answer: 1 },
-            { q: "ಕರ್ನಾಟಕದ ಅತಿ ಉದ್ದವಾದ ನದಿ ಯಾವುದು?", options: ["ಕಾವೇರಿ", "ಕೃಷ್ಣಾ", "ಶರಾವತಿ", "ತುಂಗಭದ್ರಾ"], answer: 1 },
-            { q: "ಭಾರತದ ಸಂವಿಧಾನ ಶಿಲ್ಪಿ ಎಂದು ಯಾರನ್ನು ಕರೆಯಲಾಗುತ್ತದೆ?", options: ["ಮಹಾತ್ಮ ಗಾಂಧಿ", "ಡಾ. ಬಿ.ಆರ್. ಅಂಬೇಡ್ಕರ್", "ಜವಾಹರಲಾಲ್ ನೆಹರೂ", "ಸುಭಾಷ್ ಚಂದ್ರ ಬೋಸ್"], answer: 1 },
-            { q: "ಕರ್ನಾಟಕದ ಹೈಕೋರ್ಟ್ ಎಲ್ಲಿದೆ?", options: ["ಧಾರವಾಡ", "ಬೆಂಗಳೂರು", "ಮೈಸೂರು", "ಕಲಬುರಗಿ"], answer: 1 }
+            { q: "ವಿಶ್ವಪ್ರಸಿದ್ಧ ಕೆ.ಆರ್.ಎಸ್ (KRS) ಅಣೆಕಟ್ಟು ಎಲ್ಲಿದೆ?", options: ["ಮೈಸೂರು", "ಮಂಡ್ಯ", "ಹಾಸನ", "ಶಿವಮೊಗ್ಗ"], answer: 1 },
+            { q: "ಕರ್ನಾಟಕದ ಅತಿ ದೊಡ್ಡ ಜಿಲ್ಲೆ ಯಾವುದು?", options: ["ಬೆಳಗಾವಿ", "ಕಲಬುರಗಿ", "ತುಮಕೂರು", "ವಿಜಯಪುರ"], answer: 0 }
         ];
 
         function speakText(text) {
@@ -273,22 +322,21 @@
         }
 
         function triggerConfetti() {
-            confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } });
+            confetti({ particleCount: 90, spread: 70, origin: { y: 0.6 } });
         }
 
-        /* ----- 1. ಕ್ವಿಜ್ ಗೇಮ್ ಲಾಜಿಕ್ ----- */
+        /* 1. ಜಂಗಲ್ ಕ್ವಿಜ್ ಗೇಮ್ */
         function startQuizGame() {
             hideAll();
-            document.getElementById('game-screen').classList.remove('hidden');
+            document.getElementById('quiz-screen').classList.remove('hidden');
             loadQuestion();
         }
 
         function loadQuestion() {
             canAnswer = true;
-            let q = questionsDB[currentQuestionIndex % questionsDB.length];
+            let q = questionsDB[currentQIndex % questionsDB.length];
             document.getElementById('question').innerText = q.q;
             document.getElementById('level').innerText = level;
-            document.getElementById('q-count').innerText = questionInLevel;
 
             let container = document.getElementById('options-container');
             container.innerHTML = '';
@@ -298,132 +346,179 @@
                 let btn = document.createElement('button');
                 btn.className = 'option-btn';
                 btn.innerText = `${labels[idx]}. ${opt}`;
-                btn.onclick = () => checkAnswer(idx, q.answer, btn);
+                btn.onclick = () => checkQuizAnswer(idx, q.answer, btn);
                 container.appendChild(btn);
             });
 
             speakText(q.q);
         }
 
-        function checkAnswer(selected, correct, btn) {
+        function checkQuizAnswer(selected, correct, btn) {
             if (!canAnswer) return;
             canAnswer = false;
 
+            let runner = document.getElementById('runner');
             let allBtns = document.querySelectorAll('.option-btn');
 
             if (selected === correct) {
                 btn.classList.add('correct');
                 score += 10;
+                runner.classList.add('jump-anim');
                 triggerConfetti();
-                speakText("ಸರಿಯಾದ ಉತ್ತರ! ಮುಂದಿನ ಪ್ರಶ್ನೆಗೆ ಹೋಗೋಣ.");
-                setTimeout(nextQuestion, 1800);
+                speakText("ಸರಿಯಾದ ಉತ್ತರ! ನೀವು ಜಂಪ್ ಮಾಡಿ ಹಂತ ದಾಟಿದ್ದೀರಿ.");
+
+                setTimeout(() => {
+                    runner.classList.remove('jump-anim');
+                    currentQIndex++;
+                    level++;
+                    loadQuestion();
+                }, 1800);
             } else {
                 btn.classList.add('wrong');
                 allBtns[correct].classList.add('correct');
                 score -= 5;
-                speakText("ತಪ್ಪು ಉತ್ತರ! ಸರಿಯಾದ ಉತ್ತರವನ್ನು ಗಮನಿಸಿ.");
-                setTimeout(nextQuestion, 2000);
+                speakText("ತಪ್ಪು ಉತ್ತರ! ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.");
+                setTimeout(() => {
+                    currentQIndex++;
+                    loadQuestion();
+                }, 2000);
             }
             document.getElementById('score').innerText = score;
         }
 
-        function nextQuestion() {
-            currentQuestionIndex++;
-            questionInLevel++;
-            if (questionInLevel > 5) {
-                questionInLevel = 1;
-                level++;
-                speakText("ಅಭಿನಂದನೆಗಳು! ನೀವು ಮುಂದಿನ ಹಂತಕ್ಕೆ ಪ್ರವೇಶಿಸಿದ್ದೀರಿ.");
-            }
-            loadQuestion();
-        }
+        /* 2. 3-ನಂಬರ್ ಸಮ್ ಪಜಲ್ ಗೇಮ್ */
+        let targetSumVal = 45;
+        let selectedNumbers = [];
 
-        /* ----- 2. ವರ್ಡ್/ನಂಬರ್ ಪಜಲ್ ಸರ್ಚ್ ಗೇಮ್ ----- */
-        let targetNum = 0;
-        function startWordSearchGame() {
+        function startMathGame() {
             hideAll();
-            document.getElementById('puzzle-screen').classList.remove('hidden');
-            loadPuzzleBoard();
+            document.getElementById('math-screen').classList.remove('hidden');
+            loadMathBoard();
         }
 
-        function loadPuzzleBoard() {
-            let gridBox = document.getElementById('grid-box');
-            gridBox.innerHTML = '';
-            targetNum = Math.floor(Math.random() * 80) + 10;
-            document.getElementById('target-number').innerText = targetNum;
+        function loadMathBoard() {
+            selectedNumbers = [];
+            document.getElementById('current-sum').innerText = "0";
+            document.getElementById('selected-count').innerText = "0";
 
-            let numbers = [targetNum];
-            while(numbers.length < 16) {
-                let r = Math.floor(Math.random() * 80) + 10;
-                if(!numbers.includes(r)) numbers.push(r);
+            // ಯಾದೃಚ್ಛಿಕವಾಗಿ 3 ಸಂಖ್ಯೆಗಳ ಮೊತ್ತವನ್ನು ಟಾರ್ಗೆಟ್ ಆಗಿ ಇಡುವುದು (ಉದಾ: 45)
+            let n1 = Math.floor(Math.random() * 15) + 5;
+            let n2 = Math.floor(Math.random() * 20) + 10;
+            let n3 = Math.floor(Math.random() * 20) + 10;
+            targetSumVal = n1 + n2 + n3;
+            document.getElementById('target-sum').innerText = targetSumVal;
+
+            let grid = document.getElementById('math-grid');
+            grid.innerHTML = '';
+
+            let nums = [n1, n2, n3];
+            while (nums.length < 9) {
+                let dummy = Math.floor(Math.random() * 25) + 5;
+                if (!nums.includes(dummy)) nums.push(dummy);
             }
-            numbers.sort(() => Math.random() - 0.5);
+            nums.sort(() => Math.random() - 0.5);
 
-            numbers.forEach(num => {
-                let cell = document.createElement('div');
-                cell.className = 'grid-cell';
-                cell.innerText = num;
-                cell.onclick = () => {
-                    if(num === targetNum) {
-                        cell.classList.add('selected');
-                        triggerConfetti();
-                        speakText("ಸರಿಯಾದ ಸಂಖ್ಯೆ ಕಂಡುಹಿಡಿದಿದ್ದೀರಿ!");
-                        setTimeout(loadPuzzleBoard, 1200);
-                    } else {
-                        speakText("ಇದಲ್ಲ, ಮತ್ತೊಮ್ಮೆ ಹುಡುಕಿ.");
-                    }
-                };
-                gridBox.appendChild(cell);
+            nums.forEach(num => {
+                let btn = document.createElement('button');
+                btn.className = 'num-btn';
+                btn.innerText = num;
+                btn.onclick = () => selectMathNumber(num, btn);
+                grid.appendChild(btn);
             });
+
+            speakText(`ಮೂರು ಸಂಖ್ಯೆಗಳನ್ನು ಸೇರಿಸಿ ${targetSumVal} ಮಾಡಿ.`);
         }
 
-        /* ----- 3. A-Z ಸ್ಪೀಡ್ ಗೇಮ್ ----- */
-        let alphaIdx = 0;
-        const alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-        function startAlphabetGame() {
+        function selectMathNumber(num, btn) {
+            if (btn.classList.contains('selected')) return;
+            if (selectedNumbers.length >= 3) return;
+
+            btn.classList.add('selected');
+            selectedNumbers.push(num);
+
+            let currentSum = selectedNumbers.reduce((a, b) => a + b, 0);
+            document.getElementById('current-sum').innerText = currentSum;
+            document.getElementById('selected-count').innerText = selectedNumbers.length;
+
+            if (selectedNumbers.length === 3) {
+                if (currentSum === targetSumVal) {
+                    triggerConfetti();
+                    speakText("ಅಭಿನಂದನೆಗಳು! ಮೂರು ಸಂಖ್ಯೆಗಳ ಒಟ್ಟು ಮೊತ್ತ ಸರಿಯಾಗಿದೆ.");
+                    setTimeout(loadMathBoard, 1800);
+                } else {
+                    speakText("ಮೊತ್ತ ತಪ್ಪಾಗಿದೆ! ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.");
+                    setTimeout(loadMathBoard, 1500);
+                }
+            }
+        }
+
+        /* 3. A-Z ಓಡಾಡುವ ಅಕ್ಷರಗಳ ಗೇಮ್ */
+        let alphaIndex = 0;
+        const alphabetArr = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+        let moveInterval;
+
+        function startMovingAlphaGame() {
             hideAll();
             document.getElementById('alpha-screen').classList.remove('hidden');
-            alphaIdx = 0;
-            loadAlphaGrid();
+            alphaIndex = 0;
+            loadMovingBoard();
         }
 
-        function loadAlphaGrid() {
-            if(alphaIdx >= alphabets.length) {
+        function loadMovingBoard() {
+            if (alphaIndex >= alphabetArr.length) {
                 triggerConfetti();
-                alert("ಸಾಧಿಸಿದ್ದೀರಿ! A ಯಿಂದ Z ವರೆಗೆ ಪೂರ್ಣಗೊಳಿಸಿದ್ದೀರಿ!");
+                alert("ಅದ್ಭುತ! ನೀವು A ಯಿಂದ Z ವರೆಗಿನ ಎಲ್ಲಾ ಅಕ್ಷರಗಳನ್ನು ಪೂರ್ಣಗೊಳಿಸಿದ್ದೀರಿ!");
                 goHome();
                 return;
             }
 
-            let target = alphabets[alphaIdx];
+            let target = alphabetArr[alphaIndex];
             document.getElementById('target-letter').innerText = target;
 
-            let grid = document.getElementById('alpha-grid');
-            grid.innerHTML = '';
+            let container = document.getElementById('float-container');
+            container.innerHTML = '';
 
             let choices = [target];
-            while(choices.length < 12) {
-                let rand = alphabets[Math.floor(Math.random() * alphabets.length)];
-                if(!choices.includes(rand)) choices.push(rand);
+            while (choices.length < 6) {
+                let r = alphabetArr[Math.floor(Math.random() * alphabetArr.length)];
+                if (!choices.includes(r)) choices.push(r);
             }
             choices.sort(() => Math.random() - 0.5);
 
             choices.forEach(char => {
-                let cell = document.createElement('div');
-                cell.className = 'grid-cell';
-                cell.innerText = char;
-                cell.onclick = () => {
-                    if(char === target) {
-                        alphaIdx++;
+                let btn = document.createElement('button');
+                btn.className = 'float-btn';
+                btn.innerText = char;
+                
+                // ರಂಡಮ್ ಪೊಸಿಶನ್ ನೀಡುವುದು
+                btn.style.left = Math.random() * 320 + 'px';
+                btn.style.top = Math.random() * 180 + 'px';
+
+                btn.onclick = () => {
+                    if (char === target) {
+                        alphaIndex++;
                         triggerConfetti();
-                        loadAlphaGrid();
+                        speakText("ಸರಿಯಾದ ಅಕ್ಷರ!");
+                        loadMovingBoard();
+                    } else {
+                        speakText("ತಪ್ಪು ಅಕ್ಷರ!");
                     }
                 };
-                grid.appendChild(cell);
+                container.appendChild(btn);
             });
+
+            // ಅಕ್ಷರಗಳು ಚಲಿಸುವಂತೆ ಮಾಡುವುದು
+            clearInterval(moveInterval);
+            moveInterval = setInterval(() => {
+                let btns = document.querySelectorAll('.float-btn');
+                btns.forEach(b => {
+                    b.style.left = Math.random() * 320 + 'px';
+                    b.style.top = Math.random() * 180 + 'px';
+                });
+            }, 1200);
         }
 
-        /* ----- 4. ಲಕ್ಕಿ ಸ್ಪಿನ್ ----- */
+        /* 4. ಲಕ್ಕಿ ಸ್ಪಿನ್ */
         function startLuckySpin() {
             hideAll();
             document.getElementById('spin-screen').classList.remove('hidden');
@@ -431,8 +526,8 @@
         }
 
         function spinWheel() {
-            let rewards = [20, 50, 100, 15, 30];
-            let won = rewards[Math.floor(Math.random() * rewards.length)];
+            let coinsArr = [25, 50, 100, 15, 30];
+            let won = coinsArr[Math.floor(Math.random() * coinsArr.length)];
             score += won;
             document.getElementById('spin-score').innerText = score;
             document.getElementById('spin-result').innerText = `🎉 ಅಭಿನಂದನೆಗಳು! ${won} ನಾಣ್ಯಗಳು ಸಿಕ್ಕಿವೆ!`;
@@ -441,9 +536,10 @@
         }
 
         function hideAll() {
+            clearInterval(moveInterval);
             document.getElementById('home-screen').classList.add('hidden');
-            document.getElementById('game-screen').classList.add('hidden');
-            document.getElementById('puzzle-screen').classList.add('hidden');
+            document.getElementById('quiz-screen').classList.add('hidden');
+            document.getElementById('math-screen').classList.add('hidden');
             document.getElementById('alpha-screen').classList.add('hidden');
             document.getElementById('spin-screen').classList.add('hidden');
         }
