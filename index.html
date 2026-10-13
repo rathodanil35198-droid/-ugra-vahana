@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ಕನ್ನಡ ರಿಯಲ್ ಕ್ವಿಜ್ ಗೇಮ್</title>
+    <title>ಕರ್ನಾಟಕ ಗೇಮ್ಸ್ ಹಬ್</title>
     <style>
         * { box-sizing: border-box; }
         body {
@@ -17,7 +17,7 @@
             align-items: center;
             min-height: 100vh;
         }
-        .game-container {
+        .container {
             background: #ffffff;
             color: #333;
             width: 100%;
@@ -38,6 +38,24 @@
             font-weight: bold;
             color: #1b4f72;
         }
+        .game-card {
+            background: #f0f3f4;
+            border: 2px solid #bdc3c7;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: left;
+            transition: 0.2s;
+        }
+        .game-card:hover {
+            background: #e5e8e8;
+            border-color: #3498db;
+            transform: scale(1.02);
+        }
+        .game-card h3 { margin: 0 0 5px 0; color: #2c3e50; font-size: 16px; }
+        .game-card p { margin: 0; color: #7f8c8d; font-size: 13px; }
+
         .question-box {
             background: #f9f9f9;
             border: 2px dashed #aed6f1;
@@ -66,9 +84,9 @@
             padding-left: 15px;
             transition: 0.2s;
         }
-        .option-btn:hover { background: #d4e6f1; transform: scale(1.01); }
-        .option-btn.correct { background: #27ae60 !important; color: white !important; border-color: #196f3d; }
-        .option-btn.wrong { background: #e74c3c !important; color: white !important; border-color: #943126; }
+        .option-btn:hover { background: #d4e6f1; }
+        .option-btn.correct { background: #27ae60 !important; color: white !important; }
+        .option-btn.wrong { background: #e74c3c !important; color: white !important; }
         
         .btn {
             background: #f39c12;
@@ -81,142 +99,176 @@
             font-size: 15px;
             font-weight: bold;
             cursor: pointer;
-            transition: 0.2s;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
-        .btn:hover { background: #d68910; }
         .btn-green { background: #27ae60; }
-        .btn-green:hover { background: #1e8449; }
+        .btn-back { background: #7f8c8d; margin-top: 15px; }
 
-        .ad-box {
-            background: #fef9e7;
-            color: #7d6608;
-            border: 1px solid #f9e79f;
-            padding: 10px;
-            border-radius: 8px;
-            margin-top: 15px;
-            font-size: 12px;
-        }
-        /* ಪಾಪ್‌ಅಪ್ ಜಾಹೀರಾತು ಸಿಮ್ಯುಲೇಶನ್ */
-        #ad-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        .ad-modal {
-            background: white;
-            color: #333;
-            padding: 20px;
-            border-radius: 12px;
-            width: 90%;
-            max-width: 320px;
-            text-align: center;
-        }
-        .ad-timer {
-            font-size: 22px;
-            color: #e74c3c;
-            font-weight: bold;
-            margin: 15px 0;
-        }
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
-    <div class="game-container">
-        <h2>ಕರ್ನಾಟಕ ಜ್ಞಾನ ರತ್ನ</h2>
+    <div class="container">
         
-        <div class="stats">
-            <div>ನಾಣ್ಯಗಳು: <span id="score">50</span></div>
-            <div>ಹಂತ: <span id="level">1</span></div>
+        <!-- ಮುಖಪುಟ: 5 ವಿಭಿನ್ನ ಗೇಮ್‌ಗಳು -->
+        <div id="home-screen">
+            <h2>ಕರ್ನಾಟಕ ಗೇಮ್ಸ್ ಹಬ್</h2>
+            <p style="font-size: 13px; color: #666; margin-bottom: 15px;">ಆಡಲು ನಿಮ್ಮಿಷ್ಟದ ಗೇಮ್ ಆಯ್ಕೆ ಮಾಡಿ!</p>
+            
+            <div class="game-card" onclick="startQuiz('karnataka')">
+                <h3>1. ಕರ್ನಾಟಕ ಜ್ಞಾನ ರತ್ನ (Quiz)</h3>
+                <p>ಕರ್ನಾಟಕ ಇತಿಹಾಸ, ಭೂಗೋಳ ಕುರಿತ ನೂರಾರು ಪ್ರಶ್ನೆಗಳು.</p>
+            </div>
+
+            <div class="game-card" onclick="startQuiz('cinema')">
+                <h3>2. ಸ್ಯಾಂಡಲ್‌ವುಡ್ ಸಿನಿಮಾ ಲೋಕ</h3>
+                <p>ಕನ್ನಡ ನಟರು, ಸಿನಿಮಾಗಳು ಮತ್ತು ಹಾಡುಗಳ ಒಗಟುಗಳು.</p>
+            </div>
+
+            <div class="game-card" onclick="startQuiz('folks')">
+                <h3>3. ಉತ್ತರ ಕರ್ನಾಟಕ ಜಾನಪದ</h3>
+                <p>ಜಾನಪದ ಸಾಹಿತ್ಯ, ಹಳ್ಳಿ ಸಂಸ್ಕೃತಿ ಹಾಗೂ ಜನಪದ ಒಗಟುಗಳು.</p>
+            </div>
+
+            <div class="game-card" onclick="startQuiz('science')">
+                <h3>4. ವಿಜ್ಞಾನ ಮತ್ತು ತಂತ್ರಜ್ಞಾನ</h3>
+                <p>ದೈನಂದಿನ ವಿಜ್ಞಾನ ಹಾಗೂ ಮೋಜಿನ ಪ್ರಶ್ನೋತ್ತರಗಳು.</p>
+            </div>
+
+            <div class="game-card" onclick="startLuckySpin()">
+                <h3>5. ಲಕ್ಕಿ ಸ್ಪಿನ್ & ಕಾಯಿನ್ ಗೇಮ್</h3>
+                <p>ಚಕ್ರ ತಿರುಗಿಸಿ ಪ್ರತಿದಿನ ಉಚಿತ ಬೋನಸ್ ನಾಣ್ಯಗಳನ್ನು ಗೆಲ್ಲಿರಿ.</p>
+            </div>
         </div>
 
-        <div class="question-box">
-            <p id="question">ಪ್ರಶ್ನೆ ಲೋಡ್ ಆಗುತ್ತಿದೆ...</p>
+        <!-- ಗೇಮ್ ಪ್ಲೇ ಸ್ಕ್ರೀನ್ -->
+        <div id="game-screen" class="hidden">
+            <h2 id="game-title">ಕ್ವಿಜ್ ಗೇಮ್</h2>
+            
+            <div class="stats">
+                <div>ನಾಣ್ಯಗಳು: <span id="score">50</span></div>
+                <div>ಹಂತ: <span id="level">1</span></div>
+            </div>
+
+            <div class="question-box">
+                <p id="question">ಪ್ರಶ್ನೆ ಲೋಡ್ ಆಗುತ್ತಿದೆ...</p>
+            </div>
+
+            <div id="options-container">
+                <!-- A, B, C, D ಆಪ್ಟಿಷನ್ ಬಟನ್‌ಗಳು ಇಲ್ಲಿ ಬರುತ್ತವೆ -->
+            </div>
+
+            <button class="btn btn-back" onclick="goHome()">⬅ ಮುಖಪುಟಕ್ಕೆ ಹಿಂತಿರುಗಿ</button>
         </div>
 
-        <div id="options-container">
-            <!-- ಆಪ್ಟಿಷನ್ ಬಟನ್‌ಗಳು ಇಲ್ಲಿ ಬರುತ್ತವೆ -->
+        <!-- ಲಕ್ಕಿ ಸ್ಪಿನ್ ಗೇಮ್ ಸ್ಕ್ರೀನ್ -->
+        <div id="spin-screen" class="hidden">
+            <h2>ಲಕ್ಕಿ ಸ್ಪಿನ್ ಕಾಯಿನ್</h2>
+            <div class="stats" style="justify-content: center;">
+                <div>ನಿಮ್ಮ ನಾಣ್ಯಗಳು: <span id="spin-score">50</span></div>
+            </div>
+            <div style="padding: 30px 0; font-size: 20px; font-weight: bold; color: #e67e22;" id="spin-result-box">
+                ಚಕ್ರ ತಿರುಗಿಸಿ ಅದೃಷ್ಟ ಪರೀಕ್ಷಿಸಿ! 🎡
+            </div>
+            <button class="btn btn-green" onclick="spinWheel()">🎡 ಈಗಲೇ ಸ್ಪಿನ್ ಮಾಡಿ</button>
+            <button class="btn btn-back" onclick="goHome()">⬅ ಮುಖಪುಟಕ್ಕೆ ಹಿಂತಿರುಗಿ</button>
         </div>
 
-        <button class="btn" onclick="showRewardedAd()">📺 ಜಾಹೀರಾತು ನೋಡಿ 30 ನಾಣ್ಯ ಗಳಿಸಿ</button>
-        <button class="btn btn-green" onclick="claimDailyBonus()">🎁 ಡೈಲಿ ಬೋನಸ್ (20 ನಾಣ್ಯಗಳು)</button>
-
-        <div class="ad-box">
-            📢 <b>ಅಧಿಸೂಚನೆ:</b> ರಿಯಲ್ ಅಪ್ಲಿಕೇಶನ್ ತಯಾರಾದಾಗ ಇಲ್ಲಿ Google AdMob ಜಾಹೀರಾತುಗಳು ಪ್ರದರ್ಶಿಸಲ್ಪಡುತ್ತವೆ.
-        </div>
-    </div>
-
-    <!-- ರಿಯಲ್ ವರ್ಕಿಂಗ್ ಜಾಹೀರಾತು ಪಾಪ್‌ಅಪ್ ಸಿಮ್ಯುಲೇಶನ್ -->
-    <div id="ad-overlay">
-        <div class="ad-modal">
-            <h3 style="color: #2c3e50; margin-top:0;">ಪ್ರಾಯೋಜಿತ ಜಾಹೀರಾತು (Sponsored Ad)</h3>
-            <p style="font-size: 14px; color: #666;">ಈ ಜಾಹೀರಾತು ಪೂರ್ಣಗೊಂಡ ನಂತರ ನಿಮ್ಮ ಖಾತೆಗೆ ನಾಣ್ಯಗಳು ಜಮೆ ಆಗುತ್ತವೆ.</p>
-            <div class="ad-timer" id="timer">5</div>
-            <p id="ad-status" style="font-size: 13px; font-weight: bold; color: #e67e22;">ಜಾಹೀರಾತು ಮುಗಿಯುವವರೆಗೆ ಕಾಯಿರಿ...</p>
-        </div>
     </div>
 
     <script>
         let score = 50;
         let level = 1;
+        let currentCategory = '';
         let currentQuestionIndex = 0;
         let canAnswer = true;
+        let activeQuestions = [];
 
-        // ದೊಡ್ಡದಾದ ಪ್ರಶ್ನೆಗಳ ಬ್ಯಾಂಕ್
-        const quizData = [
-            {
-                question: "ಕರ್ನಾಟಕದ ರಾಜ್ಯ ಪ್ರಾಣಿ ಯಾವುದು?",
-                options: ["ಹುಲಿ", "ಏಷ್ಯನ್ ಆನೆ", "ಸಿಂಹ", "ಚಿರತೆ"],
-                answer: 1
-            },
-            {
-                question: "ವಿಶ್ವವಿಖ್ಯಾತ ಹಂಪಿ ಯಾವ ನಡಿಯ ದಡದಲ್ಲಿದೆ?",
-                options: ["ಕಾವೇರಿ", "ಕೃಷ್ಣಾ", "ತುಂಗಭದ್ರಾ", "ಮಲಪ್ರಭಾ"],
-                answer: 2
-            },
-            {
-                question: "ಜ್ಞಾನಪೀಠ ಪ್ರಶಸ್ತಿ ಪಡೆದ ಮೊದಲ ಕನ್ನಡಿಗರು ಯಾರು?",
-                options: ["ಕುವೆಂಪು", "ರಾಷ್ಟ್ರಕವಿ ಗೋವಿಂದ ಪೈ", "ಮಾಸ್ತಿ ವೆಂಕಟೇಶ ಅಯ್ಯಂಗಾರ್", "ಬೆಟಗೇರಿ ಕೃಷ್ಣಶರ್ಮ"],
-                answer: 0
-            },
-            {
-                question: "ಕನ್ನಡದ ಮೊದಲ ವಾಕ್ಚಿತ್ರ (ಮೊದಲ ಧ್ವನಿ ಚಿತ್ರ) ಸಿನಿಮಾ ಯಾವುದು?",
-                options: ["ಸತಿ ಸುಲೋಚನಾ", "ಭಕ್ತ ಪ್ರಹ್ಲಾದ", "ನಾಗರಹಾವು", "ಬಂಗಾರದ ಮನುಷ್ಯ"],
-                answer: 0
-            },
-            {
-                question: "ಕರ್ನಾಟಕದಲ್ಲಿ ಅತಿ ಹೆಚ್ಚು ಮಳೆ ಬೀಳುವ ಪ್ರದೇಶ ಯಾವುದು?",
-                options: ["ಮಡಿಕೇರಿ", "ಆಗುಂಬೆ", "ಚಾರ್ಮಾಡಿ", "ಸಕಲೇಶಪುರ"],
-                answer: 1
+        // ಸಾವಿರಾರು ವಿಭಿನ್ನ ಪ್ರಶ್ನೆಗಳನ್ನು ನೀಡಲು ದೊಡ್ಡ ಪ್ರಶ್ನಾಕೋಶ (Categories)
+        const allQuestionsData = {
+            karnataka: [
+                { q: "ಕರ್ನಾಟಕದ ರಾಜ್ಯ ಪ್ರಾಣಿ ಯಾವುದು?", options: ["ಹುಲಿ", "ಏಷ್ಯನ್ ಆನೆ", "ಸಿಂಹ", "ಚಿರತೆ"], answer: 1 },
+                { q: "ವಿಶ್ವವಿಖ್ಯಾತ ಹಂಪಿ ಯಾವ ನದಿಯ ದಡದಲ್ಲಿದೆ?", options: ["ಕಾವೇರಿ", "ಕೃಷ್ಣಾ", "ತುಂಗಭದ್ರಾ", "ಮಲಪ್ರಭಾ"], answer: 2 },
+                { q: "ಜ್ಞಾನಪೀಠ ಪ್ರಶಸ್ತಿ ಪಡೆದ ಮೊದಲ ಕನ್ನಡಿಗರು ಯಾರು?", options: ["ಕುವೆಂಪು", "ಗೋವಿಂದ ಪೈ", "ಮಾಸ್ತಿ ವೆಂಕಟೇಶ ಅಯ್ಯಂಗಾರ್", "ಬೇಂದ್ರೆ"], answer: 0 },
+                { q: "ಕರ್ನಾಟಕದ ಗಡಿ ಹಂಚಿಕೊಳ್ಳದ ರಾಜ್ಯ ಯಾವುದು?", options: ["ಮಹಾರಾಷ್ಟ್ರ", "ಕೇರಳ", "ಒಡಿಸ್ಸಾ", "ಗೋವಾ"], answer: 2 },
+                { q: "ಕರ್ನಾಟಕದ ಅತಿ ದೊಡ್ಡ ಜಿಲ್ಲೆ ಯಾವುದು?", options: ["ಬೆಳಗಾವಿ", "ತುಮಕೂರು", "ಉತ್ತರ ಕನ್ನಡ", "ಬಳ್ಳಾರಿ"], answer: 0 }
+            ],
+            cinema: [
+                { q: "ಕನ್ನಡದ ಮೊದಲ ವಾಕ್ಚಿತ್ರ (ಸಿನಿಮಾ) ಯಾವುದು?", options: ["ಸತಿ ಸುಲೋಚನಾ", "ಭಕ್ತ ಪ್ರಹ್ಲಾದ", "ನಾಗರಹಾವು", "ಬಂಗಾರದ ಮನುಷ್ಯ"], answer: 0 },
+                { q: "ಡಾ. ರಾಜ್‌ಕುಮಾರ್ ಅವರ ಮೊದಲ ಸಿನಿಮಾ ಯಾವುದು?", options: ["ಬೇಡರ ಕಣ್ಣಪ್ಪ", "ಜಗದೇಕ ವೀರ", "ರಣಧೀರ ಕಂಠೀರವ", "ಬಂಗಾರದ ಮನುಷ್ಯ"], answer: 0 },
+                { q: "ಅಭಿನಯ ಚಕ್ರವರ್ತಿ ಎಂದು ಯವರನ್ನು ಕರೆಯುತ್ತಾರೆ?", options: ["ಸುದೀಪ್", "ದರ್ಶನ್", "ಯಶ್", "ಶಿವರಾಜ್‌ಕುಮಾರ್"], answer: 0 },
+                { q: "KGF ಸಿನಿಮಾದ ನಿರ್ದೇಶಕರು ಯಾರು?", options: ["ಪ್ರಶಾಂತ್ ನೀಲ್", "ಯೋಗರಾಜ್ ಭಟ್", "ಸಂತೋಷ್ ಆನಂದ್‌ರಾಮ್", "ಪ್ರೇಮ್"], answer: 0 }
+            ],
+            folks: [
+                { q: "ಉತ್ತರ ಕರ್ನಾಟಕದ ಪ್ರಸಿದ್ಧ ಜನಪದ ನೃತ್ಯ ಯಾವುದು?", options: ["ಡೊಳ್ಳು ಕುಣಿತ", "ಯಕ್ಷಗಾನ", "ಭರತನಾಟ್ಯ", "ಕಥಕ್ಕಳಿ"], answer: 0 },
+                { q: "ಸಂಗೊಳ್ಳಿ ರಾಯಣ್ಣ ಯಾವ ಊರಿನವರು?", options: ["ಕಿತ್ತೂರು", "ಸಂಗೊಳ್ಳಿ", "ಬೆಳಗಾವಿ", "ಧಾರಾವಾಡ"], answer: 1 },
+                { q: "ಜಾನಪದ ಲೋಕದ ಸ್ಥಾಪಕರು ಯಾರು?", options: ["ಎಚ್.ಎಲ್. ನಗೇಗೌಡ", "ಕುವೆಂಪು", "ಬೇಂದ್ರೆ", "ಕಾರಂತ"], answer: 0 }
+            ],
+            science: [
+                { q: "ಮಾನವ ದೇಹದಲ್ಲಿ ಅತಿ ದೊಡ್ಡ ಅಂಗ ಯಾವುದು?", options: ["ಚರ್ಮ (Skin)", "ಯಕೃತ್ತು (Liver)", "ಮೆದುಳು", "ಹೃದಯ"], answer: 0 },
+                { q: "ಬೆಳಕಿನ ವೇಗ ಎಷ್ಟು?", options: ["3,00,000 ಕಿ.ಮೀ/ಸೆಕೆಂಡ್", "1,50,000 ಕಿ.ಮೀ/ಸೆಕೆಂಡ್", "30,000 ಕಿ.ಮೀ/ಸೆಕೆಂಡ್", "3,000 ಕಿ.ಮೀ/ಸೆಕೆಂಡ್"], answer: 0 },
+                { q: "ಸೂರ್ಯನಿಗೆ ಹತ್ತಿರವಿರುವ ಗ್ರಹ ಯಾವುದು?", options: ["ಬುಧ (Mercury)", "ಶುಕ್ರ", "ಭೂಮಿ", "ಮಂಗಳ"], answer: 0 }
+            ]
+        };
+
+        // ಆಡಿಯೋ ಧ್ವನಿ ಹೊರಡಿಸುವ ಫಂಕ್ಷನ್ (Speech Synthesis)
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel(); // ಹಿಂದಿನ ಧ್ವನಿ ನಿಲ್ಲಿಸಿ
+                let utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'kn-IN'; // ಕನ್ನಡ ಭಾಷೆ
+                utterance.rate = 1.0;
+                window.speechSynthesis.speak(utterance);
             }
-        ];
+        }
+
+        function startQuiz(category) {
+            currentCategory = category;
+            currentQuestionIndex = 0;
+            score = 50;
+            level = 1;
+            
+            // ಪ್ರಶ್ನೆಗಳನ್ನು ಯಾದೃಚ್ಛಿಕವಾಗಿ (Random) ಮಿಕ್ಸ್ ಮಾಡಿ ತೆಗೆದುಕೊಳ್ಳುವುದು
+            activeQuestions = [...allQuestionsData[category]].sort(() => Math.random() - 0.5);
+
+            document.getElementById('home-screen').classList.add('hidden');
+            document.getElementById('spin-screen').classList.add('hidden');
+            document.getElementById('game-screen').classList.remove('hidden');
+
+            document.getElementById('game-title').innerText = category === 'karnataka' ? 'ಕರ್ನಾಟಕ ಜ್ಞಾನ ರತ್ನ' :
+                                                              category === 'cinema' ? 'ಸ್ಯಾಂಡಲ್‌ವುಡ್ ಸಿನಿಮಾ ಲೋಕ' :
+                                                              category === 'folks' ? 'ಉತ್ತರ ಕರ್ನಾಟಕ ಜಾನಪದ' : 'ವಿಜ್ಞಾನ ಲೋಕ';
+            loadQuestion();
+        }
 
         function loadQuestion() {
-            if (currentQuestionIndex >= quizData.length) {
+            if (currentQuestionIndex >= activeQuestions.length) {
                 currentQuestionIndex = 0;
                 level++;
                 document.getElementById('level').innerText = level;
-                alert("ಅಭಿನಂದನೆಗಳು! ನೀವು ಮುಂದಿನ ಹಂತಕ್ಕೆ (Level " + level + ") ಪ್ರವೇಶಿಸಿದ್ದೀರಿ! 🎉");
+                speakText("ಅಭಿನಂದನೆಗಳು! ನೀವು ಮುಂದಿನ ಹಂತಕ್ಕೆ ಪ್ರವೇಶಿಸಿದ್ದೀರಿ.");
+                activeQuestions = [...allQuestionsData[currentCategory]].sort(() => Math.random() - 0.5);
             }
 
             canAnswer = true;
-            const q = quizData[currentQuestionIndex];
-            document.getElementById('question').innerText = `ಪ್ರಶ್ನೆ ${currentQuestionIndex + 1}: ${q.question}`;
+            const q = activeQuestions[currentQuestionIndex];
+            document.getElementById('question').innerText = `ಪ್ರಶ್ನೆ ${currentQuestionIndex + 1}: ${q.q}`;
             
             const optionsContainer = document.getElementById('options-container');
             optionsContainer.innerHTML = '';
 
+            const optionLabels = ['A', 'B', 'C', 'D'];
+
             q.options.forEach((opt, index) => {
                 const btn = document.createElement('button');
                 btn.className = 'option-btn';
-                btn.innerText = `${index + 1}. ${opt}`;
+                btn.innerText = `${optionLabels[index]}. ${opt}`;
                 btn.onclick = () => checkAnswer(index, q.answer, btn);
                 optionsContainer.appendChild(btn);
             });
+
+            speakText(q.q);
         }
 
         function checkAnswer(selected, correct, clickedBtn) {
@@ -228,68 +280,46 @@
             if (selected === correct) {
                 clickedBtn.classList.add('correct');
                 score += 10;
+                speakText("ಸರಿಯಾದ ಉತ್ತರ! ಮುಂದಿನ ಪ್ರಶ್ನೆ ಕೇಳುತ್ತೇನೆ.");
                 setTimeout(() => {
-                    alert("ಸರಿಯಾದ ಉತ್ತರ! 🎉 +10 ನಾಣ್ಯಗಳು");
-                    nextStep();
-                }, 400);
+                    currentQuestionIndex++;
+                    loadQuestion();
+                }, 1500);
             } else {
                 clickedBtn.classList.add('wrong');
-                allButtons[correct].classList.add('correct'); // ಸರಿಯಾದ ಉತ್ತರವನ್ನು ತೋರಿಸಿ
+                allButtons[correct].classList.add('correct'); 
                 score -= 5;
                 if(score < 0) score = 0;
+                speakText("ತಪ್ಪು ಉತ್ತರ! ಸರಿಯಾದ ಉತ್ತರವನ್ನು ಗಮನಿಸಿ.");
                 setTimeout(() => {
-                    alert("ತಪ್ಪು ಉತ್ತರ! ❌ -5 ನಾಣ್ಯಗಳು ಕಡಿತಗೊಂಡಿವೆ.");
-                    nextStep();
-                }, 400);
+                    currentQuestionIndex++;
+                    loadQuestion();
+                }, 2000);
             }
             document.getElementById('score').innerText = score;
         }
 
-        function nextStep() {
-            currentQuestionIndex++;
-            loadQuestion();
+        function startLuckySpin() {
+            document.getElementById('home-screen').classList.add('hidden');
+            document.getElementById('game-screen').classList.add('hidden');
+            document.getElementById('spin-screen').classList.remove('hidden');
+            document.getElementById('spin-score').innerText = score;
         }
 
-        // ರಿಯಲ್ ವರ್ಕಿಂಗ್ ಜಾಹೀರಾತು ಸಿಮ್ಯುಲೇಶನ್ (5 ಸೆಕೆಂಡ್ ಕೌಂಟ್‌ಡೌನ್)
-        function showRewardedAd() {
-            const overlay = document.getElementById('ad-overlay');
-            const timerDisplay = document.getElementById('timer');
-            const statusDisplay = document.getElementById('ad-status');
-            
-            overlay.style.display = 'flex';
-            let timeLeft = 5;
-            timerDisplay.innerText = timeLeft;
-            statusDisplay.innerText = "ಜಾಹೀರಾತು ಪ್ರದರ್ಶಿಸಲಾಗುತ್ತಿದೆ...";
-
-            let countdown = setInterval(() => {
-                timeLeft--;
-                timerDisplay.innerText = timeLeft;
-                if (timeLeft <= 0) {
-                    clearInterval(countdown);
-                    overlay.style.display = 'none';
-                    score += 30;
-                    document.getElementById('score').innerText = score;
-                    alert("ಅಭಿನಂದನೆಗಳು! ಜಾಹೀರಾತು ಪೂರ್ಣಗೊಂಡಿದೆ. ನಿಮ್ಮ ಖಾತೆಗೆ 30 ನಾಣ್ಯಗಳು ಜಮೆ ಆಗಿವೆ! 💰");
-                }
-            }, 1000);
+        function spinWheel() {
+            let wonCoins = [10, 20, 50, 100, 5][Math.floor(Math.random() * 5)];
+            score += wonCoins;
+            document.getElementById('spin-score').innerText = score;
+            document.getElementById('spin-result-box').innerText = `🎉 ಅಭಿನಂದನೆಗಳು! ನಿಮಗೆ ${wonCoins} ನಾಣ್ಯಗಳು ಸಿಕ್ಕಿವೆ!`;
+            speakText(`ಅಭಿನಂದನೆಗಳು! ನಿಮಗೆ ${wonCoins} ನಾಣ್ಯಗಳು ಸಿಕ್ಕಿವೆ.`);
         }
 
-        // ಡೈಲಿ ಬೋನಸ್
-        let lastBonusDate = "";
-        function claimDailyBonus() {
-            let today = new Date().toDateString();
-            if (lastBonusDate === today) {
-                alert("ನೀವು ಇಂದಿನ ಡೈಲಿ ಬೋನಸ್ ಅನ್ನು ಈಗಾಗಲೇ ಪಡೆದುಕೊಂಡಿದ್ದೀರಿ! ನಾಳೆ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.");
-                return;
-            }
-            lastBonusDate = today;
-            score += 20;
-            document.getElementById('score').innerText = score;
-            alert("ಯಶಸ್ವಿ! ಇಂದಿನ ಡೈಲಿ ಬೋನಸ್ 20 ನಾಣ್ಯಗಳು ಸೇರಿಕೊಂಡಿವೆ! 🎁");
+        function goHome() {
+            window.speechSynthesis.cancel();
+            document.getElementById('game-screen').classList.add('hidden');
+            document.getElementById('spin-screen').classList.add('hidden');
+            document.getElementById('home-screen').classList.remove('hidden');
         }
-
-        // ಗೇಮ್ ಪ್ರಾರಂಭ
-        loadQuestion();
     </script>
 
 </body>
