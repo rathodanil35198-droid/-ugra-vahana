@@ -1,510 +1,296 @@
 <!DOCTYPE html>
 <html lang="kn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>InstaGram Public Network</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ಕನ್ನಡ ರಿಯಲ್ ಕ್ವಿಜ್ ಗೇಮ್</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .game-container {
+            background: #ffffff;
+            color: #333;
+            width: 100%;
+            max-width: 420px;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+            text-align: center;
+        }
+        h2 { color: #1b4f72; margin-top: 0; margin-bottom: 10px; }
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            background: #eaf2f8;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: #1b4f72;
+        }
+        .question-box {
+            background: #f9f9f9;
+            border: 2px dashed #aed6f1;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        #question {
+            font-weight: bold;
+            font-size: 17px;
+            margin: 0;
+            color: #2c3e50;
+        }
+        .option-btn {
+            background: #ebf5fb;
+            color: #1b4f72;
+            border: 1px solid #85c1e9;
+            padding: 12px;
+            margin: 6px 0;
+            width: 100%;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            text-align: left;
+            padding-left: 15px;
+            transition: 0.2s;
+        }
+        .option-btn:hover { background: #d4e6f1; transform: scale(1.01); }
+        .option-btn.correct { background: #27ae60 !important; color: white !important; border-color: #196f3d; }
+        .option-btn.wrong { background: #e74c3c !important; color: white !important; border-color: #943126; }
+        
+        .btn {
+            background: #f39c12;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            margin: 8px 0;
+            width: 100%;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .btn:hover { background: #d68910; }
+        .btn-green { background: #27ae60; }
+        .btn-green:hover { background: #1e8449; }
 
-    body {
-      background-color: #fafafa;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      color: #262626;
-    }
-
-    .app-container {
-      width: 100%;
-      max-width: 420px;
-      height: 100vh;
-      max-height: 850px;
-      background: #ffffff;
-      border: 1px solid #dbdbdb;
-      border-radius: 0;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      position: relative;
-    }
-
-    @media(min-width: 425px) {
-      .app-container {
-        border-radius: 15px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      }
-    }
-
-    /* Screen Management */
-    .screen {
-      display: none;
-      flex-direction: column;
-      height: 100%;
-      width: 100%;
-      background: #fff;
-      overflow-y: auto;
-    }
-
-    .screen.active {
-      display: flex;
-    }
-
-    /* 1. LOGIN SCREEN STYLES */
-    .login-container {
-      padding: 40px 20px;
-      text-align: center;
-      justify-content: center;
-      margin: auto;
-      width: 100%;
-    }
-
-    .login-logo {
-      font-size: 38px;
-      font-family: 'Georgia', serif;
-      font-style: italic;
-      margin-bottom: 30px;
-      font-weight: bold;
-    }
-
-    .input-field {
-      width: 100%;
-      padding: 12px 15px;
-      margin-bottom: 12px;
-      border: 1px solid #dbdbdb;
-      border-radius: 8px;
-      background: #fafafa;
-      font-size: 14px;
-      outline: none;
-    }
-
-    .btn-primary {
-      width: 100%;
-      padding: 12px;
-      background: #0095f6;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-weight: bold;
-      font-size: 14px;
-      cursor: pointer;
-      margin-top: 5px;
-    }
-
-    .divider {
-      margin: 20px 0;
-      color: #8e8e8e;
-      font-size: 13px;
-      position: relative;
-    }
-
-    /* 2. MAIN FEED SCREEN */
-    .top-header {
-      height: 50px;
-      border-bottom: 1px solid #efefef;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 15px;
-      background: #fff;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .logo {
-      font-size: 22px;
-      font-weight: bold;
-      font-family: 'Georgia', serif;
-      font-style: italic;
-    }
-
-    .header-icons {
-      display: flex;
-      gap: 15px;
-      font-size: 20px;
-      cursor: pointer;
-    }
-
-    .main-content {
-      flex: 1;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    /* Stories */
-    .stories-container {
-      display: flex;
-      gap: 12px;
-      padding: 10px 12px;
-      border-bottom: 1px solid #efefef;
-      overflow-x: auto;
-      background: #fff;
-    }
-
-    .stories-container::-webkit-scrollbar {
-      display: none;
-    }
-
-    .story-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      cursor: pointer;
-      flex-shrink: 0;
-    }
-
-    .story-ring {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-      padding: 2px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .story-img {
-      width: 54px;
-      height: 54px;
-      border-radius: 50%;
-      border: 2px solid #fff;
-      object-fit: cover;
-    }
-
-    .story-username {
-      font-size: 11px;
-      margin-top: 4px;
-      color: #262626;
-      width: 60px;
-      text-align: center;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    /* Posts */
-    .post-card {
-      border-bottom: 1px solid #efefef;
-      background: #fff;
-      margin-bottom: 10px;
-    }
-
-    .post-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 12px;
-    }
-
-    .user-info {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .profile-pic {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-
-    .username {
-      font-size: 13px;
-      font-weight: 600;
-    }
-
-    .post-media {
-      width: 100%;
-      max-height: 400px;
-      background: #000;
-      object-fit: cover;
-      display: block;
-    }
-
-    .post-actions {
-      display: flex;
-      justify-content: space-between;
-      padding: 10px 12px 5px 12px;
-      font-size: 22px;
-    }
-
-    .action-group {
-      display: flex;
-      gap: 15px;
-    }
-
-    .icon-btn {
-      cursor: pointer;
-      user-select: none;
-    }
-
-    .liked {
-      color: #ed4956;
-    }
-
-    .post-details {
-      padding: 0 12px 10px 12px;
-    }
-
-    .likes-count {
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 5px;
-    }
-
-    .caption {
-      font-size: 13px;
-      color: #262626;
-    }
-
-    .caption-username {
-      font-weight: 600;
-      margin-right: 5px;
-    }
-
-    /* Bottom Nav */
-    .bottom-nav {
-      height: 48px;
-      border-top: 1px solid #efefef;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      background: #fff;
-      font-size: 22px;
-      position: sticky;
-      bottom: 0;
-    }
-
-    /* Upload Screen Modal/Page */
-    .upload-box {
-      padding: 20px;
-      text-align: center;
-    }
-    
-    .upload-box input, .upload-box textarea {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      border: 1px solid #dbdbdb;
-      border-radius: 6px;
-    }
-  </style>
+        .ad-box {
+            background: #fef9e7;
+            color: #7d6608;
+            border: 1px solid #f9e79f;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 12px;
+        }
+        /* ಪಾಪ್‌ಅಪ್ ಜಾಹೀರಾತು ಸಿಮ್ಯುಲೇಶನ್ */
+        #ad-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .ad-modal {
+            background: white;
+            color: #333;
+            padding: 20px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 320px;
+            text-align: center;
+        }
+        .ad-timer {
+            font-size: 22px;
+            color: #e74c3c;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+    </style>
 </head>
 <body>
 
-  <div class="app-container">
-
-    <!-- SCREEN 1: LOGIN & OTP / GOOGLE VERIFICATION -->
-    <div id="loginScreen" class="screen active">
-      <div class="login-container">
-        <div class="login-logo">Instagram</div>
-        <input type="text" id="fullName" class="input-field" placeholder="ನಿಮ್ಮ ಪೂರ್ಣ ಹೆಸರು (Full Name)">
-        <input type="tel" id="mobileNumber" class="input-field" placeholder="ಮೊಬೈಲ್ ನಂಬರ್ ಅಥವಾ ಜಿಮೇಲ್">
-        <button class="btn-primary" onclick="sendOTP()">OTP ಕಳುಹಿಸಿ / ಮುಂದುವರಿಯಿರಿ</button>
+    <div class="game-container">
+        <h2>ಕರ್ನಾಟಕ ಜ್ಞಾನ ರತ್ನ</h2>
         
-        <div id="otpSection" style="display:none; margin-top: 15px;">
-          <input type="text" id="otpInput" class="input-field" placeholder="6 ಅಂಕಿಯ ಒಟಿಪಿ (OTP) ಹಾಕಿ">
-          <button class="btn-primary" onclick="verifyAndCreateAccount()">ಖಾತೆ ಸೃಷ್ಟಿಸಿ (Verify & Login)</button>
+        <div class="stats">
+            <div>ನಾಣ್ಯಗಳು: <span id="score">50</span></div>
+            <div>ಹಂತ: <span id="level">1</span></div>
         </div>
 
-        <div class="divider">ಅಥವಾ</div>
-        <button class="btn-primary" style="background: #db4437;" onclick="socialLogin('Google')">Google ಮೂಲಕ ಲಾಗಿನ್</button>
-      </div>
+        <div class="question-box">
+            <p id="question">ಪ್ರಶ್ನೆ ಲೋಡ್ ಆಗುತ್ತಿದೆ...</p>
+        </div>
+
+        <div id="options-container">
+            <!-- ಆಪ್ಟಿಷನ್ ಬಟನ್‌ಗಳು ಇಲ್ಲಿ ಬರುತ್ತವೆ -->
+        </div>
+
+        <button class="btn" onclick="showRewardedAd()">📺 ಜಾಹೀರಾತು ನೋಡಿ 30 ನಾಣ್ಯ ಗಳಿಸಿ</button>
+        <button class="btn btn-green" onclick="claimDailyBonus()">🎁 ಡೈಲಿ ಬೋನಸ್ (20 ನಾಣ್ಯಗಳು)</button>
+
+        <div class="ad-box">
+            📢 <b>ಅಧಿಸೂಚನೆ:</b> ರಿಯಲ್ ಅಪ್ಲಿಕೇಶನ್ ತಯಾರಾದಾಗ ಇಲ್ಲಿ Google AdMob ಜಾಹೀರಾತುಗಳು ಪ್ರದರ್ಶಿಸಲ್ಪಡುತ್ತವೆ.
+        </div>
     </div>
 
-    <!-- SCREEN 2: MAIN INSTAGRAM FEED (PUBLIC NETWORK) -->
-    <div id="feedScreen" class="screen">
-      <!-- Top Header -->
-      <div class="top-header">
-        <div class="logo">Instagram</div>
-        <div class="header-icons">
-          <span onclick="alert('ಹೊಸ ನೋಟಿಫಿಕೇಶನ್‌ಗಳು')">❤️</span>
-          <span onclick="alert('ಡೈರೆಕ್ಟ್ ಮೆಸೇಜಸ್ (DM)')">💬</span>
+    <!-- ರಿಯಲ್ ವರ್ಕಿಂಗ್ ಜಾಹೀರಾತು ಪಾಪ್‌ಅಪ್ ಸಿಮ್ಯುಲೇಶನ್ -->
+    <div id="ad-overlay">
+        <div class="ad-modal">
+            <h3 style="color: #2c3e50; margin-top:0;">ಪ್ರಾಯೋಜಿತ ಜಾಹೀರಾತು (Sponsored Ad)</h3>
+            <p style="font-size: 14px; color: #666;">ಈ ಜಾಹೀರಾತು ಪೂರ್ಣಗೊಂಡ ನಂತರ ನಿಮ್ಮ ಖಾತೆಗೆ ನಾಣ್ಯಗಳು ಜಮೆ ಆಗುತ್ತವೆ.</p>
+            <div class="ad-timer" id="timer">5</div>
+            <p id="ad-status" style="font-size: 13px; font-weight: bold; color: #e67e22;">ಜಾಹೀರಾತು ಮುಗಿಯುವವರೆಗೆ ಕಾಯಿರಿ...</p>
         </div>
-      </div>
-
-      <!-- Main Feed -->
-      <div class="main-content" id="feedScrollArea">
-        <!-- Stories Row -->
-        <div class="stories-container" id="storiesRow">
-          <div class="story-item" onclick="openUploadModal('story')">
-            <div class="story-ring">
-              <img class="story-img" src="https://picsum.photos/100/100?random=1" alt="My Story">
-            </div>
-            <span class="story-username">ನಿಮ್ಮ ಸ್ಟೋರಿ</span>
-          </div>
-          <div class="story-item" onclick="alert('ಅನಿಲ್ ಅವರ ಸ್ಟೋರಿ')">
-            <div class="story-ring">
-              <img class="story-img" src="https://picsum.photos/100/100?random=2" alt="Story">
-            </div>
-            <span class="story-username">ಅನಿಲ್</span>
-          </div>
-          <div class="story-item" onclick="alert('ರಾಹುಲ್ ಅವರ ಸ್ಟೋರಿ')">
-            <div class="story-ring">
-              <img class="story-img" src="https://picsum.photos/100/100?random=3" alt="Story">
-            </div>
-            <span class="story-username">ರಾಹುಲ್</span>
-          </div>
-        </div>
-
-        <!-- Dynamic Dynamic Posts Feed Container -->
-        <div id="dynamicPostsContainer">
-          <!-- Default Post 1 -->
-          <div class="post-card">
-            <div class="post-header">
-              <div class="user-info">
-                <img class="profile-pic" src="https://picsum.photos/100/100?random=10" alt="User">
-                <span class="username">karnataka_vibe</span>
-              </div>
-              <span>•••</span>
-            </div>
-            <img class="post-media" src="https://picsum.photos/500/400?random=20" alt="Post">
-            <div class="post-actions">
-              <div class="action-group">
-                <span class="icon-btn" onclick="toggleLike(this)">🤍</span>
-                <span class="icon-btn" onclick="alert('ಕಾಮೆಂಟ್ ಬಾಕ್ಸ್')">💬</span>
-                <span class="icon-btn" onclick="alert('ಶೇರ್ ಆಯಿತು')">✈️</span>
-              </div>
-              <span class="icon-btn">🔖</span>
-            </div>
-            <div class="post-details">
-              <div class="likes-count">1,452 ಲೈಕ್‌ಗಳು</div>
-              <div class="caption"><span class="caption-username">karnataka_vibe</span> ಪ್ರಕೃತಿ ಸೌಂದರ್ಯದ ಜೊತೆ ಸುಂದರ ಸಂಜೆ! 🌿</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Bottom Navigation -->
-      <div class="bottom-nav">
-        <span class="icon-btn" onclick="switchScreen('feedScreen')">🏠</span>
-        <span class="icon-btn" onclick="alert('ಸರ್ಚ್ ಪೇಜ್')">🔍</span>
-        <span class="icon-btn" onclick="openUploadModal('post')" style="color:#0095f6; font-weight:bold;">➕</span>
-        <span class="icon-btn" onclick="alert('ರೀಲ್ಸ್ ವೀಡಿಯೊಗಳು')">🎬</span>
-        <span class="icon-btn" onclick="alert('ಪ್ರೊಫೈಲ್ ಸೆಟ್ಟಿಂಗ್ಸ್')">👤</span>
-      </div>
     </div>
 
-    <!-- SCREEN 3: UPLOAD PHOTO/VIDEO/SONG SCREEN -->
-    <div id="uploadScreen" class="screen">
-      <div class="top-header">
-        <span style="cursor:pointer; font-size:16px;" onclick="switchScreen('feedScreen')">✕ ರದ್ದುಮಾಡಿ</span>
-        <span style="font-weight:bold;">ಹೊಸ ಪೋಸ್ಟ್ / ಸ್ಟೋರಿ</span>
-        <span style="color:#0095f6; font-weight:bold; cursor:pointer;" onclick="publishPost()">ಹಂಚಿಕೊಳ್ಳಿ</span>
-      </div>
-      <div class="upload-box">
-        <p style="margin-bottom: 10px; font-weight: bold;">ನಿಮ್ಮ ಫೋಟೋ ಅಥವಾ ವೀಡಿಯೊ ಆಯ್ಕೆಮಾಡಿ:</p>
-        <input type="file" id="mediaFile" accept="image/*,video/*" class="input-field">
-        <textarea id="postCaption" class="input-field" placeholder="ಕ್ಯಾಪ್ಷನ್ ಬರೆಯಿರಿ & ಹಾಡಿನ ಹೆಸರು ಸೇರಿಸಿ..." rows="4"></textarea>
-        <div style="background:#e8f4fd; padding:10px; border-radius:8px; font-size:12px; color:#0066cc;">
-          💡 ಸಾರ್ವಜನಿಕ ನೆಟ್‌ವರ್ಕ್‌ನಲ್ಲಿ (Public Feed) 10,000+ ಜನರು ಏಕಕಾಲದಲ್ಲಿ ವೀಕ್ಷಿಸಿದರೂ ಮೊಬೈಲ್ ಹ್ಯಾಂಗ್ ಆಗದಂತೆ ಹೈ-ಸ್ಪೀಡ್ ಲೈವ್ ಅಪ್‌ಡೇಟ್ ಸಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ.
-        </div>
-      </div>
-    </div>
+    <script>
+        let score = 50;
+        let level = 1;
+        let currentQuestionIndex = 0;
+        let canAnswer = true;
 
-  </div>
+        // ದೊಡ್ಡದಾದ ಪ್ರಶ್ನೆಗಳ ಬ್ಯಾಂಕ್
+        const quizData = [
+            {
+                question: "ಕರ್ನಾಟಕದ ರಾಜ್ಯ ಪ್ರಾಣಿ ಯಾವುದು?",
+                options: ["ಹುಲಿ", "ಏಷ್ಯನ್ ಆನೆ", "ಸಿಂಹ", "ಚಿರತೆ"],
+                answer: 1
+            },
+            {
+                question: "ವಿಶ್ವವಿಖ್ಯಾತ ಹಂಪಿ ಯಾವ ನಡಿಯ ದಡದಲ್ಲಿದೆ?",
+                options: ["ಕಾವೇರಿ", "ಕೃಷ್ಣಾ", "ತುಂಗಭದ್ರಾ", "ಮಲಪ್ರಭಾ"],
+                answer: 2
+            },
+            {
+                question: "ಜ್ಞಾನಪೀಠ ಪ್ರಶಸ್ತಿ ಪಡೆದ ಮೊದಲ ಕನ್ನಡಿಗರು ಯಾರು?",
+                options: ["ಕುವೆಂಪು", "ರಾಷ್ಟ್ರಕವಿ ಗೋವಿಂದ ಪೈ", "ಮಾಸ್ತಿ ವೆಂಕಟೇಶ ಅಯ್ಯಂಗಾರ್", "ಬೆಟಗೇರಿ ಕೃಷ್ಣಶರ್ಮ"],
+                answer: 0
+            },
+            {
+                question: "ಕನ್ನಡದ ಮೊದಲ ವಾಕ್ಚಿತ್ರ (ಮೊದಲ ಧ್ವನಿ ಚಿತ್ರ) ಸಿನಿಮಾ ಯಾವುದು?",
+                options: ["ಸತಿ ಸುಲೋಚನಾ", "ಭಕ್ತ ಪ್ರಹ್ಲಾದ", "ನಾಗರಹಾವು", "ಬಂಗಾರದ ಮನುಷ್ಯ"],
+                answer: 0
+            },
+            {
+                question: "ಕರ್ನಾಟಕದಲ್ಲಿ ಅತಿ ಹೆಚ್ಚು ಮಳೆ ಬೀಳುವ ಪ್ರದೇಶ ಯಾವುದು?",
+                options: ["ಮಡಿಕೇರಿ", "ಆಗುಂಬೆ", "ಚಾರ್ಮಾಡಿ", "ಸಕಲೇಶಪುರ"],
+                answer: 1
+            }
+        ];
 
-  <script>
-    let loggedInUser = "User";
+        function loadQuestion() {
+            if (currentQuestionIndex >= quizData.length) {
+                currentQuestionIndex = 0;
+                level++;
+                document.getElementById('level').innerText = level;
+                alert("ಅಭಿನಂದನೆಗಳು! ನೀವು ಮುಂದಿನ ಹಂತಕ್ಕೆ (Level " + level + ") ಪ್ರವೇಶಿಸಿದ್ದೀರಿ! 🎉");
+            }
 
-    // 1. Send OTP Logic
-    function sendOTP() {
-      const name = document.getElementById('fullName').value;
-      const mobile = document.getElementById('mobileNumber').value;
-      if(name && mobile) {
-        document.getElementById('otpSection').style.display = 'block';
-        alert('ನಿಮ್ಮ ನಂಬರ್‌ಗೆ ಒಟಿಪಿ (OTP: 1234) ಕಳುಹಿಸಲಾಗಿದೆ!');
-      } else {
-        alert('ದಯವಿಟ್ಟು ಹೆಸರು ಮತ್ತು ಮೊಬೈಲ್ ನಂಬರ್ ಭರ್ತಿ ಮಾಡಿ.');
-      }
-    }
+            canAnswer = true;
+            const q = quizData[currentQuestionIndex];
+            document.getElementById('question').innerText = `ಪ್ರಶ್ನೆ ${currentQuestionIndex + 1}: ${q.question}`;
+            
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
 
-    // 2. Verify OTP & Create Account
-    function verifyAndCreateAccount() {
-      const otp = document.getElementById('otpInput').value;
-      const name = document.getElementById('fullName').value;
-      if(otp === "1234" || otp.length === 4) {
-        loggedInUser = name || "my_profile";
-        alert('ಖಾತೆ ಯಶಸ್ವಿಯಾಗಿ ಸೃಷ್ಟಿಯಾಗಿದೆ! ಸ್ವಾಗತ.');
-        switchScreen('feedScreen');
-      } else {
-        alert('ತಪ್ಪು ಒಟಿಪಿ! ದಯವಿಟ್ಟು ಸರಿಯಾದ ಒಟಿಪಿ ಹಾಕಿ.');
-      }
-    }
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = `${index + 1}. ${opt}`;
+                btn.onclick = () => checkAnswer(index, q.answer, btn);
+                optionsContainer.appendChild(btn);
+            });
+        }
 
-    function socialLogin(provider) {
-      loggedInUser = "GoogleUser";
-      alert(provider + ' ಮೂಲಕ ಲಾಗಿನ್ ಯಶಸ್ವಿಯಾಗಿದೆ!');
-      switchScreen('feedScreen');
-    }
+        function checkAnswer(selected, correct, clickedBtn) {
+            if (!canAnswer) return;
+            canAnswer = false;
 
-    // Screen Switcher
-    function switchScreen(screenId) {
-      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-      document.getElementById(screenId).classList.add('active');
-    }
+            const allButtons = document.querySelectorAll('.option-btn');
 
-    // Like Toggle
-    function toggleLike(element) {
-      if(element.innerText === '🤍') {
-        element.innerText = '❤️';
-        element.classList.add('liked');
-      } else {
-        element.innerText = '🤍';
-        element.classList.remove('liked');
-      }
-    }
+            if (selected === correct) {
+                clickedBtn.classList.add('correct');
+                score += 10;
+                setTimeout(() => {
+                    alert("ಸರಿಯಾದ ಉತ್ತರ! 🎉 +10 ನಾಣ್ಯಗಳು");
+                    nextStep();
+                }, 400);
+            } else {
+                clickedBtn.classList.add('wrong');
+                allButtons[correct].classList.add('correct'); // ಸರಿಯಾದ ಉತ್ತರವನ್ನು ತೋರಿಸಿ
+                score -= 5;
+                if(score < 0) score = 0;
+                setTimeout(() => {
+                    alert("ತಪ್ಪು ಉತ್ತರ! ❌ -5 ನಾಣ್ಯಗಳು ಕಡಿತಗೊಂಡಿವೆ.");
+                    nextStep();
+                }, 400);
+            }
+            document.getElementById('score').innerText = score;
+        }
 
-    // Open Upload Modal
-    function openUploadModal(type) {
-      switchScreen('uploadScreen');
-    }
+        function nextStep() {
+            currentQuestionIndex++;
+            loadQuestion();
+        }
 
-    // Publish Post to Public Feed
-    function publishPost() {
-      const caption = document.getElementById('postCaption').value;
-      const feedContainer = document.getElementById('dynamicPostsContainer');
-      
-      const newPostHTML = `
-        <div class="post-card">
-          <div class="post-header">
-            <div class="user-info">
-              <img class="profile-pic" src="https://picsum.photos/100/100?random=${Math.floor(Math.random()*100)}" alt="User">
-              <span class="username">${loggedInUser}</span>
-            </div>
-            <span>•••</span>
-          </div>
-          <img class="post-media" src="https://picsum.photos/500/400?random=${Math.floor(Math.random()*100)}" alt="Post">
-          <div class="post-actions">
-            <div class="action-group">
-              <span class="icon-btn" onclick="toggleLike(this)">🤍</span>
-              <span class="icon-btn" onclick="alert('ಕಾಮೆಂಟ್ ಬಾಕ್ಸ್')">💬</span>
-              <span class="icon-btn" onclick="alert('ಶೇರ್ ಆಯಿತು')">✈️</span>
-            </div>
-            <span class="icon-btn">🔖</span>
-          </div>
-          <div class="post-details">
-            <div class="likes-count">1 ಲೈಕ್</div>
-            <div class="caption"><span class="caption-username">${loggedInUser}</span> ${caption || 'ಹೊಸ ಪೋಸ್ಟ್ ಅಪ್‌ಲೋಡ್ ಮಾಡಲಾಗಿದೆ!'}</div>
-          </div>
-        </div>
-      `;
+        // ರಿಯಲ್ ವರ್ಕಿಂಗ್ ಜಾಹೀರಾತು ಸಿಮ್ಯುಲೇಶನ್ (5 ಸೆಕೆಂಡ್ ಕೌಂಟ್‌ಡೌನ್)
+        function showRewardedAd() {
+            const overlay = document.getElementById('ad-overlay');
+            const timerDisplay = document.getElementById('timer');
+            const statusDisplay = document.getElementById('ad-status');
+            
+            overlay.style.display = 'flex';
+            let timeLeft = 5;
+            timerDisplay.innerText = timeLeft;
+            statusDisplay.innerText = "ಜಾಹೀರಾತು ಪ್ರದರ್ಶಿಸಲಾಗುತ್ತಿದೆ...";
 
-      feedContainer.insertAdjacentHTML('afterbegin', newPostHTML);
-      document.getElementById('postCaption').value = '';
-      switchScreen('feedScreen');
-      alert('ನಿಮ್ಮ ಪೋಸ್ಟ್ ಸಾರ್ವಜನಿಕ ಫೀಡ್‌ಗೆ ಯಶಸ್ವಿಯಾಗಿ ಅಪ್‌ಲೋಡ್ ಆಗಿದೆ!');
-    }
-  </script>
+            let countdown = setInterval(() => {
+                timeLeft--;
+                timerDisplay.innerText = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(countdown);
+                    overlay.style.display = 'none';
+                    score += 30;
+                    document.getElementById('score').innerText = score;
+                    alert("ಅಭಿನಂದನೆಗಳು! ಜಾಹೀರಾತು ಪೂರ್ಣಗೊಂಡಿದೆ. ನಿಮ್ಮ ಖಾತೆಗೆ 30 ನಾಣ್ಯಗಳು ಜಮೆ ಆಗಿವೆ! 💰");
+                }
+            }, 1000);
+        }
+
+        // ಡೈಲಿ ಬೋನಸ್
+        let lastBonusDate = "";
+        function claimDailyBonus() {
+            let today = new Date().toDateString();
+            if (lastBonusDate === today) {
+                alert("ನೀವು ಇಂದಿನ ಡೈಲಿ ಬೋನಸ್ ಅನ್ನು ಈಗಾಗಲೇ ಪಡೆದುಕೊಂಡಿದ್ದೀರಿ! ನಾಳೆ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.");
+                return;
+            }
+            lastBonusDate = today;
+            score += 20;
+            document.getElementById('score').innerText = score;
+            alert("ಯಶಸ್ವಿ! ಇಂದಿನ ಡೈಲಿ ಬೋನಸ್ 20 ನಾಣ್ಯಗಳು ಸೇರಿಕೊಂಡಿವೆ! 🎁");
+        }
+
+        // ಗೇಮ್ ಪ್ರಾರಂಭ
+        loadQuestion();
+    </script>
 
 </body>
 </html>
