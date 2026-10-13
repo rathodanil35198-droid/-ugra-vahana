@@ -1,297 +1,395 @@
 <!DOCTYPE html>
 <html lang="kn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Watch & Earn App Demo</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InstaClone - Web App</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
 
-        body {
-            background-color: #f4f7f6;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
+    body {
+      background-color: #fafafa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
 
-        .app-container {
-            width: 100%;
-            max-width: 400px;
-            background: #ffffff;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            min-height: 650px;
-        }
+    /* ಆಪ್ ಮೇನ್ ಕಂಟೇನರ್ (Mobile Screen Size) */
+    .insta-app {
+      width: 100%;
+      max-width: 420px;
+      height: 100vh;
+      max-height: 850px;
+      background: #ffffff;
+      border: 1px solid #dbdbdb;
+      border-radius: 15px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
 
-        .header {
-            background: linear-gradient(135deg, #4CAF50, #2E7D32);
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
+    /* 1. ಹೆಡರ್ (Top Header) */
+    .top-header {
+      height: 50px;
+      border-bottom: 1px solid #efefef;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 15px;
+      background: #fff;
+    }
 
-        .header h2 {
-            font-size: 22px;
-            margin-bottom: 5px;
-        }
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+      font-family: 'Georgia', serif;
+      font-style: italic;
+    }
 
-        .wallet-card {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            padding: 10px;
-            margin-top: 10px;
-            font-size: 18px;
-            font-weight: bold;
-        }
+    .header-icons {
+      display: flex;
+      gap: 18px;
+      font-size: 20px;
+      cursor: pointer;
+    }
 
-        .content {
-            padding: 20px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
+    /* ಆಪ್ ಸ್ಕ್ರಾಲ್ ಏರಿಯಾ */
+    .main-content {
+      flex: 1;
+      overflow-y: auto;
+    }
 
-        .screen {
-            display: none;
-        }
+    /* 2. ಸ್ಟೋರಿಗಳ ವಿಭಾಗ (Instagram Stories Section) */
+    .stories-container {
+      display: flex;
+      gap: 15px;
+      padding: 12px;
+      border-bottom: 1px solid #efefef;
+      overflow-x: auto;
+      background: #fff;
+    }
 
-        .screen.active {
-            display: block;
-        }
+    .stories-container::-webkit-scrollbar {
+      display: none;
+    }
 
-        .video-box {
-            width: 100%;
-            height: 200px;
-            background-color: #000;
-            border-radius: 12px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            position: relative;
-            margin-bottom: 15px;
-        }
+    .story-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+    }
 
-        .timer-overlay {
-            font-size: 32px;
-            font-weight: bold;
-            color: #FFD700;
-        }
+    .story-ring {
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+      padding: 2px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-        .btn {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 10px;
-            background-color: #4CAF50;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: background 0.3s;
-        }
+    .story-img {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      object-fit: cover;
+    }
 
-        .btn:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
-        }
+    .story-username {
+      font-size: 11px;
+      margin-top: 4px;
+      color: #262626;
+      width: 60px;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
-        .btn-secondary {
-            background-color: #2196F3;
-        }
+    /* 3. ಪೋಸ್ಟ್ ಕಾರ್ಡ್ (Post Card) */
+    .post-card {
+      border-bottom: 1px solid #efefef;
+      background: #fff;
+      margin-bottom: 10px;
+    }
 
-        input {
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 15px;
-        }
+    .post-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+    }
 
-        .status-msg {
-            color: #d32f2f;
-            font-size: 14px;
-            margin-top: 8px;
-            text-align: center;
-        }
-    </style>
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .profile-pic {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .username {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .post-img {
+      width: 100%;
+      max-height: 400px;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ಪೋಸ್ಟ್ ಆಕ್ಷನ್ ಬಟನ್‌ಗಳು */
+    .post-actions {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 12px 5px 12px;
+      font-size: 22px;
+    }
+
+    .action-group {
+      display: flex;
+      gap: 15px;
+    }
+
+    .icon-btn {
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .liked {
+      color: #ed4956;
+    }
+
+    .saved {
+      color: #262626;
+    }
+
+    .post-details {
+      padding: 0 12px 10px 12px;
+    }
+
+    .likes-count {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .caption {
+      font-size: 13px;
+      color: #262626;
+    }
+
+    .caption-username {
+      font-weight: 600;
+      margin-right: 5px;
+    }
+
+    .comments-link {
+      font-size: 12px;
+      color: #8e8e8e;
+      margin-top: 5px;
+      cursor: pointer;
+    }
+
+    /* 4. ಬಾಟಮ್ ನ್ಯಾವಿಗೇಷನ್ ಬಾರ್ (Bottom Bar) */
+    .bottom-nav {
+      height: 48px;
+      border-top: 1px solid #efefef;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      background: #fff;
+      font-size: 22px;
+    }
+
+    .nav-icon {
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
 
-<div class="app-container">
-    <!-- Header Section -->
-    <div class="header">
-        <h2> Watch & Earn App</h2>
-        <div class="wallet-card">
-            ಬ್ಯಾಲೆನ್ಸ್: <span id="balance-display">₹0.00</span>
-        </div>
+  <div class="insta-app">
+
+    <!-- 1. ಟಾಪ್ ಹೆಡರ್ -->
+    <div class="top-header">
+      <div class="logo">Instagram</div>
+      <div class="header-icons">
+        <span onclick="alert('ಹೊಸ ನೋಟಿಫಿಕೇಶನ್‌ಗಳಿಲ್ಲ')">❤️</span>
+        <span onclick="alert('ಮೆಸೇಜ್ ಬಾಕ್ಸ್ ತೆರೆಯಲಾಗುತ್ತಿದೆ...')">💬</span>
+      </div>
     </div>
 
-    <!-- Main Content Screens -->
-    <div class="content">
+    <!-- ಆಪ್ ಮುಖ್ಯ ಮೆನು -->
+    <div class="main-content">
 
-        <!-- 1. Login Screen -->
-        <div id="login-screen" class="screen active">
-            <h3>ಲಾಗಿನ್ ಮಾಡಿ</h3>
-            <p style="color: #666; font-size: 13px; margin-bottom: 15px;">ವಿಡಿಯೋ ನೋಡಿ ಹಣ ಗಳಿಸಲು ಲಾಗಿನ್ ಆಗಿ</p>
-            <input type="text" id="username" placeholder="ನಿಮ್ಮ ಹೆಸರು">
-            <input type="tel" id="mobile" placeholder="ಮೊಬೈಲ್ ಸಂಖ್ಯೆ (10 Digit)">
-            <button class="btn" onclick="loginUser()">ಆ್ಯಪ್ ಪ್ರವೇಶಿಸಿ</button>
-            <div id="login-msg" class="status-msg"></div>
+      <!-- 2. ಇನ್‌ಸ್ಟಾಗ್ರಾಮ್ ಸ್ಟೋರಿಗಳ ಸೆಕ್ಷನ್ -->
+      <div class="stories-container">
+        <div class="story-item" onclick="viewStory('Your Story')">
+          <div class="story-ring">
+            <img class="story-img" src="https://picsum.photos/100/100?random=1" alt="Profile">
+          </div>
+          <span class="story-username">ನಿಮ್ಮ ಸ್ಟೋರಿ</span>
+        </div>
+        <div class="story-item" onclick="viewStory('ಅನಿಲ್')">
+          <div class="story-ring">
+            <img class="story-img" src="https://picsum.photos/100/100?random=2" alt="Profile">
+          </div>
+          <span class="story-username">ಅನಿಲ್</span>
+        </div>
+        <div class="story-item" onclick="viewStory('ರಾಹುಲ್')">
+          <div class="story-ring">
+            <img class="story-img" src="https://picsum.photos/100/100?random=3" alt="Profile">
+          </div>
+          <span class="story-username">ರಾಹುಲ್</span>
+        </div>
+        <div class="story-item" onclick="viewStory('ಸ್ನೇಹಿತರು')">
+          <div class="story-ring">
+            <img class="story-img" src="https://picsum.photos/100/100?random=4" alt="Profile">
+          </div>
+          <span class="story-username">ಸ್ನೇಹಿತರು</span>
+        </div>
+      </div>
+
+      <!-- 3. ಪೋಸ್ಟ್ ಫೀಡ್ - ಪೋಸ್ಟ್ 1 -->
+      <div class="post-card">
+        <div class="post-header">
+          <div class="user-info">
+            <img class="profile-pic" src="https://picsum.photos/100/100?random=2" alt="User">
+            <span class="username">anil_karnataka</span>
+          </div>
+          <span style="cursor: pointer;" onclick="alert('ಆಪ್ಷನ್ಸ್')">•••</span>
         </div>
 
-        <!-- 2. Home / Watch Video Screen -->
-        <div id="home-screen" class="screen">
-            <h3>30-ಸೆಕೆಂಡ್ ವಿಡಿಯೋ ವೀಕ್ಷಿಸಿ</h3>
-            <p style="color: #666; font-size: 13px; margin-bottom: 10px;">ಪ್ರತಿ ವಿಡಿಯೋಗೆ: ₹0.10 ಸಿಗುತ್ತದೆ</p>
+        <img class="post-img" src="https://picsum.photos/500/400?random=10" alt="Post Image" ondblclick="toggleLike('like1', 'count1')">
 
-            <div class="video-box">
-                <div id="video-placeholder">🎬 ಜಾಹೀರಾತು ವಿಡಿಯೋ</div>
-                <div id="timer-display" class="timer-overlay" style="display:none;">30</div>
-            </div>
-
-            <button id="start-btn" class="btn" onclick="startVideo()">ವಿಡಿಯೋ ಪ್ಲೇ ಮಾಡಿ (Play)</button>
-            <button class="btn btn-secondary" onclick="showScreen('withdraw-screen')">ಹಣ ವಿಥ್‌ಡ್ರಾ ಮಾಡಿ (Withdraw)</button>
-            <div id="reward-msg" class="status-msg" style="color: #388E3C;"></div>
+        <div class="post-actions">
+          <div class="action-group">
+            <span class="icon-btn" id="like1" onclick="toggleLike('like1', 'count1')">🤍</span>
+            <span class="icon-btn" onclick="addComment('comment-list-1')">💬</span>
+            <span class="icon-btn" onclick="alert('ಪೋಸ್ಟ್ ಶೇರ್ ಆಗಿದೆ!')">✈️</span>
+          </div>
+          <span class="icon-btn" id="save1" onclick="toggleSave('save1')">🔖</span>
         </div>
 
-        <!-- 3. Withdrawal Screen -->
-        <div id="withdraw-screen" class="screen">
-            <h3>ಹಣ ವರ್ಗಾವಣೆ (Withdraw)</h3>
-            <p style="color: #666; font-size: 13px; margin-bottom: 10px;">ಕನಿಷ್ಠ ವಿಥ್‌ಡ್ರಾ ಮೊತ್ತ: ₹5.00</p>
-            
-            <input type="text" id="upi-id" placeholder="ನಿಮ್ಮ UPI ID (eg: name@upi / phonepe)">
-            <input type="number" id="withdraw-amount" placeholder="ವಿಥ್‌ಡ್ರಾ ಮಾಡಬೇಕಾದ ಮೊತ್ತ (₹)">
-            
-            <button class="btn" onclick="processWithdrawal()">UPI ಗೆ ವರ್ಗಾಯಿಸಿ</button>
-            <button class="btn btn-secondary" onclick="showScreen('home-screen')">ಹಿಂತಿರುಗಿ (Back)</button>
-            <div id="withdraw-msg" class="status-msg"></div>
+        <div class="post-details">
+          <div class="likes-count" id="count1">124 ಲೈಕ್‌ಗಳು</div>
+          <div class="caption">
+            <span class="caption-username">anil_karnataka</span>
+            ನಮ್ಮ ಸುಂದರ ಪ್ರಯಾಣದ ನೆನಪುಗಳು! 🌟
+          </div>
+          <div class="comments-link" id="comment-list-1" onclick="addComment('comment-list-1')">ಎಲ್ಲಾ 15 ಕಾಮೆಂಟ್‌ಗಳನ್ನು ನೋಡಿ</div>
         </div>
+      </div>
+
+      <!-- ಪೋಸ್ಟ್ 2 -->
+      <div class="post-card">
+        <div class="post-header">
+          <div class="user-info">
+            <img class="profile-pic" src="https://picsum.photos/100/100?random=3" alt="User">
+            <span class="username">travel_kannada</span>
+          </div>
+          <span style="cursor: pointer;" onclick="alert('ಆಪ್ಷನ್ಸ್')">•••</span>
+        </div>
+
+        <img class="post-img" src="https://picsum.photos/500/400?random=11" alt="Post Image" ondblclick="toggleLike('like2', 'count2')">
+
+        <div class="post-actions">
+          <div class="action-group">
+            <span class="icon-btn" id="like2" onclick="toggleLike('like2', 'count2')">🤍</span>
+            <span class="icon-btn" onclick="addComment('comment-list-2')">💬</span>
+            <span class="icon-btn" onclick="alert('ಪೋಸ್ಟ್ ಶೇರ್ ಆಗಿದೆ!')">✈️</span>
+          </div>
+          <span class="icon-btn" id="save2" onclick="toggleSave('save2')">🔖</span>
+        </div>
+
+        <div class="post-details">
+          <div class="likes-count" id="count2">89 ಲೈಕ್‌ಗಳು</div>
+          <div class="caption">
+            <span class="caption-username">travel_kannada</span>
+            ಕರ್ನಾಟಕದ ನಿಸರ್ಗ ಸೌಂದರ್ಯ! 🌿📸
+          </div>
+          <div class="comments-link" id="comment-list-2" onclick="addComment('comment-list-2')">ಎಲ್ಲಾ 8 ಕಾಮೆಂಟ್‌ಗಳನ್ನು ನೋಡಿ</div>
+        </div>
+      </div>
 
     </div>
-</div>
 
-<script>
-    // App State Management
-    let userBalance = 0.00;
-    let isWatching = false;
-    let countdown;
+    <!-- 4. ಬಾಟಮ್ ನ್ಯಾವಿಗೇಷನ್ ಬಾರ್ -->
+    <div class="bottom-nav">
+      <span class="nav-icon" onclick="alert('ಹೋಮ್ ಫೀಡ್‌ನಲ್ಲಿದ್ದೀರಿ')">🏠</span>
+      <span class="nav-icon" onclick="alert('ಹುಡುಕಾಟ (Search) ಪೇಜ್')">🔍</span>
+      <span class="nav-icon" onclick="alert('ಹೊಸ ಪೋಸ್ಟ್/ಅಪ್‌ಲೋಡ್ ಬಟನ್ (+)')">➕</span>
+      <span class="nav-icon" onclick="alert('ರೀಲ್ಸ್ (Reels) ವೀಡಿಯೊಗಳು')">🎬</span>
+      <span class="nav-icon" onclick="alert('ನಿಮ್ಮ ಪ್ರೊಫೈಲ್ ಪೇಜ್')">👤</span>
+    </div>
 
-    // Switch between screens
-    function showScreen(screenId) {
-        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-        document.getElementById(screenId).classList.add('active');
-        document.getElementById('reward-msg').innerText = "";
-        document.getElementById('withdraw-msg').innerText = "";
+  </div>
+
+  <script>
+    // 1. ಲೈಕ್ ಮತ್ತು ಡಬಲ್ ಟ್ಯಾಪ್ ಫಂಕ್ಷನ್ (Like & Double Tap)
+    function toggleLike(likeId, countId) {
+      const likeBtn = document.getElementById(likeId);
+      const countBtn = document.getElementById(countId);
+      let currentLikes = parseInt(countBtn.innerText);
+
+      if (likeBtn.classList.contains('liked')) {
+        likeBtn.classList.remove('liked');
+        likeBtn.innerText = '🤍';
+        countBtn.innerText = (currentLikes - 1) + ' ಲೈಕ್‌ಗಳು';
+      } else {
+        likeBtn.classList.add('liked');
+        likeBtn.innerText = '❤️';
+        countBtn.innerText = (currentLikes + 1) + ' ಲೈಕ್‌ಗಳು';
+      }
     }
 
-    // Login validation
-    function loginUser() {
-        const name = document.getElementById('username').value.trim();
-        const mobile = document.getElementById('mobile').value.trim();
-        const msg = document.getElementById('login-msg');
-
-        if (name === "" || mobile.length !== 10) {
-            msg.innerText = "ದಯವಿಟ್ಟು ಸರಿಯಾದ ಹೆಸರು ಮತ್ತು 10 ಅಂಕಿಯ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ನಮೂದಿಸಿ.";
-            return;
-        }
-
-        showScreen('home-screen');
+    // 2. ಪೋಸ್ಟ್ ಸೇವಿಸುವ ಬಟನ್ (Save Bookmark)
+    function toggleSave(saveId) {
+      const saveBtn = document.getElementById(saveId);
+      if (saveBtn.classList.contains('saved')) {
+        saveBtn.classList.remove('saved');
+        alert('ಪೋಸ್ಟ್ ಸೇವ್ದ್ ನಿಂದ ತೆಗೆಯಲಾಗಿದೆ');
+      } else {
+        saveBtn.classList.add('saved');
+        alert('ಪೋಸ್ಟ್ ಸೇವ್ರ್ ಆಯಿತು!');
+      }
     }
 
-    // Start 30-second Video Logic
-    function startVideo() {
-        if (isWatching) return;
-
-        isWatching = true;
-        let timeLeft = 30; // 30 seconds timer
-        
-        const startBtn = document.getElementById('start-btn');
-        const videoPlaceholder = document.getElementById('video-placeholder');
-        const timerDisplay = document.getElementById('timer-display');
-        const rewardMsg = document.getElementById('reward-msg');
-
-        startBtn.disabled = true;
-        videoPlaceholder.style.display = 'none';
-        timerDisplay.style.display = 'block';
-        timerDisplay.innerText = timeLeft;
-        rewardMsg.innerText = "";
-
-        countdown = setInterval(() => {
-            timeLeft--;
-            timerDisplay.innerText = timeLeft;
-
-            if (timeLeft <= 0) {
-                clearInterval(countdown);
-                
-                // Add Reward Money (e.g., ₹0.10 per view)
-                userBalance += 0.10;
-                updateBalanceDisplay();
-
-                // Reset UI
-                timerDisplay.style.display = 'none';
-                videoPlaceholder.style.display = 'block';
-                startBtn.disabled = false;
-                isWatching = false;
-
-                rewardMsg.innerText = "🎉 ಅಭಿನಂದನೆಗಳು! ₹0.10 ನಿಮ್ಮ ವಾಲೆಟ್‌ಗೆ ಜಮೆಯಾಗಿದೆ.";
-            }
-        }, 1000);
+    // 3. ಸ್ಟೋರಿ ನೋಡುವ ಸೌಲಭ್ಯ (Story View)
+    function viewStory(name) {
+      alert(name + ' ಅವರ ಸ್ಟೋರಿ ಪ್ಲೇ ಆಗುತ್ತಿದೆ...');
     }
 
-    // Balance Display Helper
-    function updateBalanceDisplay() {
-        document.getElementById('balance-display').innerText = "₹" + userBalance.toFixed(2);
+    // 4. ಕಾಮೆಂಟ್ ಬರೆಯುವ ಫಂಕ್ಷನ್ (Add Comment)
+    function addComment(containerId) {
+      const userComment = prompt("ನಿಮ್ಮ ಕಾಮೆಂಟ್ ಬರೆಯಿರಿ:");
+      if (userComment) {
+        const commentArea = document.getElementById(containerId);
+        commentArea.innerText = "ನೀವು: " + userComment;
+        commentArea.style.color = "#262626";
+        commentArea.style.fontWeight = "bold";
+      }
     }
-
-    // Handle Withdrawal
-    function processWithdrawal() {
-        const upiId = document.getElementById('upi-id').value.trim();
-        const amount = parseFloat(document.getElementById('withdraw-amount').value);
-        const msg = document.getElementById('withdraw-msg');
-
-        if (!upiId.includes('@')) {
-            msg.style.color = "#d32f2f";
-            msg.innerText = "ದಯವಿಟ್ಟು ಸರಿಯಾದ UPI ID ನಮೂದಿಸಿ.";
-            return;
-        }
-
-        if (isNaN(amount) || amount < 5.00) {
-            msg.style.color = "#d32f2f";
-            msg.innerText = "ಕನಿಷ್ಠ ವಿಥ್‌ಡ್ರಾ ಮೊತ್ತ ₹5.00 ಆಗಿರಬೇಕು.";
-            return;
-        }
-
-        if (amount > userBalance) {
-            msg.style.color = "#d32f2f";
-            msg.innerText = "ನಿಮ್ಮ ವಾಲೆಟ್‌ನಲ್ಲಿ ಕನಿಷ್ಠ ಹಣ ಲಭ್ಯವಿಲ್ಲ.";
-            return;
-        }
-
-        // Deduct Balance
-        userBalance -= amount;
-        updateBalanceDisplay();
-
-        msg.style.color = "#388E3C";
-        msg.innerText = `✅ request ಯಶಸ್ವಿಯಾಗಿದೆ! ₹${amount.toFixed(2)} ಅನ್ನು ${upiId} ಗೆ ಶೀಘ್ರದಲ್ಲೇ ಕಳುಹಿಸಲಾಗುವುದು.`;
-        
-        document.getElementById('upi-id').value = "";
-        document.getElementById('withdraw-amount').value = "";
-    }
-</script>
+  </script>
 
 </body>
 </html>
