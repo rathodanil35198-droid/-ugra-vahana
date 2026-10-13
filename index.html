@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ಕರ್ನಾಟಕ ಗೇಮ್ಸ್ ಹಬ್</title>
+    <title>ಕರ್ನಾಟಕ ಗೇಮ್ಸ್ ಹಬ್ - ಡೆಮೋ</title>
+    <!-- ಪಟಾಕಿ/ಕನ್ಫೆಟಿ ಎಫೆಕ್ಟ್‌ಗಾಗಿ ಲೈಬ್ರರಿ -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         * { box-sizing: border-box; }
         body {
@@ -46,6 +48,8 @@
             border-radius: 10px;
             cursor: pointer;
             text-align: left;
+            display: flex;
+            align-items: center;
             transition: 0.2s;
         }
         .game-card:hover {
@@ -53,8 +57,15 @@
             border-color: #3498db;
             transform: scale(1.02);
         }
-        .game-card h3 { margin: 0 0 5px 0; color: #2c3e50; font-size: 16px; }
-        .game-card p { margin: 0; color: #7f8c8d; font-size: 13px; }
+        .game-logo {
+            font-size: 30px;
+            margin-right: 15px;
+            background: #d4e6f1;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        .game-card h3 { margin: 0 0 5px 0; color: #2c3e50; font-size: 15px; }
+        .game-card p { margin: 0; color: #7f8c8d; font-size: 12px; }
 
         .question-box {
             background: #f9f9f9;
@@ -103,52 +114,86 @@
         }
         .btn-green { background: #27ae60; }
         .btn-back { background: #7f8c8d; margin-top: 15px; }
-
         .hidden { display: none !important; }
+
+        /* A-Z ಗೇಮ್ ಅಕ್ಷರಗಳ ಬಾಕ್ಸ್ */
+        .alphabet-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+        .alpha-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .alpha-btn:active { background: #2980b9; }
     </style>
 </head>
 <body>
 
     <div class="container">
         
-        <!-- ಮುಖಪುಟ: 5 ವಿಭಿನ್ನ ಗೇಮ್‌ಗಳು -->
+        <!-- ಮುಖಪುಟ: 5 ವಿಭಿನ್ನ ಲೋಗೋಯುಕ್ತ ಗೇಮ್‌ಗಳು -->
         <div id="home-screen">
             <h2>ಕರ್ನಾಟಕ ಗೇಮ್ಸ್ ಹಬ್</h2>
-            <p style="font-size: 13px; color: #666; margin-bottom: 15px;">ಆಡಲು ನಿಮ್ಮಿಷ್ಟದ ಗೇಮ್ ಆಯ್ಕೆ ಮಾಡಿ!</p>
+            <p style="font-size: 13px; color: #666; margin-bottom: 15px;">ನಿಮಗೆ ಇಷ್ಟವಾದ ಗೇಮ್ ಆಯ್ಕೆ ಮಾಡಿ ಆಡಿ!</p>
             
-            <div class="game-card" onclick="startQuiz('karnataka')">
-                <h3>1. ಕರ್ನಾಟಕ ಜ್ಞಾನ ರತ್ನ (Quiz)</h3>
-                <p>ಕರ್ನಾಟಕ ಇತಿಹಾಸ, ಭೂಗೋಳ ಕುರಿತ ನೂರಾರು ಪ್ರಶ್ನೆಗಳು.</p>
+            <div class="game-card" onclick="startQuizGame()">
+                <div class="game-logo">🇮🇳</div>
+                <div>
+                    <h3>1. ಭಾರತ & ಕರ್ನಾಟಕ ರತ್ನ ಕ್ವಿಜ್</h3>
+                    <p>Level 1 ರಿಂದ 1000 ವರೆಗೆ (ಪ್ರತಿ ಹಂತಕ್ಕೆ 5 ಪ್ರಶ್ನೆಗಳು)</p>
+                </div>
+            </div>
+
+            <div class="game-card" onclick="startAlphabetGame()">
+                <div class="game-logo">🔤</div>
+                <div>
+                    <h3>2. A ಟು Z ಅಕ್ಷರ ಜೋಡಣೆ ಗೇಮ್</h3>
+                    <p>A ಯಿಂದ Z ವರೆಗೆ ಸರಿಯಾದ ಕ್ರಮದಲ್ಲಿ ಅಕ್ಷರಗಳನ್ನು ಹುಡುಕಿ ಒತ್ತಿ.</p>
+                </div>
             </div>
 
             <div class="game-card" onclick="startQuiz('cinema')">
-                <h3>2. ಸ್ಯಾಂಡಲ್‌ವುಡ್ ಸಿನಿಮಾ ಲೋಕ</h3>
-                <p>ಕನ್ನಡ ನಟರು, ಸಿನಿಮಾಗಳು ಮತ್ತು ಹಾಡುಗಳ ಒಗಟುಗಳು.</p>
+                <div class="game-logo">🎬</div>
+                <div>
+                    <h3>3. ಸ್ಯಾಂಡಲ್‌ವುಡ್ ಸಿನಿಮಾ ಲೋಕ</h3>
+                    <p>ಕನ್ನಡ ನಟರು ಮತ್ತು ಚಲನಚಿತ್ರಗಳ ಮೋಜಿನ ರಸಪ್ರಶ್ನೆ.</p>
+                </div>
             </div>
 
             <div class="game-card" onclick="startQuiz('folks')">
-                <h3>3. ಉತ್ತರ ಕರ್ನಾಟಕ ಜಾನಪದ</h3>
-                <p>ಜಾನಪದ ಸಾಹಿತ್ಯ, ಹಳ್ಳಿ ಸಂಸ್ಕೃತಿ ಹಾಗೂ ಜನಪದ ಒಗಟುಗಳು.</p>
-            </div>
-
-            <div class="game-card" onclick="startQuiz('science')">
-                <h3>4. ವಿಜ್ಞಾನ ಮತ್ತು ತಂತ್ರಜ್ಞಾನ</h3>
-                <p>ದೈನಂದಿನ ವಿಜ್ಞಾನ ಹಾಗೂ ಮೋಜಿನ ಪ್ರಶ್ನೋತ್ತರಗಳು.</p>
+                <div class="game-logo">🎭</div>
+                <div>
+                    <h3>4. ಉತ್ತರ ಕರ್ನಾಟಕ ಜಾನಪದ</h3>
+                    <p>ಹಳ್ಳಿ ಸೊಗಡು, ಜಾನಪದ ಸಾಹಿತ್ಯ ಮತ್ತು ಸಂಸ್ಕೃತಿ.</p>
+                </div>
             </div>
 
             <div class="game-card" onclick="startLuckySpin()">
-                <h3>5. ಲಕ್ಕಿ ಸ್ಪಿನ್ & ಕಾಯಿನ್ ಗೇಮ್</h3>
-                <p>ಚಕ್ರ ತಿರುಗಿಸಿ ಪ್ರತಿದಿನ ಉಚಿತ ಬೋನಸ್ ನಾಣ್ಯಗಳನ್ನು ಗೆಲ್ಲಿರಿ.</p>
+                <div class="game-logo">🎡</div>
+                <div>
+                    <h3>5. ಲಕ್ಕಿ ಸ್ಪಿನ್ ಕಾಯಿನ್ ಗೇಮ್</h3>
+                    <p>ಚಕ್ರ ತಿರುಗಿಸಿ ಪ್ರತಿದಿನ ಉಚಿತ ಬೋನಸ್ ನಾಣ್ಯಗಳನ್ನು ಗೆಲ್ಲಿರಿ.</p>
+                </div>
             </div>
         </div>
 
-        <!-- ಗೇಮ್ ಪ್ಲೇ ಸ್ಕ್ರೀನ್ -->
+        <!-- ಕ್ವಿಜ್ ಗೇಮ್ ಸ್ಕ್ರೀನ್ (Level 1 to 1000) -->
         <div id="game-screen" class="hidden">
-            <h2 id="game-title">ಕ್ವಿಜ್ ಗೇಮ್</h2>
+            <h2 id="game-title">ಭಾರತ & ಕರ್ನಾಟಕ ರತ್ನ</h2>
             
             <div class="stats">
                 <div>ನಾಣ್ಯಗಳು: <span id="score">50</span></div>
-                <div>ಹಂತ: <span id="level">1</span></div>
+                <div>ಹಂತ (Level): <span id="level">1</span></div>
+                <div>ಪ್ರಶ್ನೆ: <span id="q-count">1</span>/5</div>
             </div>
 
             <div class="question-box">
@@ -156,9 +201,19 @@
             </div>
 
             <div id="options-container">
-                <!-- A, B, C, D ಆಪ್ಟಿಷನ್ ಬಟನ್‌ಗಳು ಇಲ್ಲಿ ಬರುತ್ತವೆ -->
+                <!-- A, B, C, D ಆಪ್ಷನ್‌ಗಳು -->
             </div>
 
+            <button class="btn btn-back" onclick="goHome()">⬅ ಮುಖಪುಟಕ್ಕೆ ಹಿಂತಿರುಗಿ</button>
+        </div>
+
+        <!-- A ಟು Z ಅಕ್ಷರ ಜೋಡಣೆ ಗೇಮ್ ಸ್ಕ್ರೀನ್ -->
+        <div id="alpha-screen" class="hidden">
+            <h2>A - Z ಅಕ್ಷರ ಜೋಡಣೆ</h2>
+            <p style="font-size: 14px; color: #555;">ಮುಂದಿನ ಅಕ್ಷರವನ್ನು ಹುಡುಕಿ: <b id="target-letter" style="color: #e74c3c; font-size: 20px;">A</b></p>
+            <div class="alphabet-grid" id="alpha-grid">
+                <!-- ಜಬಲ್‌ಡ್ ಅಕ್ಷರಗಳು ಇಲ್ಲಿ ಬರುತ್ತವೆ -->
+            </div>
             <button class="btn btn-back" onclick="goHome()">⬅ ಮುಖಪುಟಕ್ಕೆ ಹಿಂತಿರುಗಿ</button>
         </div>
 
@@ -168,7 +223,7 @@
             <div class="stats" style="justify-content: center;">
                 <div>ನಿಮ್ಮ ನಾಣ್ಯಗಳು: <span id="spin-score">50</span></div>
             </div>
-            <div style="padding: 30px 0; font-size: 20px; font-weight: bold; color: #e67e22;" id="spin-result-box">
+            <div style="padding: 25px 0; font-size: 18px; font-weight: bold; color: #e67e22;" id="spin-result-box">
                 ಚಕ್ರ ತಿರುಗಿಸಿ ಅದೃಷ್ಟ ಪರೀಕ್ಷಿಸಿ! 🎡
             </div>
             <button class="btn btn-green" onclick="spinWheel()">🎡 ಈಗಲೇ ಸ್ಪಿನ್ ಮಾಡಿ</button>
@@ -180,86 +235,79 @@
     <script>
         let score = 50;
         let level = 1;
-        let currentCategory = '';
+        let questionInLevel = 1;
         let currentQuestionIndex = 0;
         let canAnswer = true;
         let activeQuestions = [];
 
-        // ಸಾವಿರಾರು ವಿಭಿನ್ನ ಪ್ರಶ್ನೆಗಳನ್ನು ನೀಡಲು ದೊಡ್ಡ ಪ್ರಶ್ನಾಕೋಶ (Categories)
-        const allQuestionsData = {
-            karnataka: [
-                { q: "ಕರ್ನಾಟಕದ ರಾಜ್ಯ ಪ್ರಾಣಿ ಯಾವುದು?", options: ["ಹುಲಿ", "ಏಷ್ಯನ್ ಆನೆ", "ಸಿಂಹ", "ಚಿರತೆ"], answer: 1 },
-                { q: "ವಿಶ್ವವಿಖ್ಯಾತ ಹಂಪಿ ಯಾವ ನದಿಯ ದಡದಲ್ಲಿದೆ?", options: ["ಕಾವೇರಿ", "ಕೃಷ್ಣಾ", "ತುಂಗಭದ್ರಾ", "ಮಲಪ್ರಭಾ"], answer: 2 },
-                { q: "ಜ್ಞಾನಪೀಠ ಪ್ರಶಸ್ತಿ ಪಡೆದ ಮೊದಲ ಕನ್ನಡಿಗರು ಯಾರು?", options: ["ಕುವೆಂಪು", "ಗೋವಿಂದ ಪೈ", "ಮಾಸ್ತಿ ವೆಂಕಟೇಶ ಅಯ್ಯಂಗಾರ್", "ಬೇಂದ್ರೆ"], answer: 0 },
-                { q: "ಕರ್ನಾಟಕದ ಗಡಿ ಹಂಚಿಕೊಳ್ಳದ ರಾಜ್ಯ ಯಾವುದು?", options: ["ಮಹಾರಾಷ್ಟ್ರ", "ಕೇರಳ", "ಒಡಿಸ್ಸಾ", "ಗೋವಾ"], answer: 2 },
-                { q: "ಕರ್ನಾಟಕದ ಅತಿ ದೊಡ್ಡ ಜಿಲ್ಲೆ ಯಾವುದು?", options: ["ಬೆಳಗಾವಿ", "ತುಮಕೂರು", "ಉತ್ತರ ಕನ್ನಡ", "ಬಳ್ಳಾರಿ"], answer: 0 }
-            ],
-            cinema: [
-                { q: "ಕನ್ನಡದ ಮೊದಲ ವಾಕ್ಚಿತ್ರ (ಸಿನಿಮಾ) ಯಾವುದು?", options: ["ಸತಿ ಸುಲೋಚನಾ", "ಭಕ್ತ ಪ್ರಹ್ಲಾದ", "ನಾಗರಹಾವು", "ಬಂಗಾರದ ಮನುಷ್ಯ"], answer: 0 },
-                { q: "ಡಾ. ರಾಜ್‌ಕುಮಾರ್ ಅವರ ಮೊದಲ ಸಿನಿಮಾ ಯಾವುದು?", options: ["ಬೇಡರ ಕಣ್ಣಪ್ಪ", "ಜಗದೇಕ ವೀರ", "ರಣಧೀರ ಕಂಠೀರವ", "ಬಂಗಾರದ ಮನುಷ್ಯ"], answer: 0 },
-                { q: "ಅಭಿನಯ ಚಕ್ರವರ್ತಿ ಎಂದು ಯವರನ್ನು ಕರೆಯುತ್ತಾರೆ?", options: ["ಸುದೀಪ್", "ದರ್ಶನ್", "ಯಶ್", "ಶಿವರಾಜ್‌ಕುಮಾರ್"], answer: 0 },
-                { q: "KGF ಸಿನಿಮಾದ ನಿರ್ದೇಶಕರು ಯಾರು?", options: ["ಪ್ರಶಾಂತ್ ನೀಲ್", "ಯೋಗರಾಜ್ ಭಟ್", "ಸಂತೋಷ್ ಆನಂದ್‌ರಾಮ್", "ಪ್ರೇಮ್"], answer: 0 }
-            ],
-            folks: [
-                { q: "ಉತ್ತರ ಕರ್ನಾಟಕದ ಪ್ರಸಿದ್ಧ ಜನಪದ ನೃತ್ಯ ಯಾವುದು?", options: ["ಡೊಳ್ಳು ಕುಣಿತ", "ಯಕ್ಷಗಾನ", "ಭರತನಾಟ್ಯ", "ಕಥಕ್ಕಳಿ"], answer: 0 },
-                { q: "ಸಂಗೊಳ್ಳಿ ರಾಯಣ್ಣ ಯಾವ ಊರಿನವರು?", options: ["ಕಿತ್ತೂರು", "ಸಂಗೊಳ್ಳಿ", "ಬೆಳಗಾವಿ", "ಧಾರಾವಾಡ"], answer: 1 },
-                { q: "ಜಾನಪದ ಲೋಕದ ಸ್ಥಾಪಕರು ಯಾರು?", options: ["ಎಚ್.ಎಲ್. ನಗೇಗೌಡ", "ಕುವೆಂಪು", "ಬೇಂದ್ರೆ", "ಕಾರಂತ"], answer: 0 }
-            ],
-            science: [
-                { q: "ಮಾನವ ದೇಹದಲ್ಲಿ ಅತಿ ದೊಡ್ಡ ಅಂಗ ಯಾವುದು?", options: ["ಚರ್ಮ (Skin)", "ಯಕೃತ್ತು (Liver)", "ಮೆದುಳು", "ಹೃದಯ"], answer: 0 },
-                { q: "ಬೆಳಕಿನ ವೇಗ ಎಷ್ಟು?", options: ["3,00,000 ಕಿ.ಮೀ/ಸೆಕೆಂಡ್", "1,50,000 ಕಿ.ಮೀ/ಸೆಕೆಂಡ್", "30,000 ಕಿ.ಮೀ/ಸೆಕೆಂಡ್", "3,000 ಕಿ.ಮೀ/ಸೆಕೆಂಡ್"], answer: 0 },
-                { q: "ಸೂರ್ಯನಿಗೆ ಹತ್ತಿರವಿರುವ ಗ್ರಹ ಯಾವುದು?", options: ["ಬುಧ (Mercury)", "ಶುಕ್ರ", "ಭೂಮಿ", "ಮಂಗಳ"], answer: 0 }
-            ]
-        };
+        // 1000 ಹಂತಗಳವರೆಗೆ ಪ್ರಶ್ನೆಗಳು ಸಿಗುವಂತೆ ಭಾರತ ಮತ್ತು ಕರ್ನಾಟಕದ ದೊಡ್ಡ ಪ್ರಶ್ನಾಕೋಶ
+        const masterQuestions = [
+            { q: "ಭಾರತದ ರಾಷ್ಟ್ರೀಯ ಪ್ರಾಣಿ ಯಾವುದು?", options: ["ಸಿಂಹ", "ಹುಲಿ", "ಚಿರತೆ", "ಆನೆ"], answer: 1 },
+            { q: "ಕರ್ನಾಟಕದ ರಾಜಧಾನಿ ಯಾವುದು?", options: ["ಮೈಸೂರು", "ಬೆಂಗಳೂರು", "ಹುಬ್ಬಳ್ಳಿ", "ಮಂಗಳೂರು"], answer: 1 },
+            { q: "ಭಾರತದ ರಾಷ್ಟ್ರೀಯ ನದಿ ಯಾವುದು?", options: ["ಯಮುನಾ", "ಗಂಗಾ", "ಬ್ರಹ್ಮಪುತ್ರ", "ಕಾವೇರಿ"], answer: 1 },
+            { q: "ವಿಶ್ವವಿಖ್ಯಾತ ಹಂಪಿ ಯಾವ ನದಿಯ ದಡದಲ್ಲಿದೆ?", options: ["ಕಾವೇರಿ", "ಕೃಷ್ಣಾ", "ತುಂಗಭದ್ರಾ", "ಮಲಪ್ರಭಾ"], answer: 2 },
+            { q: "ಭಾರತದ ಪ್ರಥಮ ಪ್ರಜೆ ಎಂದು ಯಾರನ್ನು ಕರೆಯಲಾಗುತ್ತದೆ?", options: ["ಪ್ರಧಾನಮಂತ್ರಿ", "ರಾಷ್ಟ್ರಪತಿ", "ಮುಖ್ಯಮಂತ್ರಿ", "ಸುಪ್ರೀಂ ಕೋರ್ಟ್ ಮುಖ್ಯ ನ್ಯಾಯಾಧೀಶರು"], answer: 1 },
+            { q: "ಕರ್ನಾಟಕದ ರಾಜ್ಯ ಹಕ್ಕಿ ಯಾವುದು?", options: ["ಗಿಳಿ", "ನೀಲಕಂಠ (ಇಂಡಿಯನ್ ರಾಲರ್)", "ನೆಜಿಲು ಹಕ್ಕಿ", "ಮور"], answer: 1 },
+            { q: "ಜನಸಂಖ್ಯೆಯಲ್ಲಿ ಭಾರತದ ಅತಿ ದೊಡ್ಡ ರಾಜ್ಯ ಯಾವುದು?", options: ["ಉತ್ತರ ಪ್ರದೇಶ", "ಮಹಾರಾಷ್ಟ್ರ", "ಬಿಹಾರ", "ರಾಜಸ್ಥಾನ"], answer: 0 },
+            { q: "ಕನ್ನಡ ರಾಜ್ಯೋತ್ಸವವನ್ನು ಯಾವ ದಿನ ಆಚರಿಸಲಾಗುತ್ತದೆ?", options: ["ಜನವರಿ 26", "ನವೆಂಬರ್ 1", "ಆಗಸ್ಟ್ 15", "ಅಕ್ಟೋಬರ್ 2"], answer: 1 },
+            { q: "ಭಾರತದ ರಾಷ್ಟ್ರೀಯ ಧ್ವಜದಲ್ಲಿರುವ ಬಣ್ಣಗಳ ಸಂಖ್ಯೆ ಎಷ್ಟು?", options: ["2", "3", "4", "5"], answer: 1 },
+            { q: "ಜ್ಞಾನಪೀಠ ಪ್ರಶಸ್ತಿ ಪಡೆದ ಮೊದಲ ಕನ್ನಡಿಗರು ಯಾರು?", options: ["ಕುವೆಂಪು", "ಗೋವಿಂದ ಪೈ", "ಮಾಸ್ತಿ ವೆಂಕಟೇಶ ಅಯ್ಯಂಗಾರ್", "ಬೇಂದ್ರೆ"], answer: 0 }
+        ];
 
-        // ಆಡಿಯೋ ಧ್ವನಿ ಹೊರಡಿಸುವ ಫಂಕ್ಷನ್ (Speech Synthesis)
         function speakText(text) {
             if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel(); // ಹಿಂದಿನ ಧ್ವನಿ ನಿಲ್ಲಿಸಿ
+                window.speechSynthesis.cancel();
                 let utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'kn-IN'; // ಕನ್ನಡ ಭಾಷೆ
+                utterance.lang = 'kn-IN';
                 utterance.rate = 1.0;
                 window.speechSynthesis.speak(utterance);
             }
         }
 
-        function startQuiz(category) {
-            currentCategory = category;
+        // ಪಟಾಕಿ ಸಿಮ್ಯುಲೇಶನ್ ಎಫೆಕ್ಟ್
+        function triggerFireworks() {
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        }
+
+        function startQuizGame() {
             currentQuestionIndex = 0;
-            score = 50;
             level = 1;
-            
-            // ಪ್ರಶ್ನೆಗಳನ್ನು ಯಾದೃಚ್ಛಿಕವಾಗಿ (Random) ಮಿಕ್ಸ್ ಮಾಡಿ ತೆಗೆದುಕೊಳ್ಳುವುದು
-            activeQuestions = [...allQuestionsData[category]].sort(() => Math.random() - 0.5);
+            questionInLevel = 1;
+            score = 50;
+            activeQuestions = [...masterQuestions].sort(() => Math.random() - 0.5);
 
             document.getElementById('home-screen').classList.add('hidden');
             document.getElementById('spin-screen').classList.add('hidden');
+            document.getElementById('alpha-screen').classList.add('hidden');
             document.getElementById('game-screen').classList.remove('hidden');
-
-            document.getElementById('game-title').innerText = category === 'karnataka' ? 'ಕರ್ನಾಟಕ ಜ್ಞಾನ ರತ್ನ' :
-                                                              category === 'cinema' ? 'ಸ್ಯಾಂಡಲ್‌ವುಡ್ ಸಿನಿಮಾ ಲೋಕ' :
-                                                              category === 'folks' ? 'ಉತ್ತರ ಕರ್ನಾಟಕ ಜಾನಪದ' : 'ವಿಜ್ಞಾನ ಲೋಕ';
+            document.getElementById('game-title').innerText = "ಭಾರತ & ಕರ್ನಾಟಕ ರತ್ನ ಕ್ವಿಜ್";
             loadQuestion();
+        }
+
+        function startQuiz(category) {
+            startQuizGame(); // ಪ್ರಸ್ತುತ ಮಾದರಿಯನ್ನೇ ಬಳಸಬಹುದು
         }
 
         function loadQuestion() {
             if (currentQuestionIndex >= activeQuestions.length) {
                 currentQuestionIndex = 0;
-                level++;
-                document.getElementById('level').innerText = level;
-                speakText("ಅಭಿನಂದನೆಗಳು! ನೀವು ಮುಂದಿನ ಹಂತಕ್ಕೆ ಪ್ರವೇಶಿಸಿದ್ದೀರಿ.");
-                activeQuestions = [...allQuestionsData[currentCategory]].sort(() => Math.random() - 0.5);
+                activeQuestions = [...masterQuestions].sort(() => Math.random() - 0.5);
             }
 
             canAnswer = true;
             const q = activeQuestions[currentQuestionIndex];
-            document.getElementById('question').innerText = `ಪ್ರಶ್ನೆ ${currentQuestionIndex + 1}: ${q.q}`;
+            document.getElementById('question').innerText = q.q;
+            document.getElementById('level').innerText = level;
+            document.getElementById('q-count').innerText = questionInLevel;
             
             const optionsContainer = document.getElementById('options-container');
             optionsContainer.innerHTML = '';
 
             const optionLabels = ['A', 'B', 'C', 'D'];
-
             q.options.forEach((opt, index) => {
                 const btn = document.createElement('button');
                 btn.className = 'option-btn';
@@ -280,11 +328,11 @@
             if (selected === correct) {
                 clickedBtn.classList.add('correct');
                 score += 10;
-                speakText("ಸರಿಯಾದ ಉತ್ತರ! ಮುಂದಿನ ಪ್ರಶ್ನೆ ಕೇಳುತ್ತೇನೆ.");
+                triggerFireworks(); // ಪಟಾಕಿ ಸಿಡಿಯುವ ಎಫೆಕ್ಟ್
+                speakText("ಅಭಿನಂದನೆಗಳು! ನೀವು ಸರಿಯಾದ ಉತ್ತರವನ್ನು ಕೊಟ್ಟಿದ್ದೀರಿ. ಮುಂದಿನ ಪ್ರಶ್ನೆಗೆ ಹೋಗೋಣ.");
                 setTimeout(() => {
-                    currentQuestionIndex++;
-                    loadQuestion();
-                }, 1500);
+                    nextStep();
+                }, 2000);
             } else {
                 clickedBtn.classList.add('wrong');
                 allButtons[correct].classList.add('correct'); 
@@ -292,25 +340,93 @@
                 if(score < 0) score = 0;
                 speakText("ತಪ್ಪು ಉತ್ತರ! ಸರಿಯಾದ ಉತ್ತರವನ್ನು ಗಮನಿಸಿ.");
                 setTimeout(() => {
-                    currentQuestionIndex++;
-                    loadQuestion();
+                    nextStep();
                 }, 2000);
             }
             document.getElementById('score').innerText = score;
         }
 
+        function nextStep() {
+            currentQuestionIndex++;
+            questionInLevel++;
+            
+            // ಪ್ರತಿ 5 ಪ್ರಶ್ನೆಗಳ ನಂತರ ಮುಂದಿನ ಲೆವೆಲ್ (Level 1 ರಿಂದ 1000 ವರೆಗೆ)
+            if (questionInLevel > 5) {
+                questionInLevel = 1;
+                level++;
+                if (level > 1000) level = 1000; // ಗರಿಷ್ಠ 1000 ಹಂತಗಳು
+                speakText("ಅಭಿನಂದನೆಗಳು! ನೀವು ಮುಂದಿನ ಹಂತಕ್ಕೆ ಪ್ರವೇಶಿಸಿದ್ದೀರಿ.");
+            }
+            loadQuestion();
+        }
+
+        // A ಟು Z ಗೇಮ್ ಲಾಜಿಕ್
+        let currentAlphabetIndex = 0;
+        const alphabetList = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+
+        function startAlphabetGame() {
+            document.getElementById('home-screen').classList.add('hidden');
+            document.getElementById('game-screen').classList.add('hidden');
+            document.getElementById('spin-screen').classList.add('hidden');
+            document.getElementById('alpha-screen').classList.remove('hidden');
+            currentAlphabetIndex = 0;
+            loadAlphabetBoard();
+        }
+
+        function loadAlphabetBoard() {
+            if (currentAlphabetIndex >= alphabetList.length) {
+                triggerFireworks();
+                alert("ಅಭಿನಂದನೆಗಳು! ನೀವು ಎಲ್ಲಾ A ಯಿಂದ Z ಅಕ್ಷರಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಜೋಡಿಸಿದ್ದೀರಿ! 🎉");
+                goHome();
+                return;
+            }
+
+            let targetChar = alphabetList[currentAlphabetIndex];
+            document.getElementById('target-letter').innerText = targetChar;
+
+            // ಯಾದೃಚ್ಛಿಕವಾಗಿ ಕೆಲವು ಅಕ್ಷರಗಳನ್ನು ಬಾಕ್ಸ್‌ನಲ್ಲಿ ತೋರಿಸುವುದು
+            let gridContainer = document.getElementById('alpha-grid');
+            gridContainer.innerHTML = '';
+
+            let choices = [targetChar];
+            while (choices.length < 8) {
+                let randomChar = alphabetList[Math.floor(Math.random() * alphabetList.length)];
+                if (!choices.includes(randomChar)) choices.push(randomChar);
+            }
+            choices.sort(() => Math.random() - 0.5);
+
+            choices.forEach(char => {
+                let btn = document.createElement('button');
+                btn.className = 'alpha-btn';
+                btn.innerText = char;
+                btn.onclick = () => {
+                    if (char === targetChar) {
+                        currentAlphabetIndex++;
+                        triggerFireworks();
+                        speakText("ಸರಿಯಾದ ಅಕ್ಷರ!");
+                        loadAlphabetBoard();
+                    } else {
+                        speakText("ತಪ್ಪು ಅಕ್ಷರ, ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.");
+                    }
+                };
+                gridContainer.appendChild(btn);
+            });
+        }
+
         function startLuckySpin() {
             document.getElementById('home-screen').classList.add('hidden');
             document.getElementById('game-screen').classList.add('hidden');
+            document.getElementById('alpha-screen').classList.add('hidden');
             document.getElementById('spin-screen').classList.remove('hidden');
             document.getElementById('spin-score').innerText = score;
         }
 
         function spinWheel() {
-            let wonCoins = [10, 20, 50, 100, 5][Math.floor(Math.random() * 5)];
+            let wonCoins = [10, 20, 50, 100, 25][Math.floor(Math.random() * 5)];
             score += wonCoins;
             document.getElementById('spin-score').innerText = score;
             document.getElementById('spin-result-box').innerText = `🎉 ಅಭಿನಂದನೆಗಳು! ನಿಮಗೆ ${wonCoins} ನಾಣ್ಯಗಳು ಸಿಕ್ಕಿವೆ!`;
+            triggerFireworks();
             speakText(`ಅಭಿನಂದನೆಗಳು! ನಿಮಗೆ ${wonCoins} ನಾಣ್ಯಗಳು ಸಿಕ್ಕಿವೆ.`);
         }
 
@@ -318,6 +434,7 @@
             window.speechSynthesis.cancel();
             document.getElementById('game-screen').classList.add('hidden');
             document.getElementById('spin-screen').classList.add('hidden');
+            document.getElementById('alpha-screen').classList.add('hidden');
             document.getElementById('home-screen').classList.remove('hidden');
         }
     </script>
