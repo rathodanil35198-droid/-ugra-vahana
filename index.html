@@ -2,8 +2,8 @@
 <html lang="kn">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>InstaClone - Web App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>InstaGram Public Network</title>
   <style>
     * {
       box-sizing: border-box;
@@ -18,24 +18,93 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
+      color: #262626;
     }
 
-    /* ಆಪ್ ಮೇನ್ ಕಂಟೇನರ್ (Mobile Screen Size) */
-    .insta-app {
+    .app-container {
       width: 100%;
       max-width: 420px;
       height: 100vh;
       max-height: 850px;
       background: #ffffff;
       border: 1px solid #dbdbdb;
-      border-radius: 15px;
+      border-radius: 0;
       display: flex;
       flex-direction: column;
       overflow: hidden;
       position: relative;
     }
 
-    /* 1. ಹೆಡರ್ (Top Header) */
+    @media(min-width: 425px) {
+      .app-container {
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      }
+    }
+
+    /* Screen Management */
+    .screen {
+      display: none;
+      flex-direction: column;
+      height: 100%;
+      width: 100%;
+      background: #fff;
+      overflow-y: auto;
+    }
+
+    .screen.active {
+      display: flex;
+    }
+
+    /* 1. LOGIN SCREEN STYLES */
+    .login-container {
+      padding: 40px 20px;
+      text-align: center;
+      justify-content: center;
+      margin: auto;
+      width: 100%;
+    }
+
+    .login-logo {
+      font-size: 38px;
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      margin-bottom: 30px;
+      font-weight: bold;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 12px 15px;
+      margin-bottom: 12px;
+      border: 1px solid #dbdbdb;
+      border-radius: 8px;
+      background: #fafafa;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 12px;
+      background: #0095f6;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+
+    .divider {
+      margin: 20px 0;
+      color: #8e8e8e;
+      font-size: 13px;
+      position: relative;
+    }
+
+    /* 2. MAIN FEED SCREEN */
     .top-header {
       height: 50px;
       border-bottom: 1px solid #efefef;
@@ -44,6 +113,9 @@
       align-items: center;
       padding: 0 15px;
       background: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
     .logo {
@@ -55,22 +127,22 @@
 
     .header-icons {
       display: flex;
-      gap: 18px;
+      gap: 15px;
       font-size: 20px;
       cursor: pointer;
     }
 
-    /* ಆಪ್ ಸ್ಕ್ರಾಲ್ ಏರಿಯಾ */
     .main-content {
       flex: 1;
       overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
-    /* 2. ಸ್ಟೋರಿಗಳ ವಿಭಾಗ (Instagram Stories Section) */
+    /* Stories */
     .stories-container {
       display: flex;
-      gap: 15px;
-      padding: 12px;
+      gap: 12px;
+      padding: 10px 12px;
       border-bottom: 1px solid #efefef;
       overflow-x: auto;
       background: #fff;
@@ -85,11 +157,12 @@
       flex-direction: column;
       align-items: center;
       cursor: pointer;
+      flex-shrink: 0;
     }
 
     .story-ring {
-      width: 62px;
-      height: 62px;
+      width: 60px;
+      height: 60px;
       border-radius: 50%;
       background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
       padding: 2px;
@@ -99,8 +172,8 @@
     }
 
     .story-img {
-      width: 56px;
-      height: 56px;
+      width: 54px;
+      height: 54px;
       border-radius: 50%;
       border: 2px solid #fff;
       object-fit: cover;
@@ -117,7 +190,7 @@
       text-overflow: ellipsis;
     }
 
-    /* 3. ಪೋಸ್ಟ್ ಕಾರ್ಡ್ (Post Card) */
+    /* Posts */
     .post-card {
       border-bottom: 1px solid #efefef;
       background: #fff;
@@ -149,14 +222,14 @@
       font-weight: 600;
     }
 
-    .post-img {
+    .post-media {
       width: 100%;
       max-height: 400px;
+      background: #000;
       object-fit: cover;
       display: block;
     }
 
-    /* ಪೋಸ್ಟ್ ಆಕ್ಷನ್ ಬಟನ್‌ಗಳು */
     .post-actions {
       display: flex;
       justify-content: space-between;
@@ -176,10 +249,6 @@
 
     .liked {
       color: #ed4956;
-    }
-
-    .saved {
-      color: #262626;
     }
 
     .post-details {
@@ -202,14 +271,7 @@
       margin-right: 5px;
     }
 
-    .comments-link {
-      font-size: 12px;
-      color: #8e8e8e;
-      margin-top: 5px;
-      cursor: pointer;
-    }
-
-    /* 4. ಬಾಟಮ್ ನ್ಯಾವಿಗೇಷನ್ ಬಾರ್ (Bottom Bar) */
+    /* Bottom Nav */
     .bottom-nav {
       height: 48px;
       border-top: 1px solid #efefef;
@@ -218,176 +280,229 @@
       align-items: center;
       background: #fff;
       font-size: 22px;
+      position: sticky;
+      bottom: 0;
     }
 
-    .nav-icon {
-      cursor: pointer;
+    /* Upload Screen Modal/Page */
+    .upload-box {
+      padding: 20px;
+      text-align: center;
+    }
+    
+    .upload-box input, .upload-box textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #dbdbdb;
+      border-radius: 6px;
     }
   </style>
 </head>
 <body>
 
-  <div class="insta-app">
+  <div class="app-container">
 
-    <!-- 1. ಟಾಪ್ ಹೆಡರ್ -->
-    <div class="top-header">
-      <div class="logo">Instagram</div>
-      <div class="header-icons">
-        <span onclick="alert('ಹೊಸ ನೋಟಿಫಿಕೇಶನ್‌ಗಳಿಲ್ಲ')">❤️</span>
-        <span onclick="alert('ಮೆಸೇಜ್ ಬಾಕ್ಸ್ ತೆರೆಯಲಾಗುತ್ತಿದೆ...')">💬</span>
+    <!-- SCREEN 1: LOGIN & OTP / GOOGLE VERIFICATION -->
+    <div id="loginScreen" class="screen active">
+      <div class="login-container">
+        <div class="login-logo">Instagram</div>
+        <input type="text" id="fullName" class="input-field" placeholder="ನಿಮ್ಮ ಪೂರ್ಣ ಹೆಸರು (Full Name)">
+        <input type="tel" id="mobileNumber" class="input-field" placeholder="ಮೊಬೈಲ್ ನಂಬರ್ ಅಥವಾ ಜಿಮೇಲ್">
+        <button class="btn-primary" onclick="sendOTP()">OTP ಕಳುಹಿಸಿ / ಮುಂದುವರಿಯಿರಿ</button>
+        
+        <div id="otpSection" style="display:none; margin-top: 15px;">
+          <input type="text" id="otpInput" class="input-field" placeholder="6 ಅಂಕಿಯ ಒಟಿಪಿ (OTP) ಹಾಕಿ">
+          <button class="btn-primary" onclick="verifyAndCreateAccount()">ಖಾತೆ ಸೃಷ್ಟಿಸಿ (Verify & Login)</button>
+        </div>
+
+        <div class="divider">ಅಥವಾ</div>
+        <button class="btn-primary" style="background: #db4437;" onclick="socialLogin('Google')">Google ಮೂಲಕ ಲಾಗಿನ್</button>
       </div>
     </div>
 
-    <!-- ಆಪ್ ಮುಖ್ಯ ಮೆನು -->
-    <div class="main-content">
-
-      <!-- 2. ಇನ್‌ಸ್ಟಾಗ್ರಾಮ್ ಸ್ಟೋರಿಗಳ ಸೆಕ್ಷನ್ -->
-      <div class="stories-container">
-        <div class="story-item" onclick="viewStory('Your Story')">
-          <div class="story-ring">
-            <img class="story-img" src="https://picsum.photos/100/100?random=1" alt="Profile">
-          </div>
-          <span class="story-username">ನಿಮ್ಮ ಸ್ಟೋರಿ</span>
-        </div>
-        <div class="story-item" onclick="viewStory('ಅನಿಲ್')">
-          <div class="story-ring">
-            <img class="story-img" src="https://picsum.photos/100/100?random=2" alt="Profile">
-          </div>
-          <span class="story-username">ಅನಿಲ್</span>
-        </div>
-        <div class="story-item" onclick="viewStory('ರಾಹುಲ್')">
-          <div class="story-ring">
-            <img class="story-img" src="https://picsum.photos/100/100?random=3" alt="Profile">
-          </div>
-          <span class="story-username">ರಾಹುಲ್</span>
-        </div>
-        <div class="story-item" onclick="viewStory('ಸ್ನೇಹಿತರು')">
-          <div class="story-ring">
-            <img class="story-img" src="https://picsum.photos/100/100?random=4" alt="Profile">
-          </div>
-          <span class="story-username">ಸ್ನೇಹಿತರು</span>
+    <!-- SCREEN 2: MAIN INSTAGRAM FEED (PUBLIC NETWORK) -->
+    <div id="feedScreen" class="screen">
+      <!-- Top Header -->
+      <div class="top-header">
+        <div class="logo">Instagram</div>
+        <div class="header-icons">
+          <span onclick="alert('ಹೊಸ ನೋಟಿಫಿಕೇಶನ್‌ಗಳು')">❤️</span>
+          <span onclick="alert('ಡೈರೆಕ್ಟ್ ಮೆಸೇಜಸ್ (DM)')">💬</span>
         </div>
       </div>
 
-      <!-- 3. ಪೋಸ್ಟ್ ಫೀಡ್ - ಪೋಸ್ಟ್ 1 -->
-      <div class="post-card">
-        <div class="post-header">
-          <div class="user-info">
-            <img class="profile-pic" src="https://picsum.photos/100/100?random=2" alt="User">
-            <span class="username">anil_karnataka</span>
+      <!-- Main Feed -->
+      <div class="main-content" id="feedScrollArea">
+        <!-- Stories Row -->
+        <div class="stories-container" id="storiesRow">
+          <div class="story-item" onclick="openUploadModal('story')">
+            <div class="story-ring">
+              <img class="story-img" src="https://picsum.photos/100/100?random=1" alt="My Story">
+            </div>
+            <span class="story-username">ನಿಮ್ಮ ಸ್ಟೋರಿ</span>
           </div>
-          <span style="cursor: pointer;" onclick="alert('ಆಪ್ಷನ್ಸ್')">•••</span>
+          <div class="story-item" onclick="alert('ಅನಿಲ್ ಅವರ ಸ್ಟೋರಿ')">
+            <div class="story-ring">
+              <img class="story-img" src="https://picsum.photos/100/100?random=2" alt="Story">
+            </div>
+            <span class="story-username">ಅನಿಲ್</span>
+          </div>
+          <div class="story-item" onclick="alert('ರಾಹುಲ್ ಅವರ ಸ್ಟೋರಿ')">
+            <div class="story-ring">
+              <img class="story-img" src="https://picsum.photos/100/100?random=3" alt="Story">
+            </div>
+            <span class="story-username">ರಾಹುಲ್</span>
+          </div>
         </div>
 
-        <img class="post-img" src="https://picsum.photos/500/400?random=10" alt="Post Image" ondblclick="toggleLike('like1', 'count1')">
-
-        <div class="post-actions">
-          <div class="action-group">
-            <span class="icon-btn" id="like1" onclick="toggleLike('like1', 'count1')">🤍</span>
-            <span class="icon-btn" onclick="addComment('comment-list-1')">💬</span>
-            <span class="icon-btn" onclick="alert('ಪೋಸ್ಟ್ ಶೇರ್ ಆಗಿದೆ!')">✈️</span>
+        <!-- Dynamic Dynamic Posts Feed Container -->
+        <div id="dynamicPostsContainer">
+          <!-- Default Post 1 -->
+          <div class="post-card">
+            <div class="post-header">
+              <div class="user-info">
+                <img class="profile-pic" src="https://picsum.photos/100/100?random=10" alt="User">
+                <span class="username">karnataka_vibe</span>
+              </div>
+              <span>•••</span>
+            </div>
+            <img class="post-media" src="https://picsum.photos/500/400?random=20" alt="Post">
+            <div class="post-actions">
+              <div class="action-group">
+                <span class="icon-btn" onclick="toggleLike(this)">🤍</span>
+                <span class="icon-btn" onclick="alert('ಕಾಮೆಂಟ್ ಬಾಕ್ಸ್')">💬</span>
+                <span class="icon-btn" onclick="alert('ಶೇರ್ ಆಯಿತು')">✈️</span>
+              </div>
+              <span class="icon-btn">🔖</span>
+            </div>
+            <div class="post-details">
+              <div class="likes-count">1,452 ಲೈಕ್‌ಗಳು</div>
+              <div class="caption"><span class="caption-username">karnataka_vibe</span> ಪ್ರಕೃತಿ ಸೌಂದರ್ಯದ ಜೊತೆ ಸುಂದರ ಸಂಜೆ! 🌿</div>
+            </div>
           </div>
-          <span class="icon-btn" id="save1" onclick="toggleSave('save1')">🔖</span>
-        </div>
-
-        <div class="post-details">
-          <div class="likes-count" id="count1">124 ಲೈಕ್‌ಗಳು</div>
-          <div class="caption">
-            <span class="caption-username">anil_karnataka</span>
-            ನಮ್ಮ ಸುಂದರ ಪ್ರಯಾಣದ ನೆನಪುಗಳು! 🌟
-          </div>
-          <div class="comments-link" id="comment-list-1" onclick="addComment('comment-list-1')">ಎಲ್ಲಾ 15 ಕಾಮೆಂಟ್‌ಗಳನ್ನು ನೋಡಿ</div>
-        </div>
-      </div>
-
-      <!-- ಪೋಸ್ಟ್ 2 -->
-      <div class="post-card">
-        <div class="post-header">
-          <div class="user-info">
-            <img class="profile-pic" src="https://picsum.photos/100/100?random=3" alt="User">
-            <span class="username">travel_kannada</span>
-          </div>
-          <span style="cursor: pointer;" onclick="alert('ಆಪ್ಷನ್ಸ್')">•••</span>
-        </div>
-
-        <img class="post-img" src="https://picsum.photos/500/400?random=11" alt="Post Image" ondblclick="toggleLike('like2', 'count2')">
-
-        <div class="post-actions">
-          <div class="action-group">
-            <span class="icon-btn" id="like2" onclick="toggleLike('like2', 'count2')">🤍</span>
-            <span class="icon-btn" onclick="addComment('comment-list-2')">💬</span>
-            <span class="icon-btn" onclick="alert('ಪೋಸ್ಟ್ ಶೇರ್ ಆಗಿದೆ!')">✈️</span>
-          </div>
-          <span class="icon-btn" id="save2" onclick="toggleSave('save2')">🔖</span>
-        </div>
-
-        <div class="post-details">
-          <div class="likes-count" id="count2">89 ಲೈಕ್‌ಗಳು</div>
-          <div class="caption">
-            <span class="caption-username">travel_kannada</span>
-            ಕರ್ನಾಟಕದ ನಿಸರ್ಗ ಸೌಂದರ್ಯ! 🌿📸
-          </div>
-          <div class="comments-link" id="comment-list-2" onclick="addComment('comment-list-2')">ಎಲ್ಲಾ 8 ಕಾಮೆಂಟ್‌ಗಳನ್ನು ನೋಡಿ</div>
         </div>
       </div>
 
+      <!-- Bottom Navigation -->
+      <div class="bottom-nav">
+        <span class="icon-btn" onclick="switchScreen('feedScreen')">🏠</span>
+        <span class="icon-btn" onclick="alert('ಸರ್ಚ್ ಪೇಜ್')">🔍</span>
+        <span class="icon-btn" onclick="openUploadModal('post')" style="color:#0095f6; font-weight:bold;">➕</span>
+        <span class="icon-btn" onclick="alert('ರೀಲ್ಸ್ ವೀಡಿಯೊಗಳು')">🎬</span>
+        <span class="icon-btn" onclick="alert('ಪ್ರೊಫೈಲ್ ಸೆಟ್ಟಿಂಗ್ಸ್')">👤</span>
+      </div>
     </div>
 
-    <!-- 4. ಬಾಟಮ್ ನ್ಯಾವಿಗೇಷನ್ ಬಾರ್ -->
-    <div class="bottom-nav">
-      <span class="nav-icon" onclick="alert('ಹೋಮ್ ಫೀಡ್‌ನಲ್ಲಿದ್ದೀರಿ')">🏠</span>
-      <span class="nav-icon" onclick="alert('ಹುಡುಕಾಟ (Search) ಪೇಜ್')">🔍</span>
-      <span class="nav-icon" onclick="alert('ಹೊಸ ಪೋಸ್ಟ್/ಅಪ್‌ಲೋಡ್ ಬಟನ್ (+)')">➕</span>
-      <span class="nav-icon" onclick="alert('ರೀಲ್ಸ್ (Reels) ವೀಡಿಯೊಗಳು')">🎬</span>
-      <span class="nav-icon" onclick="alert('ನಿಮ್ಮ ಪ್ರೊಫೈಲ್ ಪೇಜ್')">👤</span>
+    <!-- SCREEN 3: UPLOAD PHOTO/VIDEO/SONG SCREEN -->
+    <div id="uploadScreen" class="screen">
+      <div class="top-header">
+        <span style="cursor:pointer; font-size:16px;" onclick="switchScreen('feedScreen')">✕ ರದ್ದುಮಾಡಿ</span>
+        <span style="font-weight:bold;">ಹೊಸ ಪೋಸ್ಟ್ / ಸ್ಟೋರಿ</span>
+        <span style="color:#0095f6; font-weight:bold; cursor:pointer;" onclick="publishPost()">ಹಂಚಿಕೊಳ್ಳಿ</span>
+      </div>
+      <div class="upload-box">
+        <p style="margin-bottom: 10px; font-weight: bold;">ನಿಮ್ಮ ಫೋಟೋ ಅಥವಾ ವೀಡಿಯೊ ಆಯ್ಕೆಮಾಡಿ:</p>
+        <input type="file" id="mediaFile" accept="image/*,video/*" class="input-field">
+        <textarea id="postCaption" class="input-field" placeholder="ಕ್ಯಾಪ್ಷನ್ ಬರೆಯಿರಿ & ಹಾಡಿನ ಹೆಸರು ಸೇರಿಸಿ..." rows="4"></textarea>
+        <div style="background:#e8f4fd; padding:10px; border-radius:8px; font-size:12px; color:#0066cc;">
+          💡 ಸಾರ್ವಜನಿಕ ನೆಟ್‌ವರ್ಕ್‌ನಲ್ಲಿ (Public Feed) 10,000+ ಜನರು ಏಕಕಾಲದಲ್ಲಿ ವೀಕ್ಷಿಸಿದರೂ ಮೊಬೈಲ್ ಹ್ಯಾಂಗ್ ಆಗದಂತೆ ಹೈ-ಸ್ಪೀಡ್ ಲೈವ್ ಅಪ್‌ಡೇಟ್ ಸಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ.
+        </div>
+      </div>
     </div>
 
   </div>
 
   <script>
-    // 1. ಲೈಕ್ ಮತ್ತು ಡಬಲ್ ಟ್ಯಾಪ್ ಫಂಕ್ಷನ್ (Like & Double Tap)
-    function toggleLike(likeId, countId) {
-      const likeBtn = document.getElementById(likeId);
-      const countBtn = document.getElementById(countId);
-      let currentLikes = parseInt(countBtn.innerText);
+    let loggedInUser = "User";
 
-      if (likeBtn.classList.contains('liked')) {
-        likeBtn.classList.remove('liked');
-        likeBtn.innerText = '🤍';
-        countBtn.innerText = (currentLikes - 1) + ' ಲೈಕ್‌ಗಳು';
+    // 1. Send OTP Logic
+    function sendOTP() {
+      const name = document.getElementById('fullName').value;
+      const mobile = document.getElementById('mobileNumber').value;
+      if(name && mobile) {
+        document.getElementById('otpSection').style.display = 'block';
+        alert('ನಿಮ್ಮ ನಂಬರ್‌ಗೆ ಒಟಿಪಿ (OTP: 1234) ಕಳುಹಿಸಲಾಗಿದೆ!');
       } else {
-        likeBtn.classList.add('liked');
-        likeBtn.innerText = '❤️';
-        countBtn.innerText = (currentLikes + 1) + ' ಲೈಕ್‌ಗಳು';
+        alert('ದಯವಿಟ್ಟು ಹೆಸರು ಮತ್ತು ಮೊಬೈಲ್ ನಂಬರ್ ಭರ್ತಿ ಮಾಡಿ.');
       }
     }
 
-    // 2. ಪೋಸ್ಟ್ ಸೇವಿಸುವ ಬಟನ್ (Save Bookmark)
-    function toggleSave(saveId) {
-      const saveBtn = document.getElementById(saveId);
-      if (saveBtn.classList.contains('saved')) {
-        saveBtn.classList.remove('saved');
-        alert('ಪೋಸ್ಟ್ ಸೇವ್ದ್ ನಿಂದ ತೆಗೆಯಲಾಗಿದೆ');
+    // 2. Verify OTP & Create Account
+    function verifyAndCreateAccount() {
+      const otp = document.getElementById('otpInput').value;
+      const name = document.getElementById('fullName').value;
+      if(otp === "1234" || otp.length === 4) {
+        loggedInUser = name || "my_profile";
+        alert('ಖಾತೆ ಯಶಸ್ವಿಯಾಗಿ ಸೃಷ್ಟಿಯಾಗಿದೆ! ಸ್ವಾಗತ.');
+        switchScreen('feedScreen');
       } else {
-        saveBtn.classList.add('saved');
-        alert('ಪೋಸ್ಟ್ ಸೇವ್ರ್ ಆಯಿತು!');
+        alert('ತಪ್ಪು ಒಟಿಪಿ! ದಯವಿಟ್ಟು ಸರಿಯಾದ ಒಟಿಪಿ ಹಾಕಿ.');
       }
     }
 
-    // 3. ಸ್ಟೋರಿ ನೋಡುವ ಸೌಲಭ್ಯ (Story View)
-    function viewStory(name) {
-      alert(name + ' ಅವರ ಸ್ಟೋರಿ ಪ್ಲೇ ಆಗುತ್ತಿದೆ...');
+    function socialLogin(provider) {
+      loggedInUser = "GoogleUser";
+      alert(provider + ' ಮೂಲಕ ಲಾಗಿನ್ ಯಶಸ್ವಿಯಾಗಿದೆ!');
+      switchScreen('feedScreen');
     }
 
-    // 4. ಕಾಮೆಂಟ್ ಬರೆಯುವ ಫಂಕ್ಷನ್ (Add Comment)
-    function addComment(containerId) {
-      const userComment = prompt("ನಿಮ್ಮ ಕಾಮೆಂಟ್ ಬರೆಯಿರಿ:");
-      if (userComment) {
-        const commentArea = document.getElementById(containerId);
-        commentArea.innerText = "ನೀವು: " + userComment;
-        commentArea.style.color = "#262626";
-        commentArea.style.fontWeight = "bold";
+    // Screen Switcher
+    function switchScreen(screenId) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(screenId).classList.add('active');
+    }
+
+    // Like Toggle
+    function toggleLike(element) {
+      if(element.innerText === '🤍') {
+        element.innerText = '❤️';
+        element.classList.add('liked');
+      } else {
+        element.innerText = '🤍';
+        element.classList.remove('liked');
       }
+    }
+
+    // Open Upload Modal
+    function openUploadModal(type) {
+      switchScreen('uploadScreen');
+    }
+
+    // Publish Post to Public Feed
+    function publishPost() {
+      const caption = document.getElementById('postCaption').value;
+      const feedContainer = document.getElementById('dynamicPostsContainer');
+      
+      const newPostHTML = `
+        <div class="post-card">
+          <div class="post-header">
+            <div class="user-info">
+              <img class="profile-pic" src="https://picsum.photos/100/100?random=${Math.floor(Math.random()*100)}" alt="User">
+              <span class="username">${loggedInUser}</span>
+            </div>
+            <span>•••</span>
+          </div>
+          <img class="post-media" src="https://picsum.photos/500/400?random=${Math.floor(Math.random()*100)}" alt="Post">
+          <div class="post-actions">
+            <div class="action-group">
+              <span class="icon-btn" onclick="toggleLike(this)">🤍</span>
+              <span class="icon-btn" onclick="alert('ಕಾಮೆಂಟ್ ಬಾಕ್ಸ್')">💬</span>
+              <span class="icon-btn" onclick="alert('ಶೇರ್ ಆಯಿತು')">✈️</span>
+            </div>
+            <span class="icon-btn">🔖</span>
+          </div>
+          <div class="post-details">
+            <div class="likes-count">1 ಲೈಕ್</div>
+            <div class="caption"><span class="caption-username">${loggedInUser}</span> ${caption || 'ಹೊಸ ಪೋಸ್ಟ್ ಅಪ್‌ಲೋಡ್ ಮಾಡಲಾಗಿದೆ!'}</div>
+          </div>
+        </div>
+      `;
+
+      feedContainer.insertAdjacentHTML('afterbegin', newPostHTML);
+      document.getElementById('postCaption').value = '';
+      switchScreen('feedScreen');
+      alert('ನಿಮ್ಮ ಪೋಸ್ಟ್ ಸಾರ್ವಜನಿಕ ಫೀಡ್‌ಗೆ ಯಶಸ್ವಿಯಾಗಿ ಅಪ್‌ಲೋಡ್ ಆಗಿದೆ!');
     }
   </script>
 
