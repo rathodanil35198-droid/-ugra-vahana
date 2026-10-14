@@ -3,316 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ನಮ್ಮ ಸಂಸಾರ ಸ್ಮಾರ್ಟ್ ಅಸಿಸ್ಟೆಂಟ್ - ಪ್ರೊ</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            color: #fff;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-        }
-        .container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 20px;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            margin-bottom: 20px;
-        }
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #ffd700;
-        }
-        .card {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-size: 14px;
-            color: #ddd;
-        }
-        input, select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            border: none;
-            background: #fff;
-            color: #333;
-            font-size: 16px;
-            box-sizing: border-box;
-        }
-        button {
-            width: 100%;
-            padding: 12px;
-            background: #ff4757;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-            margin-top: 5px;
-        }
-        button:hover {
-            background: #ff6b81;
-        }
-        .whatsapp-btn {
-            background: #2ed573;
-        }
-        .whatsapp-btn:hover {
-            background: #26af5f;
-        }
-        .call-btn {
-            background: #1e90ff;
-        }
-        .call-btn:hover {
-            background: #3742fa;
-        }
-        #status, #aiResponse {
-            text-align: center;
-            margin-top: 10px;
-            font-weight: bold;
-            color: #7bed9f;
-            font-size: 14px;
-        }
-        .hidden {
-            display: none;
-        }
-    </style>
+    <title>ಲೋಕಲ್ ಇ-ಕಾಮರ್ಸ್ ಆಪ್ - Shahapur Market</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-gray-100 font-sans">
 
-    <!-- 1. ಲಾಗಿನ್ ಮತ್ತು ಪ್ರೊಫೈಲ್ ಸೆಟಪ್ ಪೇಜ್ -->
-    <div class="container" id="loginSection">
-        <h2>🔐 ಸ್ಮಾರ್ಟ್ ಅಸಿಸ್ಟೆಂಟ್ ನೋಂದಣಿ</h2>
-        <div class="card">
-            <label>ನಿಮ್ಮ ಪೂರ್ಣ ಹೆಸರು</label>
-            <input type="text" id="userName" placeholder="ಉದಾ: ಅನಿಲ್">
-            
-            <label>ಮೊಬೈಲ್ ನಂಬರ್</label>
-            <input type="text" id="userPhone" placeholder="ನಿಮ್ಮ ನಂಬರ್">
-            
-            <label>ನಿಮ್ಮ ವಯಸ್ಸು</label>
-            <input type="number" id="userAge" placeholder="ವಯಸ್ಸು ನಮೂದಿಸಿ (ಮಕ್ಕಳಾದರೆ <18)">
-
-            <label>ಎಮರ್ಜೆನ್ಸಿ / ಫ್ಯಾಮಿಲಿ ಕಾಲ್ ನಂಬರ್</label>
-            <input type="text" id="emergencyPhone" placeholder="ತುರ್ತು ಸಂಪರ್ಕ ನಂಬರ್">
-
-            <button onclick="saveLogin()">ಪ್ರೊಫೈಲ್ ಸೇವ್ ಮಾಡಿ ಲಾಗಿನ್ ಆಗಿ</button>
+    <!-- ಮೇಲಿನ ನ್ಯಾವಿಗೇಷನ್ ಬಾರ್ / ರೋಲ್ ಸ್ವಿಚ್ -->
+    <header class="bg-indigo-600 text-white p-4 shadow-md sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold">🛒 ತಾಲೂಕು ಮಾರ್ಕೆಟ್ (Shahapur)</h1>
+            <div class="flex gap-2">
+                <button onclick="switchRole('customer')" id="btn-customer" class="px-3 py-1 bg-indigo-800 rounded text-sm font-semibold">ಗ್ರಾಹಕರು</button>
+                <button onclick="switchRole('vendor')" id="btn-vendor" class="px-3 py-1 bg-indigo-700 rounded text-sm font-semibold">ಅಂಗಡಿಯವರು</button>
+                <button onclick="switchRole('delivery')" id="btn-delivery" class="px-3 py-1 bg-indigo-700 rounded text-sm font-semibold">ಡೆಲಿವರಿ</button>
+            </div>
         </div>
-    </div>
+    </header>
 
-    <!-- 2. ಮುಖ್ಯ ಸ್ಮಾರ್ಟ್ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್ -->
-    <div class="container hidden" id="mainSection">
-        <h2 id="welcomeTitle">🧠 ಸ್ಮಾರ್ಟ್ ಅಸಿಸ್ಟೆಂಟ್</h2>
+    <main class="container mx-auto p-4 max-w-2xl">
 
-        <!-- ಧ್ವನಿ ಸಂಭಾಷಣೆ ಮತ್ತು ಎಐ ಅಸಿಸ್ಟೆಂಟ್ -->
-        <div class="card">
-            <label>ಧ್ವನಿ ಮೂಲಕ ಮಾತನಾಡಿ (ಕನ್ನಡ ಅಥವಾ ಹಿಂದಿ)</label>
-            <button onclick="startVoiceChat()">🎤 ಮಾತನಾಡಿ ಕೇಳಿ (Voice Chat)</button>
-            <div id="aiResponse"></div>
-        </div>
+        <!-- ೧. ಗ್ರಾಹಕರ ವೀಕ್ಷಣೆ (Customer View) -->
+        <div id="view-customer" class="space-y-4">
+            <div class="bg-white p-4 rounded-lg shadow">
+                <h2 class="text-lg font-bold text-gray-800 mb-2">🛍️ ಲಭ್ಯವಿರುವ ವಸ್ತುಗಳು</h2>
+                <div id="product-list" class="grid grid-cols-1 gap-3">
+                    <!-- JavaScript ಮೂಲಕ ಪ್ರಾಡಕ್ಟ್ ಲಿಸ್ಟ್ ಇಲ್ಲಿ ಬರುತ್ತದೆ -->
+                </div>
+            </div>
 
-        <!-- ವಯಸ್ಸಿಗೆ ತಕ್ಕಂತೆ ಬದಲಾಗುವ ರಿಮೈಂಡರ್ ಸೆಕ್ಷನ್ -->
-        <div class="card">
-            <label>ನೆನಪಿನ ಅಲಾರ್ಮ್ ಸೆಟ್ ಮಾಡಿ (Reminder)</label>
-            <input type="time" id="reminderTime">
-            <select id="reminderType">
-                <!-- ಜಾವಾಸ್ಕ್ರಿಪ್ಟ್ ಮೂಲಕ ವಯಸ್ಸಿಗೆ ತಕ್ಕಂತೆ ಬದಲಾಗುತ್ತದೆ -->
-            </select>
-            <button onclick="setReminder()">ಅಲಾರ್ಮ್ ಆನ್ ಮಾಡಿ</button>
+            <div class="bg-white p-4 rounded-lg shadow">
+                <h3 class="font-bold text-gray-800 mb-2">🛒 ನಿಮ್ಮ ಕಾರ್ಟ್ (Cart)</h3>
+                <div id="cart-items" class="text-gray-600 text-sm mb-3">ಕಾರ್ಟ್ ಖಾಲಿಯಿದೆ.</div>
+                <button onclick="placeOrder()" class="w-full bg-green-600 text-white py-2 rounded font-bold hover:bg-green-700">ಆರ್ಡರ್ ಮಾಡಿ (Place Order)</button>
+            </div>
         </div>
 
-        <!-- ಎಮರ್ಜೆನ್ಸಿ ವಾಟ್ಸಾಪ್ ಮತ್ತು ಕಾಲ್ ಸೆಕ್ಷನ್ -->
-        <div class="card">
-            <label>ತುರ್ತು ಸಂದೇಶ ಮತ್ತು ನೇರ ಕರೆ</label>
-            <button class="whatsapp-btn" onclick="sendEmergencyWhatsApp()">💬 ಎಮರ್ಜೆನ್ಸಿ ವಾಟ್ಸಾಪ್ ಕಳುಹಿಸಿ</button>
-            <button class="call-btn" onclick="makeEmergencyCall()">📞 ನೇರ ಎಮರ್ಜೆನ್ಸಿ ಕಾಲ್ ಮಾಡಿ</button>
+        <!-- ೨. ಅಂಗಡಿಯವರ ವೀಕ್ಷಣೆ (Vendor View) -->
+        <div id="view-vendor" class="space-y-4 hidden">
+            <div class="bg-white p-4 rounded-lg shadow">
+                <h2 class="text-lg font-bold text-gray-800 mb-2">➕ ಹೊಸ ವಸ್ತು ಸೇರಿಸಿ</h2>
+                <input type="text" id="p-name" placeholder="ವಸ್ತುವಿನ ಹೆಸರು (ಉದಾ: ಅಕ್ಕಿ 1kg)" class="w-full p-2 border rounded mb-2">
+                <input type="number" id="p-price" placeholder="ಬೆಲೆ (₹)" class="w-full p-2 border rounded mb-2">
+                <button onclick="addProduct()" class="w-full bg-indigo-600 text-white py-2 rounded font-bold">ವಸ್ತು ಸೇರಿಸಿ</button>
+            </div>
+
+            <div class="bg-white p-4 rounded-lg shadow">
+                <h2 class="text-lg font-bold text-gray-800 mb-2">📦 ಬಂದಿರುವ ಆರ್ಡರ್‌ಗಳು</h2>
+                <div id="vendor-orders" class="space-y-2 text-sm text-gray-600">ಯಾವ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ.</div>
+            </div>
         </div>
 
-        <div id="status">ಸಿದ್ಧವಾಗಿದೆ...</div>
-        <button style="background:#57606f; margin-top:15px;" onclick="logout()">ಲಾಗಿನ್ ಬದಲಾಯಿಸಿ (Logout)</button>
-    </div>
+        <!-- ೩. ಡೆಲಿವರಿ ಬಾಯ್ ವೀಕ್ಷಣೆ (Delivery View) -->
+        <div id="view-delivery" class="space-y-4 hidden">
+            <div class="bg-white p-4 rounded-lg shadow">
+                <h2 class="text-lg font-bold text-gray-800 mb-2">🛵 ಡೆಲಿವರಿ ಮಾಡಬೇಕಾದ ಆರ್ಡರ್‌ಗಳು</h2>
+                <div id="delivery-orders" class="space-y-2 text-sm text-gray-600">ಯಾವುದೇ ಡೆಲಿವರಿ ಬಾಕಿ ಇಲ್ಲ.</div>
+            </div>
+        </div>
 
+    </main>
+
+    <!-- ಜಾವಾಸ್ಕ್ರಿಪ್ಟ್ ಲಾಜಿಕ್ -->
     <script>
-        // ಆಪ್ ಓಪನ್ ಆದಾಗ ಮೊದಲೇ ಲಾಗಿನ್ ಆಗಿದೆಯಾ ಪರಿಶೀಲಿಸುವುದು
-        window.onload = function() {
-            const savedName = localStorage.getItem("userName");
-            if (savedName) {
-                showDashboard();
-            }
-        };
+        // ಆರಂಭಿಕ ಡೇಟಾ
+        let products = JSON.parse(localStorage.getItem('products')) || [
+            { id: 1, name: 'ಸೋನಾ ಮಸೂರಿ ಅಕ್ಕಿ (10kg)', price: 550 },
+            { id: 2, name: 'ಸೂರ್ಯಕಾಂತಿ ಎಣ್ಣೆ (1L)', price: 140 }
+        ];
 
-        function saveLogin() {
-            let name = document.getElementById("userName").value;
-            let phone = document.getElementById("userPhone").value;
-            let age = document.getElementById("userAge").value;
-            let ePhone = document.getElementById("emergencyPhone").value;
+        let cart = [];
+        let orders = JSON.parse(localStorage.getItem('orders')) || [];
 
-            if (!name || !phone || !age || !ePhone) {
-                alert("ದಯವಿಟ್ಟು ಎಲ್ಲಾ ವಿವರಗಳನ್ನು ಭರ್ತಿ ಮಾಡಿ.");
-                return;
-            }
+        // ರೋಲ್ ಬದಲಾಯಿಸುವ ಫಂಕ್ಷನ್
+        function switchRole(role) {
+            document.getElementById('view-customer').classList.add('hidden');
+            document.getElementById('view-vendor').classList.add('hidden');
+            document.getElementById('view-delivery').classList.add('hidden');
 
-            localStorage.setItem("userName", name);
-            localStorage.setItem("userPhone", phone);
-            localStorage.setItem("userAge", age);
-            localStorage.setItem("emergencyPhone", ePhone);
+            document.getElementById('btn-customer').className = "px-3 py-1 bg-indigo-700 rounded text-sm font-semibold";
+            document.getElementById('btn-vendor').className = "px-3 py-1 bg-indigo-700 rounded text-sm font-semibold";
+            document.getElementById('btn-delivery').className = "px-3 py-1 bg-indigo-700 rounded text-sm font-semibold";
 
-            showDashboard();
+            document.getElementById('view-' + role).classList.remove('hidden');
+            document.getElementById('btn-' + role).className = "px-3 py-1 bg-indigo-900 rounded text-sm font-semibold border border-white";
+
+            renderAll();
         }
 
-        function showDashboard() {
-            document.getElementById("loginSection").classList.add("hidden");
-            document.getElementById("mainSection").classList.remove("hidden");
+        // ಪ್ರಾಡಕ್ಟ್ ಸೇರಿಸುವುದು (ಅಂಗಡಿಯವರಿಂದ)
+        function addProduct() {
+            let name = document.getElementById('p-name').value;
+            let price = document.getElementById('p-price').value;
+            if(!name || !price) {
+                alert('ದಯವಿಟ್ಟು ಹೆಸರು ಮತ್ತು ಬೆಲೆ ನಮೂದಿಸಿ!');
+                return;
+            }
+            products.push({ id: Date.now(), name: name, price: Number(price) });
+            localStorage.setItem('products', JSON.stringify(products));
+            document.getElementById('p-name').value = '';
+            document.getElementById('p-price').value = '';
+            alert('ವಸ್ತು ಯಶಸ್ವಿಯಾಗಿ ಸೇರಿದೆ!');
+            renderAll();
+        }
 
-            let name = localStorage.getItem("userName");
-            let age = parseInt(localStorage.getItem("userAge"));
-            document.getElementById("welcomeTitle").innerText = "ಸ್ವಾಗತ, " + name;
+        // ಕಾರ್ಟ್‌ಗೆ ಸೇರಿಸುವುದು
+        function addToCart(id) {
+            let prod = products.find(p => p.id === id);
+            cart.push(prod);
+            renderCart();
+        }
 
-            // ವಯಸ್ಸಿಗೆ ತಕ್ಕಂತೆ ರಿಮೈಂಡರ್ ಆಪ್ಷನ್‌ಗಳನ್ನು ಬದಲಾಯಿಸುವುದು (ಮಕ್ಕಳು ಮತ್ತು ದೊಡ್ಡವರು)
-            let selectBox = document.getElementById("reminderType");
-            selectBox.innerHTML = "";
+        // ಕಾರ್ಟ್ ಪ್ರದರ್ಶನ
+        function renderCart() {
+            let cartDiv = document.getElementById('cart-items');
+            if(cart.length === 0) {
+                cartDiv.innerHTML = "ಕಾರ್ಟ್ ಖಾಲಿಯಿದೆ.";
+                return;
+            }
+            let total = 0;
+            let html = "";
+            cart.forEach((item, index) => {
+                total += item.price;
+                html += `<div class="flex justify-between border-b py-1"><span>${item.name}</span> <span>₹${item.price}</span></div>`;
+            });
+            html += `<div class="font-bold mt-2 flex justify-between"><span>ಒಟ್ಟು ಮೊತ್ತ:</span> <span>₹${total}</span></div>`;
+            cartDiv.innerHTML = html;
+        }
 
-            if (age < 18) {
-                selectBox.innerHTML = `
-                    <option value="ಶಾಲೆಗೆ ಹೋಗುವ ಸಮಯವಾಯಿತು, ಬೇಗ ತಯಾರಾಗಿ!">ಶಾಲೆ ಸಮಯ (School Time)</option>
-                    <option value="ಹೋಮ್‌ವರ್ಕ್ ಮಾಡುವ ಸಮಯವಾಯಿತು, ಬುಕ್ ತೆಗೆಯಿರಿ!">ಹೋಮ್‌ವರ್ಕ್ ಸಮಯ (Homework Time)</option>
-                    <option value="ರಾತ್ರಿ ಮಲಗುವ ಸಮಯವಾಯಿತು, ಬೇಗ ಮಲಗಿ!">ಮಲಗುವ ಸಮಯ (Sleep Time)</option>
-                `;
+        // ಆರ್ಡರ್ ಮಾಡುವುದು (ಗ್ರಾಹಕರಿಂದ)
+        function placeOrder() {
+            if(cart.length === 0) {
+                alert('ನಿಮ್ಮ ಕಾರ್ಟ್ ಖಾಲಿಯಿದೆ!');
+                return;
+            }
+            let newOrder = {
+                id: Date.now(),
+                items: [...cart],
+                status: 'Pending (ಪ್ಯಾಕಿಂಗ್ ನಡೆಯುತ್ತಿದೆ)'
+            };
+            orders.push(newOrder);
+            localStorage.setItem('orders', JSON.stringify(orders));
+            cart = [];
+            renderCart();
+            alert('ನಿಮ್ಮ ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ!');
+            renderAll();
+        }
+
+        // ಅಂಗಡಿಯವನು ಆರ್ಡರ್ ರೆಡಿ ಮಾಡುವುದು
+        function markReady(orderId) {
+            let ord = orders.find(o => o.id === orderId);
+            if(ord) {
+                ord.status = 'Ready for Delivery (ಡೆಲಿವರಿಗೆ ಸಿದ್ಧವಾಗಿದೆ)';
+                localStorage.setItem('orders', JSON.stringify(orders));
+                renderAll();
+            }
+        }
+
+        // ಡೆಲಿವರಿ ಬಾಯ್ ಡೆಲಿವರಿ ಪೂರ್ಣಗೊಳಿಸುವುದು
+        function markDelivered(orderId) {
+            orders = orders.filter(o => o.id !== orderId);
+            localStorage.setItem('orders', JSON.stringify(orders));
+            renderAll();
+            alert('ಆರ್ಡರ್ ಯಶಸ್ವಿಯಾಗಿ ತಲುಪಿಸಲಾಗಿದೆ!');
+        }
+
+        // ಎಲ್ಲಾ ಸ್ಕ್ರೀನ್‌ಗಳನ್ನು ಅಪ್‌ಡೇಟ್ ಮಾಡುವುದು
+        function renderAll() {
+            // ಗ್ರಾಹಕರಿಗೆ ಪ್ರಾಡಕ್ಟ್ ತೋರಿಸುವುದು
+            let pListDiv = document.getElementById('product-list');
+            pListDiv.innerHTML = products.map(p => `
+                <div class="flex justify-between items-center border p-2 rounded">
+                    <div>
+                        <h4 class="font-bold">${p.name}</h4>
+                        <p class="text-green-600 font-semibold">₹${p.price}</p>
+                    </div>
+                    <button onclick="addToCart(${p.id})" class="bg-indigo-600 text-white px-3 py-1 rounded text-sm">ಸೇರಿಸಿ</button>
+                </div>
+            `).join('');
+
+            // ಅಂಗಡಿಯವರಿಗೆ ಆರ್ಡರ್ ತೋರಿಸುವುದು
+            let vOrdersDiv = document.getElementById('vendor-orders');
+            let savedOrders = JSON.parse(localStorage.getItem('orders')) || [];
+            if(savedOrders.length === 0) {
+                vOrdersDiv.innerHTML = "ಯಾವ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ.";
             } else {
-                selectBox.innerHTML = `
-                    <option value="ಊಟದ ಸಮಯವಾಯಿತು ಬನ್ನಿ!">ಊಟದ ಸಮಯ (Meal Time)</option>
-                    <option value="ಔಷಧಿ ತೆಗೆದುಕೊಳ್ಳುವ ಸಮಯವಾಯಿತು, ಮಾತ್ರೆ ನುಂಗಿ!">ಔಷಧಿ ಸಮಯ (Medicine Time)</option>
-                    <option value="ವಿಶ್ರಾಂತಿ ತೆಗೆದುಕೊಳ್ಳುವ ಸಮಯವಾಯಿತು!">ವಿಶ್ರಾಂತಿ ಸಮಯ (Rest Time)</option>
-                `;
+                vOrdersDiv.innerHTML = savedOrders.map(o => `
+                    <div class="border p-2 rounded bg-gray-50 mb-2">
+                        <p><b>ಆರ್ಡರ್ ID:</b> ${o.id}</p>
+                        <p><b>ಸ್ಥಿತಿ:</b> <span class="text-orange-600">${o.status}</span></p>
+                        ${o.status.includes('Pending') ? `<button onclick="markReady(${o.id})" class="mt-2 bg-blue-600 text-white px-3 py-1 rounded text-xs">ಪ್ಯಾಕ್ ಆಯಿತು (Ready)</button>` : ''}
+                    </div>
+                `).join('');
+            }
+
+            // ಡೆಲಿವರಿ ಬಾಯ್‌ಗೆ ಆರ್ಡರ್ ತೋರಿಸುವುದು
+            let dOrdersDiv = document.getElementById('delivery-orders');
+            if(savedOrders.length === 0) {
+                dOrdersDiv.innerHTML = "ಯಾವುದೇ ಡೆಲಿವರಿ ಬಾಕಿ ಇಲ್ಲ.";
+            } else {
+                dOrdersDiv.innerHTML = savedOrders.map(o => `
+                    <div class="border p-2 rounded bg-gray-50 mb-2">
+                        <p><b>ಆರ್ಡರ್ ID:</b> ${o.id}</p>
+                        <p><b>ಸ್ಥಿತಿ:</b> ${o.status}</p>
+                        <button onclick="markDelivered(${o.id})" class="mt-2 bg-green-600 text-white px-3 py-1 rounded text-xs">ತಲುಪಿಸಲಾಗಿದೆ (Delivered)</button>
+                    </div>
+                `).join('');
             }
         }
 
-        function logout() {
-            localStorage.clear();
-            location.reload();
-        }
-
-        // ಧ್ವನಿ ಗುರುತಿಸುವಿಕೆ ಮತ್ತು ಕನ್ನಡ/ಹಿಂದಿ ಭಾಷೆಯಲ್ಲಿ ಉತ್ತರಿಸುವ ಸಿಸ್ಟಮ್
-        function startVoiceChat() {
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (!SpeechRecognition) {
-                alert("ನಿಮ್ಮ ಬ್ರೌಸರ್ ವಾಯ್ಸ್ ಕಮಾಂಡ್ ಸಪೋರ್ಟ್ ಮಾಡುವುದಿಲ್ಲ.");
-                return;
-            }
-
-            const recognition = new SpeechRecognition();
-            recognition.lang = 'kn-IN'; // ಕನ್ನಡ ಡಿಫಾಲ್ಟ್
-            recognition.start();
-
-            document.getElementById("status").innerText = "ಕೇಳಿಸಿಕೊಳ್ಳಲಾಗುತ್ತಿದೆ... ಮಾತನಾಡಿ";
-
-            recognition.onresult = function(event) {
-                const speechToText = event.results[0][0].transcript.toLowerCase();
-                document.getElementById("status").innerText = "ನೀವು ಹೇಳಿದ್ದು: " + speechToText;
-                
-                let replyText = "";
-                let lang = 'kn-IN';
-
-                // ಹಿಂದಿ ಅಥವಾ ಕನ್ನಡ ಭಾಷೆ ಗುರುತಿಸಿ ಪ್ರತಿಕ್ರಿಯೆ ನೀಡುವುದು
-                if (speechToText.includes("hindi") || speechToText.includes("क्या") || speechToText.includes("hai") || speechToText.includes("kaise") || speechToText.includes("madad")) {
-                    lang = 'hi-IN';
-                    replyText = "नमस्ते! मैं आपकी क्या सहायता कर सकता हूँ? चिंता मत कीजिए, सब ठीक हो जाएगा।";
-                } else if (speechToText.includes("ಕಾಲ್ ಮಾಡು") || speechToText.includes("ಕರೆ ಮಾಡು") || speechToText.includes("call")) {
-                    replyText = "ಸರಿ, ಈಗಲೇ ತುರ್ತು ಕರೆ ಮಾಡಲಾಗುತ್ತಿದೆ.";
-                    makeEmergencyCall();
-                } else if (speechToText.includes("ಹೆದರಿಕೆ") || speechToText.includes("ಚಿಂತೆ") || speechToText.includes("tension")) {
-                    replyText = "ಯಾವ್ಯಾವುದಕ್ಕೂ ಚಿಂತೆ ಮಾಡಬೇಡಿ, ಧೈರ್ಯವಾಗಿರಿ. ನಾನು ನಿಮ್ಮ ಜೊತೆ ಇದ್ದೇನೆ!";
-                } else {
-                    replyText = "ನೀವು ಹೇಳಿದ ಮಾತು ನನಗೆ ಅರ್ಥವಾಯಿತು. ನಿಮಗೆ ಬೇರೆ ಏನು ಸಹಾಯ ಬೇಕು?";
-                }
-
-                document.getElementById("aiResponse").innerText = "ಉತ್ತರ: " + replyText;
-                speakText(replyText, lang);
-            };
-
-            recognition.onerror = function() {
-                document.getElementById("status").innerText = "ಧ್ವನಿ ಗುರುತಿಸುವಿಕೆಯಲ್ಲಿ ದೋಷ ಉಂಟಾಗಿದೆ.";
-            };
-        }
-
-        // ಮೊಬೈಲ್ ಧ್ವನಿಯಲ್ಲಿ ಮಾತನಾಡುವ ಫಂಕ್ಷನ್ (Text-to-Speech)
-        function speakText(text, lang) {
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = lang;
-            utterance.rate = 1.0;
-            window.speechSynthesis.speak(utterance);
-        }
-
-        // ರಿಮೈಂಡರ್ ಅಲಾರ್ಮ್ ಸೆಟ್ ಮಾಡುವುದು
-        function setReminder() {
-            const timeInput = document.getElementById("reminderTime").value;
-            const message = document.getElementById("reminderType").value;
-
-            if (!timeInput) {
-                alert("ದಯವಿಟ್ಟು ಸರಿಯಾದ ಸಮಯ ಆಯ್ಕೆ ಮಾಡಿ.");
-                return;
-            }
-
-            const now = new Date();
-            const [hours, minutes] = timeInput.split(":");
-            const targetTime = new Date();
-            targetTime.setHours(hours, minutes, 0, 0);
-
-            let timeDifference = targetTime.getTime() - now.getTime();
-            if (timeDifference < 0) {
-                timeDifference += 24 * 60 * 60 * 1000;
-            }
-
-            document.getElementById("status").innerText = "ಅಲಾರ್ಮ್ ಸೆಟ್ ಮಾಡಲಾಗಿದೆ: " + timeInput;
-
-            setTimeout(() => {
-                speakText(message, 'kn-IN');
-                alert(message);
-            }, timeDifference);
-        }
-
-        // ಎಮರ್ಜೆನ್ಸಿ ವಾಟ್ಸಾಪ್ ಸಂದೇಶ ಕಳುಹಿಸುವುದು
-        function sendEmergencyWhatsApp() {
-            let phone = localStorage.getItem("emergencyPhone");
-            let name = localStorage.getItem("userName");
-            let message = "ಎಮರ್ಜೆನ್ಸಿ ಸಹಾಯ ಬೇಕು! ನನ್ನ ಹೆಸರು " + name + ". ದಯವಿಟ್ಟು ಕೂಡಲೇ ಸಂಪರ್ಕಿಸಿ.";
-
-            if (!phone) {
-                alert("ಎಮರ್ಜೆನ್ಸಿ ನಂಬರ್ ಲಭ್ಯವಿಲ್ಲ.");
-                return;
-            }
-
-            let url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-            window.open(url, '_blank');
-        }
-
-        // ನೇರ ಎಮರ್ಜೆನ್ಸಿ ಕಾಲ್ ಮಾಡುವುದು
-        function makeEmergencyCall() {
-            let phone = localStorage.getItem("emergencyPhone");
-            if (!phone) {
-                alert("ಎಮರ್ಜೆನ್ಸಿ ನಂಬರ್ ಲಭ್ಯವಿಲ್ಲ.");
-                return;
-            }
-            window.location.href = `tel:${phone}`;
-        }
+        // ಒಮ್ಮೆ ಲೋಡ್ ಆದಾಗ ರನ್ ಮಾಡಿ
+        renderAll();
     </script>
-
 </body>
 </html>
