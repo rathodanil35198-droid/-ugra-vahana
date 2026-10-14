@@ -25,6 +25,7 @@
             max-width: 400px;
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
             border: 1px solid rgba(255, 255, 255, 0.18);
+            margin-bottom: 20px;
         }
         h2 {
             text-align: center;
@@ -88,46 +89,127 @@
             font-weight: bold;
             color: #7bed9f;
         }
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h2>🧠 ಸ್ಮಾರ್ಟ್ ಅಸಿಸ್ಟೆಂಟ್</h2>
-
-        <!-- ವಾಯ್ಸ್ ಕಮಾಂಡ್ ಸೆಕ್ಷನ್ -->
+    <!-- 1. ಲಾಗಿನ್ ಪೇಜ್ (Login Page) -->
+    <div class="container" id="loginSection">
+        <h2>🔐 ಸ್ಮಾರ್ಟ್ ಅಸಿಸ್ಟೆಂಟ್ ಲಾಗಿನ್</h2>
         <div class="card">
-            <label>ಧ್ವನಿ ಮೂಲಕ ನಿಯಂತ್ರಿಸಿ (Voice Command)</label>
+            <label>ನಿಮ್ಮ ಹೆಸರು</label>
+            <input type="text" id="userName" placeholder="ನಿಮ್ಮ ಪೂರ್ಣ ಹೆಸರು">
+            
+            <label>ಮೊಬೈಲ್ ನಂಬರ್</label>
+            <input type="text" id="userPhone" placeholder="ಮೊಬೈಲ್ ನಂಬರ್">
+            
+            <label>ನಿಮ್ಮ ವಯಸ್ಸು</label>
+            <input type="number" id="userAge" placeholder="ವಯಸ್ಸು ನಮೂದಿಸಿ">
+
+            <label>ಎಮರ್ಜೆನ್ಸಿ/ಫ್ಯಾಮಿಲಿ ಕಾಲ್ ನಂಬರ್</label>
+            <input type="text" id="emergencyPhone" placeholder="ಸಂಘದವರ ಅಥವಾ ಮನೆವರ ನಂಬರ್">
+
+            <button onclick="saveLogin()">ಲಾಗಿನ್ ಆಗಿ (Login)</button>
+        </div>
+    </div>
+
+    <!-- 2. ಮುಖ್ಯ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್ (Main App Dashboard) -->
+    <div class="container hidden" id="mainSection">
+        <h2 id="welcomeTitle">🧠 ಸ್ಮಾರ್ಟ್ ಅಸಿಸ್ಟೆಂಟ್</h2>
+
+        <!-- ವಾಯ್ಸ್ ಕಮಾಂಡ್ ಮತ್ತು ಸಂಭಾಷಣೆ ಸೆಕ್ಷನ್ -->
+        <div class="card">
+            <label>ಮಾತನಾಡಿ ನಿಮ್ಮ ಪ್ರಶ್ನೆ ಕೇಳಿ (Voice Chat)</label>
             <button onclick="startVoiceRecognition()">🎤 ಮಾತನಾಡಿ (Speak)</button>
         </div>
 
-        <!-- ಊಟ ಮತ್ತು ಔಷಧಿ ರಿಮೈಂಡರ್ ಸೆಕ್ಷನ್ -->
-        <div class="card">
+        <!-- ವಯಸ್ಸಿಗೆ ತಕ್ಕಂತೆ ಡೈನಾಮಿಕ್ ರಿಮೈಂಡರ್ ಸೆಕ್ಷನ್ -->
+        <div class="card" id="dynamicReminderCard">
             <label>ನೆನಪಿನ ಅಲಾರ್ಮ್ ಸೆಟ್ ಮಾಡಿ (Reminder)</label>
             <input type="time" id="reminderTime">
             <select id="reminderType">
-                <option value="ಊಟದ ಸಮಯವಾಯಿತು ಬನ್ನಿ!">ಊಟದ ಸಮಯ (Meal Time)</option>
-                <option value="ಔಷಧಿ ತೆಗೆದುಕೊಳ್ಳುವ ಸಮಯವಾಯಿತು!">ಔಷಧಿ ಸಮಯ (Medicine Time)</option>
-                <option value="ಮಕ್ಕಳೇ ಓದಲು ಕೂಡಿ!">ಸ್ಟಡಿ ಸಮಯ (Study Time)</option>
+                <!-- ಜಾವಾಸ್ಕ್ರಿಪ್ಟ್ ಮೂಲಕ ವಯಸ್ಸಿಗೆ ತಕ್ಕಂತೆ ಬದಲಾಗುತ್ತದೆ -->
             </select>
             <button onclick="setReminder()">ಅಲಾರ್ಮ್ ಆನ್ ಮಾಡಿ</button>
         </div>
 
-        <!-- ಆಟೋಮ್ಯಾಟಿಕ್ ವಾಟ್ಸಾಪ್ ಮತ್ತು ಕಾಲ್ ಸೆಕ್ಷನ್ -->
+        <!-- ಆಟೋಮ್ಯಾಟಿಕ್ ವಾಟ್ಸಾಪ್ ಮತ್ತು ಎಮರ್ಜೆನ್ಸಿ ಕಾಲ್ -->
         <div class="card">
-            <label>ಮೊಬೈಲ್ ನಂಬರ್ ನಮೂದಿಸಿ</label>
-            <input type="text" id="phoneNumber" placeholder="ಉದಾ: 9844000000 (91 ಬಳಸಿ)">
-            <input type="text" id="messageText" placeholder="ಕಳುಹಿಸಬೇಕಾದ ಸಂದೇಶ">
-            
-            <button class="whatsapp-btn" onclick="sendWhatsApp()">💬 ವಾಟ್ಸಾಪ್ ಮೆಸೇಜ್ ಕಳುಹಿಸಿ</button>
-            <button class="call-btn" onclick="makeCall()">📞 ನೇರ ಕಾಲ್ ಮಾಡಿ</button>
+            <label>ತ್ವರಿತ ಸಂದೇಶ ಮತ್ತು ಕರೆ</label>
+            <button class="whatsapp-btn" onclick="sendEmergencyWhatsApp()">💬 ಎಮರ್ಜೆನ್ಸಿ ವಾಟ್ಸಾಪ್ ಕಳುಹಿಸಿ</button>
+            <button class="call-btn" onclick="makeEmergencyCall()">📞 ನೇರ ಎಮರ್ಜೆನ್ಸಿ ಕಾಲ್ ಮಾಡಿ</button>
         </div>
 
         <div id="status">ಸಿದ್ಧವಾಗಿದೆ...</div>
+        <button style="background:#57606f; margin-top:15px;" onclick="logout()">ಲಾಗಿನ್ ಬದಲಾಯಿಸಿ (Logout)</button>
     </div>
 
     <script>
-        // 1. ಧ್ವನಿ ಗ್ರಹಿಸುವ ಫಂಕ್ಷನ್ (Speech Recognition)
+        // ಪೇಜ್ ಓಪನ್ ಆದಾಗ ಮೊದಲೇ ಲಾಗಿನ್ ಆಗಿದೆಯಾ ಪರಿಶೀಲಿಸುವುದು
+        window.onload = function() {
+            const savedName = localStorage.getItem("userName");
+            if (savedName) {
+                showDashboard();
+            }
+        };
+
+        function saveLogin() {
+            let name = document.getElementById("userName").value;
+            let phone = document.getElementById("userPhone").value;
+            let age = document.getElementById("userAge").value;
+            let ePhone = document.getElementById("emergencyPhone").value;
+
+            if (!name || !phone || !age || !ePhone) {
+                alert("ದಯವಿಟ್ಟು ಎಲ್ಲಾ ವಿವರಗಳನ್ನು ಭರ್ತಿ ಮಾಡಿ.");
+                return;
+            }
+
+            localStorage.setItem("userName", name);
+            localStorage.setItem("userPhone", phone);
+            localStorage.setItem("userAge", age);
+            localStorage.setItem("emergencyPhone", ePhone);
+
+            showDashboard();
+        }
+
+        function showDashboard() {
+            document.getElementById("loginSection").classList.add("hidden");
+            document.getElementById("mainSection").classList.remove("hidden");
+
+            let name = localStorage.getItem("userName");
+            let age = parseInt(localStorage.getItem("userAge"));
+            document.getElementById("welcomeTitle").innerText = "ಸ್ವಾಗತ, " + name;
+
+            // ವಯಸ್ಸಿಗೆ ತಕ್ಕಂತೆ ರಿಮೈಂಡರ್ ಆಪ್ಷನ್‌ಗಳನ್ನು ಬದಲಾಯಿಸುವುದು
+            let selectBox = document.getElementById("reminderType");
+            selectBox.innerHTML = "";
+
+            if (age < 18) {
+                // ಮಕ್ಕಳಿಗಾಗಿ
+                selectBox.innerHTML = `
+                    <option value="ಶಾಲೆಗೆ ಹೋಗುವ ಸಮಯವಾಯಿತು!">ಶಾಲೆ ಸಮಯ (School Time)</option>
+                    <option value="ಹೋಮ್‌ವರ್ಕ್ ಮಾಡುವ ಸಮಯವಾಯಿತು!">ಹೋಮ್‌ವರ್ಕ್ ಸಮಯ (Homework Time)</option>
+                    <option value="ಮಲಗುವ ಸಮಯವಾಯಿತು!">ಮಲಗುವ ಸಮಯ (Sleep Time)</option>
+                `;
+            } else {
+                // ದೊಡ್ಡವರಿಗಾಗಿ
+                selectBox.innerHTML = `
+                    <option value="ಊಟದ ಸಮಯವಾಯಿತು ಬನ್ನಿ!">ಊಟದ ಸಮಯ (Meal Time)</option>
+                    <option value="ಔಷಧಿ ತೆಗೆದುಕೊಳ್ಳುವ ಸಮಯವಾಯಿತು!">ಔಷಧಿ ಸಮಯ (Medicine Time)</option>
+                    <option value="ವಿಶ್ರಾಂತಿ ತೆಗೆದುಕೊಳ್ಳುವ ಸಮಯವಾಯಿತು!">ವಿಶ್ರಾಂತಿ ಸಮಯ (Rest Time)</option>
+                `;
+            }
+        }
+
+        function logout() {
+            localStorage.clear();
+            location.reload();
+        }
+
+        // ಧ್ವನಿ ಗುರುತಿಸುವಿಕೆ ಮತ್ತು ಭಾಷೆ ಗುರುತಿಸಿ ಉತ್ತರಿಸುವುದು (ಕನ್ನಡ ಅಥವಾ ಹಿಂದಿ)
         function startVoiceRecognition() {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (!SpeechRecognition) {
@@ -136,21 +218,22 @@
             }
 
             const recognition = new SpeechRecognition();
-            recognition.lang = 'kn-IN'; // ಕನ್ನಡ ಭಾಷೆ
+            recognition.lang = 'kn-IN'; // ಪ್ರಾಥಮಿಕವಾಗಿ ಕನ್ನಡ
             recognition.start();
 
-            document.getElementById("status").innerText = "ಕೇಳಿಸಿಕೊಳ್ಳಲಾಗುತ್ತಿದೆ...";
+            document.getElementById("status").innerText = "ಕೇಳಿಸಿಕೊಳ್ಳಲಾಗುತ್ತಿದೆ... ಮಾತನಾಡಿ";
 
             recognition.onresult = function(event) {
-                const speechToText = event.results[0][0].transcript;
+                const speechToText = event.results[0][0].transcript.toLowerCase();
                 document.getElementById("status").innerText = "ನೀವು ಹೇಳಿದ್ದು: " + speechToText;
                 
-                // ಧ್ವನಿಯಲ್ಲಿ ಬಂದ ಮಾತಿಗೆ ತಕ್ಕಂತೆ ಆಕ್ಷನ್ ಮಾಡುವುದು
-                if (speechToText.includes("ಕಾಲ್ ಮಾಡು") || speechToText.includes("ಕರೆ ಮಾಡು")) {
-                    speakText("ಸರಿ, ಕಾಲ್ ಮಾಡಲಾಗುತ್ತಿದೆ");
-                    // ಇಲ್ಲಿ ನಂಬರ್ ಇದ್ದರೆ ನೇರವಾಗಿ ಕಾಲ್ ಮಾಡಬಹುದು
+                // ಹಿಂದಿ ಅಥವಾ ಕನ್ನಡಕ್ಕೆ ತಕ್ಕಂತೆ ಪ್ರತಿಕ್ರಿಯೆ ನೀಡುವುದು
+                if (speechToText.includes("hindi") || speechToText.includes("क्या") || speechToText.includes("hai") || speechToText.includes("kaise")) {
+                    speakText("नमस्ते, मैं आपकी क्या सहायता कर सकता हूँ?", 'hi-IN');
+                } else if (speechToText.includes("ಕಾಲ್ ಮಾಡು") || speechToText.includes("ಕರೆ ಮಾಡು")) {
+                    makeEmergencyCall();
                 } else {
-                    speakText("ನೀವು ಹೇಳಿದ ವಿಷಯ: " + speechToText);
+                    speakText("ಹೇ, ನಿಮ್ಮ ಚಿಂತೆ ಬಿಡಿ, ನಾನು ನಿಮ್ಮ ಜೊತೆಇದ್ದೇನೆ. ನಿಮಗೆ ಏನು ಸಹಾಯ ಬೇಕು?", 'kn-IN');
                 }
             };
 
@@ -159,15 +242,14 @@
             };
         }
 
-        // 2. ಮೊಬೈಲ್ ಮಾತನಾಡುವ ಫಂಕ್ಷನ್ (Text-to-Speech)
-        function speakText(text) {
+        // ಮೊಬೈಲ್ ಮಾತನಾಡುವ ಫಂಕ್ಷನ್ (Text-to-Speech)
+        function speakText(text, lang) {
             const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'kn-IN';
+            utterance.lang = lang;
             window.speechSynthesis.speak(utterance);
         }
 
-        // 3. ರಿಮೈಂಡರ್ ಅಲಾರ್ಮ್ ಸೆಟ್ ಮಾಡುವುದು
-        let alarmTimeout;
+        // ರಿಮೈಂಡರ್ ಅಲಾರ್ಮ್ ಸೆಟ್ ಮಾಡುವುದು
         function setReminder() {
             const timeInput = document.getElementById("reminderTime").value;
             const message = document.getElementById("reminderType").value;
@@ -184,37 +266,37 @@
 
             let timeDifference = targetTime.getTime() - now.getTime();
             if (timeDifference < 0) {
-                timeDifference += 24 * 60 * 60 * 1000; // ನಾಳೆಗೆ ಸೆಟ್ ಮಾಡುವುದು
+                timeDifference += 24 * 60 * 60 * 1000;
             }
 
             document.getElementById("status").innerText = "ಅಲಾರ್ಮ್ ಸೆಟ್ ಮಾಡಲಾಗಿದೆ: " + timeInput;
 
             setTimeout(() => {
-                speakText(message);
+                speakText(message, 'kn-IN');
                 alert(message);
             }, timeDifference);
         }
 
-        // 4. ಆಟೋಮ್ಯಾಟಿಕ್ ವಾಟ್ಸಾಪ್ ಮೆಸೇಜ್ ಕಳುಹಿಸುವುದು
-        function sendWhatsApp() {
-            let phone = document.getElementById("phoneNumber").value;
-            let message = document.getElementById("messageText").value;
+        // ಎಮರ್ಜೆನ್ಸಿ ವಾಟ್ಸಾಪ್ ಕಳುಹಿಸುವುದು
+        function sendEmergencyWhatsApp() {
+            let phone = localStorage.getItem("emergencyPhone");
+            let name = localStorage.getItem("userName");
+            let message = "ಎಮರ್ಜೆನ್ಸಿ ಸಹಾಯ ಬೇಕು! ನನ್ನ ಹೆಸರು " + name + ". ದಯವಿಟ್ಟು ಸಂಪರ್ಕಿಸಿ.";
 
             if (!phone) {
-                alert("ದಯವಿಟ್ಟು ಮೊಬೈಲ್ ನಂಬರ್ ಹಾಕಿ.");
+                alert("ಎಮರ್ಜೆನ್ಸಿ ನಂಬರ್ ಸಿಗಲಿಲ್ಲ.");
                 return;
             }
 
-            // ವಾಟ್ಸಾಪ್ ಲಿಂಕ್ ಜನರೇಟ್ ಮಾಡುವುದು
             let url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
             window.open(url, '_blank');
         }
 
-        // 5. ನೇರ ಕಾಲ್ ಮಾಡುವುದು (Direct Call)
-        function makeCall() {
-            let phone = document.getElementById("phoneNumber").value;
+        // ನೇರ ಎಮರ್ಜೆನ್ಸಿ ಕಾಲ್ ಮಾಡುವುದು
+        function makeEmergencyCall() {
+            let phone = localStorage.getItem("emergencyPhone");
             if (!phone) {
-                alert("ದಯವಿಟ್ಟು ಮೊಬೈಲ್ ನಂಬರ್ ಹಾಕಿ.");
+                alert("ಎಮರ್ಜೆನ್ಸಿ ನಂಬರ್ ಸಿಗಲಿಲ್ಲ.");
                 return;
             }
             window.location.href = `tel:${phone}`;
