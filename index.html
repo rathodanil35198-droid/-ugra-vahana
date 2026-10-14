@@ -3,798 +3,223 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ಕರ್ನಾಟಕ ಅಲ್ಟಿಮೇಟ್ ಗೇಮ್ಸ್ ಹಬ್</title>
-    <!-- Adsterra Real Fullscreen & Exit Intent Ad Integration -->
-    <script>
-        function loadAdsterraAd() {
-            const script = document.createElement('script');
-            script.setAttribute('data-cfasync', 'false');
-            script.src = 'https://afders.org/1/dcca239fe633cf4220bd93679dc82c2c';
-            document.body.appendChild(script);
-        }
-
-        window.addEventListener('DOMContentLoaded', (event) => {
-            history.pushState(null, null, location.href);
-            setTimeout(() => {
-                loadAdsterraAd();
-            }, 500);
-        });
-
-        window.addEventListener('popstate', function(event) {
-            loadAdsterraAd();
-            history.pushState(null, null, location.href);
-        });
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <title>ನಮ್ಮ ಸಂಸಾರ ಸ್ಮಾರ್ಟ್ ಅಸಿಸ್ಟೆಂಟ್</title>
     <style>
-        * { box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #0d1117;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
             color: #fff;
             margin: 0;
-            padding: 0;
+            padding: 20px;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             min-height: 100vh;
         }
         .container {
-            background: #161b22;
-            color: #f0f6fc;
-            width: 100%;
-            max-width: 420px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
             padding: 20px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.8);
-            border: 2px solid #30363d;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        .lang-select-box {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 10px;
-        }
-        .lang-select-box select {
-            background: #21262d;
-            color: #58a6ff;
-            border: 1px solid #30363d;
-            padding: 6px 10px;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        h2 { color: #58a6ff; margin-top: 0; margin-bottom: 5px; font-size: 22px; }
-        
-        .stats {
-            display: flex;
-            justify-content: space-between;
-            background: #21262d;
-            padding: 12px 16px;
-            border-radius: 12px;
-            margin-bottom: 15px;
-            font-weight: bold;
-            color: #79c0ff;
-            border: 1px solid #30363d;
-        }
-
-        .game-card {
-            background: #21262d;
-            border: 2px solid #30363d;
-            padding: 14px;
-            margin: 12px 0;
-            border-radius: 14px;
-            cursor: pointer;
-            text-align: left;
-            display: flex;
-            align-items: center;
-            transition: all 0.2s ease-in-out;
-        }
-        .game-card:hover {
-            background: #30363d;
-            border-color: #58a6ff;
-            transform: translateY(-2px);
-        }
-        .game-logo {
-            font-size: 32px;
-            margin-right: 15px;
-            background: #161b22;
-            width: 55px;
-            height: 55px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 12px;
-            border: 1px solid #484f58;
-        }
-        .game-card h3 { margin: 0 0 4px 0; color: #f0f6fc; font-size: 15px; }
-        .game-card p { margin: 0; color: #8b949e; font-size: 12px; }
-
-        .jungle-bg {
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
-                        url('https://img.freepik.com/free-vector/jungle-landscape-with-trees-plants_107791-1433.jpg');
-            background-size: cover;
-            background-position: center;
-            border-radius: 14px;
-            padding: 15px;
-        }
-        .question-box {
-            background: rgba(22, 27, 34, 0.9);
-            border: 2px dashed #238636;
-            padding: 16px;
-            border-radius: 12px;
-            margin-bottom: 15px;
-        }
-        #question { font-weight: bold; font-size: 17px; margin: 0; color: #f0f6fc; }
-
-        .runner-char {
-            font-size: 35px;
-            margin: 5px 0;
-            display: inline-block;
-            transition: transform 0.4s ease;
-        }
-        .jump-anim {
-            transform: translateY(-40px) scale(1.2);
-        }
-
-        .option-btn {
-            background: #21262d;
-            color: #f0f6fc;
-            border: 1px solid #30363d;
-            padding: 13px;
-            margin: 8px 0;
             width: 100%;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 15px;
-            font-weight: 600;
-            text-align: left;
-            padding-left: 18px;
-            transition: 0.2s;
+            max-width: 400px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
         }
-        .option-btn:hover { background: #30363d; }
-        .option-btn.correct { background: #238636 !important; border-color: #2ea043; }
-        .option-btn.wrong { background: #da3633 !important; border-color: #f85149; }
-
-        .math-bg {
-            background: #0d1117;
-            border-radius: 14px;
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #ffd700;
+        }
+        .card {
+            background: rgba(0, 0, 0, 0.2);
             padding: 15px;
-            border: 2px solid #1f6beb;
-        }
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin: 15px 0;
-        }
-        .num-btn {
-            background: #21262d;
-            color: #79c0ff;
-            border: 2px solid #30363d;
-            padding: 18px 0;
-            font-size: 20px;
-            font-weight: bold;
             border-radius: 10px;
-            cursor: pointer;
-            user-select: none;
+            margin-bottom: 15px;
         }
-        .num-btn.selected { background: #1f6beb; color: #fff; border-color: #58a6ff; }
-
-        .float-box {
-            position: relative;
-            height: 250px;
-            background: #010409;
-            border: 2px solid #30363d;
-            border-radius: 12px;
-            overflow: hidden;
-            margin: 15px 0;
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #ddd;
         }
-        .float-btn {
-            position: absolute;
-            background: #238636;
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: none;
+            background: #fff;
+            color: #333;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #ff4757;
             color: white;
             border: none;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            font-size: 18px;
+            border-radius: 5px;
+            font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            transition: all 0.5s linear;
+            transition: 0.3s;
+            margin-top: 5px;
         }
-
-        .btn {
-            background: #d29922;
-            color: #fff;
-            border: none;
-            padding: 12px 20px;
-            margin: 8px 0;
-            width: 100%;
-            border-radius: 10px;
-            font-size: 15px;
+        button:hover {
+            background: #ff6b81;
+        }
+        .whatsapp-btn {
+            background: #2ed573;
+        }
+        .whatsapp-btn:hover {
+            background: #26af5f;
+        }
+        .call-btn {
+            background: #1e90ff;
+        }
+        .call-btn:hover {
+            background: #3742fa;
+        }
+        #status {
+            text-align: center;
+            margin-top: 15px;
             font-weight: bold;
-            cursor: pointer;
+            color: #7bed9f;
         }
-        .btn-back { background: #30363d; margin-top: 15px; }
-        .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        
-        <!-- ಭಾಷಾ ಸೆಟ್ಟಿಂಗ್ ಬಟನ್ (Language Selector) -->
-        <div class="lang-select-box">
-            <select id="langSelector" onchange="changeLanguage()">
-                <option value="kn">ಕನ್ನಡ (Kannada)</option>
-                <option value="hi">हिंदी (Hindi)</option>
-                <option value="en">English</option>
+        <h2>🧠 ಸ್ಮಾರ್ಟ್ ಅಸಿಸ್ಟೆಂಟ್</h2>
+
+        <!-- ವಾಯ್ಸ್ ಕಮಾಂಡ್ ಸೆಕ್ಷನ್ -->
+        <div class="card">
+            <label>ಧ್ವನಿ ಮೂಲಕ ನಿಯಂತ್ರಿಸಿ (Voice Command)</label>
+            <button onclick="startVoiceRecognition()">🎤 ಮಾತನಾಡಿ (Speak)</button>
+        </div>
+
+        <!-- ಊಟ ಮತ್ತು ಔಷಧಿ ರಿಮೈಂಡರ್ ಸೆಕ್ಷನ್ -->
+        <div class="card">
+            <label>ನೆನಪಿನ ಅಲಾರ್ಮ್ ಸೆಟ್ ಮಾಡಿ (Reminder)</label>
+            <input type="time" id="reminderTime">
+            <select id="reminderType">
+                <option value="ಊಟದ ಸಮಯವಾಯಿತು ಬನ್ನಿ!">ಊಟದ ಸಮಯ (Meal Time)</option>
+                <option value="ಔಷಧಿ ತೆಗೆದುಕೊಳ್ಳುವ ಸಮಯವಾಯಿತು!">ಔಷಧಿ ಸಮಯ (Medicine Time)</option>
+                <option value="ಮಕ್ಕಳೇ ಓದಲು ಕೂಡಿ!">ಸ್ಟಡಿ ಸಮಯ (Study Time)</option>
             </select>
+            <button onclick="setReminder()">ಅಲಾರ್ಮ್ ಆನ್ ಮಾಡಿ</button>
         </div>
 
-        <!-- ಮುಖಪುಟ -->
-        <div id="home-screen">
-            <h2 id="txt-title">ಕರ್ನಾಟಕ ಗೇಮ್ಸ್ ಹಬ್</h2>
-            <p id="txt-subtitle" style="color: #8b949e; font-size: 13px; margin-bottom: 20px;">ಮಕ್ಕಳು ಹಾಗೂ ದೊಡ್ಡವರಿಗಾಗಿ ಮನರಂಜನಾ ಆಟಗಳು!</p>
+        <!-- ಆಟೋಮ್ಯಾಟಿಕ್ ವಾಟ್ಸಾಪ್ ಮತ್ತು ಕಾಲ್ ಸೆಕ್ಷನ್ -->
+        <div class="card">
+            <label>ಮೊಬೈಲ್ ನಂಬರ್ ನಮೂದಿಸಿ</label>
+            <input type="text" id="phoneNumber" placeholder="ಉದಾ: 9844000000 (91 ಬಳಸಿ)">
+            <input type="text" id="messageText" placeholder="ಕಳುಹಿಸಬೇಕಾದ ಸಂದೇಶ">
             
-            <div class="game-card" onclick="startQuizGame()">
-                <div class="game-logo">🌳</div>
-                <div>
-                    <h3 id="txt-g1">1. ಜಂಗಲ್ ಜಂಪ್ ಕ್ವಿಜ್ (1000 ಲೆವೆಲ್)</h3>
-                    <p id="txt-g1-desc">ಭಾರತ & ಕರ್ನಾಟಕದ ಸಾವಿರಾರು ಪ್ರಶ್ನೆಗಳು + ₹10 ಕಾಯಿನ್!</p>
-                </div>
-            </div>
-
-            <div class="game-card" onclick="startMathGame()">
-                <div class="game-logo">🔢</div>
-                <div>
-                    <h3 id="txt-g2">2. 3-ನಂಬರ್ ಸಮ್ ಪಜಲ್</h3>
-                    <p id="txt-g2-desc">3 ಸಂಖ್ಯೆಗಳನ್ನು ಜೋಡಿಸಿ ನೀಡಿರುವ ಮೊತ್ತ ಮಾಡಿ!</p>
-                </div>
-            </div>
-
-            <div class="game-card" onclick="startMovingAlphaGame()">
-                <div class="game-logo">🔤</div>
-                <div>
-                    <h3 id="txt-g3">3. ವರ್ಣಮಾಲೆ (ಅ-ಳ / अ-ज्ञ) ಜೋಡಣೆ</h3>
-                    <p id="txt-g3-desc">ಕನ್ನಡ ಮತ್ತು ಹಿಂದಿ ಅಕ್ಷರಗಳನ್ನು ಕ್ರಮವಾಗಿ ಜೋಡಿಸಿ!</p>
-                </div>
-            </div>
-
-            <!-- ಹೊಸ ಫೋಟೋಗಳಲ್ಲಿರುವಂತೆ ಕಿಡ್ಸ್ ಫೋನಿಕ್ಸ್ & ಮ್ಯಾಚಿಂಗ್ ಗೇಮ್ -->
-            <div class="game-card" onclick="startPhonicsGame()">
-                <div class="game-logo">🎁</div>
-                <div>
-                    <h3 id="txt-g4">4. ಕಿಡ್ಸ್ ಫೋನಿಕ್ಸ್ & ಅಕ್ಷರ ಪೇರಿಂಗ್</h3>
-                    <p id="txt-g4-desc">ಅಪ್ಪರ್ ಕೇಸ್, ಲೋವರ್ ಕೇಸ್ ಹಾಗೂ ವಸ್ತುಗಳ ಜೋಡಣೆ ಆಟ!</p>
-                </div>
-            </div>
-
-            <div class="game-card" onclick="startLuckySpin()">
-                <div class="game-logo">🎡</div>
-                <div>
-                    <h3 id="txt-g5">5. ಲಕ್ಕಿ ಸ್ಪಿನ್ ಕಾಯಿನ್</h3>
-                    <p id="txt-g5-desc">ಸ್ಪಿನ್ ಮಾಡಿ ಪ್ರತಿದಿನ ಉಚಿತ ಬೋನಸ್ ನಾಣ್ಯ ಗೆಲ್ಲಿರಿ!</p>
-                </div>
-            </div>
+            <button class="whatsapp-btn" onclick="sendWhatsApp()">💬 ವಾಟ್ಸಾಪ್ ಮೆಸೇಜ್ ಕಳುಹಿಸಿ</button>
+            <button class="call-btn" onclick="makeCall()">📞 ನೇರ ಕಾಲ್ ಮಾಡಿ</button>
         </div>
 
-        <!-- 1. ಜಂಗಲ್ ಕ್ವಿಜ್ ಸ್ಕ್ರೀನ್ -->
-        <div id="quiz-screen" class="hidden">
-            <div class="jungle-bg">
-                <div class="stats">
-                    <div><span id="txt-pocket">ಪಾಕೆಟ್ ನಾಣ್ಯಗಳು</span>: <span id="score" style="color: #58a6ff;">₹100</span></div>
-                    <div><span id="txt-lvl">ಲೆವೆಲ್</span>: <span id="level">1</span></div>
-                </div>
-
-                <div id="txt-correct-msg" style="font-size: 13px; color: #2ea043; font-weight: bold; margin-bottom: 5px;">
-                    🎯 ಪ್ರತಿ ಸರಿಯಾದ ಉತ್ತರಕ್ಕೆ +₹10 ಪಾಕೆಟ್‌ಗೆ ಸೇರುತ್ತದೆ!
-                </div>
-
-                <div class="runner-char" id="runner">🏃‍♂️💰</div>
-
-                <div class="question-box">
-                    <p id="question">ಪ್ರಶ್ನೆ ಲೋಡ್ ಆಗುತ್ತಿದೆ...</p>
-                </div>
-
-                <div id="options-container"></div>
-            </div>
-            <button class="btn btn-back" id="btn-back1" onclick="goHome()">⬅ ಮುಖಪುಟಕ್ಕೆ ಹಿಂತಿರುಗಿ</button>
-        </div>
-
-        <!-- 2. ಮ್ಯಾಥ್ ಸಮ್ ಪಜಲ್ ಸ್ಕ್ರೀನ್ -->
-        <div id="math-screen" class="hidden">
-            <div class="math-bg">
-                <h2 id="txt-math-title">3-ನಂಬರ್ ಸಮ್ ಪಜಲ್</h2>
-                <p style="font-size: 14px; color: #8b949e;"><span id="txt-target-text">ಆಯ್ಕೆ ಮಾಡಿದ 3 ಸಂಖ್ಯೆಗಳ ಒಟ್ಟು ಮೊತ್ತ</span>: <b id="target-sum" style="color: #58a6ff; font-size: 24px;">45</b> <span id="txt-must-be">ಇರಬೇಕು</span>!</p>
-                
-                <div class="stats" style="justify-content: center; background: #161b22;">
-                    <div><span id="txt-my-sum">ನಿಮ್ಮ ಆಯ್ಕೆಯ ಮೊತ್ತ</span>: <span id="current-sum" style="color:#e3b341;">0</span> (<span id="txt-select">ಆಯ್ಕೆ</span>: <span id="selected-count">0</span>/3)</div>
-                </div>
-
-                <div class="grid-container" id="math-grid"></div>
-            </div>
-            <button class="btn btn-back" id="btn-back2" onclick="goHome()">⬅ ಮುಖಪುಟಕ್ಕೆ ಹಿಂತಿರುಗಿ</button>
-        </div>
-
-        <!-- 3. ವರ್ಣಮಾಲೆ ಗೇಮ್ ಸ್ಕ್ರೀನ್ (ಅ-ಳ & अ-ज्ञ) -->
-        <div id="alpha-screen" class="hidden">
-            <h2 id="txt-alpha-title">ವರ್ಣಮಾಲೆ ರನ್ನಿಂಗ್ ಗೇಮ್</h2>
-            <p style="font-size: 14px; color: #8b949e;"><span id="txt-next-letter">ಮುಂದಿನ ಅಕ್ಷರವನ್ನು ಹುಡುಕಿ</span>: <b id="target-letter" style="color: #238636; font-size: 24px;">ಅ</b></p>
-            
-            <div class="float-box" id="float-container"></div>
-
-            <button class="btn btn-back" id="btn-back3" onclick="goHome()">⬅ ಮುಖಪುಟಕ್ಕೆ ಹಿಂತಿರುಗಿ</button>
-        </div>
-
-        <!-- 4. ಹೊಸ ಕಿಡ್ಸ್ ಫೋನಿಕ್ಸ್ & ಅಕ್ಷರ ಪೇರಿಂಗ್ ಸ್ಕ್ರೀನ್ -->
-        <div id="phonics-screen" class="hidden">
-            <h2 id="txt-phonics-title">ಫೋನಿಕ್ಸ್ & ಅಕ್ಷರ ಜೋಡಣೆ</h2>
-            <p style="font-size: 13px; color: #8b949e;" id="txt-phonics-desc">ದೊಡ್ಡ ಅಕ್ಷರ (Uppercase) ಮತ್ತು ಸಣ್ಣ ಅಕ್ಷರ (Lowercase) ಹೊಂದಿಸಿ!</p>
-            
-            <div class="question-box" style="margin-top: 15px;">
-                <p id="phonics-question" style="font-size: 18px; color: #58a6ff; font-weight: bold;">ಸರಿಯಾದ ಅಕ್ಷರ ಆಯ್ಕೆ ಮಾಡಿ</p>
-                <div id="phonics-options" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 15px;"></div>
-            </div>
-
-            <button class="btn btn-back" id="btn-back4" onclick="goHome()">⬅ ಮುಖಪುಟಕ್ಕೆ ಹಿಂತಿರುಗಿ</button>
-        </div>
-
-        <!-- 5. ಲಕ್ಕಿ ಸ್ಪಿನ್ ಸ್ಕ್ರೀನ್ -->
-        <div id="spin-screen" class="hidden">
-            <h2 id="txt-spin-title">ಲಕ್ಕಿ ಸ್ಪಿನ್</h2>
-            <div class="stats" style="justify-content: center;">
-                <div><span id="txt-my-coins">ನಿಮ್ಮ ನಾಣ್ಯಗಳು</span>: <span id="spin-score">100</span></div>
-            </div>
-            <div style="padding: 25px 0; font-size: 18px; font-weight: bold; color: #d29922;" id="spin-result">
-                ಚಕ್ರ ತಿರುಗಿಸಿ ನಾಣ್ಯ ಗೆಲ್ಲಿರಿ! 🎡
-            </div>
-            <button class="btn" style="background:#238636;" id="txt-spin-btn" onclick="spinWheel()">🎡 ಈಗಲೇ ಸ್ಪಿನ್ ಮಾಡಿ</button>
-            <button class="btn btn-back" id="btn-back5" onclick="goHome()">⬅ ಮುಖಪುಟಕ್ಕೆ ಹಿಂತಿರುಗಿ</button>
-        </div>
-
+        <div id="status">ಸಿದ್ಧವಾಗಿದೆ...</div>
     </div>
 
     <script>
-        let currentLang = 'kn';
-        let score = 100;
-        let level = 1;
-        let canAnswer = true;
-
-        // ಬಹುಭಾಷಾ ಸಪೋರ್ಟ್ ಡಿಕ್ಷನರಿ (ಕನ್ನಡ, ಹಿಂದಿ, ಇಂಗ್ಲಿಷ್)
-        const translations = {
-            kn: {
-                title: "ಕರ್ನಾಟಕ ಗೇಮ್ಸ್ ಹಬ್",
-                subtitle: "ಮಕ್ಕಳು ಹಾಗೂ ದೊಡ್ಡವರಿಗಾಗಿ ಮನರಂಜನಾ ಆಟಗಳು!",
-                g1: "1. ಜಂಗಲ್ ಜಂಪ್ ಕ್ವಿಜ್ (1000 ಲೆವೆಲ್)",
-                g1Desc: "ಭಾರತ & ಕರ್ನಾಟಕದ ಸಾವಿರಾರು ಪ್ರಶ್ನೆಗಳು + ₹10 ಕಾಯಿನ್!",
-                g2: "2. 3-ನಂಬರ್ ಸಮ್ ಪಜಲ್",
-                g2Desc: "3 ಸಂಖ್ಯೆಗಳನ್ನು ಜೋಡಿಸಿ ನೀಡಿರುವ ಮೊತ್ತ ಮಾಡಿ!",
-                g3: "3. ವರ್ಣಮಾಲೆ (ಅ-ಳ) ಜೋಡಣೆ",
-                g3Desc: "ಕನ್ನಡ ಅಕ್ಷರಗಳನ್ನು ಕ್ರಮವಾಗಿ ಜೋಡಿಸಿ!",
-                g4: "4. ಕಿಡ್ಸ್ ಫೋನಿಕ್ಸ್ & ಅಕ್ಷರ ಪೇರಿಂಗ್",
-                g4Desc: "ಅಪ್ಪರ್ ಕೇಸ್, ಲೋವರ್ ಕೇಸ್ ಹಾಗೂ ವಸ್ತುಗಳ ಜೋಡಣೆ ಆಟ!",
-                g5: "5. ಲಕ್ಕಿ ಸ್ಪಿನ್ ಕಾಯಿನ್",
-                g5Desc: "ಸ್ಪಿನ್ ಮಾಡಿ ಪ್ರತಿದಿನ ಉಚಿತ ಬೋನಸ್ ನಾಣ್ಯ ಗೆಲ್ಲಿರಿ!",
-                pocket: "ಪಾಕೆಟ್ ನಾಣ್ಯಗಳು",
-                lvl: "ಲೆವೆಲ್",
-                correctMsg: "🎯 ಪ್ರತಿ ಸರಿಯಾದ ಉತ್ತರಕ್ಕೆ +₹10 ಪಾಕೆಟ್‌ಗೆ ಸೇರುತ್ತದೆ!",
-                back: "⬅ ಮುಖಪುಟಕ್ಕೆ ಹಿಂತಿರುಗಿ",
-                mathTitle: "3-ನಂಬರ್ ಸಮ್ ಪಜಲ್",
-                targetText: "ಆಯ್ಕೆ ಮಾಡಿದ 3 ಸಂಖ್ಯೆಗಳ ಒಟ್ಟು ಮೊತ್ತ",
-                mustBe: "ಇರಬೇಕು",
-                mySum: "ನಿಮ್ಮ ಆಯ್ಕೆಯ ಮೊತ್ತ",
-                select: "ಆಯ್ಕೆ",
-                alphaTitle: "ಕನ್ನಡ ವರ್ಣಮಾಲೆ ರನ್ನಿಂಗ್ ಗೇಮ್",
-                nextLetter: "ಮುಂದಿನ ಅಕ್ಷರವನ್ನು ಹುಡುಕಿ",
-                phonicsTitle: "ಫೋನಿಕ್ಸ್ & ಅಕ್ಷರ ಜೋಡಣೆ",
-                phonicsDesc: "ದೊಡ್ಡ ಅಕ್ಷರ ಮತ್ತು ಸಣ್ಣ ಅಕ್ಷರ ಹೊಂದಿಸಿ!",
-                spinTitle: "ಲಕ್ಕಿ ಸ್ಪಿನ್",
-                myCoins: "ನಿಮ್ಮ ನಾಣ್ಯಗಳು",
-                spinBtn: "🎡 ಈಗಲೇ ಸ್ಪಿನ್ ಮಾಡಿ"
-            },
-            hi: {
-                title: "कर्नाटक गेम्स हब",
-                subtitle: "बच्चों और बड़ों के लिए मनोरंजक खेल!",
-                g1: "1. जंगल जंप क्विज़ (1000 लेवल)",
-                g1Desc: "भारत और कर्नाटक के हजारों प्रश्न + ₹10 सिक्का!",
-                g2: "2. 3-नंबर सम पजल",
-                g2Desc: "3 संख्याओं को जोड़कर दी गई राशि बनाएं!",
-                g3: "3. वर्णमाला (अ-ज्ञ) क्रम",
-                g3Desc: "हिंदी वर्णमाला के अक्षरों को क्रम से जोड़ें!",
-                g4: "4. किड्स फोनेटिक्स और मैचिंग",
-                g4Desc: "अपर केस, लोअर केस और वस्तु मिलान खेल!",
-                g5: "5. लकी स्पिन कॉइन",
-                g5Desc: "स्पिन करें और रोजाना मुफ्त बोनस सिक्के जीतें!",
-                pocket: "पॉकेट सिक्के",
-                lvl: "लेवल",
-                correctMsg: "🎯 प्रत्येक सही उत्तर पर +₹10 आपके पॉकेट में जुड़ेंगे!",
-                back: "⬅ मुख्य पृष्ठ पर लौटें",
-                mathTitle: "3-नंबर सम पजल",
-                targetText: "चुनी गई 3 संख्याओं का कुल योग",
-                mustBe: "होना चाहिए",
-                mySum: "आपका योग",
-                select: "चयन",
-                alphaTitle: "हिंदी वर्णमाला रनिंग गेम",
-                nextLetter: "अगला अक्षर ढूंढें",
-                phonicsTitle: "फोनेटिक्स और अक्षर मिलान",
-                phonicsDesc: "बड़े और छोटे अक्षरों का मिलान करें!",
-                spinTitle: "लकी स्पिन",
-                myCoins: "आपके सिक्के",
-                spinBtn: "🎡 अभी स्पिन करें"
-            },
-            en: {
-                title: "Karnataka Games Hub",
-                subtitle: "Fun & Educational Games for Everyone!",
-                g1: "1. Jungle Jump Quiz (1000 Levels)",
-                g1Desc: "Thousands of India & Karnataka GK Questions + ₹10 Coin!",
-                g2: "2. 3-Number Sum Puzzle",
-                g2Desc: "Pick 3 numbers to match the target sum!",
-                g3: "3. Alphabet Running Game",
-                g3Desc: "Catch letters in correct alphabetical order!",
-                g4: "4. Kids Phonics & Letter Pairing",
-                g4Desc: "Match Uppercase, Lowercase and Objects!",
-                g5: "5. Lucky Spin Coins",
-                g5Desc: "Spin the wheel and win daily bonus coins!",
-                pocket: "Pocket Coins",
-                lvl: "Level",
-                correctMsg: "🎯 +₹10 added to your pocket for every correct answer!",
-                back: "⬅ Back to Home",
-                mathTitle: "3-Number Sum Puzzle",
-                targetText: "Target sum of 3 numbers must be",
-                mustBe: "",
-                mySum: "Your Sum",
-                select: "Selected",
-                alphaTitle: "Alphabet Running Game",
-                nextLetter: "Find the next letter",
-                phonicsTitle: "Phonics & Letter Pairing",
-                phonicsDesc: "Match Uppercase and Lowercase letters!",
-                spinTitle: "Lucky Spin",
-                myCoins: "Your Coins",
-                spinBtn: "🎡 Spin Now"
+        // 1. ಧ್ವನಿ ಗ್ರಹಿಸುವ ಫಂಕ್ಷನ್ (Speech Recognition)
+        function startVoiceRecognition() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                alert("ನಿಮ್ಮ ಬ್ರೌಸರ್ ವಾಯ್ಸ್ ಕಮಾಂಡ್ ಸಪೋರ್ಟ್ ಮಾಡುವುದಿಲ್ಲ.");
+                return;
             }
-        };
 
-        function changeLanguage() {
-            currentLang = document.getElementById('langSelector').value;
-            let t = translations[currentLang];
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'kn-IN'; // ಕನ್ನಡ ಭಾಷೆ
+            recognition.start();
 
-            document.getElementById('txt-title').innerText = t.title;
-            document.getElementById('txt-subtitle').innerText = t.subtitle;
-            document.getElementById('txt-g1').innerText = t.g1;
-            document.getElementById('txt-g1-desc').innerText = t.g1Desc;
-            document.getElementById('txt-g2').innerText = t.g2;
-            document.getElementById('txt-g2-desc').innerText = t.g2Desc;
-            document.getElementById('txt-g3').innerText = t.g3;
-            document.getElementById('txt-g3-desc').innerText = t.g3Desc;
-            document.getElementById('txt-g4').innerText = t.g4;
-            document.getElementById('txt-g4-desc').innerText = t.g4Desc;
-            document.getElementById('txt-g5').innerText = t.g5;
-            document.getElementById('txt-g5-desc').innerText = t.g5Desc;
-            document.getElementById('txt-pocket').innerText = t.pocket;
-            document.getElementById('txt-lvl').innerText = t.lvl;
-            document.getElementById('txt-correct-msg').innerText = t.correctMsg;
-            document.getElementById('btn-back1').innerText = t.back;
-            document.getElementById('btn-back2').innerText = t.back;
-            document.getElementById('btn-back3').innerText = t.back;
-            document.getElementById('btn-back4').innerText = t.back;
-            document.getElementById('btn-back5').innerText = t.back;
-            document.getElementById('txt-math-title').innerText = t.mathTitle;
-            document.getElementById('txt-target-text').innerText = t.targetText;
-            document.getElementById('txt-must-be').innerText = t.mustBe;
-            document.getElementById('txt-my-sum').innerText = t.mySum;
-            document.getElementById('txt-select').innerText = t.select;
-            document.getElementById('txt-alpha-title').innerText = t.alphaTitle;
-            document.getElementById('txt-next-letter').innerText = t.nextLetter;
-            document.getElementById('txt-phonics-title').innerText = t.phonicsTitle;
-            document.getElementById('txt-phonics-desc').innerText = t.phonicsDesc;
-            document.getElementById('txt-spin-title').innerText = t.spinTitle;
-            document.getElementById('txt-my-coins').innerText = t.myCoins;
-            document.getElementById('txt-spin-btn').innerText = t.spinBtn;
-        }
+            document.getElementById("status").innerText = "ಕೇಳಿಸಿಕೊಳ್ಳಲಾಗುತ್ತಿದೆ...";
 
-        function hideAll() {
-            document.getElementById('home-screen').classList.add('hidden');
-            document.getElementById('quiz-screen').classList.add('hidden');
-            document.getElementById('math-screen').classList.add('hidden');
-            document.getElementById('alpha-screen').classList.add('hidden');
-            document.getElementById('phonics-screen').classList.add('hidden');
-            document.getElementById('spin-screen').classList.add('hidden');
-        }
-
-        function goHome() {
-            hideAll();
-            document.getElementById('home-screen').classList.remove('hidden');
-        }
-
-        function playCoinSound() {
-            try {
-                let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                let oscillator = audioCtx.createOscillator();
-                let gainNode = audioCtx.createGain();
+            recognition.onresult = function(event) {
+                const speechToText = event.results[0][0].transcript;
+                document.getElementById("status").innerText = "ನೀವು ಹೇಳಿದ್ದು: " + speechToText;
                 
-                oscillator.type = 'sine';
-                oscillator.frequency.setValueAtTime(800, audioCtx.currentTime);
-                oscillator.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.1);
-                
-                gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
-                
-                oscillator.connect(gainNode);
-                gainNode.connect(audioCtx.destination);
-                
-                oscillator.start();
-                oscillator.stop(audioCtx.currentTime + 0.3);
-            } catch(e) {}
+                // ಧ್ವನಿಯಲ್ಲಿ ಬಂದ ಮಾತಿಗೆ ತಕ್ಕಂತೆ ಆಕ್ಷನ್ ಮಾಡುವುದು
+                if (speechToText.includes("ಕಾಲ್ ಮಾಡು") || speechToText.includes("ಕರೆ ಮಾಡು")) {
+                    speakText("ಸರಿ, ಕಾಲ್ ಮಾಡಲಾಗುತ್ತಿದೆ");
+                    // ಇಲ್ಲಿ ನಂಬರ್ ಇದ್ದರೆ ನೇರವಾಗಿ ಕಾಲ್ ಮಾಡಬಹುದು
+                } else {
+                    speakText("ನೀವು ಹೇಳಿದ ವಿಷಯ: " + speechToText);
+                }
+            };
+
+            recognition.onerror = function() {
+                document.getElementById("status").innerText = "ಧ್ವನಿ ಗುರುತಿಸುವಿಕೆಯಲ್ಲಿ ದೋಷ.";
+            };
         }
 
-        function triggerConfetti() {
-            confetti({ particleCount: 90, spread: 70, origin: { y: 0.6 } });
-        }
-
+        // 2. ಮೊಬೈಲ್ ಮಾತನಾಡುವ ಫಂಕ್ಷನ್ (Text-to-Speech)
         function speakText(text) {
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-                let utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = currentLang === 'hi' ? 'hi-IN' : (currentLang === 'en' ? 'en-US' : 'kn-IN');
-                utterance.rate = 1.0;
-                window.speechSynthesis.speak(utterance);
-            }
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'kn-IN';
+            window.speechSynthesis.speak(utterance);
         }
 
-        /* 1. ಜಂಗಲ್ ಕ್ವಿಜ್ ಗೇಮ್ */
-        const questionsDB = [
-            { q: "ಭಾರತದ ಪ್ರಸ್ತುತ ರಾಜಧಾನಿ ಯಾವುದು?", options: ["ಮುಂಬೈ", "ನವದೆಹಲಿ", "ಕೋಲ್ಕತ್ತಾ", "ಚೆನ್ನೈ"], answer: 1 },
-            { q: "ಕರ್ನಾಟಕದ ರಾಜ್ಯ ಮರ ಯಾವುದು?", options: ["ಆಲದ ಮರ", "ಶ್ರೀಗಂಧದ ಮರ", "ತೆಂಗಿನ ಮರ", "ಮಾಮರ"], answer: 1 },
-            { q: "ಭಾರತದ ರಾಷ್ಟ್ರೀಯ ಕ್ರೀಡೆ ಯಾವುದು?", options: ["ಕ್ರಿಕೆಟ್", "ಹಾಕಿ", "ಕಬಡ್ಡಿ", "ಫುಟ್‌ಬಾಲ್"], answer: 1 },
-            { q: "ವಿಶ್ವಪ್ರಸಿದ್ಧ ಕೆ.ಆರ್.ಎಸ್ (KRS) ಅಣೆಕಟ್ಟು ಯಾವ ಜಿಲ್ಲೆಯಲ್ಲಿದೆ?", options: ["ಮೈಸೂರು", "ಮಂಡ್ಯ", "ಹಾಸನ", "ಚಾಮರಾಜನಗರ"], answer: 1 },
-            { q: "ಭಾರತಕ್ಕೆ ಸ್ವಾತಂತ್ರ್ಯ ಸಿಕ್ಕ ವರ್ಷ ಯಾವುದು?", options: ["1942", "1947", "1950", "1956"], answer: 1 }
-        ];
+        // 3. ರಿಮೈಂಡರ್ ಅಲಾರ್ಮ್ ಸೆಟ್ ಮಾಡುವುದು
+        let alarmTimeout;
+        function setReminder() {
+            const timeInput = document.getElementById("reminderTime").value;
+            const message = document.getElementById("reminderType").value;
 
-        let randomizedQuestions = [];
-        let currentQIndex = 0;
-
-        function startQuizGame() {
-            hideAll();
-            document.getElementById('quiz-screen').classList.remove('hidden');
-            level = 1;
-            currentQIndex = 0;
-            randomizedQuestions = [...questionsDB].sort(() => Math.random() - 0.5);
-            loadQuestion();
-        }
-
-        function loadQuestion() {
-            canAnswer = true;
-            let q = randomizedQuestions[currentQIndex % randomizedQuestions.length];
-            document.getElementById('question').innerText = q.q;
-            document.getElementById('level').innerText = level;
-
-            let container = document.getElementById('options-container');
-            container.innerHTML = '';
-
-            q.options.forEach((opt, idx) => {
-                let btn = document.createElement('button');
-                btn.className = 'option-btn';
-                btn.innerText = opt;
-                btn.onclick = () => checkQuizAnswer(idx, q.answer, btn);
-                container.appendChild(btn);
-            });
-            speakText(q.q);
-        }
-
-        function checkQuizAnswer(selected, correct, btn) {
-            if (!canAnswer) return;
-            canAnswer = false;
-            let runner = document.getElementById('runner');
-
-            if (selected === correct) {
-                btn.classList.add('correct');
-                score += 10;
-                playCoinSound();
-                runner.classList.add('jump-anim');
-                triggerConfetti();
-                setTimeout(() => {
-                    runner.classList.remove('jump-anim');
-                    currentQIndex++;
-                    level++;
-                    loadQuestion();
-                }, 1500);
-            } else {
-                btn.classList.add('wrong');
-                score -= 5;
-                if(score < 0) score = 0;
-                setTimeout(() => {
-                    currentQIndex++;
-                    loadQuestion();
-                }, 1500);
-            }
-            document.getElementById('score').innerText = '₹' + score;
-        }
-
-        /* 2. ಮ್ಯಾಥ್ ಸಮ್ ಪಜಲ್ */
-        function startMathGame() {
-            hideAll();
-            document.getElementById('math-screen').classList.remove('hidden');
-            setupMathPuzzle();
-        }
-
-        function setupMathPuzzle() {
-            let grid = document.getElementById('math-grid');
-            grid.innerHTML = '';
-            let target = Math.floor(Math.random() * 30) + 20;
-            document.getElementById('target-sum').innerText = target;
-            document.getElementById('current-sum').innerText = '0';
-            document.getElementById('selected-count').innerText = '0';
-
-            let numbers = [];
-            for(let i=0; i<9; i++) {
-                numbers.push(Math.floor(Math.random() * 15) + 1);
+            if (!timeInput) {
+                alert("ದಯವಿಟ್ಟು ಸರಿಯಾದ ಸಮಯ ಆಯ್ಕೆ ಮಾಡಿ.");
+                return;
             }
 
-            let selectedNums = [];
+            const now = new Date();
+            const [hours, minutes] = timeInput.split(":");
+            const targetTime = new Date();
+            targetTime.setHours(hours, minutes, 0, 0);
 
-            numbers.forEach((num) => {
-                let btn = document.createElement('div');
-                btn.className = 'num-btn';
-                btn.innerText = num;
-                btn.onclick = () => {
-                    if(btn.classList.contains('selected')) {
-                        btn.classList.remove('selected');
-                        selectedNums = selectedNums.filter(n => n !== num);
-                    } else {
-                        if(selectedNums.length < 3) {
-                            btn.classList.add('selected');
-                            selectedNums.push(num);
-                        }
-                    }
-                    let sum = selectedNums.reduce((a, b) => a + b, 0);
-                    document.getElementById('current-sum').innerText = sum;
-                    document.getElementById('selected-count').innerText = selectedNums.length;
-
-                    if(selectedNums.length === 3) {
-                        if(sum === target) {
-                            playCoinSound();
-                            triggerConfetti();
-                            alert("ಅದ್ಭುತ! ಸರಿಯಾದ ಮೊತ್ತ ಸಿಕ್ಕಿದೆ!");
-                            setTimeout(setupMathPuzzle, 1000);
-                        } else {
-                            setTimeout(() => {
-                                alert("ಮೊತ್ತ ತಾಳೆಯಾಗುತ್ತಿಲ್ಲ, ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ!");
-                                setupMathPuzzle();
-                            }, 500);
-                        }
-                    }
-                };
-                grid.appendChild(btn);
-            });
-        }
-
-        /* 3. ವರ್ಣಮಾಲೆ ರನ್ನಿಂಗ್ ಗೇಮ್ (ಕನ್ನಡ 'ಅ' ಯಿಂದ 'ಳ', ಹಿಂದಿ 'अ' ಯಿಂದ 'ज्ञ') */
-        let alphaList = [];
-        let currentAlphaIndex = 0;
-
-        function startMovingAlphaGame() {
-            hideAll();
-            document.getElementById('alpha-screen').classList.remove('hidden');
-            
-            if (currentLang === 'hi') {
-                alphaList = ["अ", "आ", "इ", "ई", "उ", "ऊ", "ऋ", "ए", "ऐ", "ओ", "औ", "क", "ख", "ग", "घ", "च", "छ", "ज", "झ", "ट", "ठ", "ड", "ढ", "त", "थ", "द", "ध", "न", "प", "फ", "ब", "भ", "म", "य", "र", "ल", "व", "श", "ष", "स", "ह", "क्ष", "त्र", "ज्ञ"];
-            } else {
-                alphaList = ["ಅ", "ಆ", "ಇ", "ಈ", "ಉ", "ಊ", "ಋ", "ಎ", "ಏ", "ಐ", "ಒ", "ಓ", "ಔ", "ಕ", "ಖ", "ಗ", "ಘ", "ಙ", "ಚ", "ಛ", "ಜ", "ಝ", "ಞ", "ಟ", "ಠ", "ಡ", "ಢ", "ಣ", "ತ", "ಥ", "ದ", "ಧ", "ನ", "ಪ", "ಫ", "ಬ", "ಭ", "ಮ", "ಯ", "ರ", "ಲ", "ವ", "ಶ", "ಷ", "ಸ", "ಹ", "ಳ"];
+            let timeDifference = targetTime.getTime() - now.getTime();
+            if (timeDifference < 0) {
+                timeDifference += 24 * 60 * 60 * 1000; // ನಾಳೆಗೆ ಸೆಟ್ ಮಾಡುವುದು
             }
-            currentAlphaIndex = 0;
-            renderAlphaGame();
+
+            document.getElementById("status").innerText = "ಅಲಾರ್ಮ್ ಸೆಟ್ ಮಾಡಲಾಗಿದೆ: " + timeInput;
+
+            setTimeout(() => {
+                speakText(message);
+                alert(message);
+            }, timeDifference);
         }
 
-        function renderAlphaGame() {
-            let container = document.getElementById('float-container');
-            container.innerHTML = '';
-            let targetLetter = alphaList[currentAlphaIndex];
-            document.getElementById('target-letter').innerText = targetLetter;
+        // 4. ಆಟೋಮ್ಯಾಟಿಕ್ ವಾಟ್ಸಾಪ್ ಮೆಸೇಜ್ ಕಳುಹಿಸುವುದು
+        function sendWhatsApp() {
+            let phone = document.getElementById("phoneNumber").value;
+            let message = document.getElementById("messageText").value;
 
-            // ಯಾದೃಚ್ಛಿಕವಾಗಿ ಕೆಲವು ತಪ್ಪು ಅಕ್ಷರಗಳು ಮತ್ತು ಸರಿಯಾದ ಅಕ್ಷರ ಇಡುವುದು
-            let options = [targetLetter];
-            while(options.length < 5) {
-                let randomChar = alphaList[Math.floor(Math.random() * alphaList.length)];
-                if(!options.includes(randomChar)) options.push(randomChar);
+            if (!phone) {
+                alert("ದಯವಿಟ್ಟು ಮೊಬೈಲ್ ನಂಬರ್ ಹಾಕಿ.");
+                return;
             }
-            options.sort(() => Math.random() - 0.5);
 
-            options.forEach((char) => {
-                let btn = document.createElement('button');
-                btn.className = 'float-btn';
-                btn.innerText = char;
-                btn.style.top = Math.floor(Math.random() * 180) + 'px';
-                btn.style.left = Math.floor(Math.random() * 280) + 'px';
-
-                btn.onclick = () => {
-                    if(char === targetLetter) {
-                        playCoinSound();
-                        triggerConfetti();
-                        currentAlphaIndex++;
-                        if(currentAlphaIndex >= alphaList.length) {
-                            alert("অভಿನಂದನೆಗಳು! ಎಲ್ಲಾ ಅಕ್ಷರಗಳನ್ನು ಪೂರ್ಣಗೊಳಿಸಿದ್ದೀರಿ!");
-                            currentAlphaIndex = 0;
-                        }
-                        renderAlphaGame();
-                    } else {
-                        alert("ತಪ್ಪು ಅಕ್ಷರ! ಸರಿಯಾದ ಅಕ್ಷರ ಹುಡುಕಿ.");
-                    }
-                };
-                container.appendChild(btn);
-            });
+            // ವಾಟ್ಸಾಪ್ ಲಿಂಕ್ ಜನರೇಟ್ ಮಾಡುವುದು
+            let url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
         }
 
-        /* 4. ಕಿಡ್ಸ್ ಫೋನಿಕ್ಸ್ & ಅಕ್ಷರ ಪೇರಿಂಗ್ ಗೇಮ್ */
-        function startPhonicsGame() {
-            hideAll();
-            document.getElementById('phonics-screen').classList.remove('hidden');
-            loadPhonicsRound();
-        }
-
-        const phonicsData = [
-            { upper: "A", lower: "a", word: "Apple 🍎" },
-            { upper: "B", lower: "b", word: "Ball ⚽" },
-            { upper: "C", lower: "c", word: "Cat 🐱" },
-            { upper: "D", lower: "d", word: "Dog 🐶" },
-            { upper: "G", lower: "g", word: "Gift 🎁" },
-            { upper: "M", lower: "m", word: "Monkey 🐒" }
-        ];
-
-        function loadPhonicsRound() {
-            let item = phonicsData[Math.floor(Math.random() * phonicsData.length)];
-            document.getElementById('phonics-question').innerText = `ಸರಿಯಾದ ಲೋವರ್ ಕೇಸ್ ಅಕ್ಷರ ಜೋಡಿಸಿ: ${item.upper} (${item.word})`;
-            
-            let container = document.getElementById('phonics-options');
-            container.innerHTML = '';
-
-            let choices = [item.lower];
-            while(choices.length < 4) {
-                let randomChoice = phonicsData[Math.floor(Math.random() * phonicsData.length)].lower;
-                if(!choices.includes(randomChoice)) choices.push(randomChoice);
+        // 5. ನೇರ ಕಾಲ್ ಮಾಡುವುದು (Direct Call)
+        function makeCall() {
+            let phone = document.getElementById("phoneNumber").value;
+            if (!phone) {
+                alert("ದಯವಿಟ್ಟು ಮೊಬೈಲ್ ನಂಬರ್ ಹಾಕಿ.");
+                return;
             }
-            choices.sort(() => Math.random() - 0.5);
-
-            choices.forEach((ch) => {
-                let btn = document.createElement('button');
-                btn.className = 'option-btn';
-                btn.style.textAlign = 'center';
-                btn.style.fontSize = '22px';
-                btn.innerText = ch;
-                btn.onclick = () => {
-                    if(ch === item.lower) {
-                        playCoinSound();
-                        triggerConfetti();
-                        alert("ಸರಿಯಾಗಿದೆ! 🌟");
-                        loadPhonicsRound();
-                    } else {
-                        alert("ತಪ್ಪು, ಮತ್ತೊಮ್ಮೆ ಪ್ರಯತ್ನಿಸಿ!");
-                    }
-                };
-                container.appendChild(btn);
-            });
-        }
-
-        /* 5. ಲಕ್ಕಿ ಸ್ಪಿನ್ ಗೇಮ್ */
-        function startLuckySpin() {
-            hideAll();
-            document.getElementById('spin-screen').classList.remove('hidden');
-            document.getElementById('spin-score').innerText = score;
-        }
-
-        function spinWheel() {
-            let rewards = [10, 20, 50, 100, 5, 500, 0];
-            let won = rewards[Math.floor(Math.random() * rewards.length)];
-            score += won;
-            playCoinSound();
-            triggerConfetti();
-            document.getElementById('spin-result').innerText = `🎉 ಅಭಿನಂದನೆಗಳು! ನಿಮಗೆ ₹${won} ಬೋನಸ್ ಸಿಕ್ಕಿದೆ!`;
-            document.getElementById('spin-score').innerText = score;
+            window.location.href = `tel:${phone}`;
         }
     </script>
+
 </body>
 </html>
