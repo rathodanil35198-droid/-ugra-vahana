@@ -19,7 +19,7 @@
 
     <main class="container mx-auto p-4 max-w-md">
 
-        <!-- ೧. ಮುಖಪುಟ (Home Landing Screen with 3 Role Buttons) -->
+        <!-- ೧. ಮುಖಪುಟ -->
         <div id="home-screen" class="space-y-6 text-center py-10">
             <div class="bg-white p-6 rounded-2xl shadow-lg space-y-4">
                 <h2 class="text-2xl font-extrabold text-indigo-700">ಸ್ವಾಗತ!</h2>
@@ -39,7 +39,7 @@
             </div>
         </div>
 
-        <!-- ೨. ರಿಜಿಸ್ಟ್ರೇಷನ್ / ಲಾಗಿನ್ ಫಾರ್ಮ್ (Registration Screen) -->
+        <!-- ೨. ನೋಂದಣಿ ಫಾರ್ಮ್ -->
         <div id="auth-screen" class="bg-white p-6 rounded-2xl shadow-lg space-y-4 hidden">
             <div class="flex justify-between items-center border-b pb-2">
                 <h2 id="auth-title" class="text-xl font-bold text-gray-800">ನೋಂದಣಿ</h2>
@@ -58,7 +58,7 @@
                     <input type="tel" id="reg-phone" placeholder="10 ಅಂಕಿಯ ಮೊಬೈಲ್ ನಂಬರ್" maxlength="10" class="w-full p-2 border rounded-lg text-sm mt-1">
                 </div>
 
-                <!-- ಗ್ರಾಹಕರಿಗೆ ಮಾತ್ರ ಹೆಚ್ಚುವರಿ ವಿಳಾಸದ ಮಾಹಿತಿ -->
+                <!-- ಗ್ರಾಹಕರಿಗೆ ಮಾತ್ರ -->
                 <div id="fields-customer" class="space-y-3 hidden">
                     <div class="grid grid-cols-2 gap-2">
                         <input type="text" id="c-district" placeholder="ಜಿಲ್ಲೆ" class="p-2 border rounded-lg text-sm">
@@ -84,14 +84,6 @@
                     <div class="grid grid-cols-2 gap-2">
                         <input type="text" id="d-district" placeholder="ಜಿಲ್ಲೆ" class="p-2 border rounded-lg text-sm">
                         <input type="text" id="d-taluk" placeholder="ತಾಲೂಕು" class="p-2 border rounded-lg text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-xs text-gray-600 mb-1">ಸೆಲ್ಫಿ ಫೋಟೋ (ಕ್ಯಾಮೆರಾ)</label>
-                        <input type="file" id="d-selfie" accept="image/*" capture="user" class="w-full p-1 border rounded-lg text-xs">
-                    </div>
-                    <div>
-                        <label class="block text-xs text-gray-600 mb-1">ಆಧಾರ್ ಕಾರ್ಡ್ ಫೋಟೋ (ಕ್ಯಾಮೆರಾ)</label>
-                        <input type="file" id="d-aadhaar" accept="image/*" capture="environment" class="w-full p-1 border rounded-lg text-xs">
                     </div>
                 </div>
 
@@ -121,7 +113,6 @@
                 </div>
             </div>
 
-            <!-- ಗ್ರಾಹಕರ ಆರ್ಡರ್ ಸ್ಟೇಟಸ್ & ರಿಟರ್ನ್ ಆಯ್ಕೆ -->
             <div class="bg-white p-4 rounded-xl shadow space-y-2">
                 <h3 class="font-bold text-sm text-gray-800">📦 ನನ್ನ ಆರ್ಡರ್‌ಗಳು & ರಿಟರ್ನ್ ಆಯ್ಕೆ</h3>
                 <div id="customer-orders-list" class="text-xs text-gray-600">ಯಾವುದೇ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ.</div>
@@ -154,6 +145,12 @@
                 </div>
 
                 <button onclick="addVendorProduct()" class="w-full bg-indigo-600 text-white py-2 rounded-xl font-bold text-xs shadow">ವಸ್ತು ಅಪ್‌ಲೋಡ್ ಮಾಡಿ</button>
+            </div>
+
+            <!-- ಅಂಗಡಿಯವರು ಅಪ್‌ಲೋಡ್ ಮಾಡಿದ ವಸ್ತುಗಳ ಲಿಸ್ಟ್ ಹಾಗೂ ಡಿಲೀಟ್ ಮಾಡುವ ಆಯ್ಕೆ -->
+            <div class="bg-white p-4 rounded-xl shadow space-y-3">
+                <h3 class="font-bold text-sm text-gray-800">🖼️ ನೀವು ಅಪ್‌ಲೋಡ್ ಮಾಡಿದ ವಸ್ತುಗಳು</h3>
+                <div id="vendor-my-products" class="space-y-2 text-xs text-gray-600">ಯಾವುದೇ ವಸ್ತುಗಳಿಲ್ಲ.</div>
             </div>
 
             <div class="bg-white p-4 rounded-xl shadow space-y-3">
@@ -226,6 +223,7 @@
                     renderCustomerOrders();
                 } else if (currentUser.role === 'vendor') {
                     document.getElementById('dashboard-vendor').classList.remove('hidden');
+                    renderVendorProductsList();
                     renderVendorOrders();
                 } else if (currentUser.role === 'delivery') {
                     document.getElementById('dashboard-delivery').classList.remove('hidden');
@@ -366,7 +364,7 @@
 
             let now = Date.now();
             cOrdDiv.innerHTML = myOrders.map(o => {
-                let canReturn = (now - o.timestamp) < (2 * 24 * 60 * 60 * 1000); // 2 Days limit
+                let canReturn = (now - o.timestamp) < (2 * 24 * 60 * 60 * 1000);
                 return `
                     <div class="border p-2 rounded-lg bg-gray-50 mb-2 space-y-1">
                         <p><b>ಆರ್ಡರ್ ID:</b> ${o.id}</p>
@@ -389,7 +387,7 @@
             }
         }
 
-        // ಅಂಗಡಿ ಮಾಲೀಕರು ವಸ್ತು ಸೇರಿಸುವುದು
+        // ಅಂಗಡಿ ಮಾಲೀಕರು ವಸ್ತು ಅಪ್‌ಲೋಡ್ ಮಾಡುವುದು
         function addVendorProduct() {
             let name = document.getElementById('v-p-name').value;
             let origPrice = document.getElementById('v-p-orig').value;
@@ -422,6 +420,8 @@
                         backPhoto: e2.target.result
                     });
                     localStorage.setItem('market_products', JSON.stringify(products));
+                    
+                    // ಫಾರ್ಮ್ ಕ್ಲಿಯರ್ ಮಾಡುವುದು
                     document.getElementById('v-p-name').value = '';
                     document.getElementById('v-p-orig').value = '';
                     document.getElementById('v-p-disc').value = '';
@@ -429,11 +429,47 @@
                     document.getElementById('v-p-stock').value = '';
                     document.getElementById('v-p-front').value = '';
                     document.getElementById('v-p-back').value = '';
-                    alert('ವಸ್ತು ಯಶಸ್ವಿಯಾಗಿ ಅಪ್‌ಲೋಡ್ ಆಗಿದೆ!');
+                    
+                    renderVendorProductsList();
+                    alert('ವಸ್ತು ಯಶಸ್ವಿಯಾಗಿ ಅಪ್‌ಲೋಡ್ ಆಗಿದೆ ಮತ್ತು ಲಿಸ್ಟ್‌ನಲ್ಲಿ ಸೇರಿದೆ!');
                 };
                 readerBack.readAsDataURL(backFile);
             };
             readerFront.readAsDataURL(frontFile);
+        }
+
+        // ಅಂಗಡಿಯವರು ತಾವು ಹಾಕಿರುವ ವಸ್ತುಗಳನ್ನು ನೋಡುವುದು ಮತ್ತು ಡಿಲೀಟ್ ಮಾಡುವುದು
+        function renderVendorProductsList() {
+            let vProdDiv = document.getElementById('vendor-my-products');
+            let myProducts = products.filter(p => p.vendorPhone === currentUser.phone);
+
+            if (myProducts.length === 0) {
+                vProdDiv.innerHTML = "ನೀವು ಯಾವುದೇ ವಸ್ತುಗಳನ್ನು ಅಪ್‌ಲೋಡ್ ಮಾಡಿಲ್ಲ.";
+                return;
+            }
+
+            vProdDiv.innerHTML = myProducts.map(p => `
+                <div class="border p-2 rounded-lg bg-gray-50 flex items-center justify-between gap-2 mb-2">
+                    <div class="flex gap-1">
+                        <img src="${p.frontPhoto}" class="w-10 h-10 object-cover rounded border">
+                        <img src="${p.backPhoto}" class="w-10 h-10 object-cover rounded border">
+                    </div>
+                    <div class="flex-1">
+                        <p class="font-bold text-xs">${p.name}</p>
+                        <p class="text-[10px] text-green-600">₹${p.discPrice} (Stock: ${p.stock})</p>
+                    </div>
+                    <button onclick="deleteProduct(${p.id})" class="bg-red-500 text-white px-2 py-1 rounded text-[10px] font-bold">ಡಿಲೀಟ್</button>
+                </div>
+            `).join('');
+        }
+
+        function deleteProduct(id) {
+            if (confirm('ಈ ವಸ್ತುವನ್ನು ಡಿಲೀಟ್ ಮಾಡಲು ಬಯಸುತ್ತೀರಾ?')) {
+                products = products.filter(p => p.id !== id);
+                localStorage.setItem('market_products', JSON.stringify(products));
+                renderVendorProductsList();
+                alert('ವಸ್ತು ಯಶಸ್ವಿಯಾಗಿ ಡಿಲೀಟ್ ಆಗಿದೆ!');
+            }
         }
 
         function renderVendorOrders() {
