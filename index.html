@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ನಮ್ಮ ಸಂಸಾರ ಸ್ಮಾರ್ಟ್ ಅಸಿಸ್ಟೆಂಟ್</title>
+    <title>ನಮ್ಮ ಸಂಸಾರ ಸ್ಮಾರ್ಟ್ ಅಸಿಸ್ಟೆಂಟ್ - ಪ್ರೊ</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -83,11 +83,12 @@
         .call-btn:hover {
             background: #3742fa;
         }
-        #status {
+        #status, #aiResponse {
             text-align: center;
-            margin-top: 15px;
+            margin-top: 10px;
             font-weight: bold;
             color: #7bed9f;
+            font-size: 14px;
         }
         .hidden {
             display: none;
@@ -96,38 +97,39 @@
 </head>
 <body>
 
-    <!-- 1. ಲಾಗಿನ್ ಪೇಜ್ (Login Page) -->
+    <!-- 1. ಲಾಗಿನ್ ಮತ್ತು ಪ್ರೊಫೈಲ್ ಸೆಟಪ್ ಪೇಜ್ -->
     <div class="container" id="loginSection">
-        <h2>🔐 ಸ್ಮಾರ್ಟ್ ಅಸಿಸ್ಟೆಂಟ್ ಲಾಗಿನ್</h2>
+        <h2>🔐 ಸ್ಮಾರ್ಟ್ ಅಸಿಸ್ಟೆಂಟ್ ನೋಂದಣಿ</h2>
         <div class="card">
-            <label>ನಿಮ್ಮ ಹೆಸರು</label>
-            <input type="text" id="userName" placeholder="ನಿಮ್ಮ ಪೂರ್ಣ ಹೆಸರು">
+            <label>ನಿಮ್ಮ ಪೂರ್ಣ ಹೆಸರು</label>
+            <input type="text" id="userName" placeholder="ಉದಾ: ಅನಿಲ್">
             
             <label>ಮೊಬೈಲ್ ನಂಬರ್</label>
-            <input type="text" id="userPhone" placeholder="ಮೊಬೈಲ್ ನಂಬರ್">
+            <input type="text" id="userPhone" placeholder="ನಿಮ್ಮ ನಂಬರ್">
             
             <label>ನಿಮ್ಮ ವಯಸ್ಸು</label>
-            <input type="number" id="userAge" placeholder="ವಯಸ್ಸು ನಮೂದಿಸಿ">
+            <input type="number" id="userAge" placeholder="ವಯಸ್ಸು ನಮೂದಿಸಿ (ಮಕ್ಕಳಾದರೆ <18)">
 
-            <label>ಎಮರ್ಜೆನ್ಸಿ/ಫ್ಯಾಮಿಲಿ ಕಾಲ್ ನಂಬರ್</label>
-            <input type="text" id="emergencyPhone" placeholder="ಸಂಘದವರ ಅಥವಾ ಮನೆವರ ನಂಬರ್">
+            <label>ಎಮರ್ಜೆನ್ಸಿ / ಫ್ಯಾಮಿಲಿ ಕಾಲ್ ನಂಬರ್</label>
+            <input type="text" id="emergencyPhone" placeholder="ತುರ್ತು ಸಂಪರ್ಕ ನಂಬರ್">
 
-            <button onclick="saveLogin()">ಲಾಗಿನ್ ಆಗಿ (Login)</button>
+            <button onclick="saveLogin()">ಪ್ರೊಫೈಲ್ ಸೇವ್ ಮಾಡಿ ಲಾಗಿನ್ ಆಗಿ</button>
         </div>
     </div>
 
-    <!-- 2. ಮುಖ್ಯ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್ (Main App Dashboard) -->
+    <!-- 2. ಮುಖ್ಯ ಸ್ಮಾರ್ಟ್ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್ -->
     <div class="container hidden" id="mainSection">
         <h2 id="welcomeTitle">🧠 ಸ್ಮಾರ್ಟ್ ಅಸಿಸ್ಟೆಂಟ್</h2>
 
-        <!-- ವಾಯ್ಸ್ ಕಮಾಂಡ್ ಮತ್ತು ಸಂಭಾಷಣೆ ಸೆಕ್ಷನ್ -->
+        <!-- ಧ್ವನಿ ಸಂಭಾಷಣೆ ಮತ್ತು ಎಐ ಅಸಿಸ್ಟೆಂಟ್ -->
         <div class="card">
-            <label>ಮಾತನಾಡಿ ನಿಮ್ಮ ಪ್ರಶ್ನೆ ಕೇಳಿ (Voice Chat)</label>
-            <button onclick="startVoiceRecognition()">🎤 ಮಾತನಾಡಿ (Speak)</button>
+            <label>ಧ್ವನಿ ಮೂಲಕ ಮಾತನಾಡಿ (ಕನ್ನಡ ಅಥವಾ ಹಿಂದಿ)</label>
+            <button onclick="startVoiceChat()">🎤 ಮಾತನಾಡಿ ಕೇಳಿ (Voice Chat)</button>
+            <div id="aiResponse"></div>
         </div>
 
-        <!-- ವಯಸ್ಸಿಗೆ ತಕ್ಕಂತೆ ಡೈನಾಮಿಕ್ ರಿಮೈಂಡರ್ ಸೆಕ್ಷನ್ -->
-        <div class="card" id="dynamicReminderCard">
+        <!-- ವಯಸ್ಸಿಗೆ ತಕ್ಕಂತೆ ಬದಲಾಗುವ ರಿಮೈಂಡರ್ ಸೆಕ್ಷನ್ -->
+        <div class="card">
             <label>ನೆನಪಿನ ಅಲಾರ್ಮ್ ಸೆಟ್ ಮಾಡಿ (Reminder)</label>
             <input type="time" id="reminderTime">
             <select id="reminderType">
@@ -136,9 +138,9 @@
             <button onclick="setReminder()">ಅಲಾರ್ಮ್ ಆನ್ ಮಾಡಿ</button>
         </div>
 
-        <!-- ಆಟೋಮ್ಯಾಟಿಕ್ ವಾಟ್ಸಾಪ್ ಮತ್ತು ಎಮರ್ಜೆನ್ಸಿ ಕಾಲ್ -->
+        <!-- ಎಮರ್ಜೆನ್ಸಿ ವಾಟ್ಸಾಪ್ ಮತ್ತು ಕಾಲ್ ಸೆಕ್ಷನ್ -->
         <div class="card">
-            <label>ತ್ವರಿತ ಸಂದೇಶ ಮತ್ತು ಕರೆ</label>
+            <label>ತುರ್ತು ಸಂದೇಶ ಮತ್ತು ನೇರ ಕರೆ</label>
             <button class="whatsapp-btn" onclick="sendEmergencyWhatsApp()">💬 ಎಮರ್ಜೆನ್ಸಿ ವಾಟ್ಸಾಪ್ ಕಳುಹಿಸಿ</button>
             <button class="call-btn" onclick="makeEmergencyCall()">📞 ನೇರ ಎಮರ್ಜೆನ್ಸಿ ಕಾಲ್ ಮಾಡಿ</button>
         </div>
@@ -148,7 +150,7 @@
     </div>
 
     <script>
-        // ಪೇಜ್ ಓಪನ್ ಆದಾಗ ಮೊದಲೇ ಲಾಗಿನ್ ಆಗಿದೆಯಾ ಪರಿಶೀಲಿಸುವುದು
+        // ಆಪ್ ಓಪನ್ ಆದಾಗ ಮೊದಲೇ ಲಾಗಿನ್ ಆಗಿದೆಯಾ ಪರಿಶೀಲಿಸುವುದು
         window.onload = function() {
             const savedName = localStorage.getItem("userName");
             if (savedName) {
@@ -183,22 +185,20 @@
             let age = parseInt(localStorage.getItem("userAge"));
             document.getElementById("welcomeTitle").innerText = "ಸ್ವಾಗತ, " + name;
 
-            // ವಯಸ್ಸಿಗೆ ತಕ್ಕಂತೆ ರಿಮೈಂಡರ್ ಆಪ್ಷನ್‌ಗಳನ್ನು ಬದಲಾಯಿಸುವುದು
+            // ವಯಸ್ಸಿಗೆ ತಕ್ಕಂತೆ ರಿಮೈಂಡರ್ ಆಪ್ಷನ್‌ಗಳನ್ನು ಬದಲಾಯಿಸುವುದು (ಮಕ್ಕಳು ಮತ್ತು ದೊಡ್ಡವರು)
             let selectBox = document.getElementById("reminderType");
             selectBox.innerHTML = "";
 
             if (age < 18) {
-                // ಮಕ್ಕಳಿಗಾಗಿ
                 selectBox.innerHTML = `
-                    <option value="ಶಾಲೆಗೆ ಹೋಗುವ ಸಮಯವಾಯಿತು!">ಶಾಲೆ ಸಮಯ (School Time)</option>
-                    <option value="ಹೋಮ್‌ವರ್ಕ್ ಮಾಡುವ ಸಮಯವಾಯಿತು!">ಹೋಮ್‌ವರ್ಕ್ ಸಮಯ (Homework Time)</option>
-                    <option value="ಮಲಗುವ ಸಮಯವಾಯಿತು!">ಮಲಗುವ ಸಮಯ (Sleep Time)</option>
+                    <option value="ಶಾಲೆಗೆ ಹೋಗುವ ಸಮಯವಾಯಿತು, ಬೇಗ ತಯಾರಾಗಿ!">ಶಾಲೆ ಸಮಯ (School Time)</option>
+                    <option value="ಹೋಮ್‌ವರ್ಕ್ ಮಾಡುವ ಸಮಯವಾಯಿತು, ಬುಕ್ ತೆಗೆಯಿರಿ!">ಹೋಮ್‌ವರ್ಕ್ ಸಮಯ (Homework Time)</option>
+                    <option value="ರಾತ್ರಿ ಮಲಗುವ ಸಮಯವಾಯಿತು, ಬೇಗ ಮಲಗಿ!">ಮಲಗುವ ಸಮಯ (Sleep Time)</option>
                 `;
             } else {
-                // ದೊಡ್ಡವರಿಗಾಗಿ
                 selectBox.innerHTML = `
                     <option value="ಊಟದ ಸಮಯವಾಯಿತು ಬನ್ನಿ!">ಊಟದ ಸಮಯ (Meal Time)</option>
-                    <option value="ಔಷಧಿ ತೆಗೆದುಕೊಳ್ಳುವ ಸಮಯವಾಯಿತು!">ಔಷಧಿ ಸಮಯ (Medicine Time)</option>
+                    <option value="ಔಷಧಿ ತೆಗೆದುಕೊಳ್ಳುವ ಸಮಯವಾಯಿತು, ಮಾತ್ರೆ ನುಂಗಿ!">ಔಷಧಿ ಸಮಯ (Medicine Time)</option>
                     <option value="ವಿಶ್ರಾಂತಿ ತೆಗೆದುಕೊಳ್ಳುವ ಸಮಯವಾಯಿತು!">ವಿಶ್ರಾಂತಿ ಸಮಯ (Rest Time)</option>
                 `;
             }
@@ -209,8 +209,8 @@
             location.reload();
         }
 
-        // ಧ್ವನಿ ಗುರುತಿಸುವಿಕೆ ಮತ್ತು ಭಾಷೆ ಗುರುತಿಸಿ ಉತ್ತರಿಸುವುದು (ಕನ್ನಡ ಅಥವಾ ಹಿಂದಿ)
-        function startVoiceRecognition() {
+        // ಧ್ವನಿ ಗುರುತಿಸುವಿಕೆ ಮತ್ತು ಕನ್ನಡ/ಹಿಂದಿ ಭಾಷೆಯಲ್ಲಿ ಉತ್ತರಿಸುವ ಸಿಸ್ಟಮ್
+        function startVoiceChat() {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (!SpeechRecognition) {
                 alert("ನಿಮ್ಮ ಬ್ರೌಸರ್ ವಾಯ್ಸ್ ಕಮಾಂಡ್ ಸಪೋರ್ಟ್ ಮಾಡುವುದಿಲ್ಲ.");
@@ -218,7 +218,7 @@
             }
 
             const recognition = new SpeechRecognition();
-            recognition.lang = 'kn-IN'; // ಪ್ರಾಥಮಿಕವಾಗಿ ಕನ್ನಡ
+            recognition.lang = 'kn-IN'; // ಕನ್ನಡ ಡಿಫಾಲ್ಟ್
             recognition.start();
 
             document.getElementById("status").innerText = "ಕೇಳಿಸಿಕೊಳ್ಳಲಾಗುತ್ತಿದೆ... ಮಾತನಾಡಿ";
@@ -227,25 +227,36 @@
                 const speechToText = event.results[0][0].transcript.toLowerCase();
                 document.getElementById("status").innerText = "ನೀವು ಹೇಳಿದ್ದು: " + speechToText;
                 
-                // ಹಿಂದಿ ಅಥವಾ ಕನ್ನಡಕ್ಕೆ ತಕ್ಕಂತೆ ಪ್ರತಿಕ್ರಿಯೆ ನೀಡುವುದು
-                if (speechToText.includes("hindi") || speechToText.includes("क्या") || speechToText.includes("hai") || speechToText.includes("kaise")) {
-                    speakText("नमस्ते, मैं आपकी क्या सहायता कर सकता हूँ?", 'hi-IN');
-                } else if (speechToText.includes("ಕಾಲ್ ಮಾಡು") || speechToText.includes("ಕರೆ ಮಾಡು")) {
+                let replyText = "";
+                let lang = 'kn-IN';
+
+                // ಹಿಂದಿ ಅಥವಾ ಕನ್ನಡ ಭಾಷೆ ಗುರುತಿಸಿ ಪ್ರತಿಕ್ರಿಯೆ ನೀಡುವುದು
+                if (speechToText.includes("hindi") || speechToText.includes("क्या") || speechToText.includes("hai") || speechToText.includes("kaise") || speechToText.includes("madad")) {
+                    lang = 'hi-IN';
+                    replyText = "नमस्ते! मैं आपकी क्या सहायता कर सकता हूँ? चिंता मत कीजिए, सब ठीक हो जाएगा।";
+                } else if (speechToText.includes("ಕಾಲ್ ಮಾಡು") || speechToText.includes("ಕರೆ ಮಾಡು") || speechToText.includes("call")) {
+                    replyText = "ಸರಿ, ಈಗಲೇ ತುರ್ತು ಕರೆ ಮಾಡಲಾಗುತ್ತಿದೆ.";
                     makeEmergencyCall();
+                } else if (speechToText.includes("ಹೆದರಿಕೆ") || speechToText.includes("ಚಿಂತೆ") || speechToText.includes("tension")) {
+                    replyText = "ಯಾವ್ಯಾವುದಕ್ಕೂ ಚಿಂತೆ ಮಾಡಬೇಡಿ, ಧೈರ್ಯವಾಗಿರಿ. ನಾನು ನಿಮ್ಮ ಜೊತೆ ಇದ್ದೇನೆ!";
                 } else {
-                    speakText("ಹೇ, ನಿಮ್ಮ ಚಿಂತೆ ಬಿಡಿ, ನಾನು ನಿಮ್ಮ ಜೊತೆಇದ್ದೇನೆ. ನಿಮಗೆ ಏನು ಸಹಾಯ ಬೇಕು?", 'kn-IN');
+                    replyText = "ನೀವು ಹೇಳಿದ ಮಾತು ನನಗೆ ಅರ್ಥವಾಯಿತು. ನಿಮಗೆ ಬೇರೆ ಏನು ಸಹಾಯ ಬೇಕು?";
                 }
+
+                document.getElementById("aiResponse").innerText = "ಉತ್ತರ: " + replyText;
+                speakText(replyText, lang);
             };
 
             recognition.onerror = function() {
-                document.getElementById("status").innerText = "ಧ್ವನಿ ಗುರುತಿಸುವಿಕೆಯಲ್ಲಿ ದೋಷ.";
+                document.getElementById("status").innerText = "ಧ್ವನಿ ಗುರುತಿಸುವಿಕೆಯಲ್ಲಿ ದೋಷ ಉಂಟಾಗಿದೆ.";
             };
         }
 
-        // ಮೊಬೈಲ್ ಮಾತನಾಡುವ ಫಂಕ್ಷನ್ (Text-to-Speech)
+        // ಮೊಬೈಲ್ ಧ್ವನಿಯಲ್ಲಿ ಮಾತನಾಡುವ ಫಂಕ್ಷನ್ (Text-to-Speech)
         function speakText(text, lang) {
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.lang = lang;
+            utterance.rate = 1.0;
             window.speechSynthesis.speak(utterance);
         }
 
@@ -277,14 +288,14 @@
             }, timeDifference);
         }
 
-        // ಎಮರ್ಜೆನ್ಸಿ ವಾಟ್ಸಾಪ್ ಕಳುಹಿಸುವುದು
+        // ಎಮರ್ಜೆನ್ಸಿ ವಾಟ್ಸಾಪ್ ಸಂದೇಶ ಕಳುಹಿಸುವುದು
         function sendEmergencyWhatsApp() {
             let phone = localStorage.getItem("emergencyPhone");
             let name = localStorage.getItem("userName");
-            let message = "ಎಮರ್ಜೆನ್ಸಿ ಸಹಾಯ ಬೇಕು! ನನ್ನ ಹೆಸರು " + name + ". ದಯವಿಟ್ಟು ಸಂಪರ್ಕಿಸಿ.";
+            let message = "ಎಮರ್ಜೆನ್ಸಿ ಸಹಾಯ ಬೇಕು! ನನ್ನ ಹೆಸರು " + name + ". ದಯವಿಟ್ಟು ಕೂಡಲೇ ಸಂಪರ್ಕಿಸಿ.";
 
             if (!phone) {
-                alert("ಎಮರ್ಜೆನ್ಸಿ ನಂಬರ್ ಸಿಗಲಿಲ್ಲ.");
+                alert("ಎಮರ್ಜೆನ್ಸಿ ನಂಬರ್ ಲಭ್ಯವಿಲ್ಲ.");
                 return;
             }
 
@@ -296,7 +307,7 @@
         function makeEmergencyCall() {
             let phone = localStorage.getItem("emergencyPhone");
             if (!phone) {
-                alert("ಎಮರ್ಜೆನ್ಸಿ ನಂಬರ್ ಸಿಗಲಿಲ್ಲ.");
+                alert("ಎಮರ್ಜೆನ್ಸಿ ನಂಬರ್ ಲಭ್ಯವಿಲ್ಲ.");
                 return;
             }
             window.location.href = `tel:${phone}`;
