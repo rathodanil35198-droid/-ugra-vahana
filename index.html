@@ -10,7 +10,7 @@
 
     <!-- ಕಸ್ಟಮ್ ಪಾಪ್‌ಅಪ್ ಮಾடல் (Success Popup) -->
     <div id="custom-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white p-6 rounded-2xl shadow-2xl max-w-sm w-full text-center space-y-3 transform scale-95 transition-transform" id="modal-content">
+        <div class="bg-white p-6 rounded-2xl shadow-2xl max-w-sm w-full text-center space-y-3 transform scale-95 transition-transform">
             <div id="modal-icon" class="text-4xl">🎉</div>
             <h3 id="modal-title" class="text-lg font-bold text-gray-800">ಯಶಸ್ವಿ!</h3>
             <p id="modal-message" class="text-xs text-gray-600"></p>
@@ -36,13 +36,13 @@
                 <p class="text-sm text-gray-600">ನಿಮ್ಮ ಪಾತ್ರವನ್ನು ಆಯ್ಕೆ ಮಾಡಿ ಮುಂದುವರಿಸಿ:</p>
                 
                 <div class="space-y-3 pt-2">
-                    <button onclick="showAuthForm('customer')" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-xl font-bold shadow-md hover:opacity-90">
+                    <button onclick="showAuthForm('customer')" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-xl font-bold shadow-md">
                         🛒 ಗ್ರಾಹಕರು (Customer)
                     </button>
-                    <button onclick="showAuthForm('vendor')" class="w-full bg-gradient-to-r from-orange-500 to-amber-600 text-white py-3 rounded-xl font-bold shadow-md hover:opacity-90">
+                    <button onclick="showAuthForm('vendor')" class="w-full bg-gradient-to-r from-orange-500 to-amber-600 text-white py-3 rounded-xl font-bold shadow-md">
                         🏪 ಅಂಗಡಿ ಮಾಲೀಕರು (Shop Vendor)
                     </button>
-                    <button onclick="showAuthForm('delivery')" class="w-full bg-gradient-to-r from-green-600 to-teal-600 text-white py-3 rounded-xl font-bold shadow-md hover:opacity-90">
+                    <button onclick="showAuthForm('delivery')" class="w-full bg-gradient-to-r from-green-600 to-teal-600 text-white py-3 rounded-xl font-bold shadow-md">
                         🛵 ಡೆಲಿವರಿ ಬಾಯ್ (Delivery Partner)
                     </button>
                 </div>
@@ -101,7 +101,7 @@
             </div>
         </div>
 
-        <!-- ೩. ಗ್ರಾಹಕರ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್ (ದೊಡ್ಡ ಫೋಟೋ & ಸೈಜ್ ಆಯ್ಕೆ) -->
+        <!-- ೩. ಗ್ರಾಹಕರ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್ -->
         <div id="dashboard-customer" class="space-y-4 hidden">
             <div class="bg-white p-4 rounded-xl shadow space-y-3">
                 <h3 class="font-bold text-base text-gray-800">🛍️ ಲಭ್ಯವಿರುವ ವಸ್ತುಗಳು</h3>
@@ -119,12 +119,13 @@
                         <option value="UPI">UPI (Google Pay / PhonePe / Paytm)</option>
                         <option value="COD">ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (Cash on Delivery)</option>
                     </select>
-                    <button onclick="placeOrder()" class="w-full bg-green-600 text-white py-2.5 rounded-xl font-bold text-xs shadow">ಆರ್ಡರ್ ಖಚಿತಪಡಿಸಿ (Place Order)</button>
+                    <button onclick="placeOrder()" class="w-full bg-yellow-400 text-black py-2.5 rounded-xl font-bold text-xs shadow hover:bg-yellow-500">ಮುಂದುವರಿಸಿ (Continue & Place Order)</button>
                 </div>
             </div>
 
+            <!-- ಗ್ರಾಹಕರ ಆರ್ಡರ್ ಟ್ರ್ಯಾಕಿಂಗ್ ರೂಟ್ (Progress Bar) -->
             <div class="bg-white p-4 rounded-xl shadow space-y-2">
-                <h3 class="font-bold text-sm text-gray-800">📦 ನನ್ನ ಆರ್ಡರ್‌ಗಳು & ರಿಟರ್ನ್ ಆಯ್ಕೆ</h3>
+                <h3 class="font-bold text-sm text-gray-800">📦 ನನ್ನ ಆರ್ಡರ್‌ಗಳು & ರೂಟ್ ಟ್ರ್ಯಾಕಿಂಗ್</h3>
                 <div id="customer-orders-list" class="text-xs text-gray-600">ಯಾವುದೇ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ.</div>
             </div>
         </div>
@@ -157,14 +158,13 @@
                 <button onclick="addVendorProduct()" class="w-full bg-indigo-600 text-white py-2.5 rounded-xl font-bold text-xs shadow">ವಸ್ತು ಅಪ್‌ಲೋಡ್ ಮಾಡಿ</button>
             </div>
 
-            <!-- ಅಂಗಡಿಯವರು ಅಪ್‌ಲೋಡ್ ಮಾಡಿದ ವಸ್ತುಗಳು ಹಾಗೂ ಸೇಲ್ಸ್ ವಿವರ -->
             <div class="bg-white p-4 rounded-xl shadow space-y-3">
                 <h3 class="font-bold text-sm text-gray-800">🖼️ ನೀವು ಅಪ್‌ಲೋಡ್ ಮಾಡಿದ ವಸ್ತುಗಳು & ಮಾರಾಟ (Sales)</h3>
                 <div id="vendor-my-products" class="space-y-2 text-xs text-gray-600">ಯಾವುದೇ ವಸ್ತುಗಳಿಲ್ಲ.</div>
             </div>
 
             <div class="bg-white p-4 rounded-xl shadow space-y-3">
-                <h3 class="font-bold text-sm text-gray-800">📦 ಬಂದಿರುವ ಆರ್ಡರ್‌ಗಳು (ಸೈರನ್ ಅಲರ್ಟ್)</h3>
+                <h3 class="font-bold text-sm text-gray-800">📦 ಬಂದಿರುವ ಆರ್ಡರ್‌ಗಳು (ಮೊದಲು ಸ್ವೀಕರಿಸಿದವರಿಗೆ ಮಾತ್ರ)</h3>
                 <div id="vendor-orders-list" class="text-xs text-gray-600">ಯಾವುದೇ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ.</div>
             </div>
         </div>
@@ -172,7 +172,7 @@
         <!-- ೫. ಡೆಲಿವರಿ ಬಾಯ್ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್ -->
         <div id="dashboard-delivery" class="space-y-4 hidden">
             <div class="bg-white p-4 rounded-xl shadow space-y-3">
-                <h3 class="font-bold text-base text-gray-800">🛵 ಡೆಲಿವರಿ ಕಾರ್ಯಗಳು</h3>
+                <h3 class="font-bold text-base text-gray-800">🛵 ಡೆಲಿವರಿ ಕಾರ್ಯಗಳು (ರೂಟ್ & ಪೇಮೆಂಟ್)</h3>
                 <div id="delivery-orders-list" class="text-xs text-gray-600">ಯಾವುದೇ ಡೆಲಿವರಿ ಬಾಕಿ ಇಲ್ಲ.</div>
             </div>
         </div>
@@ -185,7 +185,6 @@
         let cart = [];
         let orders = JSON.parse(localStorage.getItem('market_orders')) || [];
 
-        // ಸುಂದರವಾದ ಪಾಪ್‌ಅಪ್ ತೋರಿಸುವ ಫಂಕ್ಷನ್
         function showModal(title, message, icon = '🎉') {
             document.getElementById('modal-title').innerText = title;
             document.getElementById('modal-message').innerText = message;
@@ -197,7 +196,6 @@
             document.getElementById('custom-modal').classList.add('hidden');
         }
 
-        // ಸೈರನ್ ಸೌಂಡ್ ಪ್ಲೇ ಮಾಡಲು (Audio Beep)
         function playSiren() {
             try {
                 let ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -338,11 +336,11 @@
                     <!-- ಸೈಜ್ ಸೆಲೆಕ್ಷನ್ ಬಟನ್‌ಗಳು -->
                     <div class="flex gap-1 items-center pt-1">
                         <span class="text-[11px] font-semibold text-gray-600 mr-1">ಸೈಜ್:</span>
-                        <button onclick="selectSize(${p.id}, 'XS')" id="size-${p.id}-XS" class="size-btn-${p.id} px-2 py-0.5 border rounded text-[10px] bg-gray-100">XS</button>
-                        <button onclick="selectSize(${p.id}, 'S')" id="size-${p.id}-S" class="size-btn-${p.id} px-2 py-0.5 border rounded text-[10px] bg-gray-100">S</button>
-                        <button onclick="selectSize(${p.id}, 'M')" id="size-${p.id}-M" class="size-btn-${p.id} px-2 py-0.5 border rounded text-[10px] bg-indigo-600 text-white">M</button>
-                        <button onclick="selectSize(${p.id}, 'L')" id="size-${p.id}-L" class="size-btn-${p.id} px-2 py-0.5 border rounded text-[10px] bg-gray-100">L</button>
-                        <button onclick="selectSize(${p.id}, 'XL')" id="size-${p.id}-XL" class="size-btn-${p.id} px-2 py-0.5 border rounded text-[10px] bg-gray-100">XL</button>
+                        <button onclick="selectSize(${p.id}, 'XS')" id="size-${p.id}-XS" class="size-btn-${p.id} px-2.5 py-1 border rounded text-[10px] bg-gray-100">XS</button>
+                        <button onclick="selectSize(${p.id}, 'S')" id="size-${p.id}-S" class="size-btn-${p.id} px-2.5 py-1 border rounded text-[10px] bg-gray-100">S</button>
+                        <button onclick="selectSize(${p.id}, 'M')" id="size-${p.id}-M" class="size-btn-${p.id} px-2.5 py-1 border rounded text-[10px] bg-indigo-600 text-white">M</button>
+                        <button onclick="selectSize(${p.id}, 'L')" id="size-${p.id}-L" class="size-btn-${p.id} px-2.5 py-1 border rounded text-[10px] bg-gray-100">L</button>
+                        <button onclick="selectSize(${p.id}, 'XL')" id="size-${p.id}-XL" class="size-btn-${p.id} px-2.5 py-1 border rounded text-[10px] bg-gray-100">XL</button>
                     </div>
                     <button onclick="addToCart(${p.id})" class="w-full bg-indigo-600 text-white py-2 rounded-xl text-xs font-bold shadow">ಕಾರ್ಟ್‌ಗೆ ಸೇರಿಸಿ</button>
                 </div>
@@ -406,6 +404,8 @@
                 items: [...cart],
                 payment: paymentMode,
                 status: 'Pending (ಅಂಗಡಿಯವರಿಂದ ಸ್ವೀಕರಿಸಬೇಕಿದೆ)',
+                acceptedByVendor: null,
+                paymentDone: false,
                 timestamp: Date.now()
             };
             orders.push(newOrder);
@@ -416,6 +416,7 @@
             showModal("ಆರ್ಡರ್ ಸಲ್ಲಿಕೆಯಾಗಿದೆ!", "ನಿಮ್ಮ ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ. 2 ರಿಂದ 3 ಗಂಟೆಯಲ್ಲಿ ಡೆಲಿವರಿ ಆಗುತ್ತದೆ.", "📦");
         }
 
+        // ಗ್ರಾಹಕರಿಗೆ ರೂಟ್ ಪ್ರೋಗ್ರೆಸ್ ಬಾರ್ ತೋರಿಸುವುದು
         function renderCustomerOrders() {
             let cOrdDiv = document.getElementById('customer-orders-list');
             let savedOrders = JSON.parse(localStorage.getItem('market_orders')) || [];
@@ -426,28 +427,36 @@
                 return;
             }
 
-            let now = Date.now();
             cOrdDiv.innerHTML = myOrders.map(o => {
-                let canReturn = (now - o.timestamp) < (2 * 24 * 60 * 60 * 1000);
+                let step1 = true;
+                let step2 = o.status.includes('Ready') || o.status.includes('Delivered');
+                let step3 = o.status.includes('Delivered');
+
                 return `
-                    <div class="border p-2.5 rounded-lg bg-gray-50 mb-2 space-y-1">
-                        <p><b>ಆರ್ಡರ್ ID:</b> ${o.id}</p>
-                        <p><b>ಸ್ಥಿತಿ:</b> <span class="text-indigo-600 font-semibold">${o.status}</span></p>
-                        <p><b>ಪಾವತಿ:</b> ${o.payment}</p>
-                        ${o.status.includes('Delivered') && canReturn ? `<button onclick="returnOrder(${o.id})" class="bg-red-500 text-white px-2 py-1 rounded text-[10px]">ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ಮಾಡಿ (2 ದಿನಗಳ ಅವಕಾಶ)</button>` : ''}
+                    <div class="border p-3 rounded-xl bg-gray-50 mb-2 space-y-2">
+                        <p class="font-bold text-xs">ಆರ್ಡರ್ ID: ${o.id}</p>
+                        <p class="text-[11px] text-indigo-600 font-semibold">ಸ್ಥಿತಿ: ${o.status}</p>
+                        
+                        <!-- ಪ್ರೋಗ್ರೆಸ್ ಬಾರ್ (Route Progress Bar) -->
+                        <div class="flex items-center justify-between my-2 text-[10px]">
+                            <div class="text-center">
+                                <div class="w-6 h-6 rounded-full ${step1 ? 'bg-green-600 text-white' : 'bg-gray-300'} flex items-center justify-center mx-auto">✓</div>
+                                <span class="text-gray-600">ದೃಢೀಕರಿಸಲಾಗಿದೆ</span>
+                            </div>
+                            <div class="flex-1 h-1 ${step2 ? 'bg-green-600' : 'bg-gray-300'} mx-1"></div>
+                            <div class="text-center">
+                                <div class="w-6 h-6 rounded-full ${step2 ? 'bg-green-600 text-white' : 'bg-gray-300'} flex items-center justify-center mx-auto">✓</div>
+                                <span class="text-gray-600">ಪ್ಯಾಕ್ ಮಾಡಲಾಗಿದೆ</span>
+                            </div>
+                            <div class="flex-1 h-1 ${step3 ? 'bg-green-600' : 'bg-gray-300'} mx-1"></div>
+                            <div class="text-center">
+                                <div class="w-6 h-6 rounded-full ${step3 ? 'bg-green-600 text-white' : 'bg-gray-300'} flex items-center justify-center mx-auto">✓</div>
+                                <span class="text-gray-600">ಡೆಲಿವರಿ ಆಯಿತು</span>
+                            </div>
+                        </div>
                     </div>
                 `;
             }).join('');
-        }
-
-        function returnOrder(id) {
-            let o = orders.find(x => x.id === id);
-            if (o) {
-                o.status = 'Returned / Exchange Requested (ರಿಟರ್ನ್ ವಿನಂತಿ ಬಂದಿದೆ)';
-                localStorage.setItem('market_orders', JSON.stringify(orders));
-                renderCustomerOrders();
-                showModal("ರಿಟರ್ನ್ ವಿನಂತಿ", "ನಿಮ್ಮ ರಿಟರ್ನ್ ವಿನಂತಿ ಅಂಗಡಿ ಮಾಲೀಕರಿಗೆ ತಲುಪಿದೆ.", "🔄");
-            }
         }
 
         // ಅಂಗಡಿ ಮಾಲೀಕರು ವಸ್ತು ಅಪ್‌ಲೋಡ್ ಮಾಡುವುದು
@@ -534,37 +543,52 @@
             }
         }
 
+        // ಅಂಗಡಿಯವರಿಗೆ ಆರ್ಡರ್ ಪ್ರದರ್ಶನ (ಮೊದಲು ಸ್ವೀಕರಿಸಿದವರಿಗೆ ಮಾತ್ರ ಲಭ್ಯವಾಗುವಂತೆ)
         function renderVendorOrders() {
             let vDiv = document.getElementById('vendor-orders-list');
             let savedOrders = JSON.parse(localStorage.getItem('market_orders')) || [];
-            if (savedOrders.length === 0) {
-                vDiv.innerHTML = "ಯಾವುದೇ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ.";
+            
+            // ಯಾವ ಆರ್ಡರ್‌ಗಳನ್ನು ಈ ಅಂಗಡಿಯವರು ಅಥವಾ ಬೇರೆ ಯಾರೂ ಇನ್ನೂ ಸ್ವೀಕರಿಸಿಲ್ಲವೋ ಅವುಗಳು
+            let availableOrders = savedOrders.filter(o => o.status.includes('Pending') && (!o.acceptedByVendor || o.acceptedByVendor === currentUser.shopName));
+
+            if (availableOrders.length === 0) {
+                vDiv.innerHTML = "ಯಾವುದೇ ಹೊಸ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ.";
                 return;
             }
-            // ಸೈರನ್ ಪ್ಲೇ ಮಾಡಿ ಹೊಸ ಆರ್ಡರ್ ಬಂದಾಗ
             playSiren();
 
-            vDiv.innerHTML = savedOrders.map(o => `
+            vDiv.innerHTML = availableOrders.map(o => `
                 <div class="border p-3 rounded-xl bg-amber-50 mb-2 space-y-2">
                     <div class="flex gap-2">
                         ${o.items.map(i => `<img src="${i.frontPhoto}" class="w-16 h-16 object-cover rounded-lg border shadow">`).join('')}
                     </div>
                     <p><b>ಗ್ರಾಹಕರು:</b> ${o.customerName} (<a href="tel:${o.phone}" class="text-blue-600 underline">${o.phone}</a>)</p>
                     <p><b>ವಿಳಾಸ:</b> ${o.address}</p>
-                    <p><b>ಸ್ಥಿತಿ:</b> <span class="text-orange-600 font-bold">${o.status}</span></p>
-                    ${o.status.includes('Pending') ? `<button onclick="vendorAccept(${o.id})" class="bg-blue-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow">ಆರ್ಡರ್ ಸ್ವೀಕರಿಸಿ & ಪ್ಯಾಕ್ ಮಾಡಿ (Ready)</button>` : ''}
-                    ${o.status.includes('Returned') ? `<p class="text-red-600 font-bold text-xs">ಗ್ರಾಹಕರಿಂದ ರಿಟರ್ನ್ ವಿನಂತಿ ಬಂದಿದೆ!</p>` : ''}
+                    <p><b>ಪಾವತಿ:</b> <span class="${o.paymentDone ? 'text-green-600 font-bold' : 'text-red-600 font-bold'}">${o.paymentDone ? 'ಪಾವತಿ ಆಗಿದೆ (Paid)' : 'ಪಾವತಿ ಬಾಕಿ ಇದೆ (Payment Pending)'}</span></p>
+                    
+                    ${!o.acceptedByVendor ? `<button onclick="vendorAccept(${o.id})" class="bg-blue-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow">ಆರ್ಡರ್ ಸ್ವೀಕರಿಸಿ & ಪ್ಯಾಕ್ ಮಾಡಿ (Ready)</button>` : ''}
+                    
+                    ${o.acceptedByVendor === currentUser.shopName && o.status.includes('Ready') ? `
+                        <p class="text-green-700 font-bold text-xs">✓ ಪ್ಯಾಕಿಂಗ್ ಮುಗಿದು ಡೆಲಿವರಿಗೆ ಕಳುಹಿಸಲಾಗಿದೆ</p>
+                    ` : ''}
                 </div>
             `).join('');
         }
 
         function vendorAccept(id) {
-            let o = orders.find(x => x.id === id);
+            let savedOrders = JSON.parse(localStorage.getItem('market_orders')) || [];
+            let o = savedOrders.find(x => x.id === id);
             if (o) {
+                if (o.acceptedByVendor) {
+                    alert('ಈ ಆರ್ಡರ್ ಅನ್ನು ಈಗಾಗಲೇ ಬೇರೆ ಅಂಗಡಿಯವರು ಸ್ವೀಕರಿಸಿದ್ದಾರೆ!');
+                    return;
+                }
+                o.acceptedByVendor = currentUser.shopName;
                 o.status = 'Ready for Delivery (ಪ್ಯಾಕಿಂಗ್ ಮುಗಿದಿದೆ, ಡೆಲಿವರಿಗೆ ಸಿದ್ಧ)';
-                localStorage.setItem('market_orders', JSON.stringify(orders));
+                localStorage.setItem('market_orders', JSON.stringify(savedOrders));
+                orders = savedOrders;
                 renderVendorOrders();
-                showModal("ಪ್ಯಾಕಿಂಗ್ ಸಿದ್ಧ", "ಆರ್ಡರ್ ಪ್ಯಾಕ್ ಆಗಿದ್ದು, ಡೆಲಿವರಿ ಬಾಯ್‌ಗೆ ಕಳುಹಿಸಲಾಗಿದೆ!", "📦");
+                showModal("ಪ್ಯಾಕಿಂಗ್ ಸಿದ್ಧ", "ಆರ್ಡರ್ ಸ್ವೀಕರಿಸಲಾಗಿದೆ ಮತ್ತು ಡೆಲಿವರಿ ಬಾಯ್‌ಗೆ ಕಳುಹಿಸಲಾಗಿದೆ!", "📦");
             }
         }
 
@@ -584,19 +608,35 @@
                     <p><b>ಗ್ರಾಹಕರು:</b> ${o.customerName}</p>
                     <p><b>ಫೋನ್:</b> <a href="tel:${o.phone}" class="text-blue-600 underline font-bold">${o.phone}</a></p>
                     <p><b>ವಿಳಾಸ:</b> ${o.address}</p>
-                    <div class="flex gap-2 pt-1">
-                        <a href="https://maps.google.com/?q=${encodeURIComponent(o.address)}" target="_blank" class="bg-indigo-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow">GPS ಮ್ಯಾಪ್</a>
+                    <p><b>ಪಾವತಿ ಸ್ಥಿತಿ:</b> ${o.paymentDone ? 'Paid' : 'Pending/COD'}</p>
+                    <div class="flex gap-2 pt-1 flex-wrap">
+                        <a href="https://maps.google.com/?q=${encodeURIComponent(o.address)}" target="_blank" class="bg-indigo-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow">GPS ಮ್ಯಾಪ್ ರೂಟ್</a>
                         <button onclick="markDelivered(${o.id})" class="bg-green-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow">ಡೆಲಿವರಿ ಮುಗಿಯಿತು (Delivered)</button>
+                        ${!o.paymentDone ? `<button onclick="confirmPayment(${o.id})" class="bg-yellow-500 text-black px-3 py-1.5 rounded-lg text-xs font-bold shadow">ಪಾವತಿ ಸ್ವೀಕರಿಸಿ (OK)</button>` : '<span class="text-green-600 font-bold text-xs self-center">✓ ಪಾವತಿ ರೈಟ್ ಮಾರ್ಕ್</span>'}
                     </div>
                 </div>
             `).join('');
         }
 
+        function confirmPayment(id) {
+            let savedOrders = JSON.parse(localStorage.getItem('market_orders')) || [];
+            let o = savedOrders.find(x => x.id === id);
+            if (o) {
+                o.paymentDone = true;
+                localStorage.setItem('market_orders', JSON.stringify(savedOrders));
+                orders = savedOrders;
+                renderDeliveryOrders();
+                showModal("ಪಾವತಿ ದೃಢೀಕರಿಸಲಾಗಿದೆ", "ಅಂಗಡಿ ಮಾಲೀಕರಿಗೆ ಪಾವತಿ ತಲುಪಿದೆ ಎಂದು ಅಪ್‌ಡೇಟ್ ಮಾಡಲಾಗಿದೆ.", "💰");
+            }
+        }
+
         function markDelivered(id) {
-            let o = orders.find(x => x.id === id);
+            let savedOrders = JSON.parse(localStorage.getItem('market_orders')) || [];
+            let o = savedOrders.find(x => x.id === id);
             if (o) {
                 o.status = 'Delivered Successfully (ಗ್ರಾಹಕರಿಗೆ ತಲುಪಿದೆ)';
-                localStorage.setItem('market_orders', JSON.stringify(orders));
+                localStorage.setItem('market_orders', JSON.stringify(savedOrders));
+                orders = savedOrders;
                 renderDeliveryOrders();
                 showModal("ಯಶಸ್ವಿ!", "ಡೆಲಿವರಿ ಯಶಸ್ವಿಯಾಗಿ ತಲುಪಿಸಲಾಗಿದೆ!", "✅");
             }
