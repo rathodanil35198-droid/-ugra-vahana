@@ -37,7 +37,7 @@
 
     <main class="container mx-auto p-4 max-w-md">
 
-        <!-- ೧. ನೋಂದಣಿ ಅಥವಾ ಲಾಗಿನ್ ಪೇಜ್ (ಅಂಗಡಿ ಫೋಟೋ ಅಪ್ಲೋಡ್ ಜೊತೆಗೆ) -->
+        <!-- ೧. ನೋಂದಣಿ ಅಥವಾ ಲಾಗಿನ್ ಪೇಜ್ -->
         <div id="auth-screen" class="bg-white p-6 rounded-2xl shadow-lg space-y-4 page-section">
             <h2 class="text-xl font-bold text-gray-800 border-b pb-2">ಅಂಗಡಿ ಮಾಲೀಕರ ನೋಂದಣಿ</h2>
             
@@ -144,10 +144,10 @@
                 </div>
             </div>
 
-            <!-- ಸೆಕ್ಷನ್ 2: ಹೊಸ ಆರ್ಡರ್‌ಗಳು ನೋಡುವುದು -->
+            <!-- ಸೆಕ್ಷನ್ 2: ಹೊಸ ಆರ್ಡರ್‌ಗಳು ಮತ್ತು ಡೆಲಿವರಿ ಮ್ಯಾನೇಜ್‌ಮೆಂಟ್ -->
             <div id="vendor-orders-section" class="space-y-4 hidden">
                 <div class="bg-white p-4 rounded-xl shadow space-y-3">
-                    <h3 class="font-bold text-sm text-gray-800 border-b pb-1">📦 ಗ್ರಾಹಕರ ಹೊಸ ಆರ್ಡರ್‌ಗಳು (ಬುಕಿಂಗ್ಸ್)</h3>
+                    <h3 class="font-bold text-sm text-gray-800 border-b pb-1">📦 ಗ್ರಾಹಕರ ಹೊಸ ಆರ್ಡರ್‌ಗಳು ಹಾಗೂ ಡೆಲಿವರಿ ಸ್ಟೇಟಸ್</h3>
                     <div id="vendor-orders-list" class="text-xs text-gray-600">ಯಾವುದೇ ಹೊಸ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ.</div>
                 </div>
             </div>
@@ -385,20 +385,27 @@
 
             if (myOrders.length === 0) {
                 ordDiv.innerHTML = "ಯಾವುದೇ ಹೊಸ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ.";
-                return;
-            }
-
-            ordDiv.innerHTML = myOrders.map(o => `
-                <div class="border p-3 rounded-xl bg-amber-50 space-y-2 mb-2">
-                    <p><b>ಗ್ರಾಹಕರು:</b> ${o.customerName} (<a href="tel:${o.phone}" class="text-blue-600 underline font-bold">📞 ${o.phone}</a>)</p>
-                    <p><b>ವಿಳಾಸ:</b> ${o.district} ಜಿಲ್ಲೆ, ${o.taluk} ತಾಲೂಕು, ${o.city} (Pin: ${o.pincode})</p>
-                    <p><b>ಸ್ಥಿತಿ:</b> ${o.status}</p>
-                    <div class="flex gap-2">
-                        <a href="https://maps.google.com/?q=${o.lat ? o.lat + ',' + o.lng : encodeURIComponent(o.address)}" target="_blank" class="bg-indigo-600 text-white px-3 py-1.5 rounded text-xs font-bold">🗺️ ರೂಟ್ ಮ್ಯಾಪ್ ನೋಡಿ</a>
-                        ${!o.acceptedByVendor ? `<button onclick="acceptOrder(${o.id})" class="bg-green-600 text-white px-3 py-1.5 rounded text-xs font-bold">ಆರ್ಡರ್ ಸ್ವೀಕರಿಸಿ</button>` : '<span class="text-green-700 font-bold text-xs">ಸ್ವೀಕರಿಸಲಾಗಿದೆ</span>'}
+            } else {
+                ordDiv.innerHTML = myOrders.map(o => `
+                    <div class="border p-3 rounded-xl bg-amber-50 space-y-2 mb-2">
+                        <p><b>ಗ್ರಾಹಕರು:</b> ${o.customerName} (<a href="tel:${o.phone}" class="text-blue-600 underline font-bold">📞 ${o.phone}</a>)</p>
+                        <p><b>ವಿಳಾಸ:</b> ${o.district} ಜಿಲ್ಲೆ, ${o.taluk} ತಾಲೂಕು, ${o.city} (Pin: ${o.pincode})</p>
+                        <p><b>ಪಾವತಿ ವಿಧಾನ (Payment):</b> <span class="text-indigo-600 font-bold">${o.paymentMethod || 'Cash on Delivery'}</span></p>
+                        <p><b>ಸ್ಥಿತಿ (Status):</b> <span class="text-orange-600 font-bold">${o.status}</span></p>
+                        <div class="flex flex-wrap gap-2 pt-1">
+                            <a href="https://maps.google.com/?q=${o.lat ? o.lat + ',' + o.lng : encodeURIComponent(o.address)}" target="_blank" class="bg-indigo-600 text-white px-3 py-1.5 rounded text-xs font-bold">🗺️ ಮ್ಯಾಪ್ ಲೊಕೇಶನ್</a>
+                            
+                            ${!o.acceptedByVendor ? `<button onclick="acceptOrder(${o.id})" class="bg-green-600 text-white px-3 py-1.5 rounded text-xs font-bold">✅ ಆರ್ಡರ್ ಸ್ವೀಕರಿಸಿ</button>` : ''}
+                            
+                            ${o.acceptedByVendor && !o.packingReady ? `<button onclick="markPackingReady(${o.id})" class="bg-blue-600 text-white px-3 py-1.5 rounded text-xs font-bold">📦 ಪ್ಯಾಕಿಂಗ್ ಸಿದ್ಧ (OK)</button>` : ''}
+                            
+                            ${o.packingReady && !o.delivered ? `<button onclick="markDelivered(${o.id})" class="bg-purple-600 text-white px-3 py-1.5 rounded text-xs font-bold">🚀 ಡೆಲಿವರಿ ಮುಗಿಯಿತು (OK)</button>` : ''}
+                            
+                            ${o.delivered ? `<span class="text-green-700 font-bold text-xs">✨ ಪಾವತಿ & ಡೆಲಿವರಿ ಯಶಸ್ವಿ (Success)</span>` : ''}
+                        </div>
                     </div>
-                </div>
-            `).join('');
+                `).join('');
+            }
         }
 
         function acceptOrder(id) {
@@ -406,10 +413,34 @@
             let o = savedOrders.find(x => x.id === id);
             if (o) {
                 o.acceptedByVendor = currentVendor.shopName;
-                o.status = 'Accepted & Packing (ಪ್ಯಾಕಿಂಗ್ ನಡೆಯುತ್ತಿದೆ)';
+                o.status = 'ಸ್ವೀಕರಿಸಲಾಗಿದೆ - ಪ್ಯಾಕಿಂಗ್ ನಡೆಯುತ್ತಿದೆ';
                 localStorage.setItem('market_orders', JSON.stringify(savedOrders));
                 renderVendorOrders();
-                showModal("ಯಶಸ್ವಿ!", "ಆರ್ಡರ್ ಸ್ವೀಕರಿಸಲಾಗಿದೆ!", "👍");
+                showModal("ಯಶಸ್ವಿ!", "ಬುಕಿಂಗ್ ಸ್ವೀಕರಿಸಲಾಗಿದೆ! ಗ್ರಾಹಕರಿಗೆ ಸಂದೇಶ ಕಳುಹಿಸಲಾಗಿದೆ.", "👍");
+            }
+        }
+
+        function markPackingReady(id) {
+            let savedOrders = JSON.parse(localStorage.getItem('market_orders')) || [];
+            let o = savedOrders.find(x => x.id === id);
+            if (o) {
+                o.packingReady = true;
+                o.status = 'ಪ್ಯಾಕಿಂಗ್ ಮುಗಿದಿದೆ - ಡೆಲಿವರಿ ಬಾಯ್‌ಗೆ ನೀಡಲಾಗಿದೆ';
+                localStorage.setItem('market_orders', JSON.stringify(savedOrders));
+                renderVendorOrders();
+                showModal("ಸಿದ್ಧವಾಗಿದೆ!", "ಡೆಲಿವರಿ ಬಾಯ್‌ಗೆ ಅಂಗಡಿ ಲೊಕೇಶನ್ ಮತ್ತು ಪ್ಯಾಕಿಂಗ್ ವಿವರ ಕಳುಹಿಸಲಾಗಿದೆ!", "📦");
+            }
+        }
+
+        function markDelivered(id) {
+            let savedOrders = JSON.parse(localStorage.getItem('market_orders')) || [];
+            let o = savedOrders.find(x => x.id === id);
+            if (o) {
+                o.delivered = true;
+                o.status = 'ಡೆಲಿವರಿ ಯಶಸ್ವಿಯಾಗಿದೆ (Payment Success)';
+                localStorage.setItem('market_orders', JSON.stringify(savedOrders));
+                renderVendorOrders();
+                showModal("ಯಶಸ್ವಿ!", "ಪಾವತಿ (Payment) ಮತ್ತು ಡೆಲಿವರಿ ಯಶಸ್ವಿಯಾಗಿದೆ!", "💰");
             }
         }
 
