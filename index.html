@@ -37,7 +37,7 @@
 
     <main class="container mx-auto p-4 max-w-md">
 
-        <!-- ೧. ನೋಂದಣಿ ಅಥವಾ ಲಾಗಿನ್ ಪೇಜ್ -->
+        <!-- ೧. ನೋಂದಣಿ ಅಥವಾ ಲಾಗಿನ್ ಪೇಜ್ (ಅಂಗಡಿ ಫೋಟೋ ಅಪ್ಲೋಡ್ ಜೊತೆಗೆ) -->
         <div id="auth-screen" class="bg-white p-6 rounded-2xl shadow-lg space-y-4 page-section">
             <h2 class="text-xl font-bold text-gray-800 border-b pb-2">ಅಂಗಡಿ ಮಾಲೀಕರ ನೋಂದಣಿ</h2>
             
@@ -63,6 +63,13 @@
                         <option value="General">ಜನರಲ್ ಸ್ಟೋರ್ / ಇತರೆ</option>
                     </select>
                 </div>
+
+                <!-- ಅಂಗಡಿಯ ಫೋಟೋ ಅಪ್ಲೋಡ್ ಜಾಗ -->
+                <div>
+                    <label class="block text-xs font-medium text-gray-700 mb-1">ಅಂಗಡಿಯ ಮುಂಭಾಗದ ಫೋಟೋ (Shop Photo)</label>
+                    <input type="file" id="reg-shopphoto" accept="image/*" capture="environment" class="w-full p-1 border rounded-lg text-xs">
+                </div>
+
                 <div class="grid grid-cols-2 gap-2">
                     <input type="text" id="reg-district" placeholder="ಜಿಲ್ಲೆ" class="p-2 border rounded-lg text-sm" value="ಯಾದಗಿರಿ">
                     <input type="text" id="reg-taluk" placeholder="ತಾಲೂಕು" class="p-2 border rounded-lg text-sm" value="ಶಹಾಪುರ">
@@ -180,8 +187,9 @@
                 navigator.geolocation.getCurrentPosition(position => {
                     gpsLocation.lat = position.coords.latitude;
                     gpsLocation.lng = position.coords.longitude;
-                    document.getElementById('loc-status').innerText = `ಲೊಕೇಶನ್ ಸಿಕ್ಕಿದೆ (Lat: ${gpsLocation.lat.toFixed(2)}, Lng: ${gpsLocation.lng.toFixed(2)})`;
-                    document.getElementById('loc-statusclassName = "text-[11px] text-green-600 text-center font-bold";
+                    let statEl = document.getElementById('loc-status');
+                    statEl.innerText = `ಲೊಕೇಶನ್ ಸಿಕ್ಕಿದೆ (Lat: ${gpsLocation.lat.toFixed(2)}, Lng: ${gpsLocation.lng.toFixed(2)})`;
+                    statEl.className = "text-[11px] text-green-600 text-center font-bold";
                 }, error => {
                     alert('ಲೊಕೇಶನ್ ಪಡೆಯಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ. ಜಿಪಿಎಸ್ ಆನ್ ಮಾಡಿ.');
                 });
@@ -240,16 +248,37 @@
             let taluk = document.getElementById('reg-taluk').value;
             let city = document.getElementById('reg-city').value;
             let pincode = document.getElementById('reg-pincode').value;
+            let shopPhotoFile = document.getElementById('reg-shopphoto').files[0];
 
             if (!name || !phone || !shopName || phone.length < 10) {
                 alert('ದಯವಿಟ್ಟು ಎಲ್ಲಾ ಸರಿಯಾದ ವಿವರಗಳನ್ನು ಭರ್ತಿ ಮಾಡಿ!');
                 return;
             }
 
-            currentVendor = { name, phone, shopName, category, district, taluk, city, pincode, gps: gpsLocation };
-            localStorage.setItem('currentVendor', JSON.stringify(currentVendor));
-            showModal("ಯಶಸ್ವಿ!", "ನಿಮ್ಮ ಅಂಗಡಿ ಖಾತೆ ಯಶಸ್ವಿಯಾಗಿ ಸೃಷ್ಟಿಯಾಗಿದೆ!", "🏪");
-            checkLogin();
+            if (!shopPhotoFile) {
+                showModal("ಎಚ್ಚರಿಕೆ!", "ದಯವಿಟ್ಟು ನಿಮ್ಮ ಅಂಗಡಿಯ ಫೋಟೋ ಅಪ್ಲೋಡ್ ಮಾಡಿ!", "⚠️");
+                return;
+            }
+
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                currentVendor = { 
+                    name, 
+                    phone, 
+                    shopName, 
+                    category, 
+                    district, 
+                    taluk, 
+                    city, 
+                    pincode, 
+                    shopPhoto: e.target.result,
+                    gps: gpsLocation 
+                };
+                localStorage.setItem('currentVendor', JSON.stringify(currentVendor));
+                showModal("ಯಶಸ್ವಿ!", "ನಿಮ್ಮ ಅಂಗಡಿ ಖಾತೆ ಮತ್ತು ಫೋಟೋ ಯಶಸ್ವಿಯಾಗಿ ಅಪ್ಲೋಡ್ ಆಗಿದೆ!", "🏪");
+                checkLogin();
+            };
+            reader.readAsDataURL(shopPhotoFile);
         }
 
         function logout() {
@@ -300,7 +329,6 @@
                     products.push(newProd);
                     localStorage.setItem('market_products', JSON.stringify(products));
                     
-                    // ಫಾರ್ಮ್ ಕ್ಲಿಯರ್ ಮಾಡುವುದು
                     document.getElementById('v-p-name').value = '';
                     document.getElementById('v-p-orig').value = '';
                     document.getElementById('v-p-disc').value = '';
@@ -310,8 +338,6 @@
                     document.getElementById('v-p-back').value = '';
 
                     renderVendorProducts();
-                    
-                    // ಫೋಟೋ ಅಪ್ಲೋಡ್ ಆದ ತಕ್ಷಣ ಪಾಪ್‌ಅಪ್ ಸಂದೇಶ
                     showModal("ಯಶಸ್ವಿ!", "ನಿಮ್ಮ ಫೋಟೋ ಅಪ್ಲೋಡ್ ಆಗಿದೆ! ವಸ್ತು ಗ್ರಾಹಕರಿಗೆ ಈಗ ಲಭ್ಯವಿದೆ.", "📸");
                 };
                 readerBack.readAsDataURL(backFile);
