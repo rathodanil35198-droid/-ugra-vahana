@@ -8,9 +8,17 @@
 </head>
 <body class="bg-gray-100 font-sans">
 
-    <!-- ಕಸ್ಟಮ್ ಪಾಪ್‌ಅಪ್ ಮಾடல் (Success Popup) -->
+    <!-- ಫೋಟೋ ಜೂಮ್ ಪಾಪ್‌ಅಪ್ (Full Screen Image View) -->
+    <div id="image-modal" class="fixed inset-0 bg-black bg-opacity-80 z-50 hidden flex items-center justify-center p-4">
+        <div class="relative bg-white p-2 rounded-2xl max-w-sm w-full text-center">
+            <button onclick="closeImageModal()" class="absolute top-2 right-2 bg-red-500 text-white w-8 h-8 rounded-full font-bold">✕</button>
+            <img id="zoomed-img" src="" class="w-full h-96 object-contain rounded-xl">
+        </div>
+    </div>
+
+    <!-- ಕಸ್ಟಮ್ ಪಾಪ್‌ಅಪ್ ಮಾಡಲ್ (Success Popup) -->
     <div id="custom-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white p-6 rounded-2xl shadow-2xl max-w-sm w-full text-center space-y-3 transform scale-95 transition-transform">
+        <div class="bg-white p-6 rounded-2xl shadow-2xl max-w-sm w-full text-center space-y-3">
             <div id="modal-icon" class="text-4xl">🎉</div>
             <h3 id="modal-title" class="text-lg font-bold text-gray-800">ಯಶಸ್ವಿ!</h3>
             <p id="modal-message" class="text-xs text-gray-600"></p>
@@ -20,7 +28,7 @@
 
     <!-- ಮುಖ್ಯ ಹೆಡರ್ -->
     <header class="bg-indigo-700 text-white p-4 shadow-md flex justify-between items-center sticky top-0 z-40">
-        <h1 class="text-lg font-bold">🛒 ಶಹಾಪುರ ತಾಲೂಕು ಮಾರ್ಕೆಟ್</h1>
+        <h1 class="text-lg font-bold" id="header-title">🛒 ಶಹಾಪುರ ತಾಲೂಕು ಮಾರ್ಕೆಟ್</h1>
         <div id="user-info" class="text-sm hidden items-center gap-2">
             <span id="logged-user-name" class="font-semibold text-xs"></span>
             <button onclick="logout()" class="bg-red-500 px-2 py-1 rounded text-xs">ಲಾಗ್‌ಔಟ್</button>
@@ -30,19 +38,19 @@
     <main class="container mx-auto p-4 max-w-md">
 
         <!-- ೧. ಮುಖಪುಟ -->
-        <div id="home-screen" class="space-y-6 text-center py-10">
+        <div id="home-screen" class="space-y-6 text-center py-10 page-section">
             <div class="bg-white p-6 rounded-2xl shadow-lg space-y-4">
                 <h2 class="text-2xl font-extrabold text-indigo-700">ಸ್ವಾಗತ!</h2>
                 <p class="text-sm text-gray-600">ನಿಮ್ಮ ಪಾತ್ರವನ್ನು ಆಯ್ಕೆ ಮಾಡಿ ಮುಂದುವರಿಸಿ:</p>
                 
                 <div class="space-y-3 pt-2">
-                    <button onclick="showAuthForm('customer')" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-xl font-bold shadow-md">
+                    <button onclick="navigateTo('auth-screen', 'customer')" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-xl font-bold shadow-md">
                         🛒 ಗ್ರಾಹಕರು (Customer)
                     </button>
-                    <button onclick="showAuthForm('vendor')" class="w-full bg-gradient-to-r from-orange-500 to-amber-600 text-white py-3 rounded-xl font-bold shadow-md">
+                    <button onclick="navigateTo('auth-screen', 'vendor')" class="w-full bg-gradient-to-r from-orange-500 to-amber-600 text-white py-3 rounded-xl font-bold shadow-md">
                         🏪 ಅಂಗಡಿ ಮಾಲೀಕರು (Shop Vendor)
                     </button>
-                    <button onclick="showAuthForm('delivery')" class="w-full bg-gradient-to-r from-green-600 to-teal-600 text-white py-3 rounded-xl font-bold shadow-md">
+                    <button onclick="navigateTo('auth-screen', 'delivery')" class="w-full bg-gradient-to-r from-green-600 to-teal-600 text-white py-3 rounded-xl font-bold shadow-md">
                         🛵 ಡೆಲಿವರಿ ಬಾಯ್ (Delivery Partner)
                     </button>
                 </div>
@@ -50,7 +58,7 @@
         </div>
 
         <!-- ೨. ನೋಂದಣಿ ಫಾರ್ಮ್ -->
-        <div id="auth-screen" class="bg-white p-6 rounded-2xl shadow-lg space-y-4 hidden">
+        <div id="auth-screen" class="bg-white p-6 rounded-2xl shadow-lg space-y-4 hidden page-section">
             <div class="flex justify-between items-center border-b pb-2">
                 <h2 id="auth-title" class="text-xl font-bold text-gray-800">ನೋಂದಣಿ</h2>
                 <button onclick="goHome()" class="text-sm text-indigo-600 font-semibold">← ಹಿಂದೆ</button>
@@ -68,7 +76,6 @@
                     <input type="tel" id="reg-phone" placeholder="10 ಅಂಕಿಯ ಮೊಬೈಲ್ ನಂಬರ್" maxlength="10" class="w-full p-2 border rounded-lg text-sm mt-1">
                 </div>
 
-                <!-- ಗ್ರಾಹಕರಿಗೆ ಮಾತ್ರ -->
                 <div id="fields-customer" class="space-y-3 hidden">
                     <div class="grid grid-cols-2 gap-2">
                         <input type="text" id="c-district" placeholder="ಜಿಲ್ಲೆ" class="p-2 border rounded-lg text-sm">
@@ -80,7 +87,6 @@
                     </div>
                 </div>
 
-                <!-- ಅಂಗಡಿಯವರಿಗೆ ಮಾತ್ರ -->
                 <div id="fields-vendor" class="space-y-3 hidden">
                     <input type="text" id="v-shopname" placeholder="ಅಂಗಡಿಯ ಹೆಸರು" class="w-full p-2 border rounded-lg text-sm">
                     <div class="grid grid-cols-2 gap-2">
@@ -89,7 +95,6 @@
                     </div>
                 </div>
 
-                <!-- ಡೆಲಿವರಿ ಬಾಯ್‌ಗೆ ಮಾತ್ರ -->
                 <div id="fields-delivery" class="space-y-3 hidden">
                     <div class="grid grid-cols-2 gap-2">
                         <input type="text" id="d-district" placeholder="ಜಿಲ್ಲೆ" class="p-2 border rounded-lg text-sm">
@@ -102,36 +107,46 @@
         </div>
 
         <!-- ೩. ಗ್ರಾಹಕರ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್ -->
-        <div id="dashboard-customer" class="space-y-4 hidden">
-            <div class="bg-white p-4 rounded-xl shadow space-y-3">
-                <h3 class="font-bold text-base text-gray-800">🛍️ ಲಭ್ಯವಿರುವ ವಸ್ತುಗಳು</h3>
-                <input type="text" id="search-box" oninput="searchProducts()" placeholder="ವಸ್ತು ಅಥವಾ ಅಂಗಡಿ ಹೆಸರು ಹುಡುಕಿ..." class="w-full p-2 border rounded-lg text-sm">
-                <div id="customer-product-list" class="space-y-4 max-h-[450px] overflow-y-auto"></div>
+        <div id="dashboard-customer" class="space-y-4 hidden page-section">
+            <div class="flex gap-2 mb-2">
+                <button onclick="switchCustomerTab('browse')" id="tab-browse" class="flex-1 bg-indigo-600 text-white py-2 rounded-xl text-xs font-bold">ವಸ್ತುಗಳು (Browse)</button>
+                <button onclick="switchCustomerTab('cart')" id="tab-cart" class="flex-1 bg-gray-200 text-gray-700 py-2 rounded-xl text-xs font-bold">ಕಾರ್ಟ್ & ಆರ್ಡರ್</button>
             </div>
 
-            <div class="bg-white p-4 rounded-xl shadow space-y-2">
-                <h3 class="font-bold text-sm text-gray-800">🛒 ನಿಮ್ಮ ಕಾರ್ಟ್ (Cart)</h3>
-                <div id="customer-cart" class="text-xs text-gray-600">ಕಾರ್ಟ್ ಖಾಲಿಯಿದೆ.</div>
-                
-                <div class="pt-2 border-t">
-                    <label class="block text-xs font-semibold text-gray-700 mb-1">ಪಾವತಿ ವಿಧಾನ ಆಯ್ಕೆ ಮಾಡಿ:</label>
-                    <select id="payment-mode" class="w-full p-2 border rounded-lg text-xs mb-2">
-                        <option value="UPI">UPI (Google Pay / PhonePe / Paytm)</option>
-                        <option value="COD">ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (Cash on Delivery)</option>
-                    </select>
-                    <button onclick="placeOrder()" class="w-full bg-yellow-400 text-black py-2.5 rounded-xl font-bold text-xs shadow hover:bg-yellow-500">ಮುಂದುವರಿಸಿ (Continue & Place Order)</button>
+            <!-- ಬ್ರೌಸ್ ಸೆಕ್ಷನ್ -->
+            <div id="cust-browse-section" class="space-y-3">
+                <div class="bg-white p-4 rounded-xl shadow space-y-3">
+                    <h3 class="font-bold text-base text-gray-800">🛍️ ಲಭ್ಯವಿರುವ ವಸ್ತುಗಳು</h3>
+                    <input type="text" id="search-box" oninput="searchProducts()" placeholder="ವಸ್ತು ಅಥವಾ ಅಂಗಡಿ ಹೆಸರು ಹುಡುಕಿ..." class="w-full p-2 border rounded-lg text-sm">
+                    <div id="customer-product-list" class="space-y-4 max-h-[450px] overflow-y-auto"></div>
                 </div>
             </div>
 
-            <!-- ಗ್ರಾಹಕರ ಆರ್ಡರ್ ಟ್ರ್ಯಾಕಿಂಗ್ ರೂಟ್ (Progress Bar) -->
-            <div class="bg-white p-4 rounded-xl shadow space-y-2">
-                <h3 class="font-bold text-sm text-gray-800">📦 ನನ್ನ ಆರ್ಡರ್‌ಗಳು & ರೂಟ್ ಟ್ರ್ಯಾಕಿಂಗ್</h3>
-                <div id="customer-orders-list" class="text-xs text-gray-600">ಯಾವುದೇ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ.</div>
+            <!-- ಕಾರ್ಟ್ & ಆರ್ಡರ್ ಸೆಕ್ಷನ್ -->
+            <div id="cust-cart-section" class="space-y-3 hidden">
+                <div class="bg-white p-4 rounded-xl shadow space-y-2">
+                    <h3 class="font-bold text-sm text-gray-800">🛒 ನಿಮ್ಮ ಕಾರ್ಟ್ (Cart)</h3>
+                    <div id="customer-cart" class="text-xs text-gray-600">ಕಾರ್ಟ್ ಖಾಲಿಯಿದೆ.</div>
+                    
+                    <div class="pt-2 border-t">
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">ಪಾವತಿ ವಿಧಾನ ಆಯ್ಕೆ ಮಾಡಿ:</label>
+                        <select id="payment-mode" class="w-full p-2 border rounded-lg text-xs mb-2">
+                            <option value="UPI">UPI (Google Pay / PhonePe / Paytm)</option>
+                            <option value="COD">ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ (Cash on Delivery)</option>
+                        </select>
+                        <button onclick="placeOrder()" class="w-full bg-yellow-400 text-black py-2.5 rounded-xl font-bold text-xs shadow hover:bg-yellow-500">ಮುಂದುವರಿಸಿ (Continue & Place Order)</button>
+                    </div>
+                </div>
+
+                <div class="bg-white p-4 rounded-xl shadow space-y-2">
+                    <h3 class="font-bold text-sm text-gray-800">📦 ನನ್ನ ಆರ್ಡರ್‌ಗಳು & ರೂಟ್ ಟ್ರ್ಯಾಕಿಂಗ್</h3>
+                    <div id="customer-orders-list" class="text-xs text-gray-600">ಯಾವುದೇ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ.</div>
+                </div>
             </div>
         </div>
 
         <!-- ೪. ಅಂಗಡಿ ಮಾಲೀಕರ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್ -->
-        <div id="dashboard-vendor" class="space-y-4 hidden">
+        <div id="dashboard-vendor" class="space-y-4 hidden page-section">
             <div class="bg-white p-4 rounded-xl shadow space-y-3">
                 <h3 class="font-bold text-base text-gray-800">➕ ಹೊಸ ವಸ್ತುವಿನ ವಿವರ ಮತ್ತು ಫೋಟೋ</h3>
                 <input type="text" id="v-p-name" placeholder="ವಸ್ತುವಿನ ಹೆಸರು" class="w-full p-2 border rounded-lg text-sm">
@@ -170,7 +185,7 @@
         </div>
 
         <!-- ೫. ಡೆಲಿವರಿ ಬಾಯ್ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್ -->
-        <div id="dashboard-delivery" class="space-y-4 hidden">
+        <div id="dashboard-delivery" class="space-y-4 hidden page-section">
             <div class="bg-white p-4 rounded-xl shadow space-y-3">
                 <h3 class="font-bold text-base text-gray-800">🛵 ಡೆಲಿವರಿ ಕಾರ್ಯಗಳು (ರೂಟ್ & ಪೇಮೆಂಟ್)</h3>
                 <div id="delivery-orders-list" class="text-xs text-gray-600">ಯಾವುದೇ ಡೆಲಿವರಿ ಬಾಕಿ ಇಲ್ಲ.</div>
@@ -184,6 +199,38 @@
         let products = JSON.parse(localStorage.getItem('market_products')) || [];
         let cart = [];
         let orders = JSON.parse(localStorage.getItem('market_orders')) || [];
+        let navigationHistory = ['home-screen'];
+
+        // ಮೊಬೈಲ್ ಬ್ಯಾಕ್ ಬಟನ್ ಹ್ಯಾಂಡಲ್ ಮಾಡಲು (History Stack)
+        window.addEventListener('popstate', function(event) {
+            if (navigationHistory.length > 1) {
+                navigationHistory.pop(); // ಪ್ರಸ್ತುತ ಪೇಜ್ ತೆಗೆದುಹಾಕಿ
+                let previousPage = navigationHistory[navigationHistory.length - 1];
+                showScreenDirectly(previousPage);
+            }
+        });
+
+        function navigateTo(screenId, role = null) {
+            if (role) showAuthForm(role, false);
+            navigationHistory.push(screenId);
+            history.pushState({ screen: screenId }, '', '#' + screenId);
+            showScreenDirectly(screenId);
+        }
+
+        function showScreenDirectly(screenId) {
+            document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
+            document.getElementById(screenId).classList.remove('hidden');
+            if (screenId === 'home-screen') {
+                document.getElementById('user-info').classList.add('hidden');
+            }
+        }
+
+        function goHome() {
+            navigationHistory = ['home-screen'];
+            history.pushState({ screen: 'home-screen' }, '', '#home');
+            showScreenDirectly('home-screen');
+            document.getElementById('user-info').classList.add('hidden');
+        }
 
         function showModal(title, message, icon = '🎉') {
             document.getElementById('modal-title').innerText = title;
@@ -194,6 +241,16 @@
 
         function closeModal() {
             document.getElementById('custom-modal').classList.add('hidden');
+        }
+
+        // ಫೋಟೋ ಜೂಮ್ ಮಾಡಲು (Full Screen View)
+        function zoomImage(src) {
+            document.getElementById('zoomed-img').src = src;
+            document.getElementById('image-modal').classList.remove('hidden');
+        }
+
+        function closeImageModal() {
+            document.getElementById('image-modal').classList.add('hidden');
         }
 
         function playSiren() {
@@ -213,18 +270,8 @@
             }
         }
 
-        function goHome() {
-            document.getElementById('home-screen').classList.remove('hidden');
-            document.getElementById('auth-screen').classList.add('hidden');
-            document.getElementById('dashboard-customer').classList.add('hidden');
-            document.getElementById('dashboard-vendor').classList.add('hidden');
-            document.getElementById('dashboard-delivery').classList.add('hidden');
-            document.getElementById('user-info').classList.add('hidden');
-        }
-
-        function showAuthForm(role) {
-            document.getElementById('home-screen').classList.add('hidden');
-            document.getElementById('auth-screen').classList.remove('hidden');
+        function showAuthForm(role, pushHistory = true) {
+            if (pushHistory) navigateTo('auth-screen');
             document.getElementById('selected-role').value = role;
 
             document.getElementById('fields-customer').classList.add('hidden');
@@ -244,27 +291,20 @@
             if (!currentUser) {
                 goHome();
             } else {
-                document.getElementById('home-screen').classList.add('hidden');
-                document.getElementById('auth-screen').classList.add('hidden');
                 document.getElementById('user-info').classList.remove('hidden');
-
                 let roleText = currentUser.role === 'customer' ? 'ಗ್ರಾಹಕ' : currentUser.role === 'vendor' ? `${currentUser.shopName} (ಅಂಗಡಿ)` : 'ಡೆಲಿವರಿ ಬಾಯ್';
                 document.getElementById('logged-user-name').innerText = `${currentUser.name} (${roleText})`;
 
-                document.getElementById('dashboard-customer').classList.add('hidden');
-                document.getElementById('dashboard-vendor').classList.add('hidden');
-                document.getElementById('dashboard-delivery').classList.add('hidden');
-
                 if (currentUser.role === 'customer') {
-                    document.getElementById('dashboard-customer').classList.remove('hidden');
+                    navigateTo('dashboard-customer');
                     renderCustomerProducts(products);
                     renderCustomerOrders();
                 } else if (currentUser.role === 'vendor') {
-                    document.getElementById('dashboard-vendor').classList.remove('hidden');
+                    navigateTo('dashboard-vendor');
                     renderVendorProductsList();
                     renderVendorOrders();
                 } else if (currentUser.role === 'delivery') {
-                    document.getElementById('dashboard-delivery').classList.remove('hidden');
+                    navigateTo('dashboard-delivery');
                     renderDeliveryOrders();
                 }
             }
@@ -311,7 +351,22 @@
             goHome();
         }
 
-        // ಗ್ರಾಹಕರಿಗೆ ದೊಡ್ಡ ಫೋಟೋ ಹಾಗೂ ಸೈಜ್ ಆಯ್ಕೆಯೊಂದಿಗೆ ಪ್ರಾಡಕ್ಟ್ ಲಿಸ್ಟ್
+        function switchCustomerTab(tab) {
+            if (tab === 'browse') {
+                document.getElementById('cust-browse-section').classList.remove('hidden');
+                document.getElementById('cust-cart-section').classList.add('hidden');
+                document.getElementById('tab-browse').className = "flex-1 bg-indigo-600 text-white py-2 rounded-xl text-xs font-bold";
+                document.getElementById('tab-cart').className = "flex-1 bg-gray-200 text-gray-700 py-2 rounded-xl text-xs font-bold";
+            } else {
+                document.getElementById('cust-browse-section').classList.add('hidden');
+                document.getElementById('cust-cart-section').classList.remove('hidden');
+                document.getElementById('tab-cart').className = "flex-1 bg-indigo-600 text-white py-2 rounded-xl text-xs font-bold";
+                document.getElementById('tab-browse').className = "flex-1 bg-gray-200 text-gray-700 py-2 rounded-xl text-xs font-bold";
+                renderCustomerOrders();
+            }
+        }
+
+        // ಗ್ರಾಹಕರಿಗೆ ದೊಡ್ಡ ಫೋಟೋ ವೀಕ್ಷಣೆ ಹಾಗೂ ಸೈಜ್ ಆಯ್ಕೆ
         function renderCustomerProducts(list) {
             let listDiv = document.getElementById('customer-product-list');
             if (list.length === 0) {
@@ -321,8 +376,8 @@
             listDiv.innerHTML = list.map(p => `
                 <div class="border p-3 rounded-2xl bg-white shadow-sm space-y-2">
                     <div class="flex gap-2 justify-center">
-                        <img src="${p.frontPhoto}" class="w-32 h-36 object-cover rounded-xl border shadow" alt="Front">
-                        <img src="${p.backPhoto}" class="w-32 h-36 object-cover rounded-xl border shadow" alt="Back">
+                        <img src="${p.frontPhoto}" onclick="zoomImage('${p.frontPhoto}')" class="w-32 h-36 object-cover rounded-xl border shadow cursor-pointer hover:opacity-90" alt="Front">
+                        <img src="${p.backPhoto}" onclick="zoomImage('${p.backPhoto}')" class="w-32 h-36 object-cover rounded-xl border shadow cursor-pointer hover:opacity-90" alt="Back">
                     </div>
                     <div>
                         <h4 class="font-bold text-gray-800 text-sm">${p.name}</h4>
@@ -333,7 +388,6 @@
                             <span class="text-green-600 font-bold text-sm">₹${p.discPrice}</span>
                         </div>
                     </div>
-                    <!-- ಸೈಜ್ ಸೆಲೆಕ್ಷನ್ ಬಟನ್‌ಗಳು -->
                     <div class="flex gap-1 items-center pt-1">
                         <span class="text-[11px] font-semibold text-gray-600 mr-1">ಸೈಜ್:</span>
                         <button onclick="selectSize(${p.id}, 'XS')" id="size-${p.id}-XS" class="size-btn-${p.id} px-2.5 py-1 border rounded text-[10px] bg-gray-100">XS</button>
@@ -371,6 +425,7 @@
             let cartItem = { ...prod, chosenSize };
             cart.push(cartItem);
             renderCart();
+            switchCustomerTab('cart'); // ಆರ್ಡರ್ ಮಾಡಿದರೆ ಅಥವಾ ಕಾರ್ಟ್‌ಗೆ ಹಾಕಿದರೆ ಆಟೋಮ್ಯಾಟಿಕ್ ನೆಕ್ಸ್ಟ್ ಪೇಜ್‌ಗೆ ಹೋಗುತ್ತದೆ
             showModal("ಕಾರ್ಟ್", "ವಸ್ತು ಕಾರ್ಟ್‌ಗೆ ಸೇರಿಸಲಾಗಿದೆ!", "🛒");
         }
 
@@ -406,6 +461,8 @@
                 status: 'Pending (ಅಂಗಡಿಯವರಿಂದ ಸ್ವೀಕರಿಸಬೇಕಿದೆ)',
                 acceptedByVendor: null,
                 paymentDone: false,
+                returnRequested: false,
+                returnReason: '',
                 timestamp: Date.now()
             };
             orders.push(newOrder);
@@ -416,7 +473,7 @@
             showModal("ಆರ್ಡರ್ ಸಲ್ಲಿಕೆಯಾಗಿದೆ!", "ನಿಮ್ಮ ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ. 2 ರಿಂದ 3 ಗಂಟೆಯಲ್ಲಿ ಡೆಲಿವರಿ ಆಗುತ್ತದೆ.", "📦");
         }
 
-        // ಗ್ರಾಹಕರಿಗೆ ರೂಟ್ ಪ್ರೋಗ್ರೆಸ್ ಬಾರ್ ತೋರಿಸುವುದು
+        // ಗ್ರಾಹಕರ ಆರ್ಡರ್ ಟ್ರ್ಯಾಕಿಂಗ್ ಹಾಗೂ 2 ದಿನದ ರಿಟರ್ನ್ ಆಯ್ಕೆ
         function renderCustomerOrders() {
             let cOrdDiv = document.getElementById('customer-orders-list');
             let savedOrders = JSON.parse(localStorage.getItem('market_orders')) || [];
@@ -427,17 +484,18 @@
                 return;
             }
 
+            let now = Date.now();
             cOrdDiv.innerHTML = myOrders.map(o => {
                 let step1 = true;
                 let step2 = o.status.includes('Ready') || o.status.includes('Delivered');
                 let step3 = o.status.includes('Delivered');
+                let canReturn = (now - o.timestamp) < (2 * 24 * 60 * 60 * 1000) && step3;
 
                 return `
                     <div class="border p-3 rounded-xl bg-gray-50 mb-2 space-y-2">
                         <p class="font-bold text-xs">ಆರ್ಡರ್ ID: ${o.id}</p>
                         <p class="text-[11px] text-indigo-600 font-semibold">ಸ್ಥಿತಿ: ${o.status}</p>
                         
-                        <!-- ಪ್ರೋಗ್ರೆಸ್ ಬಾರ್ (Route Progress Bar) -->
                         <div class="flex items-center justify-between my-2 text-[10px]">
                             <div class="text-center">
                                 <div class="w-6 h-6 rounded-full ${step1 ? 'bg-green-600 text-white' : 'bg-gray-300'} flex items-center justify-center mx-auto">✓</div>
@@ -454,12 +512,39 @@
                                 <span class="text-gray-600">ಡೆಲಿವರಿ ಆಯಿತು</span>
                             </div>
                         </div>
+
+                        ${canReturn && !o.returnRequested ? `
+                            <div class="mt-2 pt-2 border-t space-y-1">
+                                <input type="text" id="return-reason-${o.id}" placeholder="ರಿಟರ್ನ್ ಕಾರಣ ಬರೆಯಿರಿ..." class="w-full p-1 border rounded text-xs">
+                                <button onclick="requestReturn(${o.id})" class="w-full bg-red-500 text-white py-1 rounded text-xs font-bold">ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ವಿನಂತಿ ಕಳುಹಿಸಿ (2 ದಿನಗಳ ಒಳಗೆ)</button>
+                            </div>
+                        ` : ''}
+                        ${o.returnRequested ? `<p class="text-red-600 font-bold text-[10px]">ರಿಟರ್ನ್ ವಿನಂತಿ ಸಲ್ಲಿಸಲಾಗಿದೆ: ${o.returnReason}</p>` : ''}
                     </div>
                 `;
             }).join('');
         }
 
-        // ಅಂಗಡಿ ಮಾಲೀಕರು ವಸ್ತು ಅಪ್‌ಲೋಡ್ ಮಾಡುವುದು
+        function requestReturn(id) {
+            let reason = document.getElementById(`return-reason-${id}`).value;
+            if (!reason) {
+                alert('ದಯವಿಟ್ಟು ರಿಟರ್ನ್ ಕಾರಣ ಬರೆಯಿರಿ!');
+                return;
+            }
+            let savedOrders = JSON.parse(localStorage.getItem('market_orders')) || [];
+            let o = savedOrders.find(x => x.id === id);
+            if (o) {
+                o.returnRequested = true;
+                o.returnReason = reason;
+                o.status = 'Returned / Exchange Requested (ರಿಟರ್ನ್ ವಿನಂತಿ ಬಂದಿದೆ)';
+                localStorage.setItem('market_orders', JSON.stringify(savedOrders));
+                orders = savedOrders;
+                renderCustomerOrders();
+                showModal("ರಿಟರ್ನ್ ವಿನಂತಿ", "ನಿಮ್ಮ ರಿಟರ್ನ್ ವಿನಂತಿ ಅಂಗಡಿ ಮಾಲೀಕರಿಗೆ ಮತ್ತು ಡೆಲಿವರಿ ಬಾಯ್‌ಗೆ ತಲುಪಿದೆ.", "🔄");
+            }
+        }
+
+        // ಅಂಗಡಿ ಮಾಲೀಕರು ವಸ್ತು ಅಪ್‌ಲೋಡ್ ಮಾಡುವುದು (ಸಕ್ಸಸ್ ಪಾಪ್‌ಅಪ್ ಜೊತೆ)
         function addVendorProduct() {
             let name = document.getElementById('v-p-name').value;
             let origPrice = document.getElementById('v-p-orig').value;
@@ -503,7 +588,7 @@
                     document.getElementById('v-p-back').value = '';
                     
                     renderVendorProductsList();
-                    showModal("ಯಶಸ್ವಿ!", "ನಿಮ್ಮ ವಸ್ತುವಿನ ಫೋಟೋ ಸಕ್ಸಸ್‌ಫುಲ್ ಆಗಿ ಅಪ್‌ಲೋಡ್ ಆಗಿದೆ!", "📸");
+                    showModal("ಯಶಸ್ವಿ!", "ನಿಮ್ಮ ವಸ್ತುವಿನ ಫೋಟೋ ಸಕ್ಸಸ್‌ಫುಲ್ ಆಗಿ ಅಪ್‌ಲೋಡ್ ಆಗಿದೆ! ಗ್ರಾಹಕರಿಗೆ ಈಗ ಕಾಣಿಸುತ್ತದೆ.", "📸");
                 };
                 readerBack.readAsDataURL(backFile);
             };
@@ -522,8 +607,8 @@
             vProdDiv.innerHTML = myProducts.map(p => `
                 <div class="border p-2.5 rounded-lg bg-gray-50 flex items-center justify-between gap-2 mb-2">
                     <div class="flex gap-1">
-                        <img src="${p.frontPhoto}" class="w-12 h-12 object-cover rounded border">
-                        <img src="${p.backPhoto}" class="w-12 h-12 object-cover rounded border">
+                        <img src="${p.frontPhoto}" onclick="zoomImage('${p.frontPhoto}')" class="w-12 h-12 object-cover rounded border cursor-pointer">
+                        <img src="${p.backPhoto}" onclick="zoomImage('${p.backPhoto}')" class="w-12 h-12 object-cover rounded border cursor-pointer">
                     </div>
                     <div class="flex-1">
                         <p class="font-bold text-xs">${p.name}</p>
@@ -548,8 +633,7 @@
             let vDiv = document.getElementById('vendor-orders-list');
             let savedOrders = JSON.parse(localStorage.getItem('market_orders')) || [];
             
-            // ಯಾವ ಆರ್ಡರ್‌ಗಳನ್ನು ಈ ಅಂಗಡಿಯವರು ಅಥವಾ ಬೇರೆ ಯಾರೂ ಇನ್ನೂ ಸ್ವೀಕರಿಸಿಲ್ಲವೋ ಅವುಗಳು
-            let availableOrders = savedOrders.filter(o => o.status.includes('Pending') && (!o.acceptedByVendor || o.acceptedByVendor === currentUser.shopName));
+            let availableOrders = savedOrders.filter(o => (o.status.includes('Pending') || o.returnRequested) && (!o.acceptedByVendor || o.acceptedByVendor === currentUser.shopName));
 
             if (availableOrders.length === 0) {
                 vDiv.innerHTML = "ಯಾವುದೇ ಹೊಸ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ.";
@@ -560,15 +644,16 @@
             vDiv.innerHTML = availableOrders.map(o => `
                 <div class="border p-3 rounded-xl bg-amber-50 mb-2 space-y-2">
                     <div class="flex gap-2">
-                        ${o.items.map(i => `<img src="${i.frontPhoto}" class="w-16 h-16 object-cover rounded-lg border shadow">`).join('')}
+                        ${o.items.map(i => `<img src="${i.frontPhoto}" onclick="zoomImage('${i.frontPhoto}')" class="w-16 h-16 object-cover rounded-lg border shadow cursor-pointer">`).join('')}
                     </div>
                     <p><b>ಗ್ರಾಹಕರು:</b> ${o.customerName} (<a href="tel:${o.phone}" class="text-blue-600 underline">${o.phone}</a>)</p>
                     <p><b>ವಿಳಾಸ:</b> ${o.address}</p>
                     <p><b>ಪಾವತಿ:</b> <span class="${o.paymentDone ? 'text-green-600 font-bold' : 'text-red-600 font-bold'}">${o.paymentDone ? 'ಪಾವತಿ ಆಗಿದೆ (Paid)' : 'ಪಾವತಿ ಬಾಕಿ ಇದೆ (Payment Pending)'}</span></p>
+                    ${o.returnRequested ? `<p class="text-red-600 font-bold text-xs">⚠️ ರಿಟರ್ನ್ ಕಾರಣ: ${o.returnReason}</p>` : ''}
                     
                     ${!o.acceptedByVendor ? `<button onclick="vendorAccept(${o.id})" class="bg-blue-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow">ಆರ್ಡರ್ ಸ್ವೀಕರಿಸಿ & ಪ್ಯಾಕ್ ಮಾಡಿ (Ready)</button>` : ''}
                     
-                    ${o.acceptedByVendor === currentUser.shopName && o.status.includes('Ready') ? `
+                    ${o.acceptedByVendor === currentUser.shopName ? `
                         <p class="text-green-700 font-bold text-xs">✓ ಪ್ಯಾಕಿಂಗ್ ಮುಗಿದು ಡೆಲಿವರಿಗೆ ಕಳುಹಿಸಲಾಗಿದೆ</p>
                     ` : ''}
                 </div>
@@ -595,7 +680,7 @@
         function renderDeliveryOrders() {
             let dDiv = document.getElementById('delivery-orders-list');
             let savedOrders = JSON.parse(localStorage.getItem('market_orders')) || [];
-            let readyOrders = savedOrders.filter(o => o.status.includes('Ready'));
+            let readyOrders = savedOrders.filter(o => o.status.includes('Ready') || o.returnRequested);
 
             if (readyOrders.length === 0) {
                 dDiv.innerHTML = "ಯಾವುದೇ ಡೆಲಿವರಿ ಬಾಕಿ ಇಲ್ಲ.";
@@ -609,6 +694,7 @@
                     <p><b>ಫೋನ್:</b> <a href="tel:${o.phone}" class="text-blue-600 underline font-bold">${o.phone}</a></p>
                     <p><b>ವಿಳಾಸ:</b> ${o.address}</p>
                     <p><b>ಪಾವತಿ ಸ್ಥಿತಿ:</b> ${o.paymentDone ? 'Paid' : 'Pending/COD'}</p>
+                    ${o.returnRequested ? `<p class="text-red-600 font-bold text-xs">ರಿಟರ್ನ್ ಐಟಂ ಪಿಕ್‌ಅಪ್ ಮಾಡಬೇಕಿದೆ!</p>` : ''}
                     <div class="flex gap-2 pt-1 flex-wrap">
                         <a href="https://maps.google.com/?q=${encodeURIComponent(o.address)}" target="_blank" class="bg-indigo-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow">GPS ಮ್ಯಾಪ್ ರೂಟ್</a>
                         <button onclick="markDelivered(${o.id})" class="bg-green-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow">ಡೆಲಿವರಿ ಮುಗಿಯಿತು (Delivered)</button>
