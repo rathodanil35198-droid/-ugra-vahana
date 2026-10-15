@@ -83,13 +83,13 @@
         <!-- ೨. ಅಂಗಡಿ ಮಾಲೀಕರ ಮುಖ್ಯ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್ -->
         <div id="dashboard-vendor" class="space-y-4 hidden page-section">
             
-            <!-- ಟ್ಯಾಬ್ ಬಟನ್‌ಗಳು (ಫೋಟೋ ಅಪ್ಲೋಡ್ ಮತ್ತು ಹೊಸ ಆರ್ಡರ್ ನೋಡಲು) -->
+            <!-- ಟ್ಯಾಬ್ ಬಟನ್‌ಗಳು -->
             <div class="flex gap-2 mb-2">
                 <button onclick="switchVendorTab('upload')" id="tab-upload" class="flex-1 bg-indigo-600 text-white py-2 rounded-xl text-xs font-bold">📸 ಫೋಟೋ ಅಪ್ಲೋಡ್ ಮಾಡಿ</button>
                 <button onclick="switchVendorTab('orders')" id="tab-orders" class="flex-1 bg-gray-200 text-gray-700 py-2 rounded-xl text-xs font-bold">📦 ಹೊಸ ಆರ್ಡರ್‌ಗಳು ನೋಡಿ</button>
             </div>
 
-            <!-- ಸೆಕ್ಷನ್ 1: ಫೋಟೋ ಅಪ್ಲೋಡ್ ಹಾಗೂ ಅಪ್‌ಲೋಡ್ ಮಾಡಿದ ವಸ್ತುಗಳ ಪಟ್ಟಿ -->
+            <!-- ಸೆಕ್ಷನ್ 1: ಫೋಟೋ ಅಪ್ಲೋಡ್ -->
             <div id="vendor-upload-section" class="space-y-4">
                 <div class="bg-white p-4 rounded-xl shadow space-y-3">
                     <h3 class="font-bold text-base text-gray-800 border-b pb-1">➕ ಹೊಸ ವಸ್ತುವಿನ ವಿವರ ಮತ್ತು ಫೋಟೋ ಅಪ್ಲೋಡ್</h3>
@@ -130,7 +130,7 @@
                     <button onclick="addVendorProduct()" class="w-full bg-indigo-600 text-white py-2.5 rounded-xl font-bold text-xs shadow">ವಸ್ತು ಅಪ್‌ಲೋಡ್ ಮಾಡಿ</button>
                 </div>
 
-                <!-- ನೀವು ಅಪ್‌ಲೋಡ್ ಮಾಡಿದ ವಸ್ತುಗಳು (ಸ್ಟಾಕ್ ಖಾಲಿಯಾದರೆ ಡಿಲೀಟ್ ಮಾಡುವ ಆಯ್ಕೆ) -->
+                <!-- ನೀವು ಅಪ್‌ಲೋಡ್ ಮಾಡಿದ ವಸ್ತುಗಳು -->
                 <div class="bg-white p-4 rounded-xl shadow space-y-3">
                     <h3 class="font-bold text-sm text-gray-800 border-b pb-1">🖼️ ನೀವು ಅಪ್‌ಲೋಡ್ ಮಾಡಿದ ವಸ್ತುಗಳು (ಸ್ಟಾಕ್ / ಡಿಲೀಟ್)</h3>
                     <div id="vendor-my-products" class="space-y-2 text-xs text-gray-600">ಯಾವುದೇ ವಸ್ತುಗಳಿಲ್ಲ.</div>
@@ -152,7 +152,6 @@
     <script>
         let currentVendor = JSON.parse(localStorage.getItem('currentVendor')) || null;
         let products = JSON.parse(localStorage.getItem('market_products')) || [];
-        let orders = JSON.parse(localStorage.getItem('market_orders')) || [];
         let selectedProductSize = 'M';
         let gpsLocation = { lat: '', lng: '' };
 
@@ -182,7 +181,7 @@
                     gpsLocation.lat = position.coords.latitude;
                     gpsLocation.lng = position.coords.longitude;
                     document.getElementById('loc-status').innerText = `ಲೊಕೇಶನ್ ಸಿಕ್ಕಿದೆ (Lat: ${gpsLocation.lat.toFixed(2)}, Lng: ${gpsLocation.lng.toFixed(2)})`;
-                    document.getElementById('loc-status').className = "text-[11px] text-green-600 text-center font-bold";
+                    document.getElementById('loc-statusclassName = "text-[11px] text-green-600 text-center font-bold";
                 }, error => {
                     alert('ಲೊಕೇಶನ್ ಪಡೆಯಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ. ಜಿಪಿಎಸ್ ಆನ್ ಮಾಡಿ.');
                 });
@@ -268,13 +267,13 @@
             let frontFile = document.getElementById('v-p-front').files[0];
             let backFile = document.getElementById('v-p-back').files[0];
 
-            if (!frontFile || !backFile) {
-                showModal("ಎಚ್ಚರಿಕೆ!", "ದಯವಿಟ್ಟು ಮುಂಭಾಗ ಮತ್ತು ಹಿಂಭಾಗದ ಎರಡೂ ಫೋಟೋಗಳನ್ನು ಅಪ್‌ಲೋಡ್ ಮಾಡಿ!", "⚠️");
+            if (!name || !origPrice || !discPrice) {
+                alert('ದಯವಿಟ್ಟು ವಸ್ತುವಿನ ಹೆಸರು ಮತ್ತು ಬೆಲೆಗಳನ್ನು ಭರ್ತಿ ಮಾಡಿ!');
                 return;
             }
 
-            if (!name || !origPrice || !discPrice) {
-                alert('ವಸ್ತುವಿನ ಹೆಸರು ಮತ್ತು ಬೆಲೆಗಳನ್ನು ನಮೂದಿಸಿ!');
+            if (!frontFile || !backFile) {
+                showModal("ಎಚ್ಚರಿಕೆ!", "ದಯವಿಟ್ಟು ಮುಂಭಾಗ ಮತ್ತು ಹಿಂಭಾಗದ ಎರಡೂ ಫೋಟೋಗಳನ್ನು ಅಪ್‌ಲೋಡ್ ಮಾಡಿ!", "⚠️");
                 return;
             }
 
@@ -283,7 +282,7 @@
 
             readerFront.onload = function(e1) {
                 readerBack.onload = function(e2) {
-                    products.push({
+                    let newProd = {
                         id: Date.now(),
                         name: name,
                         category: currentVendor.category,
@@ -296,9 +295,12 @@
                         vendorPhone: currentVendor.phone,
                         frontPhoto: e1.target.result,
                         backPhoto: e2.target.result
-                    });
+                    };
+
+                    products.push(newProd);
                     localStorage.setItem('market_products', JSON.stringify(products));
                     
+                    // ಫಾರ್ಮ್ ಕ್ಲಿಯರ್ ಮಾಡುವುದು
                     document.getElementById('v-p-name').value = '';
                     document.getElementById('v-p-orig').value = '';
                     document.getElementById('v-p-disc').value = '';
@@ -308,7 +310,9 @@
                     document.getElementById('v-p-back').value = '';
 
                     renderVendorProducts();
-                    showModal("ಯಶಸ್ವಿ!", "ನಿಮ್ಮ ಫೋಟೋ ಅಪ್ಲೋಡ್ ಆಗಿದೆ ಮತ್ತು ಗ್ರಾಹಕರಿಗೆ ಕಾಣಿಸುತ್ತಿದೆ!", "📸");
+                    
+                    // ಫೋಟೋ ಅಪ್ಲೋಡ್ ಆದ ತಕ್ಷಣ ಪಾಪ್‌ಅಪ್ ಸಂದೇಶ
+                    showModal("ಯಶಸ್ವಿ!", "ನಿಮ್ಮ ಫೋಟೋ ಅಪ್ಲೋಡ್ ಆಗಿದೆ! ವಸ್ತು ಗ್ರಾಹಕರಿಗೆ ಈಗ ಲಭ್ಯವಿದೆ.", "📸");
                 };
                 readerBack.readAsDataURL(backFile);
             };
