@@ -37,20 +37,20 @@
 
     <main class="container mx-auto p-4 max-w-md">
 
-        <!-- ೧. ಮುಖಪುಟ -->
+        <!-- ೧. ಮುಖಪುಟ (ಆಟೋ ಲಾಗಿನ್ ಪರಿಶೀಲನೆ) -->
         <div id="home-screen" class="space-y-6 text-center py-10 page-section">
             <div class="bg-white p-6 rounded-2xl shadow-lg space-y-4">
                 <h2 class="text-2xl font-extrabold text-indigo-700">ಸ್ವಾಗತ!</h2>
                 <p class="text-sm text-gray-600">ನಿಮ್ಮ ಪಾತ್ರವನ್ನು ಆಯ್ಕೆ ಮಾಡಿ ಮುಂದುವರಿಸಿ:</p>
                 
                 <div class="space-y-3 pt-2">
-                    <button onclick="navigateTo('auth-screen', 'customer')" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-xl font-bold shadow-md">
+                    <button onclick="openAuth('customer')" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-xl font-bold shadow-md">
                         🛒 ಗ್ರಾಹಕರು (Customer)
                     </button>
-                    <button onclick="navigateTo('auth-screen', 'vendor')" class="w-full bg-gradient-to-r from-orange-500 to-amber-600 text-white py-3 rounded-xl font-bold shadow-md">
+                    <button onclick="openAuth('vendor')" class="w-full bg-gradient-to-r from-orange-500 to-amber-600 text-white py-3 rounded-xl font-bold shadow-md">
                         🏪 ಅಂಗಡಿ ಮಾಲೀಕರು (Shop Vendor)
                     </button>
-                    <button onclick="navigateTo('auth-screen', 'delivery')" class="w-full bg-gradient-to-r from-green-600 to-teal-600 text-white py-3 rounded-xl font-bold shadow-md">
+                    <button onclick="openAuth('delivery')" class="w-full bg-gradient-to-r from-green-600 to-teal-600 text-white py-3 rounded-xl font-bold shadow-md">
                         🛵 ಡೆಲಿವರಿ ಬಾಯ್ (Delivery Partner)
                     </button>
                 </div>
@@ -78,27 +78,27 @@
 
                 <div id="fields-customer" class="space-y-3 hidden">
                     <div class="grid grid-cols-2 gap-2">
-                        <input type="text" id="c-district" placeholder="ಜಿಲ್ಲೆ" class="p-2 border rounded-lg text-sm">
-                        <input type="text" id="c-taluk" placeholder="ತಾಲೂಕು" class="p-2 border rounded-lg text-sm">
+                        <input type="text" id="c-district" placeholder="ಜಿಲ್ಲೆ" class="p-2 border rounded-lg text-sm" value="ಯಾದಗಿರಿ">
+                        <input type="text" id="c-taluk" placeholder="ತಾಲೂಕು" class="p-2 border rounded-lg text-sm" value="ಶಹಾಪುರ">
                     </div>
                     <div class="grid grid-cols-2 gap-2">
-                        <input type="text" id="c-city" placeholder="ಊರು / ಗ್ರಾಮ" class="p-2 border rounded-lg text-sm">
-                        <input type="text" id="c-pincode" placeholder="ಪಿನ್ ಕೋಡ್" maxlength="6" class="p-2 border rounded-lg text-sm">
+                        <input type="text" id="c-city" placeholder="ಊರು / ಗ್ರಾಮ" class="p-2 border rounded-lg text-sm" value="ಶಹಾಪುರ">
+                        <input type="text" id="c-pincode" placeholder="ಪಿನ್ ಕೋಡ್" maxlength="6" class="p-2 border rounded-lg text-sm" value="585223">
                     </div>
                 </div>
 
                 <div id="fields-vendor" class="space-y-3 hidden">
                     <input type="text" id="v-shopname" placeholder="ಅಂಗಡಿಯ ಹೆಸರು" class="w-full p-2 border rounded-lg text-sm">
                     <div class="grid grid-cols-2 gap-2">
-                        <input type="text" id="v-district" placeholder="ಜಿಲ್ಲೆ" class="p-2 border rounded-lg text-sm">
-                        <input type="text" id="v-taluk" placeholder="ತಾಲೂಕು (18 ಕಿ.ಮೀ ವ್ಯಾಪ್ತಿ)" class="p-2 border rounded-lg text-sm">
+                        <input type="text" id="v-district" placeholder="ಜಿಲ್ಲೆ" class="p-2 border rounded-lg text-sm" value="ಯಾದಗಿರಿ">
+                        <input type="text" id="v-taluk" placeholder="ತಾಲೂಕು" class="p-2 border rounded-lg text-sm" value="ಶಹಾಪುರ">
                     </div>
                 </div>
 
                 <div id="fields-delivery" class="space-y-3 hidden">
                     <div class="grid grid-cols-2 gap-2">
-                        <input type="text" id="d-district" placeholder="ಜಿಲ್ಲೆ" class="p-2 border rounded-lg text-sm">
-                        <input type="text" id="d-taluk" placeholder="ತಾಲೂಕು" class="p-2 border rounded-lg text-sm">
+                        <input type="text" id="d-district" placeholder="ಜಿಲ್ಲೆ" class="p-2 border rounded-lg text-sm" value="ಯಾದಗಿರಿ">
+                        <input type="text" id="d-taluk" placeholder="ತಾಲೂಕು" class="p-2 border rounded-lg text-sm" value="ಶಹಾಪುರ">
                     </div>
                 </div>
 
@@ -139,7 +139,7 @@
                 </div>
 
                 <div class="bg-white p-4 rounded-xl shadow space-y-2">
-                    <h3 class="font-bold text-sm text-gray-800">📦 ನನ್ನ ಆರ್ಡರ್‌ಗಳು & ರೂಟ್ ಟ್ರ್ಯಾಕಿಂಗ್ (4 ಹಂತಗಳು)</h3>
+                    <h3 class="font-bold text-sm text-gray-800">📦 ನನ್ನ ಆರ್ಡರ್‌ಗಳು & ಟ್ರ್ಯಾಕಿಂಗ್</h3>
                     <div id="customer-orders-list" class="text-xs text-gray-600">ಯಾವುದೇ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ.</div>
                 </div>
             </div>
@@ -147,8 +147,9 @@
 
         <!-- ೪. ಅಂಗಡಿ ಮಾಲೀಕರ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್ -->
         <div id="dashboard-vendor" class="space-y-4 hidden page-section">
+            <!-- ವಸ್ತು ಅಪ್‌ಲೋಡ್ ಸೆಕ್ಷನ್ -->
             <div class="bg-white p-4 rounded-xl shadow space-y-3">
-                <h3 class="font-bold text-base text-gray-800">➕ ಹೊಸ ವಸ್ತುವಿನ ವಿವರ ಮತ್ತು ಫೋಟೋ</h3>
+                <h3 class="font-bold text-base text-gray-800">➕ ಹೊಸ ವಸ್ತುವಿನ ವಿವರ ಮತ್ತು ಫೋಟೋ ಅಪ್ಲೋಡ್</h3>
                 <input type="text" id="v-p-name" placeholder="ವಸ್ತುವಿನ ಹೆಸರು" class="w-full p-2 border rounded-lg text-sm">
                 
                 <div class="grid grid-cols-2 gap-2">
@@ -173,22 +174,36 @@
                 <button onclick="addVendorProduct()" class="w-full bg-indigo-600 text-white py-2.5 rounded-xl font-bold text-xs shadow">ವಸ್ತು ಅಪ್‌ಲೋಡ್ ಮಾಡಿ</button>
             </div>
 
+            <!-- ಆರ್ಡರ್‌ಗಳನ್ನು ವೀಕ್ಷಿಸುವ ಸೆಕ್ಷನ್ -->
             <div class="bg-white p-4 rounded-xl shadow space-y-3">
-                <h3 class="font-bold text-sm text-gray-800">🖼️ ನೀವು ಅಪ್‌ಲೋಡ್ ಮಾಡಿದ ವಸ್ತುಗಳು & ಮಾರಾಟ (Sales)</h3>
-                <div id="vendor-my-products" class="space-y-2 text-xs text-gray-600">ಯಾವುದೇ ವಸ್ತುಗಳಿಲ್ಲ.</div>
+                <h3 class="font-bold text-sm text-gray-800">📦 ಗ್ರಾಹಕರ ಹೊಸ ಆರ್ಡರ್‌ಗಳು (ಲೈವ್ ಲೊಕೇಶನ್ & ಬಟನ್‌ಗಳು)</h3>
+                <div id="vendor-orders-list" class="text-xs text-gray-600">ಯಾವುದೇ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ.</div>
             </div>
 
             <div class="bg-white p-4 rounded-xl shadow space-y-3">
-                <h3 class="font-bold text-sm text-gray-800">📦 ಬಂದಿರುವ ಆರ್ಡರ್‌ಗಳು (ಮೊದಲು ಸ್ವೀಕರಿಸಿದವರಿಗೆ ಮಾತ್ರ)</h3>
-                <div id="vendor-orders-list" class="text-xs text-gray-600">ಯಾವುದೇ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ.</div>
+                <h3 class="font-bold text-sm text-gray-800">🖼️ ನೀವು ಅಪ್‌ಲೋಡ್ ಮಾಡಿದ ವಸ್ತುಗಳು</h3>
+                <div id="vendor-my-products" class="space-y-2 text-xs text-gray-600">ಯಾವುದೇ ವಸ್ತುಗಳಿಲ್ಲ.</div>
             </div>
         </div>
 
         <!-- ೫. ಡೆಲಿವರಿ ಬಾಯ್ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್ -->
         <div id="dashboard-delivery" class="space-y-4 hidden page-section">
             <div class="bg-white p-4 rounded-xl shadow space-y-3">
-                <h3 class="font-bold text-base text-gray-800">🛵 ಡೆಲಿವರಿ ಕಾರ್ಯಗಳು (ರೂಟ್ & ಪೇಮೆಂಟ್)</h3>
-                <div id="delivery-orders-list" class="text-xs text-gray-600">ಯಾವುದೇ ಡೆಲಿವರಿ ಬಾಕಿ ಇಲ್ಲ.</div>
+                <h3 class="font-bold text-base text-gray-800">🛵 ಡೆಲಿವರಿ ಕಾರ್ಯಗಳು & ಇವತ್ತಿನ ವರದಿ</h3>
+                
+                <!-- ಇವತ್ತಿನ ಟೋಟಲ್ ಆರ್ಡರ್ಸ್ ಮತ್ತು ಕಮಿಷನ್/ಬಳಕೆ ವಿವರ -->
+                <div class="grid grid-cols-2 gap-2 bg-indigo-50 p-3 rounded-xl text-center">
+                    <div>
+                        <p class="text-[10px] text-gray-600 font-semibold">ಇವತ್ತಿನ ಒಟ್ಟು ಆರ್ಡರ್ಸ್</p>
+                        <p id="today-total-orders" class="text-lg font-bold text-indigo-700">0</p>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-gray-600 font-semibold">ಬಳಕೆ / ಕಮಿಷನ್ (10%)</p>
+                        <p id="today-commission" class="text-lg font-bold text-green-700">₹0</p>
+                    </div>
+                </div>
+
+                <div id="delivery-orders-list" class="text-xs text-gray-600 mt-2">ಯಾವುದೇ ಡೆಲಿವರಿ ಬಾಕಿ ಇಲ್ಲ.</div>
             </div>
         </div>
 
@@ -199,36 +214,28 @@
         let products = JSON.parse(localStorage.getItem('market_products')) || [];
         let cart = [];
         let orders = JSON.parse(localStorage.getItem('market_orders')) || [];
-        let navigationHistory = ['home-screen'];
 
-        // ಮೊಬೈಲ್ ಬ್ಯಾಕ್ ಬಟನ್ ಹ್ಯಾಂಡಲ್ ಮಾಡಲು (History Stack)
+        // ಮೊಬೈಲ್ ಬ್ಯಾಕ್ ಬಟನ್ ಹ್ಯಾಂಡಲ್ ಮಾಡಲು (ಆಪ್ ಕ್ಲೋಸ್ ಆಗದಂತೆ ತಡೆಯುವುದು)
         window.addEventListener('popstate', function(event) {
-            if (navigationHistory.length > 1) {
-                navigationHistory.pop();
-                let previousPage = navigationHistory[navigationHistory.length - 1];
-                showScreenDirectly(previousPage);
+            if (currentUser) {
+                checkLoginState();
+            } else {
+                showScreen('home-screen');
             }
         });
 
-        function navigateTo(screenId, role = null) {
-            if (role) showAuthForm(role, false);
-            navigationHistory.push(screenId);
-            history.pushState({ screen: screenId }, '', '#' + screenId);
-            showScreenDirectly(screenId);
-        }
-
-        function showScreenDirectly(screenId) {
+        function showScreen(screenId) {
             document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
             document.getElementById(screenId).classList.remove('hidden');
             if (screenId === 'home-screen') {
                 document.getElementById('user-info').classList.add('hidden');
+            } else {
+                document.getElementById('user-info').classList.remove('hidden');
             }
         }
 
         function goHome() {
-            navigationHistory = ['home-screen'];
-            history.pushState({ screen: 'home-screen' }, '', '#home');
-            showScreenDirectly('home-screen');
+            showScreen('home-screen');
             document.getElementById('user-info').classList.add('hidden');
         }
 
@@ -269,10 +276,8 @@
             }
         }
 
-        function showAuthForm(role, pushHistory = true) {
-            if (pushHistory) navigateTo('auth-screen');
+        function openAuth(role) {
             document.getElementById('selected-role').value = role;
-
             document.getElementById('fields-customer').classList.add('hidden');
             document.getElementById('fields-vendor').classList.add('hidden');
             document.getElementById('fields-delivery').classList.add('hidden');
@@ -284,26 +289,26 @@
             };
             document.getElementById('auth-title').innerText = titles[role];
             document.getElementById('fields-' + role).classList.remove('hidden');
+            showScreen('auth-screen');
         }
 
         function checkLoginState() {
             if (!currentUser) {
-                goHome();
+                showScreen('home-screen');
             } else {
-                document.getElementById('user-info').classList.remove('hidden');
                 let roleText = currentUser.role === 'customer' ? 'ಗ್ರಾಹಕ' : currentUser.role === 'vendor' ? `${currentUser.shopName} (ಅಂಗಡಿ)` : 'ಡೆಲಿವರಿ ಬಾಯ್';
                 document.getElementById('logged-user-name').innerText = `${currentUser.name} (${roleText})`;
 
                 if (currentUser.role === 'customer') {
-                    navigateTo('dashboard-customer');
+                    showScreen('dashboard-customer');
                     renderCustomerProducts(products);
                     renderCustomerOrders();
                 } else if (currentUser.role === 'vendor') {
-                    navigateTo('dashboard-vendor');
+                    showScreen('dashboard-vendor');
                     renderVendorProductsList();
                     renderVendorOrders();
                 } else if (currentUser.role === 'delivery') {
-                    navigateTo('dashboard-delivery');
+                    showScreen('dashboard-delivery');
                     renderDeliveryOrders();
                 }
             }
@@ -340,7 +345,7 @@
             }
 
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            showModal("ಅಭಿನಂದನೆಗಳು!", "ನಿಮ್ಮ ಐಡಿ ಯಶಸ್ವಿಯಾಗಿ ಸೃಷ್ಟಿಯಾಗಿದೆ!", "🌟");
+            showModal("ಯಶಸ್ವಿ!", "ನಿಮ್ಮ ಖಾತೆ ಯಶಸ್ವಿಯಾಗಿ ಸೃಷ್ಟಿಯಾಗಿದೆ!", "🌟");
             checkLoginState();
         }
 
@@ -386,29 +391,9 @@
                             <span class="text-green-600 font-bold text-sm">₹${p.discPrice}</span>
                         </div>
                     </div>
-                    <div class="flex gap-1 items-center pt-1">
-                        <span class="text-[11px] font-semibold text-gray-600 mr-1">ಸೈಜ್:</span>
-                        <button onclick="selectSize(${p.id}, 'XS')" id="size-${p.id}-XS" class="size-btn-${p.id} px-2.5 py-1 border rounded text-[10px] bg-gray-100">XS</button>
-                        <button onclick="selectSize(${p.id}, 'S')" id="size-${p.id}-S" class="size-btn-${p.id} px-2.5 py-1 border rounded text-[10px] bg-gray-100">S</button>
-                        <button onclick="selectSize(${p.id}, 'M')" id="size-${p.id}-M" class="size-btn-${p.id} px-2.5 py-1 border rounded text-[10px] bg-indigo-600 text-white">M</button>
-                        <button onclick="selectSize(${p.id}, 'L')" id="size-${p.id}-L" class="size-btn-${p.id} px-2.5 py-1 border rounded text-[10px] bg-gray-100">L</button>
-                        <button onclick="selectSize(${p.id}, 'XL')" id="size-${p.id}-XL" class="size-btn-${p.id} px-2.5 py-1 border rounded text-[10px] bg-gray-100">XL</button>
-                    </div>
                     <button onclick="addToCart(${p.id})" class="w-full bg-indigo-600 text-white py-2 rounded-xl text-xs font-bold shadow">ಕಾರ್ಟ್‌ಗೆ ಸೇರಿಸಿ</button>
                 </div>
             `).join('');
-        }
-
-        let selectedSizes = {};
-        function selectSize(productId, size) {
-            selectedSizes[productId] = size;
-            let buttons = document.querySelectorAll(`.size-btn-${productId}`);
-            buttons.forEach(b => {
-                b.classList.remove('bg-indigo-600', 'text-white');
-                b.classList.add('bg-gray-100');
-            });
-            document.getElementById(`size-${productId}-${size}`).classList.add('bg-indigo-600', 'text-white');
-            document.getElementById(`size-${productId}-${size}`).classList.remove('bg-gray-100');
         }
 
         function searchProducts() {
@@ -419,9 +404,7 @@
 
         function addToCart(id) {
             let prod = products.find(p => p.id === id);
-            let chosenSize = selectedSizes[id] || 'M';
-            let cartItem = { ...prod, chosenSize };
-            cart.push(cartItem);
+            cart.push(prod);
             renderCart();
             switchCustomerTab('cart');
             showModal("ಕಾರ್ಟ್", "ವಸ್ತು ಕಾರ್ಟ್‌ಗೆ ಸೇರಿಸಲಾಗಿದೆ!", "🛒");
@@ -437,7 +420,7 @@
             let html = "";
             cart.forEach(item => {
                 total += item.discPrice;
-                html += `<div class="flex justify-between border-b py-1 text-xs"><span>${item.name} (${item.chosenSize})</span> <span>₹${item.discPrice}</span></div>`;
+                html += `<div class="flex justify-between border-b py-1 text-xs"><span>${item.name}</span> <span>₹${item.discPrice}</span></div>`;
             });
             html += `<div class="font-bold mt-1 flex justify-between text-indigo-700 text-xs"><span>ಒಟ್ಟು ಮೊತ್ತ:</span> <span>₹${total}</span></div>`;
             cartDiv.innerHTML = html;
@@ -462,9 +445,8 @@
                 payment: paymentMode,
                 status: 'Pending (ಆರ್ಡರ್ ಸ್ವೀಕರಿಸಲಾಗಿದೆ, 2-3 ಗಂಟೆಯಲ್ಲಿ ಡೆಲಿವರಿ)',
                 acceptedByVendor: null,
+                packedByVendor: false,
                 paymentDone: false,
-                returnRequested: false,
-                returnReason: '',
                 timestamp: Date.now()
             };
             orders.push(newOrder);
@@ -475,7 +457,6 @@
             showModal("ಆರ್ಡರ್ ಸ್ವೀಕರಿಸಲಾಗಿದೆ!", "ನಿಮ್ಮ ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ. 2 ರಿಂದ 3 ಗಂಟೆಯಲ್ಲಿ ನಿಮಗೆ ಡೆಲಿವರಿ ಆಗುತ್ತದೆ.", "📦");
         }
 
-        // ಗ್ರಾಹಕರ 4 ಹೆಜ್ಜೆಗಳ ರೂಟ್ ಪ್ರೋಗ್ರೆಸ್ ಬಾರ್
         function renderCustomerOrders() {
             let cOrdDiv = document.getElementById('customer-orders-list');
             let savedOrders = JSON.parse(localStorage.getItem('market_orders')) || [];
@@ -486,74 +467,16 @@
                 return;
             }
 
-            let now = Date.now();
-            cOrdDiv.innerHTML = myOrders.map(o => {
-                let step1 = true; // ದೃಢೀಕರಿಸಲಾಗಿದೆ
-                let step2 = o.status.includes('Packed') || o.status.includes('Ready') || o.status.includes('Delivered'); // ಪ್ಯಾಕ್ ಮಾಡಲಾಗಿದೆ
-                let step3 = o.status.includes('Ready') || o.status.includes('Delivered'); // ಡೆಲಿವರಿಗೆ ಕಳಿಸಲಾಗಿದೆ
-                let step4 = o.status.includes('Delivered'); // ಡೆಲಿವರಿ ಆಯಿತು
-                let canReturn = (now - o.timestamp) < (2 * 24 * 60 * 60 * 1000) && step4;
-
-                return `
-                    <div class="border p-3 rounded-xl bg-gray-50 mb-2 space-y-2">
-                        <p class="font-bold text-xs">ಆರ್ಡರ್ ID: ${o.id}</p>
-                        <p class="text-[11px] text-indigo-600 font-semibold">ಸ್ಥಿತಿ: ${o.status}</p>
-                        
-                        <!-- 4 ಹಂತಗಳ ಪ್ರೋಗ್ರೆಸ್ ಬಾರ್ -->
-                        <div class="flex items-center justify-between my-2 text-[9px]">
-                            <div class="text-center">
-                                <div class="w-5 h-5 rounded-full ${step1 ? 'bg-green-600 text-white' : 'bg-gray-300'} flex items-center justify-center mx-auto">✓</div>
-                                <span class="text-gray-600">ದೃಢೀಕರಿಸಿ</span>
-                            </div>
-                            <div class="flex-1 h-1 ${step2 ? 'bg-green-600' : 'bg-gray-300'} mx-0.5"></div>
-                            <div class="text-center">
-                                <div class="w-5 h-5 rounded-full ${step2 ? 'bg-green-600 text-white' : 'bg-gray-300'} flex items-center justify-center mx-auto">✓</div>
-                                <span class="text-gray-600">ಪ್ಯಾಕ್</span>
-                            </div>
-                            <div class="flex-1 h-1 ${step3 ? 'bg-green-600' : 'bg-gray-300'} mx-0.5"></div>
-                            <div class="text-center">
-                                <div class="w-5 h-5 rounded-full ${step3 ? 'bg-green-600 text-white' : 'bg-gray-300'} flex items-center justify-center mx-auto">✓</div>
-                                <span class="text-gray-600">ಡೆಲಿವರಿ ರೂಟ್</span>
-                            </div>
-                            <div class="flex-1 h-1 ${step4 ? 'bg-green-600' : 'bg-gray-300'} mx-0.5"></div>
-                            <div class="text-center">
-                                <div class="w-5 h-5 rounded-full ${step4 ? 'bg-green-600 text-white' : 'bg-gray-300'} flex items-center justify-center mx-auto">✓</div>
-                                <span class="text-gray-600">ತಲುಪಿದೆ</span>
-                            </div>
-                        </div>
-
-                        ${canReturn && !o.returnRequested ? `
-                            <div class="mt-2 pt-2 border-t space-y-1">
-                                <input type="text" id="return-reason-${o.id}" placeholder="ರಿಟರ್ನ್ ಕಾರಣ ಬರೆಯಿರಿ..." class="w-full p-1 border rounded text-xs">
-                                <button onclick="requestReturn(${o.id})" class="w-full bg-red-500 text-white py-1 rounded text-xs font-bold">ರಿಟರ್ನ್ / ಎಕ್ಸ್ಚೇಂಜ್ ವಿನಂತಿ ಕಳುಹಿಸಿ (2 ದಿನಗಳ ಒಳಗೆ)</button>
-                            </div>
-                        ` : ''}
-                        ${o.returnRequested ? `<p class="text-red-600 font-bold text-[10px]">ರಿಟರ್ನ್ ವಿನಂತಿ ಸಲ್ಲಿಸಲಾಗಿದೆ: ${o.returnReason}</p>` : ''}
-                    </div>
-                `;
-            }).join('');
+            cOrdDiv.innerHTML = myOrders.map(o => `
+                <div class="border p-3 rounded-xl bg-gray-50 mb-2 space-y-1">
+                    <p class="font-bold text-xs">ಆರ್ಡರ್ ID: ${o.id}</p>
+                    <p class="text-[11px] text-indigo-600 font-semibold">ಸ್ಥಿತಿ: ${o.status}</p>
+                    <p class="text-[10px] text-gray-500">ಪಾವತಿ: ${o.payment} (${o.paymentDone ? 'ಪಾವತಿ ಪೂರ್ಣಗೊಂಡಿದೆ' : 'ಪೆಂಡಿಂಗ್'})</p>
+                </div>
+            `).join('');
         }
 
-        function requestReturn(id) {
-            let reason = document.getElementById(`return-reason-${id}`).value;
-            if (!reason) {
-                alert('ದಯವಿಟ್ಟು ರಿಟರ್ನ್ ಕಾರಣ ಬರೆಯಿರಿ!');
-                return;
-            }
-            let savedOrders = JSON.parse(localStorage.getItem('market_orders')) || [];
-            let o = savedOrders.find(x => x.id === id);
-            if (o) {
-                o.returnRequested = true;
-                o.returnReason = reason;
-                o.status = 'Returned / Exchange Requested (ರಿಟರ್ನ್ ವಿನಂತಿ ಬಂದಿದೆ)';
-                localStorage.setItem('market_orders', JSON.stringify(savedOrders));
-                orders = savedOrders;
-                renderCustomerOrders();
-                showModal("ರಿಟರ್ನ್ ವಿನಂತಿ", "ನಿಮ್ಮ ರಿಟರ್ನ್ ವಿನಂತಿ ಅಂಗಡಿ ಮಾಲೀಕರಿಗೆ ಮತ್ತು ಡೆಲಿವರಿ ಬಾಯ್‌ಗೆ ತಲುಪಿದೆ.", "🔄");
-            }
-        }
-
-        // ಅಂಗಡಿ ಮಾಲೀಕರು ವಸ್ತು ಅಪ್‌ಲೋಡ್ ಮಾಡುವುದು (ಸಕ್ಸಸ್ ಪಾಪ್‌ಅಪ್ ಜೊತೆ)
+        // ಅಂಗಡಿ ಮಾಲೀಕರು ವಸ್ತು ಅಪ್‌ಲೋಡ್ ಮಾಡುವುದು (ಫೋಟೋ ಅಪ್ಲೋಡ್ ಪರಿಶೀಲನೆ ಪಾಪ್‌ಅಪ್ ಜೊತೆ)
         function addVendorProduct() {
             let name = document.getElementById('v-p-name').value;
             let origPrice = document.getElementById('v-p-orig').value;
@@ -563,8 +486,13 @@
             let frontFile = document.getElementById('v-p-front').files[0];
             let backFile = document.getElementById('v-p-back').files[0];
 
-            if (!name || !origPrice || !discPrice || !frontFile || !backFile) {
-                alert('ದಯವಿಟ್ಟು ಎಲ್ಲಾ ವಿವರ ಮತ್ತು ಎರಡೂ ಫೋಟೋಗಳನ್ನು ಹಾಕಿ!');
+            if (!frontFile || !backFile) {
+                showModal("ಎಚ್ಚರಿಕೆ!", "ದಯವಿಟ್ಟು ಮುಂಭಾಗ ಮತ್ತು ಹಿಂಭಾಗದ ಎರಡೂ ಫೋಟೋಗಳನ್ನು ಅಪ್‌ಲೋಡ್ ಮಾಡಿ!", "⚠️");
+                return;
+            }
+
+            if (!name || !origPrice || !discPrice) {
+                alert('ದಯವಿಟ್ಟು ವಸ್ತುವಿನ ಹೆಸರು ಮತ್ತು ಬೆಲೆಗಳನ್ನು ಭರ್ತಿ ಮಾಡಿ!');
                 return;
             }
 
@@ -580,7 +508,6 @@
                         discPrice: Number(discPrice),
                         colors: colors || 'Standard',
                         stock: Number(stock) || 1,
-                        soldCount: 0,
                         vendorShop: currentUser.shopName,
                         vendorPhone: currentUser.phone,
                         frontPhoto: e1.target.result,
@@ -597,7 +524,7 @@
                     document.getElementById('v-p-back').value = '';
                     
                     renderVendorProductsList();
-                    showModal("ಯಶಸ್ವಿ!", "ನಿಮ್ಮ ಹೊಸ ವಸ್ತುವಿನ ಫೋಟೋ ಸಕ್ಸಸ್‌ಫುಲ್ ಆಗಿ ಅಪ್‌ಲೋಡ್ ಆಗಿದೆ! ಗ್ರಾಹಕರಿಗೆ ಈಗ ಕಾಣಿಸುತ್ತಿದೆ.", "📸");
+                    showModal("ಯಶಸ್ವಿ!", "ಈ ಫೋಟೋ ಅಪ್ಲೋಡ್ ಆಗಿದೆ ಮತ್ತು ಗ್ರಾಹಕರಿಗೆ ಲಭ್ಯವಿದೆ!", "✅");
                 };
                 readerBack.readAsDataURL(backFile);
             };
@@ -607,42 +534,31 @@
         function renderVendorProductsList() {
             let vProdDiv = document.getElementById('vendor-my-products');
             let myProducts = products.filter(p => p.vendorPhone === currentUser.phone);
-
             if (myProducts.length === 0) {
                 vProdDiv.innerHTML = "ನೀವು ಯಾವುದೇ ವಸ್ತುಗಳನ್ನು ಅಪ್‌ಲೋಡ್ ಮಾಡಿಲ್ಲ.";
                 return;
             }
-
             vProdDiv.innerHTML = myProducts.map(p => `
-                <div class="border p-2.5 rounded-lg bg-gray-50 flex items-center justify-between gap-2 mb-2">
-                    <div class="flex gap-1">
-                        <img src="${p.frontPhoto}" onclick="zoomImage('${p.frontPhoto}')" class="w-12 h-12 object-cover rounded border cursor-pointer">
-                        <img src="${p.backPhoto}" onclick="zoomImage('${p.backPhoto}')" class="w-12 h-12 object-cover rounded border cursor-pointer">
-                    </div>
-                    <div class="flex-1">
-                        <p class="font-bold text-xs">${p.name}</p>
-                        <p class="text-[10px] text-green-600">₹${p.discPrice} | ಸೇಲ್ಸ್: ${p.soldCount} ಪೀಸ್ (Stock: ${p.stock})</p>
-                    </div>
-                    <button onclick="deleteProduct(${p.id})" class="bg-red-500 text-white px-2 py-1 rounded text-[10px] font-bold">ಡಿಲೀಟ್</button>
+                <div class="border p-2 rounded-lg bg-gray-50 flex items-center justify-between gap-2 mb-1">
+                    <img src="${p.frontPhoto}" class="w-10 h-10 object-cover rounded border">
+                    <span class="flex-1 font-bold text-xs">${p.name} (₹${p.discPrice})</span>
+                    <button onclick="deleteProduct(${p.id})" class="bg-red-500 text-white px-2 py-1 rounded text-[10px]">ಡಿಲೀಟ್</button>
                 </div>
             `).join('');
         }
 
         function deleteProduct(id) {
-            if (confirm('ಈ ವಸ್ತುವನ್ನು ಡಿಲೀಟ್ ಮಾಡಲು ಬಯಸುತ್ತೀರಾ?')) {
-                products = products.filter(p => p.id !== id);
-                localStorage.setItem('market_products', JSON.stringify(products));
-                renderVendorProductsList();
-                showModal("ಡಿಲೀಟ್", "ವಸ್ತು ಯಶಸ್ವಿಯಾಗಿ ಡಿಲೀಟ್ ಆಗಿದೆ.", "🗑️");
-            }
+            products = products.filter(p => p.id !== id);
+            localStorage.setItem('market_products', JSON.stringify(products));
+            renderVendorProductsList();
         }
 
-        // ಅಂಗಡಿಯವರಿಗೆ ಆರ್ಡರ್ ಪ್ರದರ್ಶನ (ಮೊದಲು ಸ್ವೀಕರಿಸಿದವರಿಗೆ ಮಾತ್ರ ಲಭ್ಯವಾಗುವಂತೆ)
+        // ಅಂಗಡಿ ಮಾಲೀಕರ ಆರ್ಡರ್ಸ್ ವೀಕ್ಷಣೆ (ಆರ್ಡರ್ ಸ್ವೀಕರಿಸಿ, ಪ್ಯಾಕಿಂಗ್ ಬಟನ್, ಲೈವ್ ಲೊಕೇಶನ್)
         function renderVendorOrders() {
             let vDiv = document.getElementById('vendor-orders-list');
             let savedOrders = JSON.parse(localStorage.getItem('market_orders')) || [];
             
-            let availableOrders = savedOrders.filter(o => (o.status.includes('Pending') || o.returnRequested) && (!o.acceptedByVendor || o.acceptedByVendor === currentUser.shopName));
+            let availableOrders = savedOrders.filter(o => !o.acceptedByVendor || o.acceptedByVendor === currentUser.shopName);
 
             if (availableOrders.length === 0) {
                 vDiv.innerHTML = "ಯಾವುದೇ ಹೊಸ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ.";
@@ -653,47 +569,69 @@
             vDiv.innerHTML = availableOrders.map(o => `
                 <div class="border p-3 rounded-xl bg-amber-50 mb-2 space-y-2">
                     <div class="flex gap-2">
-                        ${o.items.map(i => `<img src="${i.frontPhoto}" onclick="zoomImage('${i.frontPhoto}')" class="w-16 h-16 object-cover rounded-lg border shadow cursor-pointer">`).join('')}
+                        ${o.items.map(i => `<img src="${i.frontPhoto}" onclick="zoomImage('${i.frontPhoto}')" class="w-14 h-14 object-cover rounded border cursor-pointer">`).join('')}
                     </div>
                     <p><b>ಗ್ರಾಹಕರು:</b> ${o.customerName} (<a href="tel:${o.phone}" class="text-blue-600 underline font-bold">📞 ${o.phone}</a>)</p>
                     <p><b>ಸ್ಥಳ:</b> ${o.district} ಜಿಲ್ಲೆ, ${o.taluk} ತಾಲೂಕು, ${o.city}</p>
-                    <p><b>ಪಿನ್ ಕೋಡ್ (ಲೈವ್ ಲೊಕೇಶನ್):</b> <span class="bg-blue-100 text-blue-800 px-1.5 py-0.5 rounded font-bold">📍 ${o.pincode}</span></p>
-                    <p><b>ಪಾವತಿ:</b> <span class="${o.paymentDone ? 'text-green-600 font-bold' : 'text-red-600 font-bold'}">${o.paymentDone ? 'ಪಾವತಿ ಆಗಿದೆ (Paid)' : 'ಪಾವತಿ ಬಾಕಿ ಇದೆ (Payment Pending)'}</span></p>
-                    ${o.returnRequested ? `<p class="text-red-600 font-bold text-xs">⚠️ ರಿಟರ್ನ್ ಕಾರಣ: ${o.returnReason}</p>` : ''}
+                    <p><b>ಪಿನ್ ಕೋಡ್ (GPS ಲೊಕೇಶನ್):</b> <span class="bg-blue-100 text-blue-800 px-1.5 py-0.5 rounded font-bold">📍 ${o.pincode}</span></p>
+                    <p><b>ಪಾವತಿ:</b> <span class="${o.paymentDone ? 'text-green-600 font-bold' : 'text-red-600 font-bold'}">${o.paymentDone ? 'ಪಾವತಿ ಆಗಿದೆ (Paid)' : 'ಪಾವತಿ ಪೆಂಡಿಂಗ್ ಇದೆ'}</span></p>
                     
-                    ${!o.acceptedByVendor ? `<button onclick="vendorAccept(${o.id})" class="w-full bg-blue-600 text-white py-2 rounded-lg text-xs font-bold shadow">ಆರ್ಡರ್ ಸ್ವೀಕರಿಸಿ & ಪ್ಯಾಕ್ ಮಾಡಿ (Ready)</button>` : ''}
+                    <!-- ಬಟನ್‌ಗಳು -->
+                    ${!o.acceptedByVendor ? `<button onclick="acceptOrder(${o.id})" class="w-full bg-blue-600 text-white py-2 rounded-lg text-xs font-bold shadow">ಆರ್ಡರ್ ಸ್ವೀಕರಿಸಿ (Accept Order)</button>` : ''}
                     
-                    ${o.acceptedByVendor === currentUser.shopName ? `
-                        <p class="text-green-700 font-bold text-xs">✓ ಪ್ಯಾಕಿಂಗ್ ಮುಗಿದು ಡೆಲಿವರಿ ಬಾಯ್‌ಗೆ ಹಸ್ತಾಂತರಿಸಲಾಗಿದೆ</p>
-                    ` : ''}
+                    ${o.acceptedByVendor === currentUser.shopName && !o.packedByVendor ? `<button onclick="packOrder(${o.id})" class="w-full bg-orange-500 text-white py-2 rounded-lg text-xs font-bold shadow">ವಸ್ತು ಪ್ಯಾಕಿಂಗ್ ಆಗಿದೆ (Send to Delivery)</button>` : ''}
+
+                    ${o.packedByVendor ? `<p class="text-green-700 font-bold text-xs text-center">✓ ಪ್ಯಾಕಿಂಗ್ ಮುಗಿದು ಡೆಲಿವರಿಗೆ ಕಳುಹಿಸಲಾಗಿದೆ</p>` : ''}
                 </div>
             `).join('');
         }
 
-        function vendorAccept(id) {
+        function acceptOrder(id) {
             let savedOrders = JSON.parse(localStorage.getItem('market_orders')) || [];
             let o = savedOrders.find(x => x.id === id);
             if (o) {
                 if (o.acceptedByVendor) {
-                    alert('ಈ ಆರ್ಡರ್ ಅನ್ನು ಈಗಾಗಲೇ ಬೇರೆ ಅಂಗಡಿಯವರು ಸ್ವೀಕರಿಸಿದ್ದಾರೆ!');
+                    alert('ಈ ಆರ್ಡರ್ ಈಗಾಗಲೇ ಬೇರೆ ಅಂಗಡಿಯವರ ಬಳಿಯಿದೆ!');
                     return;
                 }
                 o.acceptedByVendor = currentUser.shopName;
-                o.status = 'Packed & Ready (ಪ್ಯಾಕಿಂಗ್ ಮುಗಿದಿದೆ, ಡೆಲಿವರಿಗೆ ಕಳಿಸಲಾಗಿದೆ)';
+                o.status = 'Order Accepted (ನಿಮ್ಮ ಆರ್ಡರ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ)';
                 localStorage.setItem('market_orders', JSON.stringify(savedOrders));
                 orders = savedOrders;
                 renderVendorOrders();
-                showModal("ಪ್ಯಾಕಿಂಗ್ ಸಿದ್ಧ", "ಆರ್ಡರ್ ಸ್ವೀಕರಿಸಲಾಗಿದೆ ಮತ್ತು ಡೆಲಿವರಿ ಬಾಯ್‌ಗೆ ಕಳುಹಿಸಲಾಗಿದೆ!", "📦");
+                showModal("ಕನ್ಫರ್ಮ್", "ಆರ್ಡರ್ ಸ್ವೀಕರಿಸಲಾಗಿದೆ! ಗ್ರಾಹಕರಿಗೆ ಸಂದೇಶ ತಲುಪಿದೆ.", "👍");
             }
         }
 
+        function packOrder(id) {
+            let savedOrders = JSON.parse(localStorage.getItem('market_orders')) || [];
+            let o = savedOrders.find(x => x.id === id);
+            if (o) {
+                o.packedByVendor = true;
+                o.status = 'Packed & Dispatched (ಪ್ಯಾಕಿಂಗ್ ಆಗಿ ಡೆಲಿವರಿಗೆ ಕಳಿಸಲಾಗಿದೆ)';
+                localStorage.setItem('market_orders', JSON.stringify(savedOrders));
+                orders = savedOrders;
+                renderVendorOrders();
+                showModal("ಪ್ಯಾಕಿಂಗ್ ಸಿದ್ಧ", "ವಸ್ತು ಪ್ಯಾಕಿಂಗ್ ಆಗಿ ಡೆಲಿವರಿ ಬಾಯ್‌ಗೆ ಸಂದೇಶ ಕಳುಹಿಸಲಾಗಿದೆ!", "📦");
+            }
+        }
+
+        // ಡೆಲಿವರಿ ಬಾಯ್ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್ (ಇವತ್ತಿನ ಆರ್ಡರ್ಸ್, 10% ಬಳಕೆ/ಕಮಿಷನ್, ಪೇಮೆಂಟ್ ಚೆಕ್ ಮಾರ್ಕ್ ಬಟನ್)
         function renderDeliveryOrders() {
             let dDiv = document.getElementById('delivery-orders-list');
             let savedOrders = JSON.parse(localStorage.getItem('market_orders')) || [];
-            let readyOrders = savedOrders.filter(o => o.status.includes('Packed') || o.status.includes('Ready') || o.returnRequested);
+            let readyOrders = savedOrders.filter(o => o.packedByVendor && !o.status.includes('Delivered'));
+
+            // ಇವತ್ತಿನ ಟೋಟಲ್ ಆರ್ಡರ್ಸ್ ಮತ್ತು ಕಮಿಷನ್ ಲೆಕ್ಕಾಚಾರ
+            let todayCount = savedOrders.length;
+            let totalAmount = savedOrders.reduce((sum, ord) => sum + ord.items.reduce((s, i) => s + i.discPrice, 0), 0);
+            let commission = Math.round(totalAmount * 0.10); // 10% ಬಳಕೆ/ಕಮಿಷನ್
+
+            document.getElementById('today-total-orders').innerText = todayCount;
+            document.getElementById('today-commission').innerText = `₹${commission}`;
 
             if (readyOrders.length === 0) {
-                dDiv.innerHTML = "ಯಾವುದೇ ಡೆಲಿವರಿ ಬಾಕಿ ಇಲ್ಲ.";
+                dDiv.innerHTML = "<p class='text-gray-500 text-xs mt-2'>ಯಾವುದೇ ಡೆಲಿವರಿ ಬಾಕಿ ಇಲ್ಲ.</p>";
                 return;
             }
             playSiren();
@@ -702,12 +640,14 @@
                 <div class="border p-3 rounded-xl bg-teal-50 mb-2 space-y-2">
                     <p><b>ಗ್ರಾಹಕರು:</b> ${o.customerName} (<a href="tel:${o.phone}" class="text-blue-600 underline font-bold">📞 ${o.phone}</a>)</p>
                     <p><b>ವಿಳಾಸ:</b> ${o.address} (Pin: ${o.pincode})</p>
-                    <p><b>ಪಾವತಿ ಸ್ಥಿತಿ:</b> ${o.paymentDone ? 'Paid' : 'Pending/COD'}</p>
-                    ${o.returnRequested ? `<p class="text-red-600 font-bold text-xs">ರಿಟರ್ನ್ ಐಟಂ ಪಿಕ್‌ಅಪ್ ಮಾಡಬೇಕಿದೆ!</p>` : ''}
+                    <p><b>ಪಾವತಿ ಸ್ಥಿತಿ:</b> <span class="${o.paymentDone ? 'text-green-600 font-bold' : 'text-red-600 font-bold'}">${o.paymentDone ? 'ಪಾವತಿ ಆಗಿದೆ (Paid)' : 'ಪೇಮೆಂಟ್ ಪೆಂಡಿಂಗ್ ಇದೆ'}</span></p>
+                    
                     <div class="flex gap-2 pt-1 flex-wrap">
                         <a href="https://maps.google.com/?q=${encodeURIComponent(o.address)}" target="_blank" class="bg-indigo-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow">GPS ಮ್ಯಾಪ್ ರೂಟ್</a>
-                        <button onclick="markDelivered(${o.id})" class="bg-green-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow">ಡೆಲಿವರಿ ಮುಗಿಯಿತು (Delivered)</button>
-                        ${!o.paymentDone ? `<button onclick="confirmPayment(${o.id})" class="bg-yellow-500 text-black px-3 py-1.5 rounded-lg text-xs font-bold shadow">ಪಾವತಿ ಸ್ವೀಕರಿಸಿ (OK)</button>` : '<span class="text-green-600 font-bold text-xs self-center">✓ ಪಾವತಿ ರೈಟ್ ಮಾರ್ಕ್</span>'}
+                        
+                        ${!o.paymentDone ? `<button onclick="confirmPayment(${o.id})" class="bg-yellow-500 text-black px-3 py-1.5 rounded-lg text-xs font-bold shadow">ಪೇಮೆಂಟ್ ಕನ್ಫರ್ಮ್ ಮಾಡಿ (OK)</button>` : '<span class="text-green-600 font-bold text-xs self-center">✓ ಪೇಮೆಂಟ್ ರೈಟ್ ಮಾರ್ಕ್ (Success)</span>'}
+                        
+                        <button onclick="markDelivered(${o.id})" class="w-full bg-green-600 text-white py-2 rounded-lg text-xs font-bold shadow">ಡೆಲಿವರಿ ಮುಗಿಯಿತು (2-3 ಗಂಟೆ ಒಳಗೆ ತಲುಪಿದೆ)</button>
                     </div>
                 </div>
             `).join('');
@@ -721,7 +661,7 @@
                 localStorage.setItem('market_orders', JSON.stringify(savedOrders));
                 orders = savedOrders;
                 renderDeliveryOrders();
-                showModal("ಪಾವತಿ ದೃಢೀಕರಿಸಲಾಗಿದೆ", "ಅಂಗಡಿ ಮಾಲೀಕರಿಗೆ ಪಾವತಿ ತಲುಪಿದೆ ಮತ್ತು ರೈಟ್ ಮಾರ್ಕ್ ತೋರಿಸಲಾಗಿದೆ.", "💰");
+                showModal("ಪೇಮೆಂಟ್ ಯಶಸ್ವಿ", "ಪೇಮೆಂಟ್ ಕನ್ಫರ್ಮ್ ಆಗಿದೆ ಮತ್ತು ಅಂಗಡಿ ಮಾಲೀಕರಿಗೆ ತಲುಪಿದೆ!", "💰");
             }
         }
 
@@ -733,7 +673,7 @@
                 localStorage.setItem('market_orders', JSON.stringify(savedOrders));
                 orders = savedOrders;
                 renderDeliveryOrders();
-                showModal("ಯಶಸ್ವಿ!", "ಡೆಲಿವರಿ ಯಶಸ್ವಿಯಾಗಿ ತಲುಪಿಸಲಾಗಿದೆ! ಅಂಗಡಿ ಮಾಲೀಕರಿಗೆ ಸಂದೇಶ ಕಳುಹಿಸಲಾಗಿದೆ.", "✅");
+                showModal("ಯಶಸ್ವಿ!", "ಡೆಲಿವರಿ ಯಶಸ್ವಿಯಾಗಿ ಮುಗಿದಿದೆ!", "✅");
             }
         }
 
