@@ -28,7 +28,7 @@
 
     <!-- ಹೆಡರ್ -->
     <header class="bg-indigo-700 text-white p-4 shadow-md flex justify-between items-center sticky top-0 z-40">
-        <h1 class="text-sm font-bold">🏪 ಶಹಾಪುರ ಮಾರ್ಕೆಟ್ (ಅಂಗಡಿ ಮಾಲೀಕರ ಆಪ್)</h1>
+        <h1 class="text-sm font-bold">🏪 ಶಹಾಪುರ ಮಾರ್ಕೆಟ್ (ಅಂಗಡಿ ಮಾಲೀಕರು)</h1>
         <div id="user-info" class="text-xs hidden items-center gap-2">
             <span id="logged-user-name" class="font-semibold"></span>
             <button onclick="logout()" class="bg-red-500 px-2 py-1 rounded">ಲಾಗ್‌ಔಟ್</button>
@@ -37,7 +37,7 @@
 
     <main class="container mx-auto p-4 max-w-md">
 
-        <!-- ೧. ನೋಂದಣಿ ಅಥವಾ ಲಾಗಿನ್ ಪೇಜ್ (ಮೊದಲ ಬಾರಿ ಮಾತ್ರ ಬರುತ್ತದೆ) -->
+        <!-- ೧. ನೋಂದಣಿ ಅಥವಾ ಲಾಗಿನ್ ಪೇಜ್ -->
         <div id="auth-screen" class="bg-white p-6 rounded-2xl shadow-lg space-y-4 page-section">
             <h2 class="text-xl font-bold text-gray-800 border-b pb-2">ಅಂಗಡಿ ಮಾಲೀಕರ ನೋಂದಣಿ</h2>
             
@@ -83,56 +83,66 @@
         <!-- ೨. ಅಂಗಡಿ ಮಾಲೀಕರ ಮುಖ್ಯ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್ -->
         <div id="dashboard-vendor" class="space-y-4 hidden page-section">
             
-            <!-- ವಸ್ತು ಅಪ್‌ಲೋಡ್ ಸೆಕ್ಷನ್ -->
-            <div class="bg-white p-4 rounded-xl shadow space-y-3">
-                <h3 class="font-bold text-base text-gray-800 border-b pb-1">➕ ಹೊಸ ವಸ್ತುವಿನ ವಿವರ ಮತ್ತು ಫೋಟೋ ಅಪ್ಲೋಡ್</h3>
-                
-                <input type="text" id="v-p-name" placeholder="ವಸ್ತುವಿನ ಹೆಸರು (ಉದಾ: ಜೀನ್ಸ್ ಪ್ಯಾಂಟ್ / ಶೂ)" class="w-full p-2 border rounded-lg text-sm">
-                
-                <div class="grid grid-cols-2 gap-2">
-                    <input type="number" id="v-p-orig" placeholder="ಹಿಂದಿನ ಬೆಲೆ (₹)" class="p-2 border rounded-lg text-sm">
-                    <input type="number" id="v-p-disc" placeholder="ಡಿಸ್ಕೌಂಟ್ ಬೆಲೆ (₹)" class="p-2 border rounded-lg text-sm">
-                </div>
+            <!-- ಟ್ಯಾಬ್ ಬಟನ್‌ಗಳು (ಫೋಟೋ ಅಪ್ಲೋಡ್ ಮತ್ತು ಹೊಸ ಆರ್ಡರ್ ನೋಡಲು) -->
+            <div class="flex gap-2 mb-2">
+                <button onclick="switchVendorTab('upload')" id="tab-upload" class="flex-1 bg-indigo-600 text-white py-2 rounded-xl text-xs font-bold">📸 ಫೋಟೋ ಅಪ್ಲೋಡ್ ಮಾಡಿ</button>
+                <button onclick="switchVendorTab('orders')" id="tab-orders" class="flex-1 bg-gray-200 text-gray-700 py-2 rounded-xl text-xs font-bold">📦 ಹೊಸ ಆರ್ಡರ್‌ಗಳು ನೋಡಿ</button>
+            </div>
 
-                <div class="grid grid-cols-2 gap-2">
-                    <input type="text" id="v-p-colors" placeholder="ಬಣ್ಣಗಳು (ಉದಾ: Red, Blue)" class="p-2 border rounded-lg text-xs">
-                    <input type="number" id="v-p-stock" placeholder="ಸ್ಟಾಕ್ (ಎಷ್ಟು ಪೀಸ್)" class="p-2 border rounded-lg text-xs">
-                </div>
-
-                <!-- ಸೈಜ್ ಆಯ್ಕೆಗಳು -->
-                <div>
-                    <label class="block text-xs text-gray-600 mb-1">ಲಭ್ಯವಿರುವ ಸೈಜ್‌ಗಳು:</label>
-                    <div class="flex gap-1">
-                        <span onclick="toggleSize('XS')" id="sz-XS" class="px-3 py-1 border rounded text-xs cursor-pointer bg-gray-100">XS</span>
-                        <span onclick="toggleSize('S')" id="sz-S" class="px-3 py-1 border rounded text-xs cursor-pointer bg-gray-100">S</span>
-                        <span onclick="toggleSize('M')" id="sz-M" class="px-3 py-1 border rounded text-xs cursor-pointer bg-indigo-600 text-white">M</span>
-                        <span onclick="toggleSize('L')" id="sz-L" class="px-3 py-1 border rounded text-xs cursor-pointer bg-gray-100">L</span>
-                        <span onclick="toggleSize('XL')" id="sz-XL" class="px-3 py-1 border rounded text-xs cursor-pointer bg-gray-100">XL</span>
+            <!-- ಸೆಕ್ಷನ್ 1: ಫೋಟೋ ಅಪ್ಲೋಡ್ ಹಾಗೂ ಅಪ್‌ಲೋಡ್ ಮಾಡಿದ ವಸ್ತುಗಳ ಪಟ್ಟಿ -->
+            <div id="vendor-upload-section" class="space-y-4">
+                <div class="bg-white p-4 rounded-xl shadow space-y-3">
+                    <h3 class="font-bold text-base text-gray-800 border-b pb-1">➕ ಹೊಸ ವಸ್ತುವಿನ ವಿವರ ಮತ್ತು ಫೋಟೋ ಅಪ್ಲೋಡ್</h3>
+                    
+                    <input type="text" id="v-p-name" placeholder="ವಸ್ತುವಿನ ಹೆಸರು (ಉದಾ: ಜೀನ್ಸ್ ಪ್ಯಾಂಟ್ / ಶೂ)" class="w-full p-2 border rounded-lg text-sm">
+                    
+                    <div class="grid grid-cols-2 gap-2">
+                        <input type="number" id="v-p-orig" placeholder="ಹಿಂದಿನ ಬೆಲೆ (₹)" class="p-2 border rounded-lg text-sm">
+                        <input type="number" id="v-p-disc" placeholder="ಡಿಸ್ಕೌಂಟ್ ಬೆಲೆ (₹)" class="p-2 border rounded-lg text-sm">
                     </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <input type="text" id="v-p-colors" placeholder="ಬಣ್ಣಗಳು (ಉದಾ: Red, Blue)" class="p-2 border rounded-lg text-xs">
+                        <input type="number" id="v-p-stock" placeholder="ಸ್ಟಾಕ್ (ಎಷ್ಟು ಪೀಸ್)" class="p-2 border rounded-lg text-xs">
+                    </div>
+
+                    <!-- ಸೈಜ್ ಆಯ್ಕೆಗಳು -->
+                    <div>
+                        <label class="block text-xs text-gray-600 mb-1">ಲಭ್ಯವಿರುವ ಸೈಜ್‌ಗಳು:</label>
+                        <div class="flex gap-1">
+                            <span onclick="toggleSize('XS')" id="sz-XS" class="px-3 py-1 border rounded text-xs cursor-pointer bg-gray-100">XS</span>
+                            <span onclick="toggleSize('S')" id="sz-S" class="px-3 py-1 border rounded text-xs cursor-pointer bg-gray-100">S</span>
+                            <span onclick="toggleSize('M')" id="sz-M" class="px-3 py-1 border rounded text-xs cursor-pointer bg-indigo-600 text-white">M</span>
+                            <span onclick="toggleSize('L')" id="sz-L" class="px-3 py-1 border rounded text-xs cursor-pointer bg-gray-100">L</span>
+                            <span onclick="toggleSize('XL')" id="sz-XL" class="px-3 py-1 border rounded text-xs cursor-pointer bg-gray-100">XL</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-gray-600 mb-1">ಮುಂಭಾಗದ ಫೋಟೋ (Front Camera)</label>
+                        <input type="file" id="v-p-front" accept="image/*" capture="environment" class="w-full p-1 border rounded-lg text-xs">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-600 mb-1">ಹಿಂಭಾಗದ ಫೋಟೋ (Back Camera)</label>
+                        <input type="file" id="v-p-back" accept="image/*" capture="environment" class="w-full p-1 border rounded-lg text-xs">
+                    </div>
+
+                    <button onclick="addVendorProduct()" class="w-full bg-indigo-600 text-white py-2.5 rounded-xl font-bold text-xs shadow">ವಸ್ತು ಅಪ್‌ಲೋಡ್ ಮಾಡಿ</button>
                 </div>
 
-                <div>
-                    <label class="block text-xs text-gray-600 mb-1">ಮುಂಭಾಗದ ಫೋಟೋ (Front Camera)</label>
-                    <input type="file" id="v-p-front" accept="image/*" capture="environment" class="w-full p-1 border rounded-lg text-xs">
+                <!-- ನೀವು ಅಪ್‌ಲೋಡ್ ಮಾಡಿದ ವಸ್ತುಗಳು (ಸ್ಟಾಕ್ ಖಾಲಿಯಾದರೆ ಡಿಲೀಟ್ ಮಾಡುವ ಆಯ್ಕೆ) -->
+                <div class="bg-white p-4 rounded-xl shadow space-y-3">
+                    <h3 class="font-bold text-sm text-gray-800 border-b pb-1">🖼️ ನೀವು ಅಪ್‌ಲೋಡ್ ಮಾಡಿದ ವಸ್ತುಗಳು (ಸ್ಟಾಕ್ / ಡಿಲೀಟ್)</h3>
+                    <div id="vendor-my-products" class="space-y-2 text-xs text-gray-600">ಯಾವುದೇ ವಸ್ತುಗಳಿಲ್ಲ.</div>
                 </div>
-                <div>
-                    <label class="block text-xs text-gray-600 mb-1">ಹಿಂಭಾಗದ ಫೋಟೋ (Back Camera)</label>
-                    <input type="file" id="v-p-back" accept="image/*" capture="environment" class="w-full p-1 border rounded-lg text-xs">
-                </div>
-
-                <button onclick="addVendorProduct()" class="w-full bg-indigo-600 text-white py-2.5 rounded-xl font-bold text-xs shadow">ವಸ್ತು ಅಪ್‌ಲೋಡ್ ಮಾಡಿ</button>
             </div>
 
-            <!-- ಆರ್ಡರ್‌ಗಳನ್ನು ವೀಕ್ಷಿಸುವ ಸೆಕ್ಷನ್ -->
-            <div class="bg-white p-4 rounded-xl shadow space-y-3">
-                <h3 class="font-bold text-sm text-gray-800 border-b pb-1">📦 ಗ್ರಾಹಕರ ಹೊಸ ಆರ್ಡರ್‌ಗಳು (ಬುಕಿಂಗ್ಸ್)</h3>
-                <div id="vendor-orders-list" class="text-xs text-gray-600">ಯಾವುದೇ ಹೊಸ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ.</div>
-            </div>
-
-            <!-- ಅಪ್‌ಲೋಡ್ ಮಾಡಿದ ವಸ್ತುಗಳ ಪಟ್ಟಿ -->
-            <div class="bg-white p-4 rounded-xl shadow space-y-3">
-                <h3 class="font-bold text-sm text-gray-800 border-b pb-1">🖼️ ನೀವು ಅಪ್‌ಲೋಡ್ ಮಾಡಿದ ವಸ್ತುಗಳು</h3>
-                <div id="vendor-my-products" class="space-y-2 text-xs text-gray-600">ಯಾವುದೇ ವಸ್ತುಗಳಿಲ್ಲ.</div>
+            <!-- ಸೆಕ್ಷನ್ 2: ಹೊಸ ಆರ್ಡರ್‌ಗಳು ನೋಡುವುದು -->
+            <div id="vendor-orders-section" class="space-y-4 hidden">
+                <div class="bg-white p-4 rounded-xl shadow space-y-3">
+                    <h3 class="font-bold text-sm text-gray-800 border-b pb-1">📦 ಗ್ರಾಹಕರ ಹೊಸ ಆರ್ಡರ್‌ಗಳು (ಬುಕಿಂಗ್ಸ್)</h3>
+                    <div id="vendor-orders-list" class="text-xs text-gray-600">ಯಾವುದೇ ಹೊಸ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ.</div>
+                </div>
             </div>
 
         </div>
@@ -193,6 +203,21 @@
             });
         }
 
+        function switchVendorTab(tab) {
+            if (tab === 'upload') {
+                document.getElementById('vendor-upload-section').classList.remove('hidden');
+                document.getElementById('vendor-orders-section').classList.add('hidden');
+                document.getElementById('tab-upload').className = "flex-1 bg-indigo-600 text-white py-2 rounded-xl text-xs font-bold";
+                document.getElementById('tab-orders').className = "flex-1 bg-gray-200 text-gray-700 py-2 rounded-xl text-xs font-bold";
+            } else {
+                document.getElementById('vendor-upload-section').classList.add('hidden');
+                document.getElementById('vendor-orders-section').classList.remove('hidden');
+                document.getElementById('tab-orders').className = "flex-1 bg-indigo-600 text-white py-2 rounded-xl text-xs font-bold";
+                document.getElementById('tab-upload').className = "flex-1 bg-gray-200 text-gray-700 py-2 rounded-xl text-xs font-bold";
+                renderVendorOrders();
+            }
+        }
+
         function checkLogin() {
             if (!currentVendor) {
                 document.getElementById('auth-screen').classList.remove('hidden');
@@ -204,7 +229,6 @@
                 document.getElementById('user-info').classList.remove('hidden');
                 document.getElementById('logged-user-name').innerText = `${currentVendor.name} (${currentVendor.shopName})`;
                 renderVendorProducts();
-                renderVendorOrders();
             }
         }
 
@@ -310,15 +334,18 @@
                         <p class="font-bold text-xs">${p.name} (${p.size})</p>
                         <p class="text-[10px] text-green-600">₹${p.discPrice} | ಸ್ಟಾಕ್: ${p.stock}</p>
                     </div>
-                    <button onclick="deleteProduct(${p.id})" class="bg-red-500 text-white px-2 py-1 rounded text-[10px]">ಡಿಲೀಟ್</button>
+                    <button onclick="deleteProduct(${p.id})" class="bg-red-500 text-white px-2 py-1 rounded text-[10px] font-bold">ಡಿಲೀಟ್</button>
                 </div>
             `).join('');
         }
 
         function deleteProduct(id) {
-            products = products.filter(p => p.id !== id);
-            localStorage.setItem('market_products', JSON.stringify(products));
-            renderVendorProducts();
+            if (confirm('ಈ ವಸ್ತುವನ್ನು ಡಿಲೀಟ್ ಮಾಡಲು ಬಯಸುತ್ತೀರಾ?')) {
+                products = products.filter(p => p.id !== id);
+                localStorage.setItem('market_products', JSON.stringify(products));
+                renderVendorProducts();
+                showModal("ಯಶಸ್ವಿ!", "ವಸ್ತು ಯಶಸ್ವಿಯಾಗಿ ಡಿಲೀಟ್ ಆಗಿದೆ.", "🗑️");
+            }
         }
 
         function renderVendorOrders() {
