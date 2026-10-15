@@ -171,6 +171,7 @@
 
         function closeModal() {
             document.getElementById('custom-modal').classList.add('hidden');
+            checkLogin();
         }
 
         function zoomImage(src) {
@@ -239,6 +240,41 @@
             }
         }
 
+        // ಫೋಟೋ ಕಂಪ್ರೆಸ್ ಮಾಡುವ ಫಂಕ್ಷನ್ (Zomato/Bank ಆಪ್‌ಗಳ ತರಹ ವೇಗವಾಗಿ ಕೆಲಸ ಮಾಡಲು)
+        function compressImage(file, callback) {
+            let reader = new FileReader();
+            reader.onload = function (e) {
+                let img = new Image();
+                img.onload = function () {
+                    let canvas = document.createElement('canvas');
+                    let ctx = canvas.getContext('2d');
+                    let MAX_WIDTH = 500;
+                    let MAX_HEIGHT = 500;
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > height) {
+                        if (width > MAX_WIDTH) {
+                            height *= MAX_WIDTH / width;
+                            width = MAX_WIDTH;
+                        }
+                    } else {
+                        if (height > MAX_HEIGHT) {
+                            width *= MAX_HEIGHT / height;
+                            height = MAX_HEIGHT;
+                        }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    ctx.drawImage(img, 0, 0, width, height);
+                    callback(canvas.toDataURL('image/jpeg', 0.7));
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
         function registerVendor() {
             let name = document.getElementById('reg-name').value;
             let phone = document.getElementById('reg-phone').value;
@@ -260,8 +296,7 @@
                 return;
             }
 
-            let reader = new FileReader();
-            reader.onload = function(e) {
+            compressImage(shopPhotoFile, function(compressedShopPhoto) {
                 currentVendor = { 
                     name, 
                     phone, 
@@ -271,14 +306,12 @@
                     taluk, 
                     city, 
                     pincode, 
-                    shopPhoto: e.target.result,
+                    shopPhoto: compressedShopPhoto,
                     gps: gpsLocation 
                 };
                 localStorage.setItem('currentVendor', JSON.stringify(currentVendor));
-                showModal("ಯಶಸ್ವಿ!", "ನಿಮ್ಮ ಅಂಗಡಿ ಖಾತೆ ಮತ್ತು ಫೋಟೋ ಯಶಸ್ವಿಯಾಗಿ ಅಪ್ಲೋಡ್ ಆಗಿದೆ!", "🏪");
-                checkLogin();
-            };
-            reader.readAsDataURL(shopPhotoFile);
+                showModal("ಯಶಸ್ವಿ!", "ನಿಮ್ಮ ಅಂಗಡಿ ಖಾತೆ ಯಶಸ್ವಿಯಾಗಿ ಸೃಷ್ಟಿಯಾಗಿದೆ!", "🏪");
+            });
         }
 
         function logout() {
@@ -306,11 +339,8 @@
                 return;
             }
 
-            let readerFront = new FileReader();
-            let readerBack = new FileReader();
-
-            readerFront.onload = function(e1) {
-                readerBack.onload = function(e2) {
+            compressImage(frontFile, function(frontCompressed) {
+                compressImage(backFile, function(backCompressed) {
                     let newProd = {
                         id: Date.now(),
                         name: name,
@@ -322,8 +352,8 @@
                         stock: Number(stock) || 1,
                         vendorShop: currentVendor.shopName,
                         vendorPhone: currentVendor.phone,
-                        frontPhoto: e1.target.result,
-                        backPhoto: e2.target.result
+                        frontPhoto: frontCompressed,
+                        backPhoto: backCompressed
                     };
 
                     products.push(newProd);
@@ -339,10 +369,8 @@
 
                     renderVendorProducts();
                     showModal("ಯಶಸ್ವಿ!", "ನಿಮ್ಮ ಫೋಟೋ ಅಪ್ಲೋಡ್ ಆಗಿದೆ! ವಸ್ತು ಗ್ರಾಹಕರಿಗೆ ಈಗ ಲಭ್ಯವಿದೆ.", "📸");
-                };
-                readerBack.readAsDataURL(backFile);
-            };
-            readerFront.readAsDataURL(frontFile);
+                });
+            });
         }
 
         function renderVendorProducts() {
