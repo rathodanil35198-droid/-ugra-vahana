@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ನಮ್ಮ ಶಾಪುರ್ - ಅಂಗಡಿ ಮಾಲೀಕರ ಆಪ್ (Shop Owner Panel)</title>
+    <title>ನಮ್ಮ ಶಾಪುರ್ - ಅಂಗಡಿ ಮಾಲೀಕರ ಆಪ್</title>
     
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -23,9 +23,7 @@
         body { background-color: var(--light); color: var(--dark); padding-bottom: 40px; }
 
         header { background-color: var(--primary); color: white; padding: 15px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-
         .container { max-width: 600px; margin: 20px auto; padding: 0 15px; }
-
         .card-panel { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
 
         h2 { border-bottom: 2px solid var(--primary); padding-bottom: 8px; margin-bottom: 15px; color: var(--primary); font-size: 18px; }
@@ -39,7 +37,6 @@
         .btn-danger { background: var(--danger); }
         .btn-warning { background: var(--warning); }
 
-        /* ID Card Box */
         .id-card {
             background: linear-gradient(135deg, #1e88e5, #1565c0);
             color: white; border-radius: 10px; padding: 15px; margin-bottom: 20px;
@@ -50,17 +47,13 @@
         .id-card-details p { font-size: 12px; opacity: 0.9; }
         .id-number { font-size: 18px; font-weight: bold; background: #fff; color: #1e88e5; padding: 2px 8px; border-radius: 4px; display: inline-block; margin-top: 5px; }
 
-        /* Small Thumbnail Grid */
         .grid-small {
             display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
             gap: 10px; margin-top: 15px;
         }
-        .card-small {
-            border: 1px solid #e0e0e0; border-radius: 6px; padding: 6px; background: #fff; text-align: center;
-        }
+        .card-small { border: 1px solid #e0e0e0; border-radius: 6px; padding: 6px; background: #fff; text-align: center; }
         .card-small img { width: 100%; height: 70px; object-fit: cover; border-radius: 4px; }
         .card-title-small { font-size: 11px; font-weight: bold; margin: 4px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
         .order-item { border-left: 5px solid var(--primary); background: #f9f9f9; padding: 12px; margin-bottom: 12px; border-radius: 6px; }
     </style>
 </head>
@@ -73,61 +66,51 @@
 
     <div class="container">
 
-        <!-- 1. ಲಾಗಿನ್ ಮತ್ತು ನೋಂದಣಿ ಫಾರ್ಮ್ -->
+        <!-- 1. ಲಾಗಿನ್ ಫಾರ್ಮ್ -->
         <div id="login-section" class="card-panel" style="background:#f1f8e9;">
             <h2>🔐 ಅಂಗಡಿ ಮಾಲೀಕರ ನೋಂದಣಿ / ಲಾಗಿನ್</h2>
             <form onsubmit="registerShopOwner(event)">
+                <div class="form-group"><label>ಅಂಗಡಿ ಮಾಲೀಕರ ಹೆಸರು:</label><input type="text" id="owner-name" required placeholder="ನಿಮ್ಮ ಹೆಸರು"></div>
+                <div class="form-group"><label>ಮೊಬೈಲ್ ನಂಬರ್:</label><input type="tel" id="owner-phone" required placeholder="ಮೊಬೈಲ್ ನಂಬರ್"></div>
+                <div class="form-group"><label>ಅಂಗಡಿಯ ಹೆಸರು:</label><input type="text" id="shop-name" required placeholder="ಅಂಗಡಿ ಹೆಸರು"></div>
+                
                 <div class="form-group">
-                    <label>ಅಂಗಡಿ ಮಾಲೀಕರ ಹೆಸರು:</label>
-                    <input type="text" id="owner-name" required placeholder="ನಿಮ್ಮ ಹೆಸರು">
-                </div>
-                <div class="form-group">
-                    <label>ಮೊಬೈಲ್ ನಂಬರ್:</label>
-                    <input type="tel" id="owner-phone" required placeholder="10 ಅಂಕಿಗಳ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ">
-                </div>
-                <div class="form-group">
-                    <label>ಅಂಗಡಿಯ ಹೆಸರು:</label>
-                    <input type="text" id="shop-name" required placeholder="ಉದಾ: ಶ್ರೀ ಸೇವಾಲಾಲ್ ಸ್ಟೋರ್ಸ್">
-                </div>
-                <div class="form-group">
-                    <label>ಅಂಗಡಿಯ ಪ್ರಕಾರ (1 ರಿಂದ 10 ಆಯ್ಕೆಗಳು):</label>
+                    <label>ಅಂಗಡಿಯ ಪ್ರಕಾರ:</label>
                     <select id="shop-type" required>
-                        <option value="">-- ಅಂಗಡಿಯ ಪ್ರಕಾರವನ್ನು ಆಯ್ಕೆಮಾಡಿ --</option>
+                        <option value="">-- ಅಂಗಡಿ ಆಯ್ಕೆಮಾಡಿ --</option>
                         <option value="ಕಿರಾಣಿ ಅಂಗಡಿ">1. ಕಿರಾಣಿ ಅಂಗಡಿ (Grocery)</option>
                         <option value="ಬಟ್ಟೆ ಅಂಗಡಿ">2. ಬಟ್ಟೆ ಅಂಗಡಿ (Clothes Shop)</option>
                         <option value="ಚಪ್ಪಲಿ ಅಂಗಡಿ">3. ಚಪ್ಪಲಿ ಅಂಗಡಿ (Footwear)</option>
-                        <option value="ಎಲೆಕ್ಟ್ರಾನಿಕ್ಸ್ ಅಂಗಡಿ">4. ಎಲೆಕ್ಟ್ರಾನಿಕ್ಸ್ ಅಂಗಡಿ (Electronics)</option>
+                        <option value="ಎಲೆಕ್ಟ್ರಾನಿಕ್ಸ್ ಅಂಗಡಿ">4. ಎಲೆಕ್ಟ್ರಾನಿಕ್ಸ್ (Electronics)</option>
                         <option value="ಗಿಫ್ಟ್ ಸೆಂಟರ್">5. ಗಿಫ್ಟ್ ಸೆಂಟರ್ (Gift Shop)</option>
-                        <option value="ಮೊಬೈಲ್ ಶೋರೂಂ">6. ಮೊಬೈಲ್ ಶಾಪ್ (Mobile Shop)</option>
-                        <option value="ಹಾರ್ಡ್‌ವೇರ್ ಅಂಗಡಿ">7. ಹಾರ್ಡ್‌ವೇರ್ (Hardware)</option>
-                        <option value="ಜ್ಯುವೆಲ್ಲರಿ ಶೋರೂಂ">8. ಜ್ಯುವೆಲ್ಲರಿ (Jewellery)</option>
-                        <option value="ಬೇಕರಿ & ಸ್ವೀಟ್ಸ್">9. ಬೇಕರಿ (Bakery & Sweets)</option>
+                        <option value="ಮೊಬೈಲ್ ಶಾಪ್">6. ಮೊಬೈಲ್ ಶಾಪ್ (Mobile Shop)</option>
+                        <option value="ಹಾರ್ಡ್‌ವೇರ್">7. ಹಾರ್ಡ್‌ವೇರ್ (Hardware)</option>
+                        <option value="ಜ್ಯುವೆಲ್ಲರಿ">8. ಜ್ಯುವೆಲ್ಲರಿ (Jewellery)</option>
+                        <option value="ಬೇಕರಿ & ಸ್ವೀಟ್ಸ್">9. ಬೇಕರಿ (Bakery)</option>
                         <option value="ಇತರ ಅಂಗಡಿ">10. ಇತರ ಅಂಗಡಿ (Other)</option>
                     </select>
                 </div>
+
                 <div style="display:flex; gap:10px;">
                     <div class="form-group" style="flex:1;"><label>ಜಿಲ್ಲೆ:</label><input type="text" id="district" value="ಯಾದಗಿರಿ" required></div>
                     <div class="form-group" style="flex:1;"><label>ತಾಲೂಕು:</label><input type="text" id="taluk" value="ಶಹಾಪುರ" required></div>
                 </div>
+                <div class="form-group"><label>ಪಿನ್‌ಕೋಡ್:</label><input type="text" id="pincode" value="585223" required></div>
+                
                 <div class="form-group">
-                    <label>ಪಿನ್‌ಕೋಡ್:</label>
-                    <input type="text" id="pincode" value="585223" required>
-                </div>
-                <div class="form-group">
-                    <label>ಅಂಗಡಿಯ ಮುಂಭಾಗದ ಫೋಟೋ:</label>
+                    <label>ಅಂಗಡಿಯ ಮುಂಭಾಗದ ಫೋಟೋ (ಆಪ್ಷನಲ್):</label>
                     <input type="file" accept="image/*" onchange="previewShopImage(event)">
-                    <input type="hidden" id="shop-photo-base64">
+                    <input type="hidden" id="shop-photo-base64" value="https://via.placeholder.com/100">
                 </div>
-                <button type="submit" class="btn btn-success">ಲಾಗಿನ್ / ಐಡಿ ಪಡೆದುಕೊಳ್ಳಿ</button>
+
+                <button type="submit" class="btn btn-success">ಲಾಗಿನ್ / ಐಡಿ ಪಡೆದುಕೊಳ್ಳی</button>
             </form>
         </div>
 
-        <!-- 2. ಮೇನ್‌ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್ (ಮುಂದಿನ ಪುಟ) -->
+        <!-- 2. ಡ್ಯಾಶ್‌ಬೋರ್ಡ್ (ಮುಂದಿನ ಪುಟ) -->
         <div id="dashboard-section" style="display:none;">
-            
-            <!-- 4 ಡಿಜಿಟ್ ಡಿಜಿಟಲ್ ಐಡಿ ಕಾರ್ಡ್ -->
             <div class="id-card">
-                <img id="display-shop-photo" src="https://via.placeholder.com/100" alt="Shop Photo">
+                <img id="display-shop-photo" src="https://via.placeholder.com/100" alt="Shop">
                 <div class="id-card-details">
                     <h3 id="display-shop-name">ಅಂಗಡಿ ಹೆಸರು</h3>
                     <p>ಮಾಲೀಕರು: <span id="display-owner-name"></span> (<span id="display-shop-type"></span>)</p>
@@ -141,49 +124,44 @@
                 <button class="btn btn-success" style="flex:1;" onclick="showTab('orders')">📦 ಬಂದಿರುವ ಆರ್ಡರ್‌ಗಳು (<span id="order-count">0</span>)</button>
             </div>
 
-            <!-- ಟ್ಯಾಬ್ 1: ಫೋಟೋ/ವಸ್ತು ಅಪ್ಲೋಡ್ -->
+            <!-- ಟ್ಯಾಬ್ 1: ಫೋಟೋ ಅಪ್ಲೋಡ್ -->
             <div id="tab-upload" class="card-panel">
                 <h3>➕ ಹೊಸ ವಸ್ತುವಿನ ಫೋಟೋ ಅಪ್ಲೋಡ್ ಮಾಡಿ</h3>
                 <form id="add-product-form" onsubmit="saveProduct(event)" style="margin-top:10px;">
                     <input type="hidden" id="edit-prod-id">
-                    <div class="form-group">
-                        <label>ವಸ್ತುವಿನ ಹೆಸರು:</label>
-                        <input type="text" id="prod-name" required placeholder="ಉದಾ: ಚಪ್ಪಲಿ, ಶರ್ಟ್, ಸಕ್ಕರೆ">
-                    </div>
+                    <div class="form-group"><label>ವಸ್ತುವಿನ ಹೆಸರು:</label><input type="text" id="prod-name" required placeholder="ವಸ್ತುವಿನ ಹೆಸರು"></div>
                     <div style="display: flex; gap: 10px;">
-                        <div class="form-group" style="flex:1;"><label>ಹಳೆಯ ರೇಟು (₹):</label><input type="number" id="prod-old-price" required placeholder="450"></div>
-                        <div class="form-group" style="flex:1;"><label>ಈಗಿನ ರೇಟು (₹):</label><input type="number" id="prod-price" required placeholder="350"></div>
+                        <div class="form-group" style="flex:1;"><label>ಹಳೆಯ ರೇಟು (₹):</label><input type="number" id="prod-old-price" required></div>
+                        <div class="form-group" style="flex:1;"><label>ಈಗಿನ ರೇಟು (₹):</label><input type="number" id="prod-price" required></div>
                     </div>
                     <div class="form-group">
-                        <label>ಈ ರೇಟ್‌ನಲ್ಲಿ ಎಷ್ಟು ಕ್ವಾಂಟಿಟಿ / ಪೀಸ್ ಕೊಡ್ತಾ ಇದ್ದೀರಾ (1 ರಿಂದ 10):</label>
+                        <label>ಕ್ವಾಂಟಿಟಿ / ಪೀಸ್ ಆಯ್ಕೆ (1 ರಿಂದ 10):</label>
                         <select id="prod-qty" required>
                             <option value="1">1 ಪೀಸ್</option><option value="2">2 ಪೀಸ್</option><option value="3">3 ಪೀಸ್</option><option value="4">4 ಪೀಸ್</option><option value="5">5 ಪೀಸ್</option><option value="6">6 ಪೀಸ್</option><option value="7">7 ಪೀಸ್</option><option value="8">8 ಪೀಸ್</option><option value="9">9 ಪೀಸ್</option><option value="10">10 ಪೀಸ್</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>ವಸ್ತುವಿನ ಫೋಟೋ ಆಯ್ಕೆಮಾಡಿ (ಯಾವುದೇ ಸೈಜ್ ಲಿಮಿಟ್ ಇಲ್ಲ):</label>
+                        <label>ವಸ್ತುವಿನ ಫೋಟೋ ಆಯ್ಕೆಮಾಡಿ:</label>
                         <input type="file" id="prod-photo-input" accept="image/*" onchange="previewProductImage(event)" required>
                         <input type="hidden" id="prod-photo-base64">
                     </div>
                     <button type="submit" class="btn btn-success">ಅಪ್ಲೋಡ್ ಮಾಡು</button>
                 </form>
 
-                <h3 style="margin-top:25px;">🖼️ ಅಪ್ಲೋಡ್ ಆಗಿರುವ ಫೋಟೋಗಳು (ಚಿಕ್ಕದಾದ ಗ್ಯಾಲರಿ)</h3>
+                <h3 style="margin-top:25px;">🖼️ ಅಪ್ಲೋಡ್ ಆಗಿರುವ ಫೋಟೋಗಳು</h3>
                 <div id="shop-products-grid" class="grid-small"></div>
             </div>
 
-            <!-- ಟ್ಯಾಬ್ 2: ಆರ್ಡರ್‌ಗಳು -->
+            <!-- ಟ್ಯಾಬ್ 2: ಆರ್ಡರ್ಸ್ -->
             <div id="tab-orders" class="card-panel" style="display:none;">
                 <h3>📦 ಗ್ರಾಹಕರಿಂದ ಬಂದಿರುವ ಆರ್ಡರ್‌ಗಳು</h3>
                 <div id="shop-orders-list" style="margin-top:15px;"></div>
             </div>
-
         </div>
 
     </div>
 
     <script>
-        // Firebase Config Connection
         const firebaseConfig = {
             apiKey: "AIzaSyBvt2oBFM9EJEOwyJrfwUxS3TDfYi10WYE",
             authDomain: "nammalocal-market.firebaseapp.com",
@@ -209,7 +187,6 @@
             }
         };
 
-        // Shop Image Processing
         function previewShopImage(event) {
             const file = event.target.files[0];
             if (file) {
@@ -229,7 +206,6 @@
             }
         }
 
-        // Register / Login Function
         function registerShopOwner(e) {
             e.preventDefault();
             const fourDigitId = Math.floor(1000 + Math.random() * 9000);
@@ -242,11 +218,10 @@
                 district: document.getElementById('district').value,
                 taluk: document.getElementById('taluk').value,
                 pincode: document.getElementById('pincode').value,
-                photo: document.getElementById('shop-photo-base64').value || 'https://via.placeholder.com/100'
+                photo: document.getElementById('shop-photo-base64').value
             };
 
             localStorage.setItem('my_shop_owner_session', JSON.stringify(shopOwner));
-            
             alert(`🎉 ನಿಮ್ಮ ಲಾಗಿನ್ ಸಕ್ಸಸ್ ಫುಲ್ ಆಗಿದೆ!\n\nನಿಮ್ಮ 4-ಡಿಜಿಟ್ ಡಿಜಿಟಲ್ ಐಡಿ: ${fourDigitId}\nದಯವಿಟ್ಟು ಇದನ್ನು ನೆನಪಿನಲ್ಲಿಟ್ಟುಕೊಳ್ಳಿ.`);
             
             renderIDCard();
@@ -270,7 +245,6 @@
             document.getElementById('tab-orders').style.display = tab === 'orders' ? 'block' : 'none';
         }
 
-        // Realtime Data Sync from Firebase
         db.ref('products').on('value', (snapshot) => {
             const data = snapshot.val();
             products = data ? Object.values(data) : [];
@@ -280,11 +254,10 @@
         db.ref('orders').on('value', (snapshot) => {
             const data = snapshot.val();
             orders = data ? Object.values(data) : [];
-            orders.sort((a, b) => b.timestamp - a.timestamp); // Newest on top
+            orders.sort((a, b) => b.timestamp - a.timestamp);
             renderOrders();
         });
 
-        // Auto Compress Product Image
         function previewProductImage(event) {
             const file = event.target.files[0];
             if (file) {
@@ -321,7 +294,7 @@
 
             db.ref('products/' + prodId).set(prodData, (error) => {
                 if (!error) {
-                    alert("🔔 ನಿಮ್ಮ ಫೋಟೋವನ್ನು ಸಕ್ಸಸ್ ಫುಲ್ ಆಗಿ ಗ್ರಾಹಕರಿಗೆ ಕಳುಹಿಸಲಾಗಿದೆ!");
+                    alert("🔔 ನಿಮ್ಮ ಫೋಟೋವನ್ನು ಸಕ್ಸಸ್ ಫುಲ್ ಆಗಿ ಅಪ್ಲೋಡ್ ಮಾಡಲಾಗಿದೆ!");
                     document.getElementById('add-product-form').reset();
                     document.getElementById('edit-prod-id').value = '';
                     document.getElementById('prod-photo-base64').value = '';
@@ -348,14 +321,6 @@
             }
         }
 
-        function updateOrderStatus(orderId, newStatus) {
-            db.ref('orders/' + orderId + '/status').set(newStatus);
-        }
-
-        function updatePaymentStatus(orderId, newStatus) {
-            db.ref('orders/' + orderId + '/paymentStatus').set(newStatus);
-        }
-
         function renderProducts() {
             document.getElementById('shop-products-grid').innerHTML = products.map(p => `
                 <div class="card-small">
@@ -379,13 +344,7 @@
                     <h4>ಆರ್ಡರ್: ${o.productName} - ₹${o.totalPrice} (ID: ${o.orderId})</h4>
                     <p style="font-size:12px; margin-top:4px;"><b>ಗ್ರಾಹಕ:</b> ${o.customer.name} (${o.customer.phone})</p>
                     <p style="font-size:12px;"><b>ಊರು:</b> ${o.customer.village}</p>
-                    <p style="font-size:12px;"><b>ಸ್ಟೇಟಸ್:</b> <span style="color:#1e88e5; font-weight:bold;">${o.status}</span> | <b>ಪೇಮೆಂಟ್:</b> <span style="color:${o.paymentStatus==='SUCCESS'?'green':'red'}; font-weight:bold;">${o.paymentStatus}</span></p>
-                    
-                    <div style="margin-top:10px; display:flex; gap:6px; flex-wrap:wrap;">
-                        ${o.status === 'NEW' ? `<button class="btn btn-success" style="padding:6px; font-size:12px;" onclick="updateOrderStatus('${o.orderId}', 'CONFIRMED')">1. ಕನ್ಫರ್ಮ್ ಮಾಡಿ</button>` : ''}
-                        ${o.status === 'CONFIRMED' ? `<button class="btn btn-warning" style="padding:6px; font-size:12px;" onclick="updateOrderStatus('${o.orderId}', 'PACKING')">2. ಪ್ಯಾಕಿಂಗ್ ಮುಗಿಯಿತು</button>` : ''}
-                        ${o.paymentStatus === 'PENDING' ? `<button class="btn btn-success" style="padding:6px; font-size:12px;" onclick="updatePaymentStatus('${o.orderId}', 'SUCCESS')">3. ಪೇಮೆಂಟ್ ಸ್ವೀಕರಿಸಲಾಗಿದೆ</button>` : ''}
-                    </div>
+                    <p style="font-size:12px;"><b>ಸ್ಟೇಟಸ್:</b> <span style="color:#1e88e5; font-weight:bold;">${o.status}</span></p>
                 </div>
             `).join('') || '<p style="font-size:12px; color:#777;">ಯಾವುದೇ ಹೊಸ ಆರ್ಡರ್‌ಗಳಿಲ್ಲ.</p>';
         }
